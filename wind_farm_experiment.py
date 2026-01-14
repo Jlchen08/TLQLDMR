@@ -1,6 +1,12 @@
 """
-Wind Farm Power Prediction using TL-QLDMR
-Based on the Chinese State Grid Renewable Energy Generation dataset (s41597-022-01696-6)
+风电场功率预测（TL-QLDMR）
+数据来源：国家电网可再生能源发电数据集（s41597-022-01696-6）
+
+参考与用途说明：
+- Train_TL_QLDMR.py：核心训练器 TL_QLDMR 的实现，支持对偶 QP、batch_sgd 以及 fast_nystrom
+  用途：模型训练与参数配置（核宽、分位数、正则项、solver 等）
+- wind_farm_Data_Utils.py：风电场数据读取与处理工具
+  用途：加载风场 Excel、构建特征、识别极端天气、滑窗样本与领域划分
 """
 
 import numpy as np
@@ -12,30 +18,36 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 import os
 
 
-def run_experiment(farm_idx=0, feature_set='full', window_size=12):
+def run_experiment(farm_idx=0, feature_set='full', window_size=12, solver="batch_sgd"):
     """
-    Run TL-QLDMR experiment on wind farm data
+    在风电场数据上运行 TL-QLDMR 实验
     
-    Args:
-        farm_idx: Index of wind farm to use (0-5, sorted by capacity)
-        feature_set: 'full', 'wind_only', or 'simple'
-        window_size: Sliding window size (default 12 = 3 hours)
+    参数：
+        farm_idx: 风场索引（按装机容量降序排列，0-5）
+        feature_set: 特征集合，'full'（全部特征）、'wind_only'（仅风速）、'simple'（机舱风速+温度）
+        window_size: 滑动窗口长度，默认 12（即 3 小时，15 分钟采样）
+        solver: 训练方法，'batch_sgd'（核切片小批量）或 'fast_nystrom'（Nyström+SGD，来自 Train_TL_QLDMR 集成）
     """
     # ===============================
-    # 1. Data Loading & Processing
+    # 板块 1：数据加载与处理
+    # 依赖 wind_farm_Data_Utils.WindFarmDataGenerator 完成：
+    # - 加载风电场数据（Excel）
+    # - 动态匹配不同风场的列名，选取特征
+    # - 识别极端天气样本标签
+    # - 归一化与滑窗样本构建、领域划分
     # ===============================
     print(">>> Step 1: Loading Wind Farm Data...")
     
     gen = WindFarmDataGenerator()
     X_scaled, y_scaled, is_extreme = gen.load_and_process_data(farm_idx=farm_idx, feature_set=feature_set)
     
-    # Build sliding window samples
+    # 构建滑窗样本
     X, y, labels = gen.create_sliding_window(X_scaled, y_scaled, is_extreme, window_size=window_size)
     
-    # Split into source (normal) and target (extreme) domains
+    # 按标签划分领域：源域（正常）与目标域（极端）
     X_S, y_S, X_T, y_T = gen.split_domain_data(X, y, labels)
     
-    # Target domain split: 60% training, 40% testing
+    # 目标域划分：60% 训练、40% 测试（样本过少时调整为 50%）
     n_T_train = int(len(X_T) * 0.6)
     if n_T_train < 10:
         print("Warning: Target samples too few, increasing ratio to 0.5")
@@ -54,63 +66,119 @@ def run_experiment(farm_idx=0, feature_set='full', window_size=12):
     print(f"Feature Dimension: {X_S.shape[1]}")
     
     # ===============================
-    # 2. Model Training
+    # 板块 2：模型训练
+    # 依赖 Train_TL_QLDMR.TL_QLDMR 完成：
+    # - solver='batch_sgd'：基于核切片的 Mini-batch SGD
+    # - solver='fast_nystrom'：Nyström 近似 + Primal Adam（集成自 t 并在 Train_TL_QLDMR 中实现）
+    # 模型参数可根据风场与任务调优（lambda1/lambda2/tau/gamma 等）
     # ===============================
     print("\n>>> Step 2: Training TL-QLDMR...")
     
-    # Model parameters
-    model = TL_QLDMR(
-        lambda1=0.1,       # L2 regularization
-        lambda2=0.1,       # Domain adaptation
-        C_S=1.0,           # Source domain weight
-        C_T=20.0,          # Target domain weight (higher for extreme weather)
-        tau=0.95,          # Quantile level (95% upper bound)
-        kernel_gamma=0.02  # RBF kernel width
-    )
+    if solver == "batch_sgd":
+        batch_size = 16 if farm_idx == 0 else 8
+        print(f"Using Batch Size: {batch_size} (Solver: batch_sgd)")
+        model = TL_QLDMR(
+            lambda1=0.01,
+            lambda2=0.01,
+            C_S=1.0,
+            C_T=10.0,
+            tau=0.95,
+            kernel_gamma=0.02,
+            solver="batch_sgd",
+            torch_lr=1e-3,
+            torch_max_iter=50000,
+        )
+    elif solver == "fast_nystrom":
+        batch_size = 256
+        print(f"Using Batch Size: {batch_size} (Solver: fast_nystrom)")
+        model = TL_QLDMR(
+            lambda1=0.01,
+            lambda2=0.01,
+            C_S=1.0,
+            C_T=10.0,
+            tau=0.95,
+            kernel_gamma=0.02,
+            solver="fast_nystrom",
+            nystrom_n_components=200,
+            nystrom_lr=0.01,
+            nystrom_epochs=50,
+            nystrom_batch_size=batch_size,
+        )
+    else:
+        raise ValueError(f"Unsupported solver: {solver}")
     
-    # Joint training on source and target domains
-    success = model.fit(X_S, y_S, X_T_train, y_T_train)
+    # 联合训练源域与目标域样本
+    if solver == "batch_sgd":
+        success = model.fit(X_S, y_S, X_T_train, y_T_train, batch_size=batch_size)
+    else:
+        success = model.fit(X_S, y_S, X_T_train, y_T_train)
     
     if not success:
         print("Training Failed!")
         return None
     
     # ===============================
-    # 3. Prediction & Evaluation
+    # 板块 3：预测与评估
+    # - 使用训练好的模型进行测试集预测
+    # - 计算 RMSE/MAE/覆盖率（95%分位的上界）
+    # - 注意：TL-QLDMR 是分位回归，上界与中位需分别训练
     # ===============================
     print("\n>>> Step 3: Prediction & Evaluation...")
     predictor = Predictor(model)
     
-    # Upper bound prediction (95%)
+    # 95% 上界预测（点置信上限）
     y_pred_upper = predictor.predict(X_T_test)
     
-    # Median prediction (50%) - for point prediction evaluation
+    # 50% 中位预测（点估计，用于 RMSE/MAE 评估）
     print("Training Median Model (tau=0.5)...")
-    model_median = TL_QLDMR(
-        lambda1=0.1, lambda2=0.1, C_S=1.0, C_T=20.0, 
-        tau=0.5, kernel_gamma=0.02
-    )
-    model_median.fit(X_S, y_S, X_T_train, y_T_train)
+    if solver == "batch_sgd":
+        model_median = TL_QLDMR(
+            lambda1=0.01,
+            lambda2=0.01,
+            C_S=1.0,
+            C_T=10.0,
+            tau=0.5,
+            kernel_gamma=0.02,
+            solver="batch_sgd",
+            torch_lr=1e-3,
+            torch_max_iter=50000,
+        )
+        model_median.fit(X_S, y_S, X_T_train, y_T_train, batch_size=batch_size)
+    else:
+        model_median = TL_QLDMR(
+            lambda1=0.01,
+            lambda2=0.01,
+            C_S=1.0,
+            C_T=10.0,
+            tau=0.5,
+            kernel_gamma=0.02,
+            solver="fast_nystrom",
+            nystrom_n_components=200,
+            nystrom_lr=0.01,
+            nystrom_epochs=50,
+            nystrom_batch_size=batch_size,
+        )
+        model_median.fit(X_S, y_S, X_T_train, y_T_train)
     predictor_median = Predictor(model_median)
     y_pred_mean = predictor_median.predict(X_T_test)
     
-    # Inverse transform to original scale
+    # 反归一化到原始功率单位（MW）
     y_true_orig = gen.scaler_y.inverse_transform(y_T_test.reshape(-1, 1)).flatten()
     y_pred_mean_orig = gen.scaler_y.inverse_transform(y_pred_mean.reshape(-1, 1)).flatten()
     y_pred_upper_orig = gen.scaler_y.inverse_transform(y_pred_upper.reshape(-1, 1)).flatten()
     
-    # Clip negative values (power cannot be negative)
+    # 负值裁剪（功率不可为负）
     y_pred_mean_orig = np.maximum(y_pred_mean_orig, 0)
     y_pred_upper_orig = np.maximum(y_pred_upper_orig, 0)
     
-    # Calculate metrics
+    # 计算评价指标
     rmse = np.sqrt(mean_squared_error(y_true_orig, y_pred_mean_orig))
     mae = mean_absolute_error(y_true_orig, y_pred_mean_orig)
     
-    # Coverage rate (PICP)
+    # 覆盖率（PICP）：真实值落在 95% 上界之下的比例
     coverage = np.mean(y_true_orig <= y_pred_upper_orig) * 100
     
-    # Normalized RMSE (as percentage of capacity)
+    # 归一化 RMSE（相对装机容量的百分比）
     nrmse = rmse / gen.nominal_capacity * 100
     
     print(f"\n{'='*60}")
@@ -122,40 +190,27 @@ def run_experiment(farm_idx=0, feature_set='full', window_size=12):
     print(f"{'='*60}")
     
     # ===============================
-    # 4. Visualization
+    # 板块 4：可视化
+    # - 绘制前 200 个时间点的真实值、中位预测与 95% 上界
+    # - 结果图保存到 results/ 目录
     # ===============================
     os.makedirs('results', exist_ok=True)
     
-    # Plot first 300 points to avoid clutter
-    plot_len = min(300, len(y_true_orig))
+    # 仅绘制前 200 个点，避免过度拥挤
+    plot_len = min(200, len(y_true_orig))
     
-    fig, axes = plt.subplots(2, 1, figsize=(14, 10))
+    plt.figure(figsize=(12, 6))
     
-    # Plot 1: Time series comparison
-    ax1 = axes[0]
-    ax1.plot(y_true_orig[:plot_len], label='True Power', color='black', linewidth=1.5)
-    ax1.plot(y_pred_mean_orig[:plot_len], label='TL-QLDMR (Median)', color='blue', linestyle='--', alpha=0.8)
-    ax1.plot(y_pred_upper_orig[:plot_len], label='TL-QLDMR (95% Upper)', color='red', linestyle=':', alpha=0.7)
-    ax1.fill_between(range(plot_len), y_pred_mean_orig[:plot_len], y_pred_upper_orig[:plot_len], 
-                     alpha=0.2, color='red', label='Uncertainty Band')
+    plt.plot(y_true_orig[:plot_len], label='True Power', color='black', linewidth=1.5)
+    plt.plot(y_pred_mean_orig[:plot_len], label='TL-QLDMR (Median)', color='blue', linestyle='--')
+    plt.plot(y_pred_upper_orig[:plot_len], label='TL-QLDMR (95% Upper)', color='red', linestyle=':', alpha=0.8)
     
-    ax1.set_title(f"Wind Farm Power Prediction (Extreme Weather) - {gen.nominal_capacity}MW Farm")
-    ax1.set_xlabel("Time Steps (15 min intervals)")
-    ax1.set_ylabel("Power (MW)")
-    ax1.legend(loc='upper right')
-    ax1.grid(True, alpha=0.3)
+    plt.title(f"Wind Farm Power Prediction (Extreme Weather) - {gen.nominal_capacity}MW Farm")
+    plt.xlabel("Time Steps (15 min intervals)")
+    plt.ylabel("Power (MW)")
+    plt.legend()
+    plt.grid(True, alpha=0.3)
     
-    # Plot 2: Scatter plot
-    ax2 = axes[1]
-    ax2.scatter(y_true_orig, y_pred_mean_orig, alpha=0.4, s=10, label='Median Prediction')
-    ax2.plot([0, max(y_true_orig)], [0, max(y_true_orig)], 'r--', label='Perfect Prediction')
-    ax2.set_xlabel("True Power (MW)")
-    ax2.set_ylabel("Predicted Power (MW)")
-    ax2.set_title(f"Scatter Plot (RMSE: {rmse:.4f} MW)")
-    ax2.legend()
-    ax2.grid(True, alpha=0.3)
-    
-    plt.tight_layout()
     result_path = f'results/wind_farm_{farm_idx}_result.png'
     plt.savefig(result_path, dpi=150)
     print(f"\nResult plot saved to {result_path}")
@@ -203,4 +258,4 @@ def run_all_farms():
 
 if __name__ == "__main__":
     # Run experiment on the largest farm (200MW)
-    run_experiment(farm_idx=0, feature_set='full', window_size=12)
+    run_experiment(farm_idx=0, feature_set='full', window_size=12, solver="fast_nystrom")

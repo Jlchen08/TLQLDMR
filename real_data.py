@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from pathlib import Path
 from real_Data_Utils import RealWindDataGenerator
 from Train_TL_QLDMR import TL_QLDMR
 from Predict_TL_QLDMR import Predictor
@@ -12,7 +13,9 @@ def main():
     print(">>> Step 1: Loading Real Data...")
     
     # 使用真实数据生成器
-    gen = RealWindDataGenerator(file_path='/Users/lin/project/WP/TL-QLDMR/data/data1.xlsx')
+    project_dir = Path(__file__).resolve().parent
+    data_path = project_dir / "data" / "data1.xlsx"
+    gen = RealWindDataGenerator(file_path=str(data_path))
     X_scaled, y_scaled, is_extreme = gen.load_and_process_data()
     
     # 构建滑动窗口
@@ -119,8 +122,11 @@ def main():
     plt.grid(True, alpha=0.3)
     
     # 保存图片而不是显示
-    plt.savefig('results/real_data_result.png')
-    print("Result plot saved to real_data_result.png")
+    results_dir = project_dir / "results"
+    results_dir.mkdir(parents=True, exist_ok=True)
+    out_path = results_dir / "real_data_result.png"
+    plt.savefig(str(out_path))
+    print(f"Result plot saved to {out_path}")
 
 if __name__ == "__main__":
     main()

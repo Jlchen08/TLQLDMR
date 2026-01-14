@@ -1,6 +1,17 @@
 """
-Wind Farm Data Utilities for TL-QLDMR
-Based on the Chinese State Grid Renewable Energy Generation dataset (s41597-022-01696-6)
+风电场数据工具（供 TL-QLDMR 使用）
+数据来源：国家电网可再生能源发电数据集（s41597-022-01696-6）
+
+参考与用途说明：
+- 本文件提供 WindFarmDataGenerator，用于把原始/处理后的风电 SCADA 数据转换为可训练样本
+- wind_farm_experiment.py 参考本工具完成整套实验流程（数据 -> 划分 -> 训练 -> 评估/画图）
+
+模块板块说明：
+- 数据加载：按风场文件名解析装机容量，读取 Excel
+- 特征处理：动态匹配列名，按 feature_set 选择特征并做标准化
+- 极端样本识别：用统计/物理规则标记极端天气（用于目标域）
+- 滑窗构造：把时间序列拼成监督学习样本（窗口特征 + 下一时刻标签）
+- 领域划分：按极端标签拆成源域（正常）与目标域（极端）
 """
 
 import pandas as pd
@@ -11,27 +22,27 @@ from pathlib import Path
 
 class WindFarmDataGenerator:
     """
-    Wind Farm Data Processing Utility
-    Processes wind farm SCADA data including:
-    - Wind speed at multiple heights (10m, 30m, 50m, hub height)
-    - Wind direction at multiple heights  
-    - Meteorological data (temperature, pressure, humidity)
-    - Power output (MW)
+    风电场数据处理工具
+    处理内容包括：
+    - 多高度风速（10m/30m/50m/轮毂高度）
+    - 多高度风向（不同数据集可能缺失，代码会动态匹配）
+    - 气象数据（温度、气压、湿度等）
+    - 功率输出（MW）
     """
     
-    def __init__(self, data_dir='/Users/lin/project/WP/TL-QLDMR/data/wind_farm_data/data_processed/wind_farms'):
+    def __init__(self, data_dir='TL-QLDMR/data/wind_farm_data/data_processed/wind_farms'):
         """
-        Initialize the data generator
+        初始化数据生成器
         
-        Args:
-            data_dir: Path to the wind farms data directory
+        参数：
+            data_dir: 风电场数据目录路径（默认指向处理后的 wind_farms）
         """
         self.data_dir = Path(data_dir)
         self.scaler_X = StandardScaler()
         self.scaler_y = StandardScaler()
         self.nominal_capacity = None  # MW
         
-        # Column name mapping
+        # 列名映射（用于不同文件的列名对齐；实际处理中也支持动态匹配）
         self.col_map = {
             'time': 'Time(year-month-day h:m:s)',
             'wind_10m': 'Wind speed at height of 10 meters (m/s)',
@@ -49,11 +60,11 @@ class WindFarmDataGenerator:
         }
         
     def get_available_farms(self):
-        """Get list of available wind farm files"""
+        """获取可用风电场文件列表（按装机容量降序）"""
         farms = list(self.data_dir.glob('*.xlsx'))
         farm_info = []
         for f in farms:
-            # Extract capacity from filename
+            # 从文件名中提取装机容量
             name = f.stem
             capacity = int(name.split('-')[1].replace('MW)', ''))
             farm_info.append({
@@ -65,14 +76,14 @@ class WindFarmDataGenerator:
     
     def load_farm_data(self, farm_idx=0, use_processed=True):
         """
-        Load data from a specific wind farm
+        加载指定风电场的数据
         
-        Args:
-            farm_idx: Index of the farm to load (0-5, sorted by capacity descending)
-            use_processed: Whether to use processed data (True) or original data
+        参数：
+            farm_idx: 风场索引（按装机容量降序）
+            use_processed: 是否使用处理后数据（当前实现以 data_dir 为准）
             
-        Returns:
-            DataFrame with wind farm data
+        返回：
+            df: 风电场数据 DataFrame
         """
         farms = self.get_available_farms()
         if farm_idx >= len(farms):
@@ -91,32 +102,31 @@ class WindFarmDataGenerator:
     
     def load_and_process_data(self, farm_idx=0, feature_set='full'):
         """
-        Load data and perform preprocessing
+        加载数据并完成预处理
         
-        Args:
-            farm_idx: Index of the farm to load
-            feature_set: 'full' (all features), 'wind_only' (wind speeds only), 
-                        'simple' (hub wind speed + temperature)
+        参数：
+            farm_idx: 风场索引
+            feature_set: 'full'（全部特征）、'wind_only'（仅风速）、'simple'（机舱风速+温度）
                         
-        Returns:
-            X_scaled: Normalized features
-            y_scaled: Normalized power output
-            is_extreme: Extreme weather labels (Boolean Array)
+        返回：
+            X_scaled: 标准化后的特征
+            y_scaled: 标准化后的功率
+            is_extreme: 极端天气标签（bool 数组）
         """
         df = self.load_farm_data(farm_idx)
         
-        # Extract features based on feature_set
-        # Handle column name variations across different farm datasets
+        # 按 feature_set 抽取特征
+        # 不同风场文件的列名可能略有差异，这里做动态匹配
         available_cols = df.columns.tolist()
         
         def find_column(pattern_keywords):
-            """Find column name containing all keywords"""
+            """在列名中查找同时包含所有关键词的列"""
             for col in available_cols:
                 if all(kw.lower() in col.lower() for kw in pattern_keywords):
                     return col
             return None
         
-        # Map feature names dynamically
+        # 动态匹配各特征列名
         col_wind_hub = find_column(['wind speed', 'wheel hub', 'm/s'])
         col_wind_50m = find_column(['wind speed', '50 meters', 'm/s'])
         col_wind_30m = find_column(['wind speed', '30 meters', 'm/s'])
@@ -132,7 +142,7 @@ class WindFarmDataGenerator:
         print(f"  Power: {col_power}")
         
         if feature_set == 'full':
-            # Use all available features
+            # 使用所有可用特征
             feature_cols = [col for col in [
                 col_wind_hub, col_wind_50m, col_wind_30m, col_wind_10m,
                 col_temp, col_pressure, col_humidity
@@ -149,12 +159,12 @@ class WindFarmDataGenerator:
         X_raw = df[feature_cols].values
         power = df[col_power].values
         
-        # Identify extreme weather events
+        # 识别极端天气事件（用于领域划分）
         print("\nIdentifying extreme weather events...")
         is_extreme = self._identify_extreme_weather(df, power, col_wind_hub, col_temp)
 
         
-        # Normalize
+        # 标准化
         X_scaled = self.scaler_X.fit_transform(X_raw)
         y_scaled = self.scaler_y.fit_transform(power.reshape(-1, 1)).flatten()
         
@@ -162,41 +172,41 @@ class WindFarmDataGenerator:
     
     def _identify_extreme_weather(self, df, power, col_wind_hub, col_temp):
         """
-        Identify extreme weather conditions using multiple rules
+        使用多条规则识别极端天气样本
         
-        Rules:
-        A. Statistical: High wind speed or power (>95th percentile)
-        B. Physical: Power ramp events (|P(t) - P(t-1)| > threshold)
-        C. Cut-out: Very high wind speed (>25 m/s) - turbine shutdown
-        D. Low temperature: < -10°C or > 35°C
+        规则：
+        A. 统计规则：风速或功率超过 95% 分位
+        B. 物理规则：功率爬坡事件（|P(t)-P(t-1)| 超过阈值）
+        C. 切出规则：风速超过 25 m/s（机组可能停机）
+        D. 温度规则：温度过低或过高（< -10°C 或 > 35°C）
         """
         is_extreme = np.zeros(len(df), dtype=bool)
         
         wind_hub = df[col_wind_hub].values if col_wind_hub else np.zeros(len(df))
         temperature = df[col_temp].values if col_temp else np.zeros(len(df))
         
-        # Rule A: Statistical threshold (95th percentile)
+        # 规则 A：统计阈值（95% 分位）
         q95_wind = np.percentile(wind_hub, 95) if col_wind_hub else 0
         q95_power = np.percentile(power, 95)
         
         mask_stat = (wind_hub > q95_wind) | (power > q95_power)
         
-        # Rule B: Power ramp events
-        # Threshold: 5% of nominal capacity per 15 minutes
+        # 规则 B：功率爬坡事件
+        # 阈值：每 15 分钟变化超过装机容量的 5%
         ramp_threshold = 0.05 * self.nominal_capacity
         power_diff = np.abs(np.diff(power, prepend=power[0]))
         mask_ramp = power_diff > ramp_threshold
         
-        # Rule C: Cut-out wind speed (typically 25 m/s)
+        # 规则 C：切出风速（通常 25 m/s）
         mask_cutout = wind_hub > 25.0 if col_wind_hub else np.zeros(len(df), dtype=bool)
         
-        # Rule D: Extreme temperature
+        # 规则 D：极端温度
         mask_temp = ((temperature < -10) | (temperature > 35)) if col_temp else np.zeros(len(df), dtype=bool)
         
-        # Combine rules
+        # 合并规则
         is_extreme = mask_stat | mask_ramp | mask_cutout | mask_temp
         
-        # Print statistics
+        # 输出统计信息
         print(f"Total Samples: {len(df)}")
         print(f"Extreme Samples: {np.sum(is_extreme)} ({np.mean(is_extreme)*100:.2f}%)")
         print(f"  - Statistical Rule (>95%): {np.sum(mask_stat)}")
@@ -208,32 +218,32 @@ class WindFarmDataGenerator:
     
     def create_sliding_window(self, X, y, is_extreme, window_size=12):
         """
-        Build sliding window samples
+        构建滑动窗口样本
         
-        Args:
-            X: Feature array (N, Features)
-            y: Target array (N,)
-            is_extreme: Extreme weather labels
-            window_size: Number of time steps in the window (default 12 = 3 hours)
+        参数：
+            X: 特征数组 (N, Features)
+            y: 标签数组 (N,)
+            is_extreme: 极端天气标签
+            window_size: 窗口时间步长度（默认 12 = 3 小时）
             
-        Returns:
-            X_windows: (N-window, window*Features) - Flattened vectors
-            y_targets: (N-window,) - Target values
-            labels: (N-window,) - Extreme weather labels
+        返回：
+            X_windows: (N-window, window*Features) 将窗口展平后的特征
+            y_targets: (N-window,) 预测目标（窗口后的下一时刻）
+            labels: (N-window,) 对应目标时刻是否为极端（用于领域划分）
         """
         X_windows, y_targets, labels = [], [], []
         
         for i in range(len(X) - window_size):
-            # Extract window features
+            # 提取窗口特征
             window_feature = X[i:i+window_size, :]
             
-            # Flatten to vector
+            # 展平为向量
             X_flat = window_feature.flatten()
             
-            # Target is the next point after the window
+            # 目标为窗口后的下一时刻
             target = y[i + window_size]
             
-            # Label assignment: if target point is extreme, sample goes to target domain
+            # 标签：若目标时刻为极端天气，则样本划入目标域
             tag = is_extreme[i + window_size]
             
             X_windows.append(X_flat)
@@ -244,17 +254,17 @@ class WindFarmDataGenerator:
     
     def split_domain_data(self, X, y, labels):
         """
-        Split data into source domain (normal) and target domain (extreme)
+        将样本按标签拆分为源域（正常）与目标域（极端）
         
-        Returns:
-            X_S, y_S: Source domain data (normal weather)
-            X_T, y_T: Target domain data (extreme weather)
+        返回：
+            X_S, y_S: 源域数据（正常天气）
+            X_T, y_T: 目标域数据（极端天气）
         """
-        # Source domain: Normal weather (Tag=False)
+        # 源域：正常天气（Tag=False）
         X_S = X[~labels]
         y_S = y[~labels]
         
-        # Target domain: Extreme weather (Tag=True)
+        # 目标域：极端天气（Tag=True）
         X_T = X[labels]
         y_T = y[labels]
         
@@ -266,7 +276,7 @@ class WindFarmDataGenerator:
 
 
 def test_data_loading():
-    """Test function to verify data loading works correctly"""
+    """简单自检：验证数据加载与处理流程是否可用"""
     gen = WindFarmDataGenerator()
     
     # List available farms

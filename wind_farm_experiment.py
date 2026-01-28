@@ -192,9 +192,6 @@ def run_experiment(farm_idx=0, feature_set='full', window_size=12, solver="batch
     # ===============================
     # 板块 4：可视化
     # - 绘制前 200 个时间点的真实值、中位预测与 95% 上界
-    # - 结果图保存到 results/ 目录
-    # ===============================
-    os.makedirs('results', exist_ok=True)
     
     # 仅绘制前 200 个点，避免过度拥挤
     plot_len = min(200, len(y_true_orig))
@@ -211,7 +208,15 @@ def run_experiment(farm_idx=0, feature_set='full', window_size=12, solver="batch
     plt.legend()
     plt.grid(True, alpha=0.3)
     
-    result_path = f'results/wind_farm_{farm_idx}_result.png'
+    # 获取脚本所在目录 (TL-QLDMR) 并构建结果路径
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    result_dir = os.path.join(script_dir, 'results')
+    
+    # 确保 results 目录存在
+    if not os.path.exists(result_dir):
+        os.makedirs(result_dir)
+
+    result_path = os.path.join(result_dir, f'wind_farm_{farm_idx}_result.png')
     plt.savefig(result_path, dpi=150)
     print(f"\nResult plot saved to {result_path}")
     
@@ -258,4 +263,4 @@ def run_all_farms():
 
 if __name__ == "__main__":
     # Run experiment on the largest farm (200MW)
-    run_experiment(farm_idx=0, feature_set='full', window_size=12, solver="fast_nystrom")
+    run_experiment(farm_idx=0, feature_set='full', window_size=6, solver="fast_nystrom")

@@ -1,0 +1,33 @@
+{
+  "farm_idx": 0,
+  "farm_name": "Wind farm site 2 (Nominal capacity-200MW)",
+  "farm_file": "/mnt/mydisk/zhangxiaohan/lin/TL-QLDMR/data/wind_farm_data/data_processed/wind_farms/Wind farm site 2 (Nominal capacity-200MW).xlsx",
+  "nominal_capacity_mw": 200,
+  "feature_set": "full",
+  "columns": {
+    "time": "Time(year-month-day h:m:s)",
+    "power": "Power (MW)",
+    "wind_hub": "Wind speed - at the height of wheel hub  (m/s)",
+    "wind_50m": "Wind speed at height of 50 meters (m/s)",
+    "wind_30m": "Wind speed at height of 30 meters (m/s)",
+    "wind_10m": "Wind speed at height of 10 meters (m/s)",
+    "temperature": "Air temperature  (\u00b0C) ",
+    "pressure": "Atmosphere (hpa)",
+    "humidity": ""
+  },
+  "n_samples": 70176,
+  "n_extreme": 21338,
+  "n_ramp": 10290,
+  "n_cutout": 30,
+  "n_stat": 6438,
+  "n_temp": 6557,
+  "q95_wind_hub_ms": 15.803,
+  "q95_power_mw": 153.866525,
+  "ramp_threshold_mw": 10.0,
+  "cutout_threshold_ms": 25.0,
+  "temp_threshold_c": {
+    "low": -10.0,
+    "high": 35.0
+  },
+  "seed": 0
+}

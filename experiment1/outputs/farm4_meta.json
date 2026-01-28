@@ -1,0 +1,33 @@
+{
+  "farm_idx": 4,
+  "farm_name": "Wind farm site 4 (Nominal capacity-66MW)",
+  "farm_file": "/mnt/mydisk/zhangxiaohan/lin/TL-QLDMR/data/wind_farm_data/data_processed/wind_farms/Wind farm site 4 (Nominal capacity-66MW).xlsx",
+  "nominal_capacity_mw": 66,
+  "feature_set": "full",
+  "columns": {
+    "time": "Time(year-month-day h:m:s)",
+    "power": "Power (MW)",
+    "wind_hub": "Wind speed - at the height of wheel hub (m/s)",
+    "wind_50m": "Wind speed at height of 50 meters (m/s)",
+    "wind_30m": "Wind speed at height of 30 meters (m/s)",
+    "wind_10m": "Wind speed at height of 10 meters (m/s)",
+    "temperature": "Air temperature  (\u00b0C) ",
+    "pressure": "Atmosphere (hpa)",
+    "humidity": "Relative humidity (%)"
+  },
+  "n_samples": 70176,
+  "n_extreme": 11452,
+  "n_ramp": 6451,
+  "n_cutout": 47,
+  "n_stat": 5195,
+  "n_temp": 3,
+  "q95_wind_hub_ms": 13.10216675,
+  "q95_power_mw": 57.428333249999994,
+  "ramp_threshold_mw": 3.3000000000000003,
+  "cutout_threshold_ms": 25.0,
+  "temp_threshold_c": {
+    "low": -10.0,
+    "high": 35.0
+  },
+  "seed": 0
+}

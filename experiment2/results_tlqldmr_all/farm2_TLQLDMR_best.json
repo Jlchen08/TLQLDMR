@@ -1,0 +1,109 @@
+{
+  "farm_idx": 2,
+  "farm_name": "Wind farm site 3 (Nominal capacity-99MW)",
+  "best_metrics": {
+    "rmse": 17.367597767570985,
+    "mae": 13.349066555191067,
+    "mape": 68.57728149812193,
+    "r2": 0.47193013039414955
+  },
+  "best_config": {
+    "feature_set": "full",
+    "window_size": 12,
+    "target_train_ratio": 0.7,
+    "lambda1": 0.1,
+    "lambda2": 0.001,
+    "C_S": 10.0,
+    "C_T": 20.0,
+    "kernel_gamma": 0.01,
+    "nystrom_n_components": 150,
+    "nystrom_lr": 0.003,
+    "nystrom_epochs": 20,
+    "nystrom_batch_size": 256
+  },
+  "data_space": {
+    "feature_set": [
+      "full",
+      "wind_only",
+      "simple"
+    ],
+    "window_size": [
+      3,
+      6,
+      12
+    ],
+    "target_train_ratio": [
+      0.5,
+      0.6,
+      0.7
+    ]
+  },
+  "hyperparam_space": {
+    "lambda1": [
+      1e-05,
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "lambda2": [
+      1e-05,
+      0.0001,
+      0.001,
+      0.01,
+      0.1,
+      1.0,
+      10.0
+    ],
+    "C_S": [
+      0.1,
+      0.5,
+      1.0,
+      5.0,
+      10.0,
+      50.0
+    ],
+    "C_T": [
+      1.0,
+      5.0,
+      10.0,
+      20.0,
+      50.0,
+      100.0
+    ],
+    "kernel_gamma": [
+      0.0005,
+      0.001,
+      0.005,
+      0.01,
+      0.02,
+      0.05,
+      0.1,
+      0.2
+    ],
+    "nystrom_n_components": [
+      100,
+      150,
+      200,
+      300
+    ],
+    "nystrom_lr": [
+      0.003,
+      0.005,
+      0.01,
+      0.02
+    ],
+    "nystrom_epochs": [
+      8,
+      12
+    ],
+    "nystrom_batch_size": [
+      256
+    ]
+  },
+  "n_trials": 12,
+  "seed": 42,
+  "selection": "min_rmse_then_mae_then_max_r2"
+}

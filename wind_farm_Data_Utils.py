@@ -30,13 +30,17 @@ class WindFarmDataGenerator:
     - 功率输出（MW）
     """
     
-    def __init__(self, data_dir='TL-QLDMR/data/wind_farm_data/data_processed/wind_farms'):
+    def __init__(self, data_dir=None):
         """
         初始化数据生成器
         
         参数：
             data_dir: 风电场数据目录路径（默认指向处理后的 wind_farms）
         """
+        if data_dir is None:
+            # Default to repo-local data directory to avoid hardcoded project root
+            base_dir = Path(__file__).resolve().parent
+            data_dir = base_dir / 'data' / 'wind_farm_data' / 'data_processed' / 'wind_farms'
         self.data_dir = Path(data_dir)
         self.scaler_X = StandardScaler()
         self.scaler_y = StandardScaler()

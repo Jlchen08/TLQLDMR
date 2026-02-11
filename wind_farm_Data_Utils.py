@@ -104,7 +104,7 @@ class WindFarmDataGenerator:
         
         return df
     
-    def load_and_process_data(self, farm_idx=0, feature_set='full'):
+    def load_and_process_data(self, farm_idx=0, feature_set='full', extreme_cfg: dict | None = None):
         """
         加载数据并完成预处理
         
@@ -135,6 +135,10 @@ class WindFarmDataGenerator:
         col_wind_50m = find_column(['wind speed', '50 meters', 'm/s'])
         col_wind_30m = find_column(['wind speed', '30 meters', 'm/s'])
         col_wind_10m = find_column(['wind speed', '10 meters', 'm/s'])
+        col_wind_dir_hub = find_column(['wind speed', 'wheel hub', '˚'])
+        col_wind_dir_50m = find_column(['wind direction', '50 meters'])
+        col_wind_dir_30m = find_column(['wind direction', '30 meters'])
+        col_wind_dir_10m = find_column(['wind direction', '10 meters'])
         col_temp = find_column(['air temperature', '°C'])
         col_pressure = find_column(['atmosphere', 'hpa'])
         col_humidity = find_column(['relative humidity', '%'])
@@ -151,6 +155,35 @@ class WindFarmDataGenerator:
                 col_wind_hub, col_wind_50m, col_wind_30m, col_wind_10m,
                 col_temp, col_pressure, col_humidity
             ] if col is not None]
+        elif feature_set == 'full_dir':
+            feature_cols = [col for col in [
+                col_wind_hub, col_wind_50m, col_wind_30m, col_wind_10m,
+                col_temp, col_pressure, col_humidity,
+                col_wind_dir_hub, col_wind_dir_50m, col_wind_dir_30m, col_wind_dir_10m,
+            ] if col is not None]
+        elif feature_set == 'full_dir_cyclic':
+            base_cols = [col for col in [
+                col_wind_hub, col_wind_50m, col_wind_30m, col_wind_10m,
+                col_temp, col_pressure, col_humidity
+            ] if col is not None]
+            dir_cols = [col for col in [
+                col_wind_dir_hub, col_wind_dir_50m, col_wind_dir_30m, col_wind_dir_10m,
+            ] if col is not None]
+
+            features = []
+            feature_cols = []
+            for col in base_cols:
+                features.append(df[col].values)
+                feature_cols.append(col)
+            for col in dir_cols:
+                deg = df[col].values.astype(float)
+                rad = np.deg2rad(deg)
+                features.append(np.sin(rad))
+                feature_cols.append(f"sin({col})")
+                features.append(np.cos(rad))
+                feature_cols.append(f"cos({col})")
+
+            X_raw = np.column_stack(features) if features else np.empty((len(df), 0))
         elif feature_set == 'wind_only':
             feature_cols = [col for col in [
                 col_wind_hub, col_wind_50m, col_wind_30m, col_wind_10m
@@ -160,12 +193,19 @@ class WindFarmDataGenerator:
         
         print(f"Using {len(feature_cols)} features: {feature_cols}")
         
-        X_raw = df[feature_cols].values
+        if feature_set != 'full_dir_cyclic':
+            X_raw = df[feature_cols].values
         power = df[col_power].values
         
         # 识别极端天气事件（用于领域划分）
         print("\nIdentifying extreme weather events...")
-        is_extreme = self._identify_extreme_weather(df, power, col_wind_hub, col_temp)
+        is_extreme = self._identify_extreme_weather(
+            df,
+            power,
+            col_wind_hub,
+            col_temp,
+            extreme_cfg=extreme_cfg,
+        )
 
         
         # 标准化
@@ -174,7 +214,7 @@ class WindFarmDataGenerator:
         
         return X_scaled, y_scaled, is_extreme
     
-    def _identify_extreme_weather(self, df, power, col_wind_hub, col_temp):
+    def _identify_extreme_weather(self, df, power, col_wind_hub, col_temp, extreme_cfg: dict | None = None):
         """
         使用多条规则识别极端天气样本
         
@@ -184,38 +224,86 @@ class WindFarmDataGenerator:
         C. 切出规则：风速超过 25 m/s（机组可能停机）
         D. 温度规则：温度过低或过高（< -10°C 或 > 35°C）
         """
+        extreme_cfg = extreme_cfg or {}
         is_extreme = np.zeros(len(df), dtype=bool)
         
         wind_hub = df[col_wind_hub].values if col_wind_hub else np.zeros(len(df))
         temperature = df[col_temp].values if col_temp else np.zeros(len(df))
         
-        # 规则 A：统计阈值（95% 分位）
-        q95_wind = np.percentile(wind_hub, 95) if col_wind_hub else 0
-        q95_power = np.percentile(power, 95)
-        
-        mask_stat = (wind_hub > q95_wind) | (power > q95_power)
+        # 规则 A：统计阈值（分位数可配置，默认 95%）
+        stat_q = float(extreme_cfg.get("stat_q", 95))
+        stat_on_wind = bool(extreme_cfg.get("stat_on_wind", True))
+        stat_on_power = bool(extreme_cfg.get("stat_on_power", True))
+        q_wind = np.percentile(wind_hub, stat_q) if col_wind_hub else 0
+        q_power = np.percentile(power, stat_q)
+        mask_stat = np.zeros(len(df), dtype=bool)
+        if stat_on_wind and col_wind_hub:
+            mask_stat |= wind_hub > q_wind
+        if stat_on_power:
+            mask_stat |= power > q_power
         
         # 规则 B：功率爬坡事件
-        # 阈值：每 15 分钟变化超过装机容量的 5%
-        ramp_threshold = 0.05 * self.nominal_capacity
+        # 阈值：默认每 15 分钟变化超过装机容量的 5%
+        ramp_ratio = float(extreme_cfg.get("ramp_ratio", 0.05))
+        ramp_q = extreme_cfg.get("ramp_q", None)
         power_diff = np.abs(np.diff(power, prepend=power[0]))
+        if ramp_q is not None:
+            ramp_threshold = float(np.percentile(power_diff, float(ramp_q)))
+        else:
+            ramp_threshold = ramp_ratio * self.nominal_capacity
         mask_ramp = power_diff > ramp_threshold
         
-        # 规则 C：切出风速（通常 25 m/s）
-        mask_cutout = wind_hub > 25.0 if col_wind_hub else np.zeros(len(df), dtype=bool)
+        # 规则 C：切出风速（默认 25 m/s）
+        cutout_ms = float(extreme_cfg.get("cutout_ms", 25.0))
+        mask_cutout = wind_hub > cutout_ms if col_wind_hub else np.zeros(len(df), dtype=bool)
         
-        # 规则 D：极端温度
-        mask_temp = ((temperature < -10) | (temperature > 35)) if col_temp else np.zeros(len(df), dtype=bool)
+        # 规则 D：极端温度（可用分位数阈值）
+        temp_q_low = extreme_cfg.get("temp_q_low", None)
+        temp_q_high = extreme_cfg.get("temp_q_high", None)
+        if temp_q_low is not None and col_temp:
+            temp_low = float(np.percentile(temperature, float(temp_q_low)))
+        else:
+            temp_low = float(extreme_cfg.get("temp_low", -10.0))
+        if temp_q_high is not None and col_temp:
+            temp_high = float(np.percentile(temperature, float(temp_q_high)))
+        else:
+            temp_high = float(extreme_cfg.get("temp_high", 35.0))
+        mask_temp = ((temperature < temp_low) | (temperature > temp_high)) if col_temp else np.zeros(len(df), dtype=bool)
+        temp_requires_wind = bool(extreme_cfg.get("temp_requires_wind", False))
+        if temp_requires_wind and col_wind_hub:
+            mask_temp = mask_temp & (wind_hub > q_wind)
         
-        # 合并规则
-        is_extreme = mask_stat | mask_ramp | mask_cutout | mask_temp
+        use_stat = extreme_cfg.get("use_stat", True)
+        use_ramp = extreme_cfg.get("use_ramp", True)
+        use_cutout = extreme_cfg.get("use_cutout", True)
+        use_temp = extreme_cfg.get("use_temp", True)
+
+        masks = []
+        if use_stat:
+            masks.append(mask_stat)
+        if use_ramp:
+            masks.append(mask_ramp)
+        if use_cutout:
+            masks.append(mask_cutout)
+        if use_temp:
+            masks.append(mask_temp)
+
+        if masks:
+            is_extreme = masks[0].copy()
+            for m in masks[1:]:
+                is_extreme |= m
+        else:
+            is_extreme = np.zeros(len(df), dtype=bool)
         
         # 输出统计信息
         print(f"Total Samples: {len(df)}")
         print(f"Extreme Samples: {np.sum(is_extreme)} ({np.mean(is_extreme)*100:.2f}%)")
-        print(f"  - Statistical Rule (>95%): {np.sum(mask_stat)}")
+        print(
+            f"  - Statistical Rule (>{stat_q:.1f}%, wind={stat_on_wind}, power={stat_on_power}): "
+            f"{np.sum(mask_stat)}"
+        )
         print(f"  - Ramp Rule (>{ramp_threshold:.2f}MW): {np.sum(mask_ramp)}")
-        print(f"  - Cut-out Rule (>25m/s): {np.sum(mask_cutout)}")
+        print(f"  - Cut-out Rule (>{cutout_ms:.1f}m/s): {np.sum(mask_cutout)}")
         print(f"  - Temperature Rule: {np.sum(mask_temp)}")
         
         return is_extreme

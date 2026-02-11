@@ -1,0 +1,32 @@
+{
+  "model": "NuSVR-CI",
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "alpha": 0.05,
+  "calibration_q": 29.505089020872163,
+  "metrics": {
+    "picp": 0.8987951807228916,
+    "mpiw": 48.7776126872773,
+    "pinaw": 0.5503572633851042,
+    "cwc": 46.46956764566236,
+    "winkler": 114.48897812834012
+  },
+  "train_samples": 2200,
+  "val_samples": 559,
+  "cal_samples": 745,
+  "test_samples": 415,
+  "best_params": {
+    "nu": 0.4,
+    "C": 6.0,
+    "gamma": 0.008,
+    "q_scale": 1.0,
+    "conformal_scaled": false,
+    "width_scale": 1.0
+  },
+  "search_metrics": {
+    "picp": 0.7209302325581395,
+    "mpiw": 39.236499571718745,
+    "pinaw": 0.44106269594082004,
+    "cwc": 218.36638238674874,
+    "winkler": 46.37267581907048
+  }
+}

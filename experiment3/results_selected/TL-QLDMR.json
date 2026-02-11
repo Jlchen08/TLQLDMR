@@ -1,0 +1,40 @@
+{
+  "model": "TL-QLDMR",
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "alpha": 0.05,
+  "calibration_q": 0.6015791834244055,
+  "metrics": {
+    "picp": 0.927710843373494,
+    "mpiw": 73.54886298719673,
+    "pinaw": 0.8298510059980347,
+    "cwc": 52.68247114947248,
+    "winkler": 140.39286251601573
+  },
+  "train_samples": 2983,
+  "val_samples": 559,
+  "cal_samples": 745,
+  "test_samples": 415,
+  "best_params": {
+    "lambda1": 0.0001,
+    "lambda2": 1e-05,
+    "C_S": 0.1,
+    "C_T": 50.0,
+    "kernel_gamma": 0.001,
+    "nystrom_n_components": 800,
+    "nystrom_lr": 0.01,
+    "nystrom_epochs": 48,
+    "nystrom_batch_size": 256,
+    "tau_low": 0.02,
+    "tau_high": 0.98,
+    "q_scale": 1.0,
+    "conformal_scaled": false,
+    "width_scale": 4.0
+  },
+  "search_metrics": {
+    "picp": 0.7209302325581395,
+    "mpiw": 34.230229266137066,
+    "pinaw": 0.384786547413547,
+    "cwc": 190.50454078995037,
+    "winkler": 41.24868993802924
+  }
+}

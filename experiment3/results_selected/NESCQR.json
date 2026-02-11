@@ -1,0 +1,35 @@
+{
+  "model": "NESCQR",
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "alpha": 0.05,
+  "calibration_q": 0.9445649981498718,
+  "metrics": {
+    "picp": 0.8698795180722891,
+    "mpiw": 51.538169860839844,
+    "pinaw": 0.5815045993812399,
+    "cwc": 65.36762746803161,
+    "winkler": 185.6629180908203
+  },
+  "train_samples": 2983,
+  "val_samples": 559,
+  "cal_samples": 745,
+  "test_samples": 415,
+  "best_params": {
+    "hidden_dims": [
+      64,
+      32
+    ],
+    "epochs": 20,
+    "n_members": 3,
+    "q_scale": 1.0,
+    "conformal_scaled": true,
+    "width_scale": 1.0
+  },
+  "search_metrics": {
+    "picp": 0.7209302325581395,
+    "mpiw": 23.28583335876465,
+    "pinaw": 0.26175914137479006,
+    "cwc": 129.59472039853455,
+    "winkler": 30.304296493530273
+  }
+}

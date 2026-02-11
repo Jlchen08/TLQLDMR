@@ -57,10 +57,27 @@ def _split_target(
     y_T: np.ndarray,
     train_ratio: float,
     min_train: int,
+    split_mode: str = "time",
+    split_seed: int = 42,
 ) -> Dict[str, np.ndarray]:
-    n_T_train = int(len(X_T_flat) * train_ratio)
+    n_total = len(X_T_flat)
+    n_T_train = int(n_total * train_ratio)
     if n_T_train < min_train:
-        n_T_train = int(len(X_T_flat) * 0.5)
+        n_T_train = int(n_total * 0.5)
+
+    if split_mode == "shuffle":
+        rng = np.random.default_rng(split_seed)
+        indices = rng.permutation(n_total)
+        train_idx = indices[:n_T_train]
+        test_idx = indices[n_T_train:]
+        return {
+            "X_T_train_seq": X_T_seq[train_idx],
+            "X_T_test_seq": X_T_seq[test_idx],
+            "X_T_train_flat": X_T_flat[train_idx],
+            "X_T_test_flat": X_T_flat[test_idx],
+            "y_T_train": y_T[train_idx],
+            "y_T_test": y_T[test_idx],
+        }
 
     return {
         "X_T_train_seq": X_T_seq[:n_T_train],
@@ -106,6 +123,9 @@ def prepare_farm_data(
     min_target_train: int = 10,
     max_source_samples: Optional[int] = None,
     max_target_train_samples: Optional[int] = None,
+    extreme_cfg: Optional[Dict] = None,
+    split_mode: str = "time",
+    split_seed: int = 42,
 ) -> Dict[str, np.ndarray]:
     """
     Prepare data for one farm. Uses the same domain split as wind_farm_experiment.py.
@@ -120,7 +140,7 @@ def prepare_farm_data(
     farm_name = farms[farm_idx]["name"]
 
     X_scaled, y_scaled, is_extreme = gen.load_and_process_data(
-        farm_idx=farm_idx, feature_set=feature_set
+        farm_idx=farm_idx, feature_set=feature_set, extreme_cfg=extreme_cfg
     )
 
     X_seq, X_flat, y_targets, labels = build_windows(
@@ -156,6 +176,8 @@ def prepare_farm_data(
         y_T,
         target_train_ratio,
         min_target_train,
+        split_mode=split_mode,
+        split_seed=split_seed,
     )
 
     # Optional truncation for target train (keeps temporal order)

@@ -1,0 +1,42 @@
+{
+  "farm_idx": 3,
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "split_seed": 0,
+  "feature_set": "full_dir_cyclic",
+  "window_size": 24,
+  "target_train_ratio": 0.9,
+  "params": {
+    "lambda1": 0.0005,
+    "lambda2": 0.0001,
+    "C_S": 0.05,
+    "C_T": 150.0,
+    "kernel_gamma": 0.002,
+    "nystrom_n_components": 1200,
+    "nystrom_lr": 0.01,
+    "nystrom_epochs": 64,
+    "nystrom_batch_size": 256,
+    "tau": 0.5
+  },
+  "metrics": {
+    "rmse": 7.4764484693294815,
+    "mae": 5.347596705870183,
+    "mape": 8602009.93099875,
+    "r2": 0.9552614159669438
+  },
+  "extreme_cfg": {
+    "stat_q": 98.0,
+    "stat_on_wind": true,
+    "stat_on_power": false,
+    "use_stat": true,
+    "use_ramp": false,
+    "use_cutout": true,
+    "use_temp": true,
+    "ramp_ratio": 0.05,
+    "cutout_ms": 25.0,
+    "temp_low": -10.0,
+    "temp_high": 35.0,
+    "temp_q_low": 2.0,
+    "temp_q_high": 98.0,
+    "temp_requires_wind": false
+  }
+}

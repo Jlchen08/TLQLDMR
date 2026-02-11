@@ -13,11 +13,12 @@ from experiment2.data_utils import prepare_farm_data, set_seed
 from experiment2.metrics import compute_metrics
 from experiment2.plots import plot_prediction_with_zooms
 from experiment2.models.svr_model import SVRModel, SVRConfig
-from experiment2.models.elm_model import ELMModel, ELMConfig
-from experiment2.models.lstm_model import LSTMModel, LSTMConfig
-from experiment2.models.cnn_lstm_model import CNNLSTMModel, CNNLSTMConfig
-from experiment2.models.tl_svr_model import TLSVRModel, TLSVRConfig
-from experiment2.models.tl_lstm_model import TLLSTMModel, TLLSTMConfig
+from experiment2.models.flsvr_model import FLSVRModel, FLSVRConfig
+from experiment2.models.ara_svr_model import ARASVRModel, ARASVRConfig
+from experiment2.models.clustered_gbr_model import ClusteredGBRModel, ClusteredGBRConfig
+from experiment2.models.random_forest_model import RandomForestModel, RandomForestConfig
+from experiment2.models.brf_model import BroadRandomForestModel, BRFConfig
+from experiment2.models.hho_svr_optimizer import HHOSVRConfig, optimize_hho_svr
 from experiment2.models.tl_qldmr_median import TLQLDMRMedianModel, TLQLDMRConfig
 
 
@@ -56,62 +57,64 @@ def _build_model(model_name: str, params: dict, input_size: int | None):
                 kernel="rbf",
             )
         )
-    if model_name == "ELM":
-        return ELMModel(
-            ELMConfig(
-                n_hidden=int(params["n_hidden"]),
-                activation=str(params["activation"]),
-                reg=float(params["reg"]),
-            )
-        )
-    if model_name == "LSTM":
-        return LSTMModel(
-            input_size,
-            LSTMConfig(
-                hidden_size=int(params["hidden_size"]),
-                num_layers=int(params["num_layers"]),
-                dropout=float(params["dropout"]),
-                lr=float(params["lr"]),
-                epochs=int(params["epochs"]),
-                patience=2,
-            ),
-        )
-    if model_name == "CNN-LSTM":
-        return CNNLSTMModel(
-            input_size,
-            CNNLSTMConfig(
-                conv_channels=int(params["conv_channels"]),
-                kernel_size=int(params["kernel_size"]),
-                hidden_size=int(params["hidden_size"]),
-                num_layers=int(params["num_layers"]),
-                dropout=float(params["dropout"]),
-                lr=float(params["lr"]),
-                epochs=int(params["epochs"]),
-                patience=2,
-            ),
-        )
-    if model_name == "TL-SVR":
-        return TLSVRModel(
-            TLSVRConfig(
+    if model_name == "FLSVR":
+        return FLSVRModel(
+            FLSVRConfig(
                 C=float(params["C"]),
                 epsilon=float(params["epsilon"]),
                 gamma=float(params["gamma"]),
-                kernel="rbf",
-                source_weight=float(params["source_weight"]),
+                max_iter=int(params["max_iter"]),
+                tol=float(params["tol"]),
             )
         )
-    if model_name == "TL-LSTM":
-        return TLLSTMModel(
-            input_size,
-            TLLSTMConfig(
-                hidden_size=int(params["hidden_size"]),
-                num_layers=int(params["num_layers"]),
-                dropout=float(params["dropout"]),
-                lr=float(params["lr"]),
-                pretrain_epochs=int(params["pretrain_epochs"]),
-                finetune_epochs=int(params["finetune_epochs"]),
-                patience=2,
-            ),
+    if model_name == "ARA-SVR":
+        return ARASVRModel(
+            ARASVRConfig(
+                C=float(params["C"]),
+                epsilon=float(params["epsilon"]),
+                gamma=float(params["gamma"]),
+                corr_threshold=float(params["corr_threshold"]),
+                min_features=int(params["min_features"]),
+            )
+        )
+    if model_name == "KMeans-GBT":
+        return ClusteredGBRModel(
+            ClusteredGBRConfig(
+                n_clusters=int(params["n_clusters"]),
+                max_depth=int(params["max_depth"]) if params["max_depth"] is not None else None,
+                max_iter=int(params["max_iter"]),
+                learning_rate=float(params["learning_rate"]),
+                max_leaf_nodes=int(params["max_leaf_nodes"]),
+                min_samples_leaf=int(params["min_samples_leaf"]),
+                l2_regularization=float(params["l2_regularization"]),
+                random_state=int(params.get("random_state", 42)),
+                min_cluster_samples=int(params["min_cluster_samples"]),
+            )
+        )
+    if model_name == "RF-WPF":
+        return RandomForestModel(
+            RandomForestConfig(
+                n_estimators=int(params["n_estimators"]),
+                max_depth=int(params["max_depth"]) if params["max_depth"] is not None else None,
+                min_samples_split=int(params["min_samples_split"]),
+                min_samples_leaf=int(params["min_samples_leaf"]),
+                max_features=params["max_features"],
+                random_state=int(params.get("random_state", 42)),
+            )
+        )
+    if model_name == "BRF-WPF":
+        return BroadRandomForestModel(
+            BRFConfig(
+                n_feature_groups=int(params["n_feature_groups"]),
+                n_feature_nodes=int(params["n_feature_nodes"]),
+                n_enhance_nodes=int(params["n_enhance_nodes"]),
+                activation=params["activation"],
+                n_estimators=int(params["n_estimators"]),
+                max_depth=int(params["max_depth"]) if params["max_depth"] is not None else None,
+                min_samples_leaf=int(params["min_samples_leaf"]),
+                max_features=float(params["max_features"]),
+                random_state=int(params.get("random_state", 42)),
+            )
         )
     if model_name == "TL-QLDMR(Median)":
         return TLQLDMRMedianModel(
@@ -196,7 +199,7 @@ def search_model_best(
         y_S = data["y_S"]
 
         # Downsample for heavy kernel models to keep runtime manageable
-        if model_name in {"SVR", "TL-SVR"}:
+        if model_name in {"SVR", "HHO-SVR", "FLSVR", "ARA-SVR", "KMeans-GBT"}:
             max_src = 10000
             max_tgt = 5000
             X_S = X_S[:max_src]
@@ -207,12 +210,39 @@ def search_model_best(
         X_T_tr, y_T_tr, X_T_val, y_T_val = _split_train_val(X_T_train, y_T_train)
 
         params = _sample_from_space(rng, search_space)
-        model = _build_model(model_name, params, input_size)
-
-        if transfer:
-            model.fit(X_S, y_S, X_T_tr, y_T_tr)
-        else:
+        if model_name == "HHO-SVR":
+            hho_cfg = HHOSVRConfig(
+                C_bounds=tuple(params["C_bounds"]),
+                epsilon_bounds=tuple(params["epsilon_bounds"]),
+                gamma_bounds=tuple(params["gamma_bounds"]),
+                population_size=int(params["population_size"]),
+                iterations=int(params["iterations"]),
+                seed=seed + trial,
+            )
+            best_params = optimize_hho_svr(X_T_tr, y_T_tr, X_T_val, y_T_val, hho_cfg)
+            params = {
+                **best_params,
+                "population_size": hho_cfg.population_size,
+                "iterations": hho_cfg.iterations,
+                "C_bounds": list(hho_cfg.C_bounds),
+                "epsilon_bounds": list(hho_cfg.epsilon_bounds),
+                "gamma_bounds": list(hho_cfg.gamma_bounds),
+            }
+            model = SVRModel(
+                SVRConfig(
+                    C=float(best_params["C"]),
+                    epsilon=float(best_params["epsilon"]),
+                    gamma=float(best_params["gamma"]),
+                    kernel="rbf",
+                )
+            )
             model.fit(X_T_tr, y_T_tr)
+        else:
+            model = _build_model(model_name, params, input_size)
+            if transfer:
+                model.fit(X_S, y_S, X_T_tr, y_T_tr)
+            else:
+                model.fit(X_T_tr, y_T_tr)
 
         y_pred_scaled = model.predict(X_T_val)
         y_true = inverse_transform(scaler_y, y_T_val)
@@ -255,7 +285,7 @@ def search_model_best(
     y_T_test = data["y_T_test"]
     y_S = data["y_S"]
 
-    if model_name in {"SVR", "TL-SVR"}:
+    if model_name in {"SVR", "HHO-SVR", "FLSVR", "ARA-SVR", "KMeans-GBT"}:
         max_src = 10000
         max_tgt = 5000
         X_S = X_S[:max_src]
@@ -270,11 +300,22 @@ def search_model_best(
     else:
         params = dict(best["params"])
 
-    model = _build_model(model_name, params, input_size)
-    if transfer:
-        model.fit(X_S, y_S, X_T_train, y_T_train)
-    else:
+    if model_name == "HHO-SVR":
+        model = SVRModel(
+            SVRConfig(
+                C=float(params["C"]),
+                epsilon=float(params["epsilon"]),
+                gamma=float(params["gamma"]),
+                kernel="rbf",
+            )
+        )
         model.fit(X_T_train, y_T_train)
+    else:
+        model = _build_model(model_name, params, input_size)
+        if transfer:
+            model.fit(X_S, y_S, X_T_train, y_T_train)
+        else:
+            model.fit(X_T_train, y_T_train)
 
     y_pred_scaled = model.predict(X_T_test)
     y_true = inverse_transform(scaler_y, y_T_test)
@@ -283,8 +324,8 @@ def search_model_best(
 
     metrics_test = compute_metrics(y_true, y_pred)
 
-    max_source_samples = 10000 if model_name in {"SVR", "TL-SVR"} else None
-    max_target_train_samples = 5000 if model_name in {"SVR", "TL-SVR"} else None
+    max_source_samples = 10000 if model_name in {"SVR", "HHO-SVR", "FLSVR", "ARA-SVR", "KMeans-GBT"} else None
+    max_target_train_samples = 5000 if model_name in {"SVR", "HHO-SVR", "FLSVR", "ARA-SVR", "KMeans-GBT"} else None
 
     return {
         "model": model_name,
@@ -317,55 +358,66 @@ def main():
     }
 
     model_specs = [
-        ("SVR", "flat", False, 10),
-        ("ELM", "flat", False, 8),
-        ("LSTM", "seq", False, 8),
-        ("CNN-LSTM", "seq", False, 8),
-        ("TL-SVR", "flat", True, 4),
-        ("TL-LSTM", "seq", True, 4),
+        ("HHO-SVR", "flat", False, 4),
+        ("FLSVR", "flat", False, 4),
+        ("ARA-SVR", "flat", False, 4),
+        ("KMeans-GBT", "flat", False, 4),
+        ("RF-WPF", "flat", False, 3),
+        ("BRF-WPF", "flat", False, 3),
         ("TL-QLDMR(Median)", "flat", True, 6),
     ]
 
     search_spaces = {
-        "SVR": {
-            "C": [1, 10, 100, 300],
-            "epsilon": [0.01, 0.05, 0.1, 0.2],
-            "gamma": [0.001, 0.01, 0.1, 0.5],
+        "HHO-SVR": {
+            "C_bounds": [(0.1, 100.0)],
+            "epsilon_bounds": [(0.001, 0.1)],
+            "gamma_bounds": [(1e-4, 0.05)],
+            "population_size": [6],
+            "iterations": [8],
         },
-        "ELM": {
-            "n_hidden": [200, 400, 800, 1200],
-            "activation": ["sigmoid", "tanh", "relu"],
-            "reg": [1e-4, 1e-3, 1e-2, 1e-1],
+        "FLSVR": {
+            "C": [10],
+            "epsilon": [0.05],
+            "gamma": [0.001],
+            "max_iter": [25],
+            "tol": [1e-4],
         },
-        "LSTM": {
-            "hidden_size": [32, 64, 128],
-            "num_layers": [1, 2],
-            "dropout": [0.0, 0.2, 0.4],
-            "lr": [1e-3, 5e-4],
-            "epochs": [6, 10, 15],
+        "ARA-SVR": {
+            "C": [10],
+            "epsilon": [0.05],
+            "gamma": [0.001],
+            "corr_threshold": [0.4],
+            "min_features": [10],
         },
-        "CNN-LSTM": {
-            "conv_channels": [16, 32, 64],
-            "kernel_size": [3, 5],
-            "hidden_size": [32, 64],
-            "num_layers": [1, 2],
-            "dropout": [0.0, 0.2],
-            "lr": [1e-3, 5e-4],
-            "epochs": [6, 10, 15],
+        "KMeans-GBT": {
+            "n_clusters": [3],
+            "max_depth": [3],
+            "max_iter": [80],
+            "learning_rate": [0.05],
+            "max_leaf_nodes": [15],
+            "min_samples_leaf": [40],
+            "l2_regularization": [0.1],
+            "random_state": [42],
+            "min_cluster_samples": [80],
         },
-        "TL-SVR": {
-            "C": [1, 10, 100, 300],
-            "epsilon": [0.01, 0.05, 0.1, 0.2],
-            "gamma": [0.001, 0.01, 0.1, 0.5],
-            "source_weight": [0.1, 0.2, 0.5, 1.0],
+        "RF-WPF": {
+            "n_estimators": [80, 120],
+            "max_depth": [6, 7],
+            "min_samples_split": [6, 8],
+            "min_samples_leaf": [4, 6],
+            "max_features": [0.6],
+            "random_state": [42],
         },
-        "TL-LSTM": {
-            "hidden_size": [32, 64, 128],
-            "num_layers": [1, 2],
-            "dropout": [0.0, 0.2, 0.4],
-            "lr": [1e-3, 5e-4],
-            "pretrain_epochs": [4, 6, 8],
-            "finetune_epochs": [4, 6, 8],
+        "BRF-WPF": {
+            "n_feature_groups": [3, 4],
+            "n_feature_nodes": [12, 16],
+            "n_enhance_nodes": [30, 40],
+            "activation": ["tanh"],
+            "n_estimators": [120, 160],
+            "max_depth": [6, 8],
+            "min_samples_leaf": [3, 4],
+            "max_features": [0.5],
+            "random_state": [42],
         },
         "TL-QLDMR(Median)": {
             "lambda1": [1e-4, 1e-3, 1e-2, 1e-1, 1.0],
@@ -392,7 +444,7 @@ def main():
         if model_file.exists():
             payload = json.loads(model_file.read_text(encoding="utf-8"))
             if "max_source_samples" not in payload.get("best_config", {}):
-                if model_name in {"SVR", "TL-SVR"}:
+                if model_name in {"SVR", "HHO-SVR", "FLSVR", "ARA-SVR"}:
                     payload["best_config"]["max_source_samples"] = 10000
                     payload["best_config"]["max_target_train_samples"] = 5000
                 else:
@@ -455,7 +507,7 @@ def main():
             y_T_test = data["y_T_test"]
             y_S = data["y_S"]
 
-            if model_name in {"SVR", "TL-SVR"}:
+            if model_name in {"SVR", "HHO-SVR", "FLSVR", "ARA-SVR", "KMeans-GBT"}:
                 max_src = 10000
                 max_tgt = 5000
                 X_S = X_S[:max_src]

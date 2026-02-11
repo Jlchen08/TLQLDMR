@@ -1,0 +1,22 @@
+{
+  "model": "ARA-SVR",
+  "best_metrics": {
+    "rmse": 9.246410734367169,
+    "mae": 5.953722419738534,
+    "mape": 45092263.40346578,
+    "r2": 0.9315713599997204
+  },
+  "best_config": {
+    "feature_set": "full_dir_cyclic",
+    "window_size": 24,
+    "target_train_ratio": 0.9,
+    "C": 10,
+    "epsilon": 0.05,
+    "gamma": 0.001,
+    "corr_threshold": 0.4,
+    "min_features": 10
+  },
+  "farm_idx": 3,
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "split_seed": 0
+}

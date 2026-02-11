@@ -1,9 +1,26 @@
 {
   "farm_idx": 1,
   "farm_name": "Wind farm site 1 (Nominal capacity-99MW)",
-  "farm_file": "/mnt/mydisk/zhangxiaohan/lin/TL-QLDMR/data/wind_farm_data/data_processed/wind_farms/Wind farm site 1 (Nominal capacity-99MW).xlsx",
+  "farm_file": "/home/user/lin/data/wind_farm_data/data_processed/wind_farms/Wind farm site 1 (Nominal capacity-99MW).xlsx",
   "nominal_capacity_mw": 99,
   "feature_set": "full",
+  "extreme_cfg": {
+    "stat_q": 98.0,
+    "stat_on_wind": true,
+    "stat_on_power": false,
+    "use_stat": true,
+    "use_ramp": false,
+    "use_cutout": true,
+    "use_temp": true,
+    "ramp_ratio": 0.05,
+    "ramp_q": null,
+    "cutout_ms": 25.0,
+    "temp_low": -10.0,
+    "temp_high": 35.0,
+    "temp_q_low": 2.0,
+    "temp_q_high": 98.0,
+    "temp_requires_wind": false
+  },
   "columns": {
     "time": "Time(year-month-day h:m:s)",
     "power": "Power (MW)",
@@ -16,18 +33,28 @@
     "humidity": "Relative humidity (%)"
   },
   "n_samples": 70176,
-  "n_extreme": 23102,
+  "n_extreme": 4184,
   "n_ramp": 11560,
   "n_cutout": 20,
-  "n_stat": 5931,
-  "n_temp": 7406,
-  "q95_wind_hub_ms": 13.809,
-  "q95_power_mw": 72.031205,
+  "n_stat": 1403,
+  "n_temp": 2808,
+  "q_stat": 98.0,
+  "q_wind_hub_ms": 15.867,
+  "q_power_mw": 79.35075499999999,
+  "stat_on_wind": true,
+  "stat_on_power": false,
   "ramp_threshold_mw": 4.95,
   "cutout_threshold_ms": 25.0,
   "temp_threshold_c": {
-    "low": -10.0,
-    "high": 35.0
+    "low": -15.055,
+    "high": 30.529
   },
+  "temp_q_low": 2.0,
+  "temp_q_high": 98.0,
+  "temp_requires_wind": false,
+  "shift_w1_wind": 3.1395123540961105,
+  "shift_w1_power": 5.963792795992246,
+  "shift_ks_wind": 0.33532504780114725,
+  "shift_ks_power": 0.11592221503411848,
   "seed": 0
 }

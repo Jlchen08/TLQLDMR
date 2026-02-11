@@ -1,0 +1,32 @@
+{
+  "model": "ENS-KDE",
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "alpha": 0.05,
+  "calibration_q": 0.004920688211723749,
+  "metrics": {
+    "picp": 0.8795180722891566,
+    "mpiw": 60.57250973508772,
+    "pinaw": 0.6834389560616124,
+    "cwc": 69.82972478869583,
+    "winkler": 129.1485441256178
+  },
+  "train_samples": 2983,
+  "val_samples": 559,
+  "cal_samples": 745,
+  "test_samples": 415,
+  "best_params": {
+    "n_bins": 5,
+    "kde_bandwidth": 0.12,
+    "kde_samples": 4000,
+    "q_scale": 12.0,
+    "conformal_scaled": true,
+    "width_scale": 1.2
+  },
+  "search_metrics": {
+    "picp": 0.7209302325581395,
+    "mpiw": 18.46330374409267,
+    "pinaw": 0.20754844632505087,
+    "cwc": 102.75546721836734,
+    "winkler": 25.481764415984845
+  }
+}

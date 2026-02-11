@@ -1,0 +1,33 @@
+{
+  "model": "NCQ-GBR",
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "alpha": 0.05,
+  "calibration_q": 1.1408335963973948,
+  "metrics": {
+    "picp": 0.9542168674698795,
+    "mpiw": 55.66926566874745,
+    "pinaw": 0.6281157076000463,
+    "cwc": 0.6281157076000463,
+    "winkler": 109.4126774966283
+  },
+  "train_samples": 2983,
+  "val_samples": 559,
+  "cal_samples": 745,
+  "test_samples": 415,
+  "best_params": {
+    "n_estimators": 260,
+    "learning_rate": 0.05,
+    "max_depth": 4,
+    "min_samples_leaf": 25,
+    "q_scale": 1.0,
+    "conformal_scaled": true,
+    "width_scale": 1.0
+  },
+  "search_metrics": {
+    "picp": 0.7209302325581395,
+    "mpiw": 21.787150174360978,
+    "pinaw": 0.24491224491640395,
+    "cwc": 121.2539655173838,
+    "winkler": 28.80561084625315
+  }
+}

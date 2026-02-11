@@ -1,0 +1,32 @@
+{
+  "model": "UQSVM-SSVQR",
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "alpha": 0.05,
+  "calibration_q": 0.08822597496739278,
+  "metrics": {
+    "picp": 0.9662650602409638,
+    "mpiw": 91.1887718692989,
+    "pinaw": 1.0288819024250047,
+    "cwc": 1.0288819024250047,
+    "winkler": 94.02727181817222
+  },
+  "train_samples": 2500,
+  "val_samples": 559,
+  "cal_samples": 745,
+  "test_samples": 415,
+  "best_params": {
+    "gamma": 0.015,
+    "n_components": 280,
+    "alpha": 0.0015,
+    "q_scale": 1.0,
+    "conformal_scaled": true,
+    "width_scale": 1.0
+  },
+  "search_metrics": {
+    "picp": 0.7209302325581395,
+    "mpiw": 73.28475452390808,
+    "pinaw": 0.8238036459545516,
+    "cwc": 407.85816533494915,
+    "winkler": 80.30321519580023
+  }
+}

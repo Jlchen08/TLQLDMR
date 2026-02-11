@@ -176,6 +176,11 @@ def load_farm_timeseries_xlsx(
                     out[k].append(_to_float(v))
 
         series = {k: np.asarray(v) for k, v in out.items()}
+        # Drop trailing empty rows (some XLSX files contain large formatted ranges)
+        if "power" in series:
+            mask = np.isfinite(series["power"])
+            for k in list(series.keys()):
+                series[k] = series[k][mask]
         col_names = {k: (headers[j] if j is not None else "") for k, j in needed.items()}
         return series, col_names
     finally:
@@ -195,8 +200,18 @@ class ExtremeMasks:
     stat: np.ndarray
     temp: np.ndarray
     ramp_threshold_mw: float
-    q95_wind: float
-    q95_power: float
+    q_stat: float
+    q_wind: float
+    q_power: float
+    stat_q: float
+    stat_on_wind: bool
+    stat_on_power: bool
+    cutout_ms: float
+    temp_low: float
+    temp_high: float
+    temp_q_low: Optional[float]
+    temp_q_high: Optional[float]
+    temp_requires_wind: bool
 
 
 def identify_extreme_events(
@@ -204,28 +219,75 @@ def identify_extreme_events(
     wind_hub_ms: np.ndarray,
     temperature_c: Optional[np.ndarray],
     nominal_capacity_mw: float,
+    extreme_cfg: Optional[Dict] = None,
 ) -> ExtremeMasks:
     power = np.asarray(power_mw, dtype=float)
     wind = np.asarray(wind_hub_ms, dtype=float)
     temp = None if temperature_c is None else np.asarray(temperature_c, dtype=float)
 
-    q95_wind = float(np.nanpercentile(wind, 95))
-    q95_power = float(np.nanpercentile(power, 95))
+    cfg = extreme_cfg or {}
+    stat_q = float(cfg.get("stat_q", 95.0))
+    stat_on_wind = bool(cfg.get("stat_on_wind", True))
+    stat_on_power = bool(cfg.get("stat_on_power", True))
+    use_stat = bool(cfg.get("use_stat", True))
+    use_ramp = bool(cfg.get("use_ramp", True))
+    use_cutout = bool(cfg.get("use_cutout", True))
+    use_temp = bool(cfg.get("use_temp", True))
 
-    stat = (wind > q95_wind) | (power > q95_power)
+    q_wind = float(np.nanpercentile(wind, stat_q))
+    q_power = float(np.nanpercentile(power, stat_q))
+    stat = np.zeros_like(power, dtype=bool)
+    if stat_on_wind:
+        stat |= wind > q_wind
+    if stat_on_power:
+        stat |= power > q_power
 
-    ramp_threshold = 0.05 * float(nominal_capacity_mw)
+    ramp_ratio = float(cfg.get("ramp_ratio", 0.05))
+    ramp_q = cfg.get("ramp_q", None)
     power_diff = np.abs(np.diff(power, prepend=power[0]))
+    if ramp_q is not None:
+        ramp_threshold = float(np.nanpercentile(power_diff, float(ramp_q)))
+    else:
+        ramp_threshold = ramp_ratio * float(nominal_capacity_mw)
     ramp = power_diff > ramp_threshold
 
-    cutout = wind > 25.0
+    cutout_ms = float(cfg.get("cutout_ms", 25.0))
+    cutout = wind > cutout_ms
 
+    temp_q_low = cfg.get("temp_q_low", None)
+    temp_q_high = cfg.get("temp_q_high", None)
+    if temp_q_low is not None and temp is not None:
+        temp_low = float(np.nanpercentile(temp, float(temp_q_low)))
+    else:
+        temp_low = float(cfg.get("temp_low", -10.0))
+    if temp_q_high is not None and temp is not None:
+        temp_high = float(np.nanpercentile(temp, float(temp_q_high)))
+    else:
+        temp_high = float(cfg.get("temp_high", 35.0))
     if temp is None:
         temp_mask = np.zeros_like(power, dtype=bool)
     else:
-        temp_mask = (temp < -10.0) | (temp > 35.0)
+        temp_mask = (temp < temp_low) | (temp > temp_high)
+    temp_requires_wind = bool(cfg.get("temp_requires_wind", False))
+    if temp_requires_wind:
+        temp_mask = temp_mask & (wind > q_wind)
 
-    extreme = stat | ramp | cutout | temp_mask
+    masks = []
+    if use_stat:
+        masks.append(stat)
+    if use_ramp:
+        masks.append(ramp)
+    if use_cutout:
+        masks.append(cutout)
+    if use_temp:
+        masks.append(temp_mask)
+
+    if masks:
+        extreme = masks[0].copy()
+        for m in masks[1:]:
+            extreme |= m
+    else:
+        extreme = np.zeros_like(power, dtype=bool)
     return ExtremeMasks(
         extreme=extreme,
         ramp=ramp,
@@ -233,8 +295,18 @@ def identify_extreme_events(
         stat=stat,
         temp=temp_mask,
         ramp_threshold_mw=float(ramp_threshold),
-        q95_wind=q95_wind,
-        q95_power=q95_power,
+        q_stat=stat_q,
+        q_wind=q_wind,
+        q_power=q_power,
+        stat_q=stat_q,
+        stat_on_wind=stat_on_wind,
+        stat_on_power=stat_on_power,
+        cutout_ms=cutout_ms,
+        temp_low=temp_low,
+        temp_high=temp_high,
+        temp_q_low=None if temp_q_low is None else float(temp_q_low),
+        temp_q_high=None if temp_q_high is None else float(temp_q_high),
+        temp_requires_wind=temp_requires_wind,
     )
 
 
@@ -306,7 +378,14 @@ def plot_timeseries_segment(
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
-    fig.savefig(out_path, dpi=300)
+    fig.savefig(out_path, dpi=200, facecolor="white")
+    try:
+        from PIL import Image
+
+        img = Image.open(out_path).convert("RGB")
+        img.save(out_path.with_suffix(".jpg"), quality=92)
+    except Exception:
+        pass
     plt.close(fig)
 
 
@@ -366,6 +445,20 @@ def _maybe_subsample(x: np.ndarray, max_samples: int, rng: np.random.Generator) 
         return x
     idx = rng.choice(len(x), size=max_samples, replace=False)
     return x[idx]
+
+
+def _compute_shift_metrics(source: np.ndarray, target: np.ndarray) -> Tuple[float, float]:
+    from scipy.stats import wasserstein_distance, ks_2samp
+
+    src = np.asarray(source, dtype=float)
+    tgt = np.asarray(target, dtype=float)
+    src = src[np.isfinite(src)]
+    tgt = tgt[np.isfinite(tgt)]
+    if len(src) < 2 or len(tgt) < 2:
+        return float("nan"), float("nan")
+    w1 = float(wasserstein_distance(src, tgt))
+    ks = float(ks_2samp(src, tgt).statistic)
+    return w1, ks
 
 
 def _get_palette(n: int) -> List[Tuple[float, float, float, float]]:
@@ -471,6 +564,21 @@ def main() -> int:
     parser.add_argument("--with-timeseries", action="store_true", help="Generate extreme-event time-series snippets")
     parser.add_argument("--feature-set", type=str, default="full", choices=["full", "wind_only", "simple"])
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--stat-q", type=float, default=95.0)
+    parser.add_argument("--stat-on-wind", type=int, default=1)
+    parser.add_argument("--stat-on-power", type=int, default=1)
+    parser.add_argument("--use-stat", type=int, default=1)
+    parser.add_argument("--use-ramp", type=int, default=1)
+    parser.add_argument("--use-cutout", type=int, default=1)
+    parser.add_argument("--use-temp", type=int, default=1)
+    parser.add_argument("--ramp-q", type=float, default=None)
+    parser.add_argument("--ramp-ratio", type=float, default=0.05)
+    parser.add_argument("--cutout-ms", type=float, default=25.0)
+    parser.add_argument("--temp-low", type=float, default=-10.0)
+    parser.add_argument("--temp-high", type=float, default=35.0)
+    parser.add_argument("--temp-q-low", type=float, default=None)
+    parser.add_argument("--temp-q-high", type=float, default=None)
+    parser.add_argument("--temp-requires-wind", type=int, default=0)
     args = parser.parse_args()
 
     _configure_plot_style()
@@ -498,6 +606,25 @@ def main() -> int:
             raise ValueError("--with-timeseries requires --farm-idx")
         if args.farm_idx < 0 or args.farm_idx >= len(farms):
             raise ValueError(f"--farm-idx out of range. Available: 0..{len(farms)-1}")
+    extreme_cfg = {
+        "stat_q": float(args.stat_q),
+        "stat_on_wind": bool(args.stat_on_wind),
+        "stat_on_power": bool(args.stat_on_power),
+        "use_stat": bool(args.use_stat),
+        "use_ramp": bool(args.use_ramp),
+        "use_cutout": bool(args.use_cutout),
+        "use_temp": bool(args.use_temp),
+        "ramp_ratio": float(args.ramp_ratio),
+        "cutout_ms": float(args.cutout_ms),
+        "temp_low": float(args.temp_low),
+        "temp_high": float(args.temp_high),
+        "temp_q_low": args.temp_q_low,
+        "temp_q_high": args.temp_q_high,
+        "temp_requires_wind": bool(args.temp_requires_wind),
+    }
+    if args.ramp_q is not None:
+        extreme_cfg["ramp_q"] = float(args.ramp_q)
+
     for i, farm in enumerate(farms):
         print(f"[Load] Farm {i} | {farm.name} | capacity={farm.capacity_mw} MW")
         series, col_names = load_farm_timeseries_xlsx(farm.path, feature_set=args.feature_set)
@@ -512,6 +639,14 @@ def main() -> int:
             wind_hub_ms=wind_hub,
             temperature_c=temperature,
             nominal_capacity_mw=farm.capacity_mw,
+            extreme_cfg=extreme_cfg,
+        )
+
+        shift_w1_wind, shift_ks_wind = _compute_shift_metrics(
+            wind_hub[~masks.extreme], wind_hub[masks.extreme]
+        )
+        shift_w1_power, shift_ks_power = _compute_shift_metrics(
+            power[~masks.extreme], power[masks.extreme]
         )
 
         meta = {
@@ -520,6 +655,23 @@ def main() -> int:
             "farm_file": str(farm.path),
             "nominal_capacity_mw": farm.capacity_mw,
             "feature_set": args.feature_set,
+            "extreme_cfg": {
+                "stat_q": float(args.stat_q),
+                "stat_on_wind": bool(args.stat_on_wind),
+                "stat_on_power": bool(args.stat_on_power),
+                "use_stat": bool(args.use_stat),
+                "use_ramp": bool(args.use_ramp),
+                "use_cutout": bool(args.use_cutout),
+                "use_temp": bool(args.use_temp),
+                "ramp_ratio": float(args.ramp_ratio),
+                "ramp_q": None if args.ramp_q is None else float(args.ramp_q),
+                "cutout_ms": float(args.cutout_ms),
+                "temp_low": float(args.temp_low),
+                "temp_high": float(args.temp_high),
+                "temp_q_low": None if args.temp_q_low is None else float(args.temp_q_low),
+                "temp_q_high": None if args.temp_q_high is None else float(args.temp_q_high),
+                "temp_requires_wind": bool(args.temp_requires_wind),
+            },
             "columns": col_names,
             "n_samples": int(len(power)),
             "n_extreme": int(np.sum(masks.extreme)),
@@ -527,11 +679,21 @@ def main() -> int:
             "n_cutout": int(np.sum(masks.cutout)),
             "n_stat": int(np.sum(masks.stat)),
             "n_temp": int(np.sum(masks.temp)),
-            "q95_wind_hub_ms": masks.q95_wind,
-            "q95_power_mw": masks.q95_power,
+            "q_stat": masks.q_stat,
+            "q_wind_hub_ms": masks.q_wind,
+            "q_power_mw": masks.q_power,
+            "stat_on_wind": masks.stat_on_wind,
+            "stat_on_power": masks.stat_on_power,
             "ramp_threshold_mw": masks.ramp_threshold_mw,
-            "cutout_threshold_ms": 25.0,
-            "temp_threshold_c": {"low": -10.0, "high": 35.0},
+            "cutout_threshold_ms": masks.cutout_ms,
+            "temp_threshold_c": {"low": masks.temp_low, "high": masks.temp_high},
+            "temp_q_low": masks.temp_q_low,
+            "temp_q_high": masks.temp_q_high,
+            "temp_requires_wind": masks.temp_requires_wind,
+            "shift_w1_wind": shift_w1_wind,
+            "shift_w1_power": shift_w1_power,
+            "shift_ks_wind": shift_ks_wind,
+            "shift_ks_power": shift_ks_power,
             "seed": args.seed,
         }
         (out_dir / f"farm{i}_meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
@@ -560,7 +722,7 @@ def main() -> int:
 
         plot_farm_domain_shift(
             plot_dir / f"farm{i}_domain_shift.png",
-            farm_label=f"Farm {i + 1} ({farm.capacity_mw} MW)",
+            farm_label=farm.name,
             wind_hub=wind_hub,
             power=power,
             extreme_mask=masks.extreme,
@@ -586,7 +748,7 @@ def main() -> int:
                     event_i=ei,
                     start=s,
                     end=e,
-                    title=f"Cut-out event snippet (wind_hub > 25 m/s) | {farm.capacity_mw}MW",
+                    title=f"Cut-out event snippet (wind_hub > {masks.cutout_ms:.1f} m/s) | {farm.capacity_mw}MW",
                 )
 
             if not ramp_segs:

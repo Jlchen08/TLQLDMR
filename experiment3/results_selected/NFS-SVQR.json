@@ -1,0 +1,32 @@
+{
+  "model": "NFS-SVQR",
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "alpha": 0.05,
+  "calibration_q": 0.039024764458601015,
+  "metrics": {
+    "picp": 0.8289156626506025,
+    "mpiw": 82.83827377767477,
+    "pinaw": 0.9346633249994738,
+    "cwc": 157.78584747373142,
+    "winkler": 111.29751832728377
+  },
+  "train_samples": 2500,
+  "val_samples": 559,
+  "cal_samples": 745,
+  "test_samples": 415,
+  "best_params": {
+    "gamma": 0.015,
+    "n_components": 360,
+    "max_features": 100,
+    "q_scale": 1.0,
+    "conformal_scaled": true,
+    "width_scale": 1.0
+  },
+  "search_metrics": {
+    "picp": 0.7209302325581395,
+    "mpiw": 61.70818867275696,
+    "pinaw": 0.6936699337279519,
+    "cwc": 343.4300733040293,
+    "winkler": 68.94413542541456
+  }
+}

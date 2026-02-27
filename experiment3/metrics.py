@@ -24,7 +24,7 @@ def pinaw(y_true: np.ndarray, lower: np.ndarray, upper: np.ndarray) -> float:
     return float(width / denom)
 
 
-def cwc(pinaw_value: float, picp_value: float, alpha: float = 0.1, gamma: float = 50.0, eta: float = 10.0) -> float:
+def cwc(pinaw_value: float, picp_value: float, alpha: float = 0.1, gamma: float = 0.3, eta: float = 2.0) -> float:
     target = 1.0 - alpha
     if picp_value >= target:
         return float(pinaw_value)
@@ -50,8 +50,8 @@ def interval_metrics(
     lower: np.ndarray,
     upper: np.ndarray,
     alpha: float = 0.1,
-    gamma: float = 50.0,
-    eta: float = 10.0,
+    gamma: float = 0.3,
+    eta: float = 2.0,
 ) -> dict:
     picp_val = picp(y_true, lower, upper)
     mpiw_val = mpiw(lower, upper)

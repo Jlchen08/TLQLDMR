@@ -239,10 +239,7 @@ def main() -> None:
     tl_model.fit(X_S[:30000], y_S[:30000], X_train_val, y_train_val)
     tl_lower_cal, tl_upper_cal = predict_interval_orig(tl_model, X_cal_flat, scaler_y)
     tl_lower_test, tl_upper_test = predict_interval_orig(tl_model, X_T_test_flat, scaler_y)
-    tl_lower_cal, tl_upper_cal = clip_intervals(tl_lower_cal, tl_upper_cal, 0.0, nominal_capacity)
-    tl_lower_test, tl_upper_test = clip_intervals(tl_lower_test, tl_upper_test, 0.0, nominal_capacity)
     tl_lower_val, tl_upper_val = predict_interval_orig(tl_model, X_val_flat, scaler_y)
-    tl_lower_val, tl_upper_val = clip_intervals(tl_lower_val, tl_upper_val, 0.0, nominal_capacity)
     metrics, metrics_val, q_hat, width_scale, conformal_scaled = _best_calibration(
         tl_model, tl_lower_cal, tl_upper_cal, tl_lower_val, tl_upper_val, tl_lower_test, tl_upper_test
     )
@@ -267,10 +264,7 @@ def main() -> None:
             model.fit(X_tr, y_tr)
         lower_cal, upper_cal = predict_interval_orig(model, X_cal_flat, scaler_y)
         lower_test, upper_test = predict_interval_orig(model, X_T_test_flat, scaler_y)
-        lower_cal, upper_cal = clip_intervals(lower_cal, upper_cal, 0.0, nominal_capacity)
-        lower_test, upper_test = clip_intervals(lower_test, upper_test, 0.0, nominal_capacity)
         lower_val, upper_val = predict_interval_orig(model, X_val_flat, scaler_y)
-        lower_val, upper_val = clip_intervals(lower_val, upper_val, 0.0, nominal_capacity)
         metrics, metrics_val, q_hat, width_scale, conformal_scaled = _best_calibration(
             model, lower_cal, upper_cal, lower_val, upper_val, lower_test, upper_test
         )

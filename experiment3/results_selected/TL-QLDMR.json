@@ -2,39 +2,38 @@
   "model": "TL-QLDMR",
   "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
   "alpha": 0.05,
-  "calibration_q": 0.6015791834244055,
+  "calibration_q": 8.927202126012176,
   "metrics": {
-    "picp": 0.927710843373494,
-    "mpiw": 73.54886298719673,
-    "pinaw": 0.8298510059980347,
-    "cwc": 52.68247114947248,
-    "winkler": 140.39286251601573
+    "picp": 0.9590361445783132,
+    "mpiw": 25.791261423896522,
+    "pinaw": 0.26829283180595975,
+    "cwc": 0.26829283180595975,
+    "winkler": 34.50575024253314
   },
   "train_samples": 2983,
   "val_samples": 559,
   "cal_samples": 745,
   "test_samples": 415,
   "best_params": {
-    "lambda1": 0.0001,
-    "lambda2": 1e-05,
+    "lambda2": 0.0001,
     "C_S": 0.1,
-    "C_T": 50.0,
-    "kernel_gamma": 0.001,
-    "nystrom_n_components": 800,
-    "nystrom_lr": 0.01,
-    "nystrom_epochs": 48,
+    "C_T": 800.0,
+    "nystrom_n_components": 4000,
     "nystrom_batch_size": 256,
-    "tau_low": 0.02,
-    "tau_high": 0.98,
-    "q_scale": 1.0,
-    "conformal_scaled": false,
-    "width_scale": 4.0
+    "nystrom_lr": 0.005,
+    "nystrom_epochs": 180,
+    "lambda1": 0.0001,
+    "kernel_gamma": 0.003,
+    "tau_low": 0.2,
+    "tau_high": 0.8,
+    "q_scale": 0.8800000000000001,
+    "conformal_scaled": false
   },
   "search_metrics": {
-    "picp": 0.7209302325581395,
-    "mpiw": 34.230229266137066,
-    "pinaw": 0.384786547413547,
-    "cwc": 190.50454078995037,
-    "winkler": 41.24868993802924
+    "picp": 0.9821109123434705,
+    "mpiw": 38.95983004346127,
+    "pinaw": 0.4013002162088686,
+    "cwc": 0.4013002162088686,
+    "winkler": 43.42601819607174
   }
 }

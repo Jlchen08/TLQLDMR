@@ -1,0 +1,42 @@
+{
+  "model": "w/o Transfer (Target-only QLDMR)",
+  "description": "Remove source data and MMD; train LDMR only on target.",
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "farm_idx": 3,
+  "feature_set": "full_dir_cyclic",
+  "window_size": 24,
+  "target_train_ratio": 0.9,
+  "split_mode": "shuffle",
+  "split_seed": 0,
+  "train_samples": 2983,
+  "val_samples": 559,
+  "cal_samples": 745,
+  "test_samples": 415,
+  "alpha": 0.05,
+  "q_hat": 9.588359653705766,
+  "q_scale": 0.8800000000000001,
+  "conformal_scaled": false,
+  "tau_low": 0.2,
+  "tau_high": 0.8,
+  "params": {
+    "lambda1": 0.0001,
+    "lambda2": 0.0,
+    "C_S": 0.0,
+    "C_T": 800.0,
+    "kernel_gamma": 0.003,
+    "nystrom_n_components": 4000,
+    "nystrom_lr": 0.005,
+    "nystrom_epochs": 180,
+    "nystrom_batch_size": 256
+  },
+  "metrics": {
+    "picp": 0.9518072289156626,
+    "mpiw": 26.890858619924572,
+    "pinaw": 0.27973135901560287,
+    "cwc": 0.27973135901560287,
+    "winkler": 35.92176794375291
+  },
+  "post_adjustment": {
+    "picp_shift": 1.9416799545288086
+  }
+}

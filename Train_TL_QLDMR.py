@@ -170,27 +170,43 @@ class Fast_TL_QLDMR:
         y_T = np.asarray(y_T, dtype=np.float32).reshape(-1)
 
         print(f"1. Nyström Mapping (m={self.n_components})...")
-        if len(X_S) == 0 or len(X_T) == 0:
-            raise ValueError("Fast_TL_QLDMR requires non-empty source and target sets.")
+        if len(X_T) == 0:
+            raise ValueError("Fast_TL_QLDMR requires a non-empty target set.")
 
-        sample_count = min(2000, len(X_S))
-        sample_indices = np.random.choice(len(X_S), sample_count, replace=False)
+        use_source = len(X_S) > 0
+        if not use_source:
+            print("Fast_TL_QLDMR: target-only mode (no source domain).")
+
+        sample_pool = X_S if use_source else X_T
+        sample_count = min(2000, len(sample_pool))
+        sample_indices = np.random.choice(len(sample_pool), sample_count, replace=False)
         self.feature_map = NystromApproximation(n_components=self.n_components, gamma=self.gamma)
-        self.feature_map.fit(X_S[sample_indices])
+        self.feature_map.fit(sample_pool[sample_indices])
 
-        Z_S = self.feature_map.transform(X_S)
-        Z_T = self.feature_map.transform(X_T)
+        if use_source:
+            Z_S = self.feature_map.transform(X_S)
+            Z_T = self.feature_map.transform(X_T)
 
-        print("2. Computing Regularization Matrix...")
-        R_matrix = self._compute_regularizer_matrix(Z_S, Z_T)
+            print("2. Computing Regularization Matrix...")
+            R_matrix = self._compute_regularizer_matrix(Z_S, Z_T)
 
-        Z_train = np.vstack([Z_S, Z_T])
-        y_train = np.concatenate([y_S, y_T])
+            Z_train = np.vstack([Z_S, Z_T])
+            y_train = np.concatenate([y_S, y_T])
 
-        C_vec = np.concatenate([
-            np.full(len(X_S), self.C_S, dtype=np.float32),
-            np.full(len(X_T), self.C_T, dtype=np.float32),
-        ])
+            C_vec = np.concatenate([
+                np.full(len(X_S), self.C_S, dtype=np.float32),
+                np.full(len(X_T), self.C_T, dtype=np.float32),
+            ])
+        else:
+            Z_T = self.feature_map.transform(X_T)
+            Z_S = Z_T
+
+            print("2. Computing Regularization Matrix (target-only)...")
+            R_matrix = self._compute_regularizer_matrix(Z_S, Z_T)
+
+            Z_train = Z_T
+            y_train = y_T
+            C_vec = np.full(len(X_T), self.C_T, dtype=np.float32)
 
         print(f"3. Optimizing with Adam (Epochs={self.epochs})...")
 
@@ -547,12 +563,12 @@ class TL_QLDMR:
         print("3. Solving QP...")
         if self.solver == "cvxopt":
             print("3.1. Solving QP with cvxopt...")
-            P = cvxopt.matrix(P_np)
-            q_vec = cvxopt.matrix(q_np)
-            G = cvxopt.matrix(G_np)
-            h = cvxopt.matrix(h_vec)
-            A = cvxopt.matrix(A_np)
-            b = cvxopt.matrix(b_np)
+            P = cvxopt.matrix(P_np.astype(np.float64))
+            q_vec = cvxopt.matrix(q_np.astype(np.float64))
+            G = cvxopt.matrix(G_np.astype(np.float64))
+            h = cvxopt.matrix(h_vec.astype(np.float64))
+            A = cvxopt.matrix(A_np.astype(np.float64))
+            b = cvxopt.matrix(b_np.astype(np.float64))
             try:
                 start_time = time.perf_counter()
                 sol = cvxopt.solvers.qp(P, q_vec, G, h, A, b)
@@ -591,11 +607,11 @@ class TL_QLDMR:
         gamma_vec = (self.alpha - self.alpha_star).reshape(-1, 1) # gamma = alpha - alpha*
         if self.use_gpu:
             gamma_vec_gpu = cp.asarray(gamma_vec)
-            rhs = K @ gamma_vec_gpu + self.lambda1 * K @ S @ Y_full_gpu
+            rhs = K @ gamma_vec_gpu + self.lambda1 * (K @ SY)
             beta_primal = cp.linalg.solve(Omega, rhs).flatten()
             self.beta_primal = cp.asnumpy(beta_primal)
         else:
-            rhs = K @ gamma_vec + self.lambda1 * K @ S @ Y_full
+            rhs = K @ gamma_vec + self.lambda1 * (K @ SY)
             self.beta_primal = np.linalg.solve(Omega, rhs).flatten()
         
         # 9. 计算偏置 b

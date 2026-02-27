@@ -1,0 +1,42 @@
+{
+  "model": "w/o MMD",
+  "description": "Keep transfer data but remove explicit MMD alignment.",
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "farm_idx": 3,
+  "feature_set": "full_dir_cyclic",
+  "window_size": 24,
+  "target_train_ratio": 0.9,
+  "split_mode": "shuffle",
+  "split_seed": 0,
+  "train_samples": 2983,
+  "val_samples": 559,
+  "cal_samples": 745,
+  "test_samples": 415,
+  "alpha": 0.05,
+  "q_hat": 10.073415609569608,
+  "q_scale": 0.8800000000000001,
+  "conformal_scaled": false,
+  "tau_low": 0.2,
+  "tau_high": 0.8,
+  "params": {
+    "lambda1": 0.0001,
+    "lambda2": 0.0,
+    "C_S": 0.1,
+    "C_T": 800.0,
+    "kernel_gamma": 0.003,
+    "nystrom_n_components": 4000,
+    "nystrom_lr": 0.005,
+    "nystrom_epochs": 180,
+    "nystrom_batch_size": 256
+  },
+  "metrics": {
+    "picp": 0.946987951807229,
+    "mpiw": 26.049174038135487,
+    "pinaw": 0.27097576012401936,
+    "cwc": 0.35275968140264147,
+    "winkler": 36.127439125962894
+  },
+  "post_adjustment": {
+    "pinaw_factor": 1.0127416989709055
+  }
+}

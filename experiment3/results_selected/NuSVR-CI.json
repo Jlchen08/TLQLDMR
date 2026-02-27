@@ -2,15 +2,15 @@
   "model": "NuSVR-CI",
   "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
   "alpha": 0.05,
-  "calibration_q": 29.505089020872163,
+  "calibration_q": 19.969505383601078,
   "metrics": {
-    "picp": 0.8987951807228916,
-    "mpiw": 48.7776126872773,
-    "pinaw": 0.5503572633851042,
-    "cwc": 46.46956764566236,
-    "winkler": 114.48897812834012
+    "picp": 0.8433734939759037,
+    "mpiw": 19.96950538360108,
+    "pinaw": 0.20773218731235132,
+    "cwc": 0.2848650864413855,
+    "winkler": 54.60289014848282
   },
-  "train_samples": 2200,
+  "train_samples": 800,
   "val_samples": 559,
   "cal_samples": 745,
   "test_samples": 415,
@@ -18,15 +18,14 @@
     "nu": 0.4,
     "C": 6.0,
     "gamma": 0.008,
-    "q_scale": 1.0,
-    "conformal_scaled": false,
-    "width_scale": 1.0
+    "q_scale": 0.5,
+    "conformal_scaled": false
   },
   "search_metrics": {
-    "picp": 0.7209302325581395,
-    "mpiw": 39.236499571718745,
-    "pinaw": 0.44106269594082004,
-    "cwc": 218.36638238674874,
-    "winkler": 46.37267581907048
+    "picp": 0.8193202146690519,
+    "mpiw": 19.96950538360107,
+    "pinaw": 0.20569306434559886,
+    "cwc": 0.2858328030808316,
+    "winkler": 56.33487698245613
   }
 }

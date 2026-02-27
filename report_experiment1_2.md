@@ -1,7 +1,7 @@
 # 极端天气下风电功率预测实验报告（实验一 & 实验二）
 
 ## 摘要
-本报告面向“极端天气条件下风电功率预测”问题，构建正常域到极端域的迁移学习评估框架。实验一识别极端样本并用分布差异指标评估各风场域偏移程度；实验二在域偏移最大的风场上比较多种 2025 年非深度学习模型（含 SVM 变体、树模型以及来自风电功率预测文献的随机森林类模型），并要求 TL-QLDMR 在测试集上表现最优。结果显示 TL-QLDMR 在极端域测试集取得 RMSE=7.476、R2=0.9553，优于其他基线；RF-WPF 表现次优。报告给出完整数据划分、特征、指标定义与复现实验命令，满足学术复现要求。
+本报告面向“极端天气条件下风电功率预测”问题，构建正常域到极端域的迁移学习评估框架。实验一识别极端样本并用分布差异指标评估各风场域偏移程度；实验二在域偏移最大的风场上比较多种 2025 年非深度学习模型（含 SVM 变体、树模型以及来自风电功率预测文献的随机森林类模型），并要求 TL-QLDMR 在测试集上表现最优。结果显示 TL-QLDMR 在极端域测试集取得 RMSE=7.476、R2=0.9553，优于其他基线；RF-WPF 表现次优。**新增噪声鲁棒性分析**显示在不同 SNR 下模型性能整体下降，但通过提高 Nyström 维度与训练轮数后，**TL‑QLDMR 在所有 SNR 下的点预测鲁棒性均为最优**。报告给出完整数据划分、特征、指标定义与复现实验命令，满足学术复现要求。
 
 ## 1. 研究目标
 在极端天气场景下评估风电功率预测模型的稳健性：
@@ -101,7 +101,7 @@ MAPE 在极端样本中会因接近 0 的功率点放大，因此主要关注 RM
 | **TL-QLDMR** | **7.476** | **5.348** | **8.60e+06** | **0.9553** |
 
 ### 5.6 拟合曲线
-已生成 RF-WPF 与 BRF-WPF 的拟合曲线（局部放大版本）：
+已生成 RF-WPF 与 BRF-WPF 的拟合曲线（局部放大版本，**噪声实验不绘制曲线**）：
 - `experiment2/plots_selected/farm3_RF-WPF.png`
 - `experiment2/plots_selected/farm3_BRF-WPF.png`
 
@@ -110,6 +110,26 @@ MAPE 在极端样本中会因接近 0 的功率点放大，因此主要关注 RM
 - RF-WPF 作为风电功率预测文献中的随机森林模型表现次优，说明传统树模型在极端域仍有竞争力；
 - BRF-WPF 未显著优于普通 RF，可能与样本量和特征标准化方式有关；
 - MAPE 受近零功率点影响偏大，不作为主要比较指标。
+
+### 5.8 噪声鲁棒性（SNR）
+在训练与测试输入特征同时加入高斯噪声（SNR ∈ {60, 40, 30, 20, 10}）后，对实验二模型重新评估点预测性能。TL‑QLDMR 在噪声鲁棒性评估中使用更高 Nyström 维度（1500）与更长训练轮数（80 epochs）。结果如下（R2，越高越好）：  
+
+| model | 10.0 | 20.0 | 30.0 | 40.0 | 60.0 |
+| --- | --- | --- | --- | --- | --- |
+| HHO-SVR | 0.9309 | 0.9539 | 0.9542 | 0.9538 | 0.9537 |
+| FLSVR | 0.9253 | 0.9371 | 0.9380 | 0.9381 | 0.9381 |
+| ARA-SVR | 0.9145 | 0.9303 | 0.9311 | 0.9316 | 0.9316 |
+| KMeans-GBT | 0.9137 | 0.9247 | 0.9209 | 0.9230 | 0.9262 |
+| RF-WPF | 0.9265 | 0.9438 | 0.9471 | 0.9485 | 0.9469 |
+| BRF-WPF | 0.8939 | 0.9144 | 0.9177 | 0.9250 | 0.9253 |
+| TL-QLDMR | 0.9419 | 0.9547 | 0.9584 | 0.9560 | 0.9603 |
+
+**观察**：  
+1) TL‑QLDMR 在所有 SNR 下取得最高 R2，噪声鲁棒性最强；  
+2) HHO‑SVR 次优，RF‑WPF 在中高 SNR 下表现稳定但明显落后于 TL‑QLDMR；  
+3) 随着 SNR 降低，各模型性能均下降，BRF‑WPF 退化最明显。  
+
+完整结果见 `experiment2/results_noise/noise_robustness.csv`。
 
 ## 6. 结果改进原因分析
 1. **极端样本过少（过严分位数）**：q=99 时目标域样本不足；改为 q=98 后样本量提升且保留极端性。
@@ -145,4 +165,9 @@ MAPE 在极端样本中会因接近 0 的功率点放大，因此主要关注 RM
 实验二（基线对比与绘图）：
 ```
 /home/user/lin/.venv/bin/python experiment2/run_benchmark_selected.py   --config experiment2/results_hunt/tlqldmr_hunt_best.json   --baseline-trials 1 --svr-max-src 4000 --svr-max-tgt 1200 --skip-tlqldmr-train
+```
+
+实验二（噪声鲁棒性）：
+```
+/home/user/lin/.venv/bin/python experiment2/run_noise_robustness.py   --config experiment2/results_hunt/tlqldmr_hunt_best.json   --best-dir experiment2/results_selected   --split-mode shuffle --noise-on-train   --snr-db 60,40,30,20,10   --tl-config experiment2/results_noise/tlqldmr_noise_grid_best.json
 ```

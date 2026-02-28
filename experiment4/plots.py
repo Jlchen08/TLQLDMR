@@ -78,16 +78,44 @@ def plot_residual_distribution(
         "#4f7f6f",
         "#8a4f7d",
     ]
-    color_idx = 0
-
+    hist_map = {}
     for name, res in residuals.items():
         hist, _ = np.histogram(res, bins=edges, density=True)
-        hist = _smooth_density(hist, kernel_size=7)
-        if "TL-QLDMR" in name:
-            ax.plot(centers, hist, label=name, linewidth=2.4, color=palette[0])
+        hist_map[name] = _smooth_density(hist, kernel_size=7)
+
+    tl_name = next((n for n in hist_map.keys() if "TL-QLDMR" in n), None)
+    tl_hist = hist_map.get(tl_name)
+
+    ordered_names = [n for n in hist_map.keys() if n != tl_name]
+    if tl_name is not None:
+        ordered_names.append(tl_name)
+
+    color_idx = 0
+    for name in ordered_names:
+        hist = hist_map[name]
+        label = name
+        if tl_hist is not None and name != tl_name:
+            diff = float(np.max(np.abs(hist - tl_hist)))
+            tol = 0.01 * float(max(1e-12, np.max(tl_hist)))
+            if diff < tol:
+                offset = 0.015 * float(np.max(tl_hist))
+                hist = hist + offset
+                label = f"{name} (offset)"
+
+        if name == tl_name:
+            ax.plot(centers, hist, label=label, linewidth=2.6, color=palette[0], zorder=4)
         else:
             color_idx = min(color_idx + 1, len(palette) - 1)
-            ax.plot(centers, hist, label=name, color=palette[color_idx], linestyle="--")
+            ax.plot(
+                centers,
+                hist,
+                label=label,
+                color=palette[color_idx],
+                linestyle="--",
+                linewidth=1.6,
+                alpha=0.85,
+                zorder=2,
+            )
 
     ax.set_xlabel("Residual (MW)")
     ax.set_ylabel("Density")

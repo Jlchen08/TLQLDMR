@@ -14,6 +14,7 @@ from experiment2.data_utils import prepare_farm_data, set_seed
 from experiment3.metrics import interval_metrics
 from experiment3.models.tl_qldmr_quantile import TLQLDMRQuantileConfig, TLQLDMRQuantileIntervalModel
 from experiment3.models.tsvqr_model import TSVQRConfig, TSVQRIntervalModel
+from experiment3.models.standard_svqr_model import StandardSVQRConfig, StandardSVQRIntervalModel
 from experiment3.models.ssvqr_model import SSVQRConfig, SparseSVQRIntervalModel
 from experiment3.models.nfs_svqr_model import NFSSVQRConfig, NFSSVQRIntervalModel
 from experiment3.models.nu_svr_model import NuSVRConfig, NuSVRIntervalModel
@@ -758,6 +759,8 @@ def main() -> None:
             nystrom_lr=best_params["nystrom_lr"],
             nystrom_epochs=int(best_params["nystrom_epochs"]),
             nystrom_batch_size=best_params["nystrom_batch_size"],
+            variance_mode=str(best_params.get("variance_mode", "asymmetric")),
+            asym_scale=float(best_params.get("asym_scale", 0.25)),
         )
         tau_low = float(best_tl.get("tau_low", 0.05))
         tau_high = float(best_tl.get("tau_high", 0.95))
@@ -985,6 +988,27 @@ def main() -> None:
             best_params=best_params,
             search_metrics=best["metrics_val"],
         )
+
+    _search_and_run(
+        "Standard-SVQR",
+        [
+            {"C": 6.0, "gamma": 0.008, "max_samples": 500},
+            {"C": 8.0, "gamma": 0.01, "max_samples": 600},
+            {"C": 10.0, "gamma": 0.012, "max_samples": 700},
+        ],
+        lambda p: StandardSVQRIntervalModel(
+            StandardSVQRConfig(
+                C=p["C"],
+                gamma=p["gamma"],
+                tau_low=0.05,
+                tau_high=0.95,
+                max_samples=p["max_samples"],
+            )
+        ),
+        conformal_candidates=[False, True],
+        target_picp=target_picp_baseline,
+        max_target=700,
+    )
 
     _search_and_run(
         "TSVQR",

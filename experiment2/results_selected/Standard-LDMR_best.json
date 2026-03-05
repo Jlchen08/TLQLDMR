@@ -1,0 +1,24 @@
+{
+  "model": "Standard-LDMR",
+  "best_metrics": {
+    "rmse": 10.691525986914597,
+    "mae": 6.326944112732573,
+    "mape": 84827144.54133241,
+    "r2": 0.9085105666448297
+  },
+  "best_config": {
+    "feature_set": "full_dir_cyclic",
+    "window_size": 24,
+    "target_train_ratio": 0.9,
+    "lambda1": 0.005,
+    "C": 120.0,
+    "kernel_gamma": 0.002,
+    "nystrom_n_components": 800,
+    "nystrom_lr": 0.01,
+    "nystrom_epochs": 48,
+    "nystrom_batch_size": 256
+  },
+  "farm_idx": 3,
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "split_seed": 0
+}

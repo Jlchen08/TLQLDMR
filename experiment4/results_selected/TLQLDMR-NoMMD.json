@@ -1,6 +1,6 @@
 {
-  "model": "w/o Transfer (Target-only QLDMR)",
-  "description": "Remove source data and MMD; train LDMR only on target.",
+  "model": "TLQLDMR-NoMMD",
+  "description": "Keep transfer but remove explicit MMD alignment term.",
   "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
   "farm_idx": 3,
   "feature_set": "full_dir_cyclic",
@@ -13,19 +13,21 @@
   "params": {
     "lambda1": 0.0005,
     "lambda2": 0.0,
-    "C_S": 0.0,
+    "C_S": 0.05,
     "C_T": 150.0,
     "kernel_gamma": 0.002,
     "nystrom_n_components": 1200,
     "nystrom_lr": 0.01,
     "nystrom_epochs": 64,
     "nystrom_batch_size": 256,
-    "tau": 0.5
+    "tau": 0.5,
+    "variance_mode": "asymmetric",
+    "asym_scale": 0.25
   },
   "metrics": {
-    "rmse": 7.930356761538252,
-    "mae": 5.030193021117519,
-    "mape": 35653525.24597874,
-    "r2": 0.949664197542206
+    "rmse": 8.126816073245907,
+    "mae": 5.917303966216333,
+    "mape": 9029402.861521801,
+    "r2": 0.9471393611219788
   }
 }

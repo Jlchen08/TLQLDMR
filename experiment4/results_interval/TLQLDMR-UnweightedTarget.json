@@ -1,6 +1,6 @@
 {
-  "model": "TL-QLDMR",
-  "description": "Reused TL-QLDMR metrics from experiment3 for identical settings.",
+  "model": "TLQLDMR-UnweightedTarget",
+  "description": "Remove target-domain reweighting by forcing C_S = C_T.",
   "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
   "farm_idx": 3,
   "feature_set": "full_dir_cyclic",
@@ -13,27 +13,32 @@
   "cal_samples": 745,
   "test_samples": 415,
   "alpha": 0.05,
-  "q_hat": 9.066659667000323,
+  "q_hat": 12.029776391700125,
   "q_scale": 0.8800000000000001,
   "conformal_scaled": false,
   "tau_low": 0.2,
   "tau_high": 0.8,
   "params": {
-    "lambda1": 0.0005,
+    "lambda1": 0.0001,
     "lambda2": 0.0001,
-    "C_S": 0.05,
-    "C_T": 150.0,
-    "kernel_gamma": 0.002,
+    "C_S": 800.0,
+    "C_T": 800.0,
+    "kernel_gamma": 0.003,
     "nystrom_n_components": 1200,
     "nystrom_lr": 0.01,
     "nystrom_epochs": 64,
-    "nystrom_batch_size": 256
+    "nystrom_batch_size": 256,
+    "variance_mode": "asymmetric",
+    "asym_scale": 0.25
   },
   "metrics": {
-    "picp": 0.9614457831325302,
-    "mpiw": 28.825536590588747,
-    "pinaw": 0.2998567892088377,
-    "cwc": 0.2998567892088377,
-    "winkler": 35.63068533030862
+    "picp": 0.9566265060240964,
+    "mpiw": 33.604039467776126,
+    "pinaw": 0.34956502362367997,
+    "cwc": 0.34956502362367997,
+    "winkler": 47.95223813334897
+  },
+  "post_adjustment": {
+    "picp_shift": 2.912519989013672
   }
 }

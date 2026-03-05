@@ -24,6 +24,7 @@ from experiment2.models.stacking_wpf_model import StackingWPFModel, StackingWPFC
 from experiment2.models.brf_model import BroadRandomForestModel, BRFConfig
 from experiment2.models.hho_svr_optimizer import HHOSVRConfig, optimize_hho_svr
 from experiment2.models.tl_qldmr_median import TLQLDMRMedianModel, TLQLDMRConfig
+from experiment2.models.standard_ldmr_model import StandardLDMRModel, StandardLDMRConfig
 
 
 def inverse_transform(scaler, y_scaled: np.ndarray) -> np.ndarray:
@@ -57,6 +58,15 @@ def _split_train_val(X: np.ndarray, y: np.ndarray, val_ratio: float = 0.2, seed:
 
 def _build_model(model_name: str, params: dict, input_size: int | None):
     if model_name == "SVR":
+        return SVRModel(
+            SVRConfig(
+                C=float(params["C"]),
+                epsilon=float(params["epsilon"]),
+                gamma=float(params["gamma"]),
+                kernel="rbf",
+            )
+        )
+    if model_name == "Standard-SVR":
         return SVRModel(
             SVRConfig(
                 C=float(params["C"]),
@@ -138,6 +148,22 @@ def _build_model(model_name: str, params: dict, input_size: int | None):
                 nystrom_lr=float(params["nystrom_lr"]),
                 nystrom_epochs=int(params["nystrom_epochs"]),
                 nystrom_batch_size=int(params["nystrom_batch_size"]),
+                variance_mode=str(params.get("variance_mode", "asymmetric")),
+                asym_scale=float(params.get("asym_scale", 0.25)),
+            )
+        )
+    if model_name == "Standard-LDMR":
+        return StandardLDMRModel(
+            StandardLDMRConfig(
+                lambda1=float(params["lambda1"]),
+                C=float(params["C"]),
+                tau=0.5,
+                kernel_gamma=float(params["kernel_gamma"]),
+                solver="fast_nystrom",
+                nystrom_n_components=int(params["nystrom_n_components"]),
+                nystrom_lr=float(params["nystrom_lr"]),
+                nystrom_epochs=int(params["nystrom_epochs"]),
+                nystrom_batch_size=int(params["nystrom_batch_size"]),
             )
         )
     raise ValueError(f"Unknown model: {model_name}")
@@ -175,7 +201,7 @@ def search_model_best(
     y_T_test = data["y_T_test"]
     y_S = data["y_S"]
 
-    if model_name in {"SVR", "HHO-SVR", "FLSVR", "ARA-SVR", "KMeans-GBT"}:
+    if model_name in {"SVR", "Standard-SVR", "HHO-SVR", "FLSVR", "ARA-SVR", "KMeans-GBT", "Standard-LDMR"}:
         X_S = X_S[:svr_max_src]
         y_S = y_S[:svr_max_src]
         X_T_train = X_T_train[:svr_max_tgt]
@@ -303,9 +329,11 @@ def main():
     plots_dir.mkdir(parents=True, exist_ok=True)
 
     model_specs = [
+        ("Standard-SVR", "flat", False, args.baseline_trials),
         ("HHO-SVR", "flat", False, args.baseline_trials),
         ("FLSVR", "flat", False, args.baseline_trials),
         ("ARA-SVR", "flat", False, args.baseline_trials),
+        ("Standard-LDMR", "flat", False, args.baseline_trials),
         ("KMeans-GBT", "flat", False, args.baseline_trials),
         ("RF-WPF", "flat", False, args.baseline_trials),
         ("BRF-WPF", "flat", False, args.baseline_trials),
@@ -320,6 +348,11 @@ def main():
             "population_size": [6],
             "iterations": [8],
         },
+        "Standard-SVR": {
+            "C": [8.0, 10.0],
+            "epsilon": [0.03, 0.05],
+            "gamma": [0.001, 0.002],
+        },
         "FLSVR": {
             "C": [10],
             "epsilon": [0.05],
@@ -333,6 +366,15 @@ def main():
             "gamma": [0.001],
             "corr_threshold": [0.4],
             "min_features": [10],
+        },
+        "Standard-LDMR": {
+            "lambda1": [5e-4, 1e-3, 5e-3],
+            "C": [80.0, 120.0, 160.0],
+            "kernel_gamma": [0.001, 0.002],
+            "nystrom_n_components": [800, 1000, 1200],
+            "nystrom_lr": [0.01],
+            "nystrom_epochs": [48, 64],
+            "nystrom_batch_size": [256],
         },
         "KMeans-GBT": {
             "n_clusters": [3],

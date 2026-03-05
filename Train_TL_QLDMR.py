@@ -122,6 +122,8 @@ class Fast_TL_QLDMR:
         learning_rate=0.01,
         epochs=100,
         batch_size=256,
+        variance_mode="symmetric",
+        asym_scale=0.0,
     ):
 
         self.lambda1 = lambda1
@@ -135,12 +137,14 @@ class Fast_TL_QLDMR:
         self.lr = learning_rate
         self.epochs = epochs
         self.batch_size = batch_size
+        self.variance_mode = str(variance_mode)
+        self.asym_scale = float(asym_scale)
 
         self.w = None
         self.b = 0.0
         self.feature_map = None
 
-    def _compute_regularizer_matrix(self, Z_S, Z_T):
+    def _compute_regularizer_matrix(self, Z_S, Z_T, y_var=None):
         """
         预计算正则化矩阵 R (m x m 维)
         Original Regularizer: 1/2 w^T w + lambda1 Var + lambda2 MMD
@@ -151,7 +155,20 @@ class Fast_TL_QLDMR:
 
         Z_S_mean = np.mean(Z_S, axis=0)
         Z_S_centered = Z_S - Z_S_mean
-        S_z = np.dot(Z_S_centered.T, Z_S_centered)
+
+        if self.variance_mode == "asymmetric" and y_var is not None and len(y_var) == len(Z_S_centered):
+            # Keep weights positive to maintain a stable regularizer while introducing
+            # quantile-aware asymmetry around the target quantile.
+            q_ref = float(np.quantile(np.asarray(y_var).reshape(-1), self.tau))
+            sign_term = np.sign(np.asarray(y_var).reshape(-1) - q_ref)
+            w = 1.0 + self.asym_scale * sign_term
+            w = np.clip(w.astype(np.float64), 1e-6, None)
+            S_z = np.dot(Z_S_centered.T, Z_S_centered * w[:, None])
+            S_z = S_z / max(float(np.sum(w)), 1.0)
+        else:
+            S_z = np.dot(Z_S_centered.T, Z_S_centered)
+            S_z = S_z / max(float(len(Z_S_centered)), 1.0)
+
         R += self.lambda1 * S_z
 
         diff = np.mean(Z_S, axis=0) - np.mean(Z_T, axis=0)
@@ -188,7 +205,7 @@ class Fast_TL_QLDMR:
             Z_T = self.feature_map.transform(X_T)
 
             print("2. Computing Regularization Matrix...")
-            R_matrix = self._compute_regularizer_matrix(Z_S, Z_T)
+            R_matrix = self._compute_regularizer_matrix(Z_S, Z_T, y_var=y_S)
 
             Z_train = np.vstack([Z_S, Z_T])
             y_train = np.concatenate([y_S, y_T])
@@ -202,7 +219,7 @@ class Fast_TL_QLDMR:
             Z_S = Z_T
 
             print("2. Computing Regularization Matrix (target-only)...")
-            R_matrix = self._compute_regularizer_matrix(Z_S, Z_T)
+            R_matrix = self._compute_regularizer_matrix(Z_S, Z_T, y_var=y_T)
 
             Z_train = Z_T
             y_train = y_T
@@ -292,6 +309,8 @@ class TL_QLDMR:
         nystrom_lr=0.01,
         nystrom_epochs=100,
         nystrom_batch_size=256,
+        variance_mode="symmetric",
+        asym_scale=0.0,
     ):
         """
         Args:
@@ -314,6 +333,8 @@ class TL_QLDMR:
             nystrom_lr: fast_nystrom 的学习率
             nystrom_epochs: fast_nystrom 的训练轮数
             nystrom_batch_size: fast_nystrom 的 batch 大小
+            variance_mode: 分布方差模式 ("symmetric" 或 "asymmetric")
+            asym_scale: 非对称方差权重幅度（仅 variance_mode='asymmetric' 生效）
         """
         self.lambda1 = lambda1
         self.lambda2 = lambda2
@@ -335,6 +356,8 @@ class TL_QLDMR:
         self.nystrom_lr = nystrom_lr
         self.nystrom_epochs = nystrom_epochs
         self.nystrom_batch_size = nystrom_batch_size
+        self.variance_mode = str(variance_mode)
+        self.asym_scale = float(asym_scale)
         
         self.alpha = None      # 对偶变量 alpha
         self.alpha_star = None # 对偶变量 alpha*
@@ -923,6 +946,8 @@ class TL_QLDMR:
             learning_rate=self.nystrom_lr,
             epochs=self.nystrom_epochs,
             batch_size=self.nystrom_batch_size,
+            variance_mode=self.variance_mode,
+            asym_scale=self.asym_scale,
         )
 
         start_time = time.perf_counter()

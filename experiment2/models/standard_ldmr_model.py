@@ -7,30 +7,31 @@ from Predict_TL_QLDMR import Predictor
 
 
 @dataclass
-class TLQLDMRConfig:
-    lambda1: float = 0.01
-    lambda2: float = 0.01
-    C_S: float = 1.0
-    C_T: float = 10.0
+class StandardLDMRConfig:
+    lambda1: float = 0.0005
+    C: float = 120.0
     tau: float = 0.5
-    kernel_gamma: float = 0.02
+    kernel_gamma: float = 0.002
     solver: str = "fast_nystrom"
-    nystrom_n_components: int = 200
+    nystrom_n_components: int = 1000
     nystrom_lr: float = 0.01
-    nystrom_epochs: int = 50
+    nystrom_epochs: int = 64
     nystrom_batch_size: int = 256
-    variance_mode: str = "asymmetric"
-    asym_scale: float = 0.25
 
 
-class TLQLDMRMedianModel:
-    def __init__(self, config: TLQLDMRConfig | None = None):
-        self.config = config or TLQLDMRConfig()
+class StandardLDMRModel:
+    """
+    Standard single-domain LDMR baseline.
+    It uses only target-domain samples and symmetric variance regularization.
+    """
+
+    def __init__(self, config: StandardLDMRConfig | None = None):
+        self.config = config or StandardLDMRConfig()
         self.model = TL_QLDMR(
             lambda1=self.config.lambda1,
-            lambda2=self.config.lambda2,
-            C_S=self.config.C_S,
-            C_T=self.config.C_T,
+            lambda2=0.0,
+            C_S=0.0,
+            C_T=self.config.C,
             tau=self.config.tau,
             kernel_gamma=self.config.kernel_gamma,
             solver=self.config.solver,
@@ -38,15 +39,17 @@ class TLQLDMRMedianModel:
             nystrom_lr=self.config.nystrom_lr,
             nystrom_epochs=self.config.nystrom_epochs,
             nystrom_batch_size=self.config.nystrom_batch_size,
-            variance_mode=self.config.variance_mode,
-            asym_scale=self.config.asym_scale,
+            variance_mode="symmetric",
+            asym_scale=0.0,
         )
         self.predictor = None
 
-    def fit(self, X_S: np.ndarray, y_S: np.ndarray, X_T: np.ndarray, y_T: np.ndarray) -> None:
-        success = self.model.fit(X_S, y_S, X_T, y_T)
+    def fit(self, X_T: np.ndarray, y_T: np.ndarray) -> None:
+        X_S_empty = np.empty((0, X_T.shape[1]), dtype=np.float32)
+        y_S_empty = np.empty((0,), dtype=np.float32)
+        success = self.model.fit(X_S_empty, y_S_empty, X_T, y_T)
         if not success:
-            raise RuntimeError("TL-QLDMR training failed")
+            raise RuntimeError("Standard LDMR training failed")
         self.predictor = Predictor(self.model)
 
     def predict(self, X: np.ndarray) -> np.ndarray:

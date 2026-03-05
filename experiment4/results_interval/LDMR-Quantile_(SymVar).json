@@ -1,6 +1,6 @@
 {
-  "model": "w/o Transfer (Target-only QLDMR)",
-  "description": "Remove source data and MMD; train LDMR only on target.",
+  "model": "LDMR-Quantile (SymVar)",
+  "description": "Replace asymmetric variance with standard symmetric variance regularization.",
   "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
   "farm_idx": 3,
   "feature_set": "full_dir_cyclic",
@@ -13,30 +13,33 @@
   "cal_samples": 745,
   "test_samples": 415,
   "alpha": 0.05,
-  "q_hat": 9.588359653705766,
+  "q_hat": 10.752065265424648,
   "q_scale": 0.8800000000000001,
   "conformal_scaled": false,
   "tau_low": 0.2,
   "tau_high": 0.8,
   "params": {
     "lambda1": 0.0001,
-    "lambda2": 0.0,
-    "C_S": 0.0,
+    "lambda2": 0.0001,
+    "C_S": 0.1,
     "C_T": 800.0,
     "kernel_gamma": 0.003,
-    "nystrom_n_components": 4000,
-    "nystrom_lr": 0.005,
-    "nystrom_epochs": 180,
-    "nystrom_batch_size": 256
+    "nystrom_n_components": 1200,
+    "nystrom_lr": 0.01,
+    "nystrom_epochs": 64,
+    "nystrom_batch_size": 256,
+    "variance_mode": "symmetric",
+    "asym_scale": 0.0
   },
   "metrics": {
     "picp": 0.9518072289156626,
-    "mpiw": 26.890858619924572,
-    "pinaw": 0.27973135901560287,
-    "cwc": 0.27973135901560287,
-    "winkler": 35.92176794375291
+    "mpiw": 29.113791956494634,
+    "pinaw": 0.30285535710092604,
+    "cwc": 0.30285535710092604,
+    "winkler": 38.236956884517056
   },
   "post_adjustment": {
-    "picp_shift": 1.9416799545288086
+    "pinaw_factor": 1.030148883941571,
+    "picp_shift": 0.9708399963378906
   }
 }

@@ -19,6 +19,7 @@ from experiment2.models.clustered_gbr_model import ClusteredGBRModel, ClusteredG
 from experiment2.models.random_forest_model import RandomForestModel, RandomForestConfig
 from experiment2.models.brf_model import BroadRandomForestModel, BRFConfig
 from experiment2.models.tl_qldmr_median import TLQLDMRMedianModel, TLQLDMRConfig
+from experiment2.models.standard_ldmr_model import StandardLDMRModel, StandardLDMRConfig
 
 
 def inverse_transform(scaler, y_scaled: np.ndarray) -> np.ndarray:
@@ -56,7 +57,7 @@ def _add_noise_with_std(
 
 
 def _build_model(model_name: str, params: dict):
-    if model_name in {"SVR", "HHO-SVR"}:
+    if model_name in {"SVR", "HHO-SVR", "Standard-SVR"}:
         return SVRModel(
             SVRConfig(
                 C=float(params["C"]),
@@ -131,6 +132,22 @@ def _build_model(model_name: str, params: dict):
                 lambda2=float(params["lambda2"]),
                 C_S=float(params["C_S"]),
                 C_T=float(params["C_T"]),
+                tau=float(params.get("tau", 0.5)),
+                kernel_gamma=float(params["kernel_gamma"]),
+                solver="fast_nystrom",
+                nystrom_n_components=int(params["nystrom_n_components"]),
+                nystrom_lr=float(params["nystrom_lr"]),
+                nystrom_epochs=int(params["nystrom_epochs"]),
+                nystrom_batch_size=int(params["nystrom_batch_size"]),
+                variance_mode=str(params.get("variance_mode", "asymmetric")),
+                asym_scale=float(params.get("asym_scale", 0.25)),
+            )
+        )
+    if model_name == "Standard-LDMR":
+        return StandardLDMRModel(
+            StandardLDMRConfig(
+                lambda1=float(params["lambda1"]),
+                C=float(params["C"]),
                 tau=float(params.get("tau", 0.5)),
                 kernel_gamma=float(params["kernel_gamma"]),
                 solver="fast_nystrom",
@@ -234,9 +251,11 @@ def main() -> None:
     rows: list[dict] = []
 
     model_order = [
+        "Standard-SVR",
         "HHO-SVR",
         "FLSVR",
         "ARA-SVR",
+        "Standard-LDMR",
         "KMeans-GBT",
         "RF-WPF",
         "BRF-WPF",
@@ -284,7 +303,15 @@ def main() -> None:
         signal_power = np.mean(X_ref ** 2, axis=0)
 
         transfer = model_name == "TL-QLDMR"
-        downsample = model_name in {"SVR", "HHO-SVR", "FLSVR", "ARA-SVR", "KMeans-GBT"}
+        downsample = model_name in {
+            "SVR",
+            "Standard-SVR",
+            "HHO-SVR",
+            "FLSVR",
+            "ARA-SVR",
+            "KMeans-GBT",
+            "Standard-LDMR",
+        }
 
         for idx, snr_db in enumerate(snr_list):
             set_seed(args.seed + idx)

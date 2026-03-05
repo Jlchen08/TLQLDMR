@@ -1,6 +1,6 @@
 {
-  "model": "w/o MMD",
-  "description": "Keep transfer data but remove explicit MMD alignment.",
+  "model": "LDMR-Quantile (SymVar)",
+  "description": "Replace asymmetric variance with standard symmetric variance regularization.",
   "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
   "farm_idx": 3,
   "feature_set": "full_dir_cyclic",
@@ -12,7 +12,7 @@
   "test_samples": 415,
   "params": {
     "lambda1": 0.0005,
-    "lambda2": 0.0,
+    "lambda2": 0.0001,
     "C_S": 0.05,
     "C_T": 150.0,
     "kernel_gamma": 0.002,
@@ -20,12 +20,14 @@
     "nystrom_lr": 0.01,
     "nystrom_epochs": 64,
     "nystrom_batch_size": 256,
-    "tau": 0.5
+    "tau": 0.5,
+    "variance_mode": "symmetric",
+    "asym_scale": 0.0
   },
   "metrics": {
-    "rmse": 7.744803256135242,
-    "mae": 5.635824182559955,
-    "mape": 9169081.73370749,
-    "r2": 0.9519921424176913
+    "rmse": 7.567863102211968,
+    "mae": 5.323693773182765,
+    "mape": 9598571.890125278,
+    "r2": 0.9541606890552536
   }
 }

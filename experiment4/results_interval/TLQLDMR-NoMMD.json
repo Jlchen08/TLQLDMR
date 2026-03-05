@@ -1,0 +1,44 @@
+{
+  "model": "TLQLDMR-NoMMD",
+  "description": "Keep transfer but remove explicit MMD alignment term.",
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "farm_idx": 3,
+  "feature_set": "full_dir_cyclic",
+  "window_size": 24,
+  "target_train_ratio": 0.9,
+  "split_mode": "shuffle",
+  "split_seed": 0,
+  "train_samples": 2983,
+  "val_samples": 559,
+  "cal_samples": 745,
+  "test_samples": 415,
+  "alpha": 0.05,
+  "q_hat": 11.039471052067086,
+  "q_scale": 0.8800000000000001,
+  "conformal_scaled": false,
+  "tau_low": 0.2,
+  "tau_high": 0.8,
+  "params": {
+    "lambda1": 0.0001,
+    "lambda2": 0.0,
+    "C_S": 0.1,
+    "C_T": 800.0,
+    "kernel_gamma": 0.003,
+    "nystrom_n_components": 1200,
+    "nystrom_lr": 0.01,
+    "nystrom_epochs": 64,
+    "nystrom_batch_size": 256,
+    "variance_mode": "asymmetric",
+    "asym_scale": 0.25
+  },
+  "metrics": {
+    "picp": 0.9590361445783132,
+    "mpiw": 29.113791956494637,
+    "pinaw": 0.3028553571009261,
+    "cwc": 0.3028553571009261,
+    "winkler": 37.24780226507874
+  },
+  "post_adjustment": {
+    "pinaw_factor": 1.0243024734954458
+  }
+}

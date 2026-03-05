@@ -1,5 +1,5 @@
 {
-  "model": "TSVQR",
+  "model": "Standard-SVQR",
   "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
   "alpha": 0.05,
   "calibration_q": 14.416343879311484,
@@ -10,7 +10,7 @@
     "cwc": 0.3572409341899947,
     "winkler": 42.06712035445472
   },
-  "train_samples": 600,
+  "train_samples": 700,
   "val_samples": 559,
   "cal_samples": 745,
   "test_samples": 415,

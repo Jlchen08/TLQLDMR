@@ -18,6 +18,8 @@ class TLQLDMRQuantileConfig:
     nystrom_lr: float = 0.01
     nystrom_epochs: int = 50
     nystrom_batch_size: int = 256
+    variance_mode: str = "asymmetric"
+    asym_scale: float = 0.25
 
 
 class TLQLDMRQuantileIntervalModel:
@@ -38,6 +40,8 @@ class TLQLDMRQuantileIntervalModel:
             nystrom_lr=config.nystrom_lr,
             nystrom_epochs=config.nystrom_epochs,
             nystrom_batch_size=config.nystrom_batch_size,
+            variance_mode=config.variance_mode,
+            asym_scale=config.asym_scale,
         )
         self.model_high = TL_QLDMR(
             lambda1=config.lambda1,
@@ -51,6 +55,8 @@ class TLQLDMRQuantileIntervalModel:
             nystrom_lr=config.nystrom_lr,
             nystrom_epochs=config.nystrom_epochs,
             nystrom_batch_size=config.nystrom_batch_size,
+            variance_mode=config.variance_mode,
+            asym_scale=config.asym_scale,
         )
         self.predictor_low: Predictor | None = None
         self.predictor_high: Predictor | None = None

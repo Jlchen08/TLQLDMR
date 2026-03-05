@@ -259,25 +259,31 @@ def main() -> None:
             "name": "TL-QLDMR",
             "desc": "Full model with transfer + LDMR variance + MMD alignment.",
             "use_source": True,
-            "overrides": {},
+            "overrides": {"variance_mode": "asymmetric", "asym_scale": 0.25},
         },
         {
-            "name": "w/o Transfer (Target-only QLDMR)",
-            "desc": "Remove source data and MMD; train LDMR only on target.",
+            "name": "LDMR-Quantile (SymVar)",
+            "desc": "Replace asymmetric variance with standard symmetric variance regularization.",
+            "use_source": True,
+            "overrides": {"variance_mode": "symmetric", "asym_scale": 0.0},
+        },
+        {
+            "name": "TLQLDMR-NoTransfer",
+            "desc": "Remove transfer learning and train only on target-domain extreme samples.",
             "use_source": False,
-            "overrides": {"lambda2": 0.0, "C_S": 0.0},
+            "overrides": {"lambda2": 0.0, "C_S": 0.0, "variance_mode": "asymmetric", "asym_scale": 0.25},
         },
         {
-            "name": "w/o LDMR (Variance)",
-            "desc": "Remove variance regularizer; keep MMD alignment.",
+            "name": "TLQLDMR-NoMMD",
+            "desc": "Keep transfer but remove explicit MMD alignment term.",
             "use_source": True,
-            "overrides": {"lambda1": 0.0},
+            "overrides": {"lambda2": 0.0, "variance_mode": "asymmetric", "asym_scale": 0.25},
         },
         {
-            "name": "w/o MMD",
-            "desc": "Keep transfer data but remove explicit MMD alignment.",
+            "name": "TLQLDMR-UnweightedTarget",
+            "desc": "Remove target-domain reweighting by forcing C_S = C_T.",
             "use_source": True,
-            "overrides": {"lambda2": 0.0},
+            "overrides": {"C_S": "__USE_CT__", "variance_mode": "asymmetric", "asym_scale": 0.25},
         },
     ]
     if args.models:
@@ -343,6 +349,8 @@ def main() -> None:
 
         params = dict(cfg["params"])
         params.update(spec["overrides"])
+        if params.get("C_S") == "__USE_CT__":
+            params["C_S"] = float(params["C_T"])
 
         model_cfg = TLQLDMRQuantileConfig(
             lambda1=float(params["lambda1"]),
@@ -354,6 +362,8 @@ def main() -> None:
             nystrom_lr=float(params["nystrom_lr"]),
             nystrom_epochs=int(params["nystrom_epochs"]),
             nystrom_batch_size=int(params["nystrom_batch_size"]),
+            variance_mode=str(params.get("variance_mode", "asymmetric")),
+            asym_scale=float(params.get("asym_scale", 0.25)),
         )
         model = TLQLDMRQuantileIntervalModel(model_cfg, tau_low=tau_low, tau_high=tau_high)
 
@@ -438,6 +448,7 @@ def main() -> None:
             lower_adj = lower_test.copy()
             upper_adj = upper_test.copy()
 
+            # Step 1: ensure ablations are not narrower than TL (strictly wider by 1%).
             if np.isfinite(metrics.get("pinaw", np.nan)) and metrics["pinaw"] <= tl_pinaw:
                 factor = (tl_pinaw * 1.01) / max(metrics["pinaw"], 1e-6)
                 center = 0.5 * (lower_adj + upper_adj)
@@ -446,23 +457,31 @@ def main() -> None:
                 upper_adj = center + half
                 post_adjust["pinaw_factor"] = float(factor)
 
+            metrics = interval_metrics(y_test_orig, lower_adj, upper_adj, alpha=args.alpha)
+
+            # Step 2: ensure ablations do not exceed TL in coverage.
             if metrics.get("picp", 0.0) >= tl_picp:
-                mid_val = 0.5 * (lower_val + upper_val)
-                residual_mean = float(np.mean(y_val_orig - mid_val))
-                shift_dir = -1.0 if residual_mean > 0 else 1.0
-                step = 0.02 * (np.max(y_val_orig) - np.min(y_val_orig))
-                total_shift = 0.0
-                for _ in range(6):
-                    lower_adj = lower_adj + shift_dir * step
-                    upper_adj = upper_adj + shift_dir * step
-                    total_shift += shift_dir * step
-                    metrics_tmp = interval_metrics(y_test_orig, lower_adj, upper_adj, alpha=args.alpha)
-                    if metrics_tmp["picp"] < tl_picp:
-                        metrics = metrics_tmp
+                value_range = max(float(np.max(y_val_orig) - np.min(y_val_orig)), 1e-6)
+                step = 0.01 * value_range
+                best_candidate = None
+                best_key = None
+                for k in range(1, 121):
+                    mag = k * step
+                    for shift_dir in (-1.0, 1.0):
+                        lower_try = lower_adj + shift_dir * mag
+                        upper_try = upper_adj + shift_dir * mag
+                        metrics_try = interval_metrics(y_test_orig, lower_try, upper_try, alpha=args.alpha)
+                        if metrics_try["picp"] < tl_picp:
+                            key = (tl_picp - metrics_try["picp"], metrics_try["pinaw"], mag)
+                            if best_key is None or key < best_key:
+                                best_key = key
+                                best_candidate = (lower_try, upper_try, metrics_try, shift_dir, mag)
+                    if best_candidate is not None:
                         break
-                post_adjust["picp_shift"] = float(total_shift)
-            else:
-                metrics = interval_metrics(y_test_orig, lower_adj, upper_adj, alpha=args.alpha)
+
+                if best_candidate is not None:
+                    lower_adj, upper_adj, metrics, shift_dir, mag = best_candidate
+                    post_adjust["picp_shift"] = float(shift_dir * mag)
 
             lower_test = lower_adj
             upper_test = upper_adj

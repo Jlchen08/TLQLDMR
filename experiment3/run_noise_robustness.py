@@ -14,6 +14,7 @@ from experiment2.data_utils import prepare_farm_data, set_seed
 from experiment3.metrics import interval_metrics
 from experiment3.models.tl_qldmr_quantile import TLQLDMRQuantileConfig, TLQLDMRQuantileIntervalModel
 from experiment3.models.tsvqr_model import TSVQRConfig, TSVQRIntervalModel
+from experiment3.models.standard_svqr_model import StandardSVQRConfig, StandardSVQRIntervalModel
 from experiment3.models.ssvqr_model import SSVQRConfig, SparseSVQRIntervalModel
 from experiment3.models.nfs_svqr_model import NFSSVQRConfig, NFSSVQRIntervalModel
 from experiment3.models.nu_svr_model import NuSVRConfig, NuSVRIntervalModel
@@ -246,8 +247,8 @@ def main() -> None:
     parser.add_argument(
         "--noise-on-train",
         action="store_true",
-        default=True,
-        help="Add noise to train inputs as well.",
+        default=False,
+        help="Add noise to train inputs as well (not supported in this script).",
     )
     parser.add_argument(
         "--no-noise-on-train",
@@ -356,6 +357,19 @@ def main() -> None:
                 TSVQRConfig(C=p["C"], gamma=p["gamma"], max_samples=p["max_samples"])
             ),
         },
+        "Standard-SVQR": {
+            "type": "flat",
+            "max_target": 700,
+            "builder": lambda p, input_dim=None, seq_len=None: StandardSVQRIntervalModel(
+                StandardSVQRConfig(
+                    C=p["C"],
+                    gamma=p["gamma"],
+                    tau_low=float(p.get("tau_low", 0.05)),
+                    tau_high=float(p.get("tau_high", 0.95)),
+                    max_samples=p["max_samples"],
+                )
+            ),
+        },
         "UQSVM-SSVQR": {
             "type": "flat",
             "max_target": 1200,
@@ -451,6 +465,8 @@ def main() -> None:
                     nystrom_lr=p["nystrom_lr"],
                     nystrom_epochs=int(p["nystrom_epochs"]),
                     nystrom_batch_size=p["nystrom_batch_size"],
+                    variance_mode=str(p.get("variance_mode", "asymmetric")),
+                    asym_scale=float(p.get("asym_scale", 0.25)),
                 ),
                 tau_low=float(p.get("tau_low", 0.1)),
                 tau_high=float(p.get("tau_high", 0.9)),
@@ -459,6 +475,7 @@ def main() -> None:
     }
 
     model_order = [
+        "Standard-SVQR",
         "TSVQR",
         "UQSVM-SSVQR",
         "NFS-SVQR",
@@ -473,7 +490,10 @@ def main() -> None:
         model_order = ["TL-QLDMR"]
 
     if args.noise_on_train:
-        raise ValueError("noise_on_train is disabled for the fast test-only noise evaluation.")
+        raise ValueError(
+            "noise_on_train is not supported in experiment3/run_noise_robustness.py; "
+            "use --no-noise-on-train (default) for test-only noise evaluation."
+        )
 
     X_T_train_flat = X_T_train_seq.reshape(X_T_train_seq.shape[0], -1)
     X_T_test_flat = X_T_test_seq.reshape(X_T_test_seq.shape[0], -1)
@@ -637,7 +657,7 @@ def main() -> None:
         "q_scale_mult": args.q_scale_mult,
         "noise_on_train": args.noise_on_train,
         "use_stored_calibration": args.use_stored_calibration,
-        "models": model_order,
+        "models": [name for name in model_order if name in trained_models],
     }
     (results_dir / "metadata.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
 

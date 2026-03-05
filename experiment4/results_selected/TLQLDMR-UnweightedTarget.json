@@ -1,6 +1,6 @@
 {
-  "model": "w/o LDMR (Variance)",
-  "description": "Remove variance regularizer; keep MMD alignment.",
+  "model": "TLQLDMR-UnweightedTarget",
+  "description": "Remove target-domain reweighting by forcing C_S = C_T.",
   "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
   "farm_idx": 3,
   "feature_set": "full_dir_cyclic",
@@ -11,21 +11,23 @@
   "train_samples": 3728,
   "test_samples": 415,
   "params": {
-    "lambda1": 0.0,
+    "lambda1": 0.0005,
     "lambda2": 0.0001,
-    "C_S": 0.05,
+    "C_S": 150.0,
     "C_T": 150.0,
     "kernel_gamma": 0.002,
     "nystrom_n_components": 1200,
     "nystrom_lr": 0.01,
     "nystrom_epochs": 64,
     "nystrom_batch_size": 256,
-    "tau": 0.5
+    "tau": 0.5,
+    "variance_mode": "asymmetric",
+    "asym_scale": 0.25
   },
   "metrics": {
-    "rmse": 8.205303620377547,
-    "mae": 5.993333974420673,
-    "mape": 8941219.873760305,
-    "r2": 0.946113390661268
+    "rmse": 9.008566344628397,
+    "mae": 6.034909567641569,
+    "mape": 55855208.700714655,
+    "r2": 0.9350464475435512
   }
 }

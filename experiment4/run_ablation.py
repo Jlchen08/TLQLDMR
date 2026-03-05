@@ -44,6 +44,8 @@ def _build_model(params: dict) -> TLQLDMRMedianModel:
             nystrom_lr=float(params["nystrom_lr"]),
             nystrom_epochs=int(params["nystrom_epochs"]),
             nystrom_batch_size=int(params["nystrom_batch_size"]),
+            variance_mode=str(params.get("variance_mode", "asymmetric")),
+            asym_scale=float(params.get("asym_scale", 0.25)),
         )
     )
 
@@ -124,25 +126,31 @@ def main() -> None:
             "name": "TL-QLDMR",
             "desc": "Full model with transfer + LDMR variance + MMD alignment.",
             "use_source": True,
-            "overrides": {},
+            "overrides": {"variance_mode": "asymmetric", "asym_scale": 0.25},
         },
         {
-            "name": "w/o Transfer (Target-only QLDMR)",
-            "desc": "Remove source data and MMD; train LDMR only on target.",
+            "name": "LDMR-Quantile (SymVar)",
+            "desc": "Replace asymmetric variance with standard symmetric variance regularization.",
+            "use_source": True,
+            "overrides": {"variance_mode": "symmetric", "asym_scale": 0.0},
+        },
+        {
+            "name": "TLQLDMR-NoTransfer",
+            "desc": "Remove transfer learning and train only on target-domain extreme samples.",
             "use_source": False,
-            "overrides": {"lambda2": 0.0, "C_S": 0.0},
+            "overrides": {"lambda2": 0.0, "C_S": 0.0, "variance_mode": "asymmetric", "asym_scale": 0.25},
         },
         {
-            "name": "w/o LDMR (Variance)",
-            "desc": "Remove variance regularizer; keep MMD alignment.",
+            "name": "TLQLDMR-NoMMD",
+            "desc": "Keep transfer but remove explicit MMD alignment term.",
             "use_source": True,
-            "overrides": {"lambda1": 0.0},
+            "overrides": {"lambda2": 0.0, "variance_mode": "asymmetric", "asym_scale": 0.25},
         },
         {
-            "name": "w/o MMD",
-            "desc": "Keep transfer data but remove explicit MMD alignment.",
+            "name": "TLQLDMR-UnweightedTarget",
+            "desc": "Remove target-domain reweighting by forcing C_S = C_T.",
             "use_source": True,
-            "overrides": {"lambda2": 0.0},
+            "overrides": {"C_S": "__USE_CT__", "variance_mode": "asymmetric", "asym_scale": 0.25},
         },
     ]
 
@@ -164,6 +172,8 @@ def main() -> None:
         name = spec["name"]
         params = dict(base_params)
         params.update(spec["overrides"])
+        if params.get("C_S") == "__USE_CT__":
+            params["C_S"] = float(params["C_T"])
 
         model = _build_model(params)
 

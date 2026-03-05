@@ -13,9 +13,9 @@
     "C_S": 0.1,
     "C_T": 800.0,
     "kernel_gamma": 0.003,
-    "nystrom_n_components": 4000,
-    "nystrom_lr": 0.005,
-    "nystrom_epochs": 180,
+    "nystrom_n_components": 1200,
+    "nystrom_lr": 0.01,
+    "nystrom_epochs": 64,
     "nystrom_batch_size": 256
   },
   "extreme_cfg": {

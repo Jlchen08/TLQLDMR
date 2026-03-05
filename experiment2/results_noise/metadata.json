@@ -19,11 +19,11 @@
     "temp_q_high": 98.0,
     "temp_requires_wind": false
   },
-  "snr_db": "60,40,30,20,10",
+  "snr_db": "60,40,30",
   "noise_on_train": true,
-  "svr_max_src": 4000,
-  "svr_max_tgt": 1200,
-  "tl_override": "experiment2/results_noise/tlqldmr_noise_grid_best.json",
+  "svr_max_src": 2000,
+  "svr_max_tgt": 1000,
+  "tl_override": null,
   "models": [
     "ARA-SVR",
     "BRF-WPF",
@@ -31,6 +31,8 @@
     "HHO-SVR",
     "KMeans-GBT",
     "RF-WPF",
+    "Standard-LDMR",
+    "Standard-SVR",
     "TL-QLDMR"
   ]
 }

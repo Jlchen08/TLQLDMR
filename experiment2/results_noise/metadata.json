@@ -26,6 +26,7 @@
   "tl_override": null,
   "models": [
     "ARA-SVR",
+    "BLSSVR",
     "BRF-WPF",
     "FLSVR",
     "HHO-SVR",

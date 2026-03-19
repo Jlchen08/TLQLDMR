@@ -236,3 +236,52 @@ def plot_prediction_segments(
     fig.savefig(out_basepath.with_suffix(".png"), dpi=300)
     fig.savefig(out_basepath.with_suffix(".pdf"))
     plt.close(fig)
+
+
+def plot_prediction_local_segment(
+    y_true: np.ndarray,
+    y_pred: np.ndarray,
+    title: str,
+    out_basepath: Path,
+    segment_len: int = 420,
+) -> None:
+    y_true = np.asarray(y_true)
+    y_pred = np.asarray(y_pred)
+    n = len(y_true)
+
+    seg_start, seg_end = _select_segment(y_true, min(segment_len, n))
+    seg_slice = slice(seg_start, seg_end)
+    x_axis = np.arange(seg_start, seg_end)
+
+    plt.rcParams.update(
+        {
+            "font.size": 10,
+            "axes.labelsize": 11,
+            "axes.titlesize": 12,
+            "legend.fontsize": 9,
+            "lines.linewidth": 1.7,
+        }
+    )
+
+    fig, ax = plt.subplots(figsize=(8.2, 3.8))
+    ax.plot(x_axis, y_true[seg_slice], color="black", label="True")
+    ax.plot(x_axis, y_pred[seg_slice], color="#1f77b4", linestyle="--", label="Prediction")
+    ax.fill_between(
+        x_axis,
+        y_true[seg_slice],
+        y_pred[seg_slice],
+        color="#1f77b4",
+        alpha=0.08,
+        linewidth=0.0,
+    )
+    ax.set_title(f"{title} | Local segment [{seg_start}, {seg_end})")
+    ax.set_xlabel("Time step (15 min)")
+    ax.set_ylabel("Power (MW)")
+    ax.grid(alpha=0.25, linestyle="--")
+    ax.legend(loc="upper right", frameon=False)
+
+    out_basepath.parent.mkdir(parents=True, exist_ok=True)
+    fig.tight_layout()
+    fig.savefig(out_basepath.with_suffix(".png"), dpi=300)
+    fig.savefig(out_basepath.with_suffix(".pdf"))
+    plt.close(fig)

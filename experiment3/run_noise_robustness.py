@@ -15,6 +15,7 @@ from experiment3.metrics import interval_metrics
 from experiment3.models.tl_qldmr_quantile import TLQLDMRQuantileConfig, TLQLDMRQuantileIntervalModel
 from experiment3.models.tsvqr_model import TSVQRConfig, TSVQRIntervalModel
 from experiment3.models.standard_svqr_model import StandardSVQRConfig, StandardSVQRIntervalModel
+from experiment3.models.rlmkl_model import RLMKLConfig, RLMKLIntervalModel
 from experiment3.models.ssvqr_model import SSVQRConfig, SparseSVQRIntervalModel
 from experiment3.models.nfs_svqr_model import NFSSVQRConfig, NFSSVQRIntervalModel
 from experiment3.models.nu_svr_model import NuSVRConfig, NuSVRIntervalModel
@@ -391,6 +392,19 @@ def main() -> None:
                 NuSVRConfig(nu=p["nu"], C=p["C"], gamma=p["gamma"])
             ),
         },
+        "RLMKL": {
+            "type": "flat",
+            "max_target": 1000,
+            "builder": lambda p, input_dim=None, seq_len=None: RLMKLIntervalModel(
+                RLMKLConfig(
+                    gammas=tuple(float(v) for v in p["gammas"]),
+                    n_components=int(p["n_components"]),
+                    alpha=float(p["alpha"]),
+                    tau_low=float(p.get("tau_low", 0.05)),
+                    tau_high=float(p.get("tau_high", 0.95)),
+                )
+            ),
+        },
         "QGBR": {
             "type": "flat",
             "max_target": 1500,
@@ -480,6 +494,7 @@ def main() -> None:
         "UQSVM-SSVQR",
         "NFS-SVQR",
         "NuSVR-CI",
+        "RLMKL",
         "QGBR",
         "CQR-MLP",
         "HybridDL-Interval",

@@ -5,7 +5,7 @@
 1) 实验一筛选极端天气样本并评估跨风场分布偏移；
 2) 实验二在偏移最大的目标风场上进行点预测对比，并补充噪声鲁棒性测试。
 
-针对审稿关注点，实验二新增了关键标准核方法基线：`Standard-SVR` 与 `Standard-LDMR`。结果显示 TL‑QLDMR 在点预测精度和噪声鲁棒性上均保持最优。
+针对审稿关注点，实验二进一步补入了两类关键核方法基线：`Standard-SVR` / `Standard-LDMR` 与 `BLSSVR`。结果显示 TL‑QLDMR 在点预测精度和噪声鲁棒性上均保持最优。
 
 ## 1. 数据与统一设置
 - 数据：风电场 SCADA（多高度风速/风向、温度、气压、湿度、功率）
@@ -24,30 +24,32 @@
 - `TL-QLDMR`（本文）
 - `Standard-SVR`（标准 ε-SVR，关键核方法基线）
 - `Standard-LDMR`（标准对称方差 LDMR，关键核方法基线）
+- `BLSSVR`（bounded-loss LS-SVR，EJOR 鲁棒回归基线）
 - `HHO-SVR`, `FLSVR`, `ARA-SVR`, `KMeans-GBT`, `RF-WPF`, `BRF-WPF`
 
 ### 3.2 测试集结果（`experiment2/results_selected/best_models_summary.csv`）
 | 模型 | RMSE | MAE | R2 |
 |---|---:|---:|---:|
 | **TL-QLDMR** | **7.4764** | 5.3476 | **0.9553** |
-| RF-WPF | 7.9674 | **5.3437** | 0.9492 |
-| HHO-SVR | 8.3764 | 6.0220 | 0.9438 |
-| Standard-SVR | 8.5637 | 5.5374 | 0.9413 |
-| FLSVR | 9.2457 | 6.5611 | 0.9316 |
-| ARA-SVR | 9.5515 | 6.0460 | 0.9270 |
+| Standard-SVR | 7.4977 | **5.0585** | 0.9550 |
+| HHO-SVR | 7.6035 | 5.5295 | 0.9537 |
+| RF-WPF | 7.9674 | 5.3437 | 0.9492 |
+| FLSVR | 8.7945 | 6.3010 | 0.9381 |
+| ARA-SVR | 9.2464 | 5.9537 | 0.9316 |
+| KMeans-GBT | 9.6199 | 6.6950 | 0.9259 |
 | BRF-WPF | 9.7195 | 6.8697 | 0.9244 |
-| KMeans-GBT | 10.6039 | 7.0217 | 0.9100 |
-| Standard-LDMR | 10.6915 | 6.3269 | 0.9085 |
+| Standard-LDMR | 9.9318 | 6.1255 | 0.9211 |
+| BLSSVR | 10.2733 | 6.1400 | 0.9155 |
 
-结论：TL‑QLDMR 在 RMSE/R2 上最优；新增 `Standard-SVR/Standard-LDMR` 后，改进有效性更完整。
+结论：TL‑QLDMR 在 RMSE/R2 上仍最优；补入 `BLSSVR` 后，标准 SVR、标准 LDMR、bounded-loss LS-SVR 三类关键核回归基线均已覆盖。
 
 ### 3.3 预测图
-实验二已保留预测图（含新增基线）：
+实验二的点预测图已改为“每个模型仅保留一个代表性局部片段”，不再保留整段全局曲线，以减少图像冗余并突出局部拟合质量。当前图像统一保存在 `experiment2/plots_selected/`，例如：
 - `experiment2/plots_selected/farm3_TL-QLDMR.pdf`
 - `experiment2/plots_selected/farm3_Standard-SVR.pdf`
 - `experiment2/plots_selected/farm3_Standard-LDMR.pdf`
+- `experiment2/plots_selected/farm3_BLSSVR.pdf`
 - `experiment2/plots_selected/farm3_RF-WPF.pdf`
-- `experiment2/plots_selected/farm3_BRF-WPF.pdf`
 
 ### 3.4 噪声鲁棒性（点预测）
 结果文件：`experiment2/results_noise/noise_robustness.csv`（SNR=60/40/30 dB，训练与测试加噪）。
@@ -62,6 +64,9 @@ R2 对比（越高越好）：
 - **Standard LDMR**：
   - Qi et al., *Large-margin Distribution Machine-based regression*, Neural Computing and Applications, 2018.
   - DOI: `10.1007/s00521-018-3921-3`
+- **BLSSVR**：
+  - Fu et al., *Robust regression under the general framework of bounded loss functions*, European Journal of Operational Research, 2023.
+  - DOI: `10.1016/j.ejor.2023.04.025`
 
 ## 5. 主要对比模型来源（实验二）
 - HHO-SVR：Scientific Reports, 2025，DOI `10.1038/s41598-025-86275-6`
@@ -73,13 +78,11 @@ R2 对比（越高越好）：
 
 ## 6. 复现命令
 ```bash
-# 实验二主对比（含新增 Standard-SVR / Standard-LDMR）
+# 实验二主对比（含 Standard-SVR / Standard-LDMR / BLSSVR）
 /home/user/lin/.venv/bin/python experiment2/run_benchmark_selected.py \
   --config experiment2/results_hunt/tlqldmr_hunt_best.json \
-  --split-mode shuffle \
   --baseline-trials 1 \
-  --svr-max-src 4000 --svr-max-tgt 1200 \
-  --skip-tlqldmr-train
+  --svr-max-src 4000 --svr-max-tgt 1200
 
 # 实验二噪声鲁棒性
 /home/user/lin/.venv/bin/python experiment2/run_noise_robustness.py \

@@ -1,0 +1,35 @@
+{
+  "model": "RLMKL",
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "alpha": 0.05,
+  "calibration_q": 5.343353748486155,
+  "metrics": {
+    "picp": 0.9566265060240964,
+    "mpiw": 31.80432029454577,
+    "pinaw": 0.3308434983168924,
+    "cwc": 0.3308434983168924,
+    "winkler": 39.274982876995914
+  },
+  "train_samples": 1000,
+  "val_samples": 559,
+  "cal_samples": 745,
+  "test_samples": 415,
+  "best_params": {
+    "gammas": [
+      0.001,
+      0.003,
+      0.008
+    ],
+    "n_components": 100,
+    "alpha": 0.0015,
+    "q_scale": 0.8,
+    "conformal_scaled": false
+  },
+  "search_metrics": {
+    "picp": 0.9588550983899821,
+    "mpiw": 32.13237040918826,
+    "pinaw": 0.3309749343907843,
+    "cwc": 0.3309749343907843,
+    "winkler": 39.52851941316277
+  }
+}

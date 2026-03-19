@@ -28,11 +28,12 @@
   "noise_on_train": false,
   "use_stored_calibration": true,
   "models": [
-    "Standard-SVQR",
-    "TSVQR",
-    "UQSVM-SSVQR",
     "NFS-SVQR",
     "NuSVR-CI",
-    "TL-QLDMR"
+    "RLMKL",
+    "Standard-SVQR",
+    "TL-QLDMR",
+    "TSVQR",
+    "UQSVM-SSVQR"
   ]
 }

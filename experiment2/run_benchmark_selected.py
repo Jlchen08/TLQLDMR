@@ -12,8 +12,9 @@ sys.path.insert(0, REPO_ROOT)
 
 from experiment2.data_utils import prepare_farm_data, set_seed
 from experiment2.metrics import compute_metrics
-from experiment2.plots import plot_prediction_segments
+from experiment2.plots import plot_prediction_local_segment
 from experiment2.models.svr_model import SVRModel, SVRConfig
+from experiment2.models.blssvr_model import BLSSVRModel, BLSSVRConfig
 from experiment2.models.flsvr_model import FLSVRModel, FLSVRConfig
 from experiment2.models.ara_svr_model import ARASVRModel, ARASVRConfig
 from experiment2.models.clustered_gbr_model import ClusteredGBRModel, ClusteredGBRConfig
@@ -83,6 +84,18 @@ def _build_model(model_name: str, params: dict, input_size: int | None):
                 gamma=float(params["gamma"]),
                 max_iter=int(params["max_iter"]),
                 tol=float(params["tol"]),
+            )
+        )
+    if model_name == "BLSSVR":
+        return BLSSVRModel(
+            BLSSVRConfig(
+                C=float(params["C"]),
+                gamma=float(params["gamma"]),
+                n_components=int(params["n_components"]),
+                loss_scale=float(params["loss_scale"]),
+                max_iter=int(params["max_iter"]),
+                tol=float(params["tol"]),
+                random_state=int(params.get("random_state", 42)),
             )
         )
     if model_name == "ARA-SVR":
@@ -201,7 +214,16 @@ def search_model_best(
     y_T_test = data["y_T_test"]
     y_S = data["y_S"]
 
-    if model_name in {"SVR", "Standard-SVR", "HHO-SVR", "FLSVR", "ARA-SVR", "KMeans-GBT", "Standard-LDMR"}:
+    if model_name in {
+        "SVR",
+        "Standard-SVR",
+        "HHO-SVR",
+        "FLSVR",
+        "BLSSVR",
+        "ARA-SVR",
+        "KMeans-GBT",
+        "Standard-LDMR",
+    }:
         X_S = X_S[:svr_max_src]
         y_S = y_S[:svr_max_src]
         X_T_train = X_T_train[:svr_max_tgt]
@@ -332,6 +354,7 @@ def main():
         ("Standard-SVR", "flat", False, args.baseline_trials),
         ("HHO-SVR", "flat", False, args.baseline_trials),
         ("FLSVR", "flat", False, args.baseline_trials),
+        ("BLSSVR", "flat", False, args.baseline_trials),
         ("ARA-SVR", "flat", False, args.baseline_trials),
         ("Standard-LDMR", "flat", False, args.baseline_trials),
         ("KMeans-GBT", "flat", False, args.baseline_trials),
@@ -359,6 +382,15 @@ def main():
             "gamma": [0.001],
             "max_iter": [25],
             "tol": [1e-4],
+        },
+        "BLSSVR": {
+            "C": [4.0, 6.0, 8.0],
+            "gamma": [0.001, 0.002, 0.003],
+            "n_components": [400, 600, 800],
+            "loss_scale": [0.06, 0.08, 0.1],
+            "max_iter": [10, 12],
+            "tol": [1e-4],
+            "random_state": [42],
         },
         "ARA-SVR": {
             "C": [10],
@@ -463,7 +495,7 @@ def main():
         if not args.no_plots and y_true is not None and y_pred is not None:
             safe_name = model_name.replace("/", "_").replace(" ", "")
             plot_path = plots_dir / f"farm{farm_idx}_{safe_name}"
-            plot_prediction_segments(
+            plot_prediction_local_segment(
                 y_true=y_true,
                 y_pred=y_pred,
                 title=f"{model_name} vs True ({data['farm_name']})",
@@ -487,6 +519,14 @@ def main():
         keep_files.add(f"{model_name}_best.json")
     for item in results_dir.iterdir():
         if item.is_file() and item.name not in keep_files:
+            item.unlink()
+
+    keep_plot_stems = {
+        f"farm{farm_idx}_{model_name.replace('/', '_').replace(' ', '')}"
+        for model_name, _, _, _ in model_specs
+    }
+    for item in plots_dir.iterdir():
+        if item.is_file() and item.stem not in keep_plot_stems:
             item.unlink()
 
     print("Saved results to:")

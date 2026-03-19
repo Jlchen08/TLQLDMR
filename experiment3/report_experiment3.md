@@ -3,6 +3,7 @@
 ## 摘要
 本实验在与实验二完全一致的数据设置下，完成 95% 置信区间预测对比。针对先前对比模型缺漏问题，补充并固定了关键基线：
 - `Standard-SVQR`（标准支持向量分位数回归）
+- `RLMKL`（EJOR 低秩多核学习鲁棒预测基线）
 - `TSVQR` / `UQSVM-SSVQR`（同类 SVM 分位数回归变体）
 - `NFS-SVQR` / `NuSVR-CI`
 
@@ -20,12 +21,13 @@
 
 ### 2.1 关键标准与同类 SVM 区间基线
 - `Standard-SVQR`：标准 pinball loss SVQR（必需基线）
+- `RLMKL`：robust low-rank multiple kernel learning，适合补足“低秩核近似 + 多核学习”路线
 - `TSVQR`：Twin-SVQR（参考 `TSVQR.pdf`）
 - `UQSVM-SSVQR`：稀疏/不确定性 SVQR 变体（参考 `UQSVM.pdf`）
 - `NFS-SVQR`：2025 年非线性特征选择 SVQR 路线
 - `NuSVR-CI`：nu-SVR + conformal 区间基线
 
-选择理由：覆盖“标准方法 + 双平面 SVQR + 稀疏 SVQR + 特征选择 SVQR + nu-SVR 区间化”全链条，能直接验证 TL‑QLDMR 相对同类核方法的优势。
+选择理由：覆盖“标准方法 + 低秩多核学习 + 双平面 SVQR + 稀疏 SVQR + 特征选择 SVQR + nu-SVR 区间化”全链条，能直接验证 TL‑QLDMR 相对同类核方法的优势。
 
 ### 2.2 我们的方法
 - `TL-QLDMR`：迁移学习 + 分位数学习 + 分布正则（区间版）
@@ -42,6 +44,7 @@
 | 模型 | PICP | MPIW | PINAW | CWC | Winkler |
 |---|---:|---:|---:|---:|---:|
 | **TL-QLDMR** | **0.9614** | **28.8255** | **0.2999** | **0.2999** | **35.6307** |
+| RLMKL | 0.9566 | 31.8043 | 0.3308 | 0.3308 | 39.2750 |
 | Standard-SVQR | 0.9590 | 34.3419 | 0.3572 | 0.3572 | 42.0671 |
 | TSVQR | 0.9590 | 34.3419 | 0.3572 | 0.3572 | 42.0671 |
 | NuSVR-CI | 0.9470 | 31.9512 | 0.3324 | 0.4327 | 44.9765 |
@@ -56,10 +59,12 @@
 关键观察：
 - TL‑QLDMR 在 60/40/30 dB 下均保持 **最高 PICP**（`0.9518/0.9518/0.9542`）
 - TL‑QLDMR 同时保持 **最低 CWC**（`0.2871/0.2872/0.2872`）
+- `RLMKL` 在噪声下保持中等偏高覆盖率（约 `0.9494`），但区间明显宽于 TL‑QLDMR，综合指标仍落后
 - `NuSVR-CI` 虽然 PINAW 更小，但覆盖率显著不足（约 `0.91`），综合指标劣于 TL‑QLDMR
 
 示例（40 dB）：
 - TL‑QLDMR：`PICP=0.9518`, `PINAW=0.2872`, `CWC=0.2872`
+- RLMKL：`PICP=0.9494`, `PINAW=0.3131`, `CWC=0.4072`
 - Standard-SVQR：`PICP=0.9422`, `PINAW=0.3092`, `CWC=0.4034`
 - NuSVR-CI：`PICP=0.9133`, `PINAW=0.2659`, `CWC=0.3518`
 
@@ -82,6 +87,7 @@
 
 ## 7. 模型来源说明
 - `Standard-SVQR`：标准支持向量分位数回归（经典 pinball loss 框架）
+- `RLMKL`：Xiong et al., *Robust low-rank multiple kernel learning with compound regularization*, European Journal of Operational Research, 2021, DOI `10.1016/j.ejor.2020.12.024`
 - `TSVQR`：参考 `TSVQR.pdf`
 - `UQSVM-SSVQR`：参考 `UQSVM.pdf`
 - `NFS-SVQR`：2025 年发表的 SVQR 特征选择路线（Neural Networks）

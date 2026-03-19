@@ -13,6 +13,7 @@ sys.path.insert(0, REPO_ROOT)
 from experiment2.data_utils import prepare_farm_data, set_seed
 from experiment2.metrics import compute_metrics
 from experiment2.models.svr_model import SVRModel, SVRConfig
+from experiment2.models.blssvr_model import BLSSVRModel, BLSSVRConfig
 from experiment2.models.flsvr_model import FLSVRModel, FLSVRConfig
 from experiment2.models.ara_svr_model import ARASVRModel, ARASVRConfig
 from experiment2.models.clustered_gbr_model import ClusteredGBRModel, ClusteredGBRConfig
@@ -74,6 +75,18 @@ def _build_model(model_name: str, params: dict):
                 gamma=float(params["gamma"]),
                 max_iter=int(params["max_iter"]),
                 tol=float(params["tol"]),
+            )
+        )
+    if model_name == "BLSSVR":
+        return BLSSVRModel(
+            BLSSVRConfig(
+                C=float(params["C"]),
+                gamma=float(params["gamma"]),
+                n_components=int(params["n_components"]),
+                loss_scale=float(params["loss_scale"]),
+                max_iter=int(params["max_iter"]),
+                tol=float(params["tol"]),
+                random_state=int(params.get("random_state", 42)),
             )
         )
     if model_name == "ARA-SVR":
@@ -254,6 +267,7 @@ def main() -> None:
         "Standard-SVR",
         "HHO-SVR",
         "FLSVR",
+        "BLSSVR",
         "ARA-SVR",
         "Standard-LDMR",
         "KMeans-GBT",
@@ -308,6 +322,7 @@ def main() -> None:
             "Standard-SVR",
             "HHO-SVR",
             "FLSVR",
+            "BLSSVR",
             "ARA-SVR",
             "KMeans-GBT",
             "Standard-LDMR",

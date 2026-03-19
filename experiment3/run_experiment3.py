@@ -15,6 +15,7 @@ from experiment3.metrics import interval_metrics
 from experiment3.models.tl_qldmr_quantile import TLQLDMRQuantileConfig, TLQLDMRQuantileIntervalModel
 from experiment3.models.tsvqr_model import TSVQRConfig, TSVQRIntervalModel
 from experiment3.models.standard_svqr_model import StandardSVQRConfig, StandardSVQRIntervalModel
+from experiment3.models.rlmkl_model import RLMKLConfig, RLMKLIntervalModel
 from experiment3.models.ssvqr_model import SSVQRConfig, SparseSVQRIntervalModel
 from experiment3.models.nfs_svqr_model import NFSSVQRConfig, NFSSVQRIntervalModel
 from experiment3.models.nu_svr_model import NuSVRConfig, NuSVRIntervalModel
@@ -1064,6 +1065,27 @@ def main() -> None:
         conformal_candidates=[False, True],
         target_picp=target_picp_baseline,
         max_target=800,
+    )
+
+    _search_and_run(
+        "RLMKL",
+        [
+            {"gammas": [0.001, 0.003, 0.008], "n_components": 100, "alpha": 0.0015},
+            {"gammas": [0.0008, 0.002, 0.006], "n_components": 120, "alpha": 0.002},
+            {"gammas": [0.001, 0.004, 0.01], "n_components": 140, "alpha": 0.0025},
+        ],
+        lambda p: RLMKLIntervalModel(
+            RLMKLConfig(
+                gammas=tuple(float(v) for v in p["gammas"]),
+                n_components=int(p["n_components"]),
+                alpha=float(p["alpha"]),
+                tau_low=0.05,
+                tau_high=0.95,
+            )
+        ),
+        conformal_candidates=[False, True],
+        target_picp=target_picp_baseline,
+        max_target=1000,
     )
 
     _search_and_run(

@@ -16,6 +16,21 @@ from experiment2.data_utils import prepare_farm_data, set_seed
 from Train_TL_QLDMR import TL_QLDMR
 
 
+def _resolve_sample_sizes(raw_sizes, n_total_train: int) -> list[int]:
+    resolved: list[int] = []
+    for item in raw_sizes:
+        if isinstance(item, str):
+            token = item.strip().lower()
+            if token in {"full", "all", "max", "original"}:
+                resolved.append(int(n_total_train))
+                continue
+            resolved.append(int(float(token)))
+            continue
+        resolved.append(int(item))
+    resolved = [max(1, min(int(n_total_train), size)) for size in resolved]
+    return sorted(set(resolved))
+
+
 def _sample_indices(rng: np.random.Generator, n_total: int, size: int) -> np.ndarray:
     replace = size > n_total
     return rng.choice(n_total, size=size, replace=replace)
@@ -195,7 +210,8 @@ def main() -> None:
     X_T = data["X_T_train_flat"].astype(np.float32)
     y_T = data["y_T_train"].astype(np.float32)
 
-    sample_sizes = [int(s) for s in cfg.get("sample_sizes", [])]
+    n_total_train = len(X_S) + len(X_T)
+    sample_sizes = _resolve_sample_sizes(cfg.get("sample_sizes", []), n_total_train)
     target_ratio = float(cfg.get("target_ratio", 0.3))
     repeats = int(cfg.get("repeat", 1))
     solver_max_n = cfg.get("solver_max_n", {})
@@ -279,9 +295,10 @@ def main() -> None:
 
     summary_df = (
         results_df[results_df["status"] == "ok"]
-        .groupby(["solver", "n_samples"], as_index=False)["time_sec"]
+        .groupby(["solver", "n_samples"], as_index=False)[["n_source", "n_target", "time_sec"]]
         .mean()
     )
+    summary_df = summary_df.sort_values(["solver", "n_samples"]).reset_index(drop=True)
     summary_df.to_csv(outdir / "scaling_summary.csv", index=False)
 
     fit_df = _fit_scaling_slope(summary_df)

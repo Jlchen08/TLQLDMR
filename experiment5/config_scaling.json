@@ -5,7 +5,7 @@
   "feature_set": "full_dir_cyclic",
   "window_size": 24,
   "target_train_ratio": 0.9,
-  "sample_sizes": [100, 200, 400, 600, 800, 1200, 1600, 2000],
+  "sample_sizes": [100, 500, 1000, 3000, 10000, 30000, "full"],
   "target_ratio": 0.3,
   "repeat": 1,
   "model_params": {
@@ -27,10 +27,10 @@
     "torch_max_iter": 400
   },
   "solver_max_n": {
-    "cvxopt": 800,
-    "torch_gd": 800,
-    "batch_sgd": 1600,
-    "fast_nystrom": 2000
+    "cvxopt": 1000,
+    "torch_gd": 3000,
+    "batch_sgd": 30000,
+    "fast_nystrom": 69737
   },
   "extreme_cfg": {
     "stat_q": 98.0,

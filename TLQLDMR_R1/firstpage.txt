@@ -1,0 +1,66 @@
+TL-QLDMR: A Transfer Learning Quantile Regression Model for
+Wind Power Forecasting under Extreme Weather Conditions
+Junlin Chena , Bo Wanga,∗ , Zhihang Yua , Pei-chun Linb , Libo Zhangc and Junzo Watadad
+a School of Management and Engineering, Nanjing University, Nanjing 210093, China
+b Department of Information Engineering and Computer Science, Feng Chia University, Taiwan 40724, China
+c College of Artificial Intelligence, Southwest University, Chongqing 400715, China
+d Graduate School of Information, Production and Systems, Waseda University, Kitakyyushu 808-0135, Japan
+
+ARTICLE INFO
+
+ABSTRACT
+
+Keywords:
+Wind power forecasting
+Large-margin distribution machine
+Quantile regression
+Transfer learning
+Extreme weather
+
+Accurate wind power forecasting under extreme weather conditions is critical for grid stability and renewable energy integration, yet remains a formidable challenge due to severe
+data scarcity and substantial distribution shifts between normal and extreme meteorological
+regimes. While kernel-based methods, particularly support vector regression and Large-margin
+Distribution Machine-based Regression (LDMR), have demonstrated strong performance in
+various regression tasks due to their theoretical guarantees and robustness on limited data,
+their application to extreme weather forecasting faces critical limitations: the i.i.d. assumption
+underlying standard kernel methods is fundamentally violated under cross-domain scenarios,
+and the symmetric variance minimization in LDMR implicitly encourages symmetric error
+distributions, which conflicts with the asymmetric nature of quantile-based interval prediction
+required for uncertainty quantification. To extend kernel-based regression to extreme weather
+forecasting, we propose Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR), which addresses these challenges through three synergistic innovations:
+(i) an asymmetric variance regularizer that preserves LDMR’s distributional robustness while
+accommodating quantile-specific error asymmetry, (ii) a supervised transfer learning framework
+integrating maximum mean discrepancy for feature alignment and weighted pinball loss for label
+adaptation, enabling effective knowledge transfer from abundant normal weather data to scarce
+extreme weather samples, and (iii) a scalable Nyström-SGD solver reducing complexity from
+𝑂(𝑁 3 ) to 𝑂(𝑇 ⋅ 𝑁 ⋅ 𝑚). Comprehensive experiments on six wind farms demonstrate that TLQLDMR achieves competitive performance in both deterministic and probabilistic forecasting
+under extreme weather conditions, with superior reliability-sharpness trade-off and practical
+scalability, making it suitable for real-time applications where interpretability and theoretical
+guarantees are prioritized.
+
+1. Introduction
+The global transition toward renewable energy has positioned wind power as a cornerstone of sustainable electricity
+generation. However, the inherent intermittency and volatility of wind resources pose significant challenges to power
+grid stability and dispatch optimality. Accurate wind power forecasting is therefore critical for balancing supply and
+demand, reducing operational costs, and ensuring reliable grid integration (Wang et al., 2021; Dong et al., 2022).
+While substantial progress has been achieved in short-term forecasting under normal meteorological conditions,
+prediction performance can degrade significantly during extreme weather events—such as typhoons, cold waves, or
+heat waves—with error increases of 30-50% commonly observed, when wind power fluctuations are most severe and
+grid stability is most vulnerable (Chen & Xu, 2022).
+Extreme weather events present a dual challenge for data-driven forecasting models. First, such events are inherently
+rare, resulting in severe data scarcity: extreme-condition samples typically constitute less than 5% of historical records
+(Chen & Xu, 2022). Second, the meteorological dynamics during extreme conditions differ fundamentally from normal
+regimes, inducing substantial distribution shifts in both feature space (e.g., wind speed, temperature) and label space.
+For instance, during typhoon events, wind speeds may exceed 25 m/s, triggering turbine cut-out operations that produce
+near-zero power output—a pattern rarely observed in normal weather training data. This creates a covariate shift in
+∗ Corresponding author: Bo Wang
+E-mail address: jlchen08@163.com (J. Chen), bowangsme@nju.edu.cn (B. Wang), zhihangyu@smail.nju.edu.cn (Z. Yu),
+peiclin@fcu.edu.tw (P. Lin), lbzhang@swu.edu.cn (L. Zhang), junzo.watada@gmail.com (J. Watada)
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 1 of 27
+
+

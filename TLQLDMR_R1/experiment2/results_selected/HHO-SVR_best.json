@@ -1,0 +1,34 @@
+{
+  "model": "HHO-SVR",
+  "best_metrics": {
+    "rmse": 7.603466354319724,
+    "mae": 5.529533626890885,
+    "mape": 4739136.006947946,
+    "r2": 0.9537283695254329
+  },
+  "best_config": {
+    "feature_set": "full_dir_cyclic",
+    "window_size": 24,
+    "target_train_ratio": 0.9,
+    "C": 19.748293651756462,
+    "gamma": 0.010817637006807155,
+    "epsilon": 0.0013353875079586436,
+    "population_size": 6,
+    "iterations": 8,
+    "C_bounds": [
+      0.1,
+      100.0
+    ],
+    "epsilon_bounds": [
+      0.001,
+      0.1
+    ],
+    "gamma_bounds": [
+      0.0001,
+      0.05
+    ]
+  },
+  "farm_idx": 3,
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "split_seed": 0
+}

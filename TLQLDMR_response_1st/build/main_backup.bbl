@@ -1,0 +1,12 @@
+\begin{thebibliography}{1}
+
+\bibitem{dablain2022deepsmote}
+D.~Dablain, B.~Krawczyk, and N.~V. Chawla, ``Deepsmote: Fusing deep learning and smote for imbalanced data,'' {\em IEEE transactions on neural networks and learning systems}, vol.~34, no.~9, pp.~6390--6404, 2022.
+
+\bibitem{farhang2024deep}
+S.~Farhang, W.~Hayes, N.~Murphy, J.~Neddenriep, and N.~Tyris, ``A deep learning approach for imbalanced tabular data in advertiser prospecting: A case of direct mail prospecting,'' {\em arXiv preprint arXiv:2410.01157}, 2024.
+
+\bibitem{lin2017focal}
+T.-Y. Lin, P.~Goyal, R.~Girshick, K.~He, and P.~Doll{\'a}r, ``Focal loss for dense object detection,'' in {\em Proceedings of the IEEE international conference on computer vision}, pp.~2980--2988, 2017.
+
+\end{thebibliography}

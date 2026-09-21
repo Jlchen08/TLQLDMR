@@ -1,0 +1,26 @@
+{
+  "model": "KMeans-GBT",
+  "best_metrics": {
+    "rmse": 9.619895108424608,
+    "mae": 6.694987280973278,
+    "mape": 55193568.40300842,
+    "r2": 0.925931726872412
+  },
+  "best_config": {
+    "feature_set": "full_dir_cyclic",
+    "window_size": 24,
+    "target_train_ratio": 0.9,
+    "n_clusters": 3,
+    "max_depth": 3,
+    "max_iter": 80,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 15,
+    "min_samples_leaf": 40,
+    "l2_regularization": 0.1,
+    "random_state": 42,
+    "min_cluster_samples": 80
+  },
+  "farm_idx": 3,
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "split_seed": 0
+}

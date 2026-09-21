@@ -1,0 +1,27 @@
+{
+  "model": "TL-QLDMR",
+  "best_metrics": {
+    "rmse": 7.4764484693294815,
+    "mae": 5.347596705870183,
+    "mape": 8602009.93099875,
+    "r2": 0.9552614159669438
+  },
+  "best_config": {
+    "feature_set": "full_dir_cyclic",
+    "window_size": 24,
+    "target_train_ratio": 0.9,
+    "lambda1": 0.0005,
+    "lambda2": 0.0001,
+    "C_S": 0.05,
+    "C_T": 150.0,
+    "kernel_gamma": 0.002,
+    "nystrom_n_components": 1200,
+    "nystrom_lr": 0.01,
+    "nystrom_epochs": 64,
+    "nystrom_batch_size": 256,
+    "tau": 0.5
+  },
+  "farm_idx": 3,
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "split_seed": 0
+}

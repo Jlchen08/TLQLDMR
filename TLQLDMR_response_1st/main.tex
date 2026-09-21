@@ -1,0 +1,647 @@
+% !BIB program = bibtex
+\documentclass[journal,12pn, onecolumn]{IEEEtran}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{mathrsfs}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{caption}
+\usepackage{makecell}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{cite}
+\usepackage{amsthm}
+\usepackage{verbatim}
+\usepackage{array}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\definecolor{customgreen}{RGB}{0, 128, 0}
+\usepackage{url}
+\hyphenation{op-tical net-works semi-conduc-tor}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{Definition}{Definition}
+\newtheorem{example}{Example}
+\renewcommand*{\proofname}{\noindent\bf Proof}
+\renewcommand\labelenumi{(\alph{enumi})}
+\DeclareMathOperator*{\argmax}{\arg\max}
+\DeclareMathOperator*{\argmin}{\arg\min}
+\usepackage[colorlinks,linkcolor=orange,anchorcolor=orange,citecolor=orange,]{hyperref}
+\hypersetup{hypertex=true,
+            colorlinks=true,
+            linkcolor=cyan,
+            anchorcolor=orange,
+            citecolor=green}
+\renewcommand{\baselinestretch}{0.96}
+\begin{document}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+% -------- Reply to Editors and Reviewers -------
+\title{Responses to the Review Comments of EGY-D-26-09344}
+\maketitle
+
+\textbf{Original Manuscript ID: }EGY-D-26-09344 \\
+
+\textbf{Original Article Title: }``Transfer Learning Quantile Large-margin Distribution Machine for Wind Power Forecasting under Extreme Events'' \\
+
+\textbf{To: }Energy Subject Editor (Prof.\ Diangui Huang)\\
+
+\textbf{Re: }Response to reviewers\\
+
+\section*{}
+{
+Dear Professor Huang, \\
+
+Thank you for handling our manuscript and for forwarding the constructive comments from the three reviewers.\\
+
+We have carefully considered all comments and revised the manuscript accordingly. Below we provide a point-by-point response to the comments. In the revised manuscript, all changes are highlighted to facilitate checking.\\
+
+Best wishes,\\
+
+The Authors\\}
+
+\textbf{The response letter is structured as follows:}\\
+
+\begin{itemize}
+    \item [$\bullet$]Response for \nameref{edi}: Page 2.\\
+    \item [$\bullet$]Response for \nameref{rev1}: Page 3.\\
+    \item [$\bullet$]Response for \nameref{rev2}: Page 4--6.\\
+    \item [$\bullet$]Response for \nameref{rev3}: Page 7.\\
+\end{itemize}
+
+\newpage
+
+\section*{\textbf{Editor}}\label{edi}
+
+{\color{black}
+\subsubsection*{\underline{General Comments}}
+\emph{\\
+The review of your paper is now complete. As you can see, the Reviewers present important points of criticism and a series of recommendations. We kindly ask you to consider all comments and revise the paper accordingly in order to respond fully and in detail to the Reviewers' recommendations. If this process is completed thoroughly, the paper will be acceptable for a second review. If you choose to revise your manuscript it will be due into the Editorial Office by Oct 18, 2026. Once you have revised the paper accordingly, please submit it together with a detailed description of your response to these comments. Please also include a separate copy of the revised paper in which you have marked the revisions made.
+}}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+\newpage
+
+% ---------------- Reviewer 1 ---------------------
+{\color{black}
+\section*{\textbf{REVIEWER 1}}\label{rev1}}
+
+% -------------Reviewer 1, Concern 1--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 1, Concern 1}}}
+\emph{The manuscript's novelty is promising, but the methodological contribution is not yet isolated clearly enough from existing SVQR, LDMR, and transfer-learning frameworks. The paper should provide a sharper theoretical comparison showing exactly what is new in TL-QLDMR beyond combining known components, and why the proposed combination is not simply an engineering integration of established ideas.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 1, Concern 2--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 1, Concern 2}}}
+\emph{The definition of ``extreme events'' is somewhat heuristic and may bias the target-domain construction. The use of 98th-percentile thresholds, temperature cutoffs, and a fixed 25 m/s cut-out rule should be justified more rigorously, and the authors should include a sensitivity analysis showing how results change under alternative extreme-event definitions.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 1, Concern 3--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 1, Concern 3}}}
+\emph{The study evaluates the final model mainly on a single selected target farm, which limits the generality of the conclusions. A stronger experimental design would test the method through leave-one-farm-out or cross-farm transfer validation to demonstrate that the reported gains are not specific to Farm 6 alone.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 1, Concern 4--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 1, Concern 4}}}
+\emph{The transfer-learning setting appears to rely on a very large source domain and a much smaller target domain, but the impact of target-label scarcity is not studied systematically. The authors should vary the number of target labels and report how performance degrades under stricter few-shot conditions, since this is central to the claimed extreme-event scenario.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 1, Concern 5--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 1, Concern 5}}}
+\emph{The asymmetric variance regularizer is an interesting idea, but its mathematical justification remains incomplete. The manuscript should provide a more rigorous derivation explaining why the proposed asymmetric form is the most appropriate quantile-compatible modification of LDMR, and whether the stated positive-definiteness and convexity claims always hold under all kernel and hyperparameter settings.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 1, Concern 6--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 1, Concern 6}}}
+\emph{The probabilistic evaluation is not sufficiently comprehensive for a quantile-forecasting paper. Reporting only a 95\% interval setting is too narrow; the authors should evaluate multiple quantile levels, calibration curves, and ideally a proper scoring rule beyond Winkler/CWC to demonstrate stable probabilistic behavior across the distribution.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 1, Concern 7--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 1, Concern 7}}}
+\emph{The comparison protocol may not be fully fair unless all baselines are tuned with equal care. Because the proposed method combines transfer learning, kernel alignment, and weighted quantile loss, the paper should document hyperparameter tuning budgets and validation procedures for every baseline, and include statistical significance tests over repeated runs.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 1, Concern 8--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 1, Concern 8}}}
+\emph{The temporal validation strategy is not sufficiently explicit for a forecasting problem. The manuscript should clarify whether the train/validation/test split is strictly chronological; if random splitting was used anywhere, it may leak future information and overstate performance in a time-series setting.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 1, Concern 9--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 1, Concern 9}}}
+\emph{The scalability claim is positive, but the computational analysis is incomplete. The Nystr\"om-SGD solver should be evaluated more thoroughly across a wider range of landmark sizes and data scales, with an explicit accuracy-runtime trade-off curve, because the current runtime advantage alone does not show whether approximation error becomes significant.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 1, Concern 10--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 1, Concern 10}}}
+\emph{The conclusions would be stronger if the manuscript tested robustness beyond injected noise on one farm. The paper should include ablations under multiple meteorological seasons, different extreme-event types, and possibly additional datasets, to show that the observed robustness is general rather than dataset-specific.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 1, Concern 11--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 1, Concern 11}}}
+\emph{The literature review section should be significantly expanded and structured more critically, using these papers for example ``Multiscale Wind Forecasting Using Explainable-Adaptive Hybrid Deep Learning'', ``Prediction of uncertainty ramping demand in new power systems based on a CNN-LSTM hybrid neural network'', ``Wind power forecasting enhancement utilizing adaptive quantile function and CNN-LSTM: A probabilistic approach'', ``A multi-level model for hybrid short term wind forecasting based on SVM, wavelet transform and feature selection''.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+\newpage
+
+% ---------------- Reviewer 2 ---------------------
+{\color{black}
+\section*{\textbf{REVIEWER 2}}\label{rev2}}
+
+{\color{black}
+\subsubsection*{\underline{General Comments}}
+\emph{The manuscript proposes Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR) for wind power forecasting under extreme operating conditions. The topic is timely and relevant to Energy. Forecasting under rare, high-risk wind-power regimes is important for renewable-energy integration and grid operation, and the attempt to combine transfer learning, quantile regression, large-margin distribution learning, and a scalable Nystrom-SGD solver is technically interesting. Several points need clarification and additional evidence before the main claims can be fully assessed, especially the experimental scope, data-splitting protocol, baseline reproducibility, and the strength of the theoretical and deployment-related claims.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 1--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 1}}}
+\emph{The experimental scope is narrower than the claims. The manuscript uses six wind farms to define and rank domain shift, but the main deterministic prediction comparison, probabilistic interval evaluation, noise robustness test, ablation study, residual-density analysis, and scalability study are all reported on Farm 6. Since Farm 6 is selected as the farm with the largest composite shift, this is better described as a selected stress-test case, not as full six-farm validation. The authors should either report the main comparisons across all six farms, or at least representative high-, medium-, and low-shift farms, or clearly narrow the claims to a Farm 6 evaluation after six-farm screening.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 2--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 2}}}
+\emph{The data split and target-domain partition are insufficiently described. For Farm 6, the paper reports 66,009 source-domain normal samples and 4,144 target-domain extreme-event samples, but it does not state how many target samples are used for training, validation, calibration, and testing. This is critical because the proposed method uses target-domain labels through weighted pinball loss. The authors should report the exact chronological span, forecasting horizon, source/target train-validation-test counts, split strategy, and whether thresholds, normalization, calibration, and hyperparameter tuning are based only on training data.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 3--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 3}}}
+\emph{The time-series leakage risk should be addressed. A fixed random seed does not by itself make a valid forecasting protocol. Random splits may place neighboring 15-minute samples from the same event into both training and test sets. The authors should use a chronological, blocked, rolling-origin, or event-level split, or at least compare the current protocol with a leakage-safe chronological protocol.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 4--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 4}}}
+\emph{The extreme-event definition needs stronger validation. The target domain is defined by a union of high wind speed, low/high temperature, and wind speed above 25 m/s rules. The authors should report per-rule sample counts, overlaps, event durations, seasonal distribution, and representative episodes. They should also justify the exclusion of ramp events, since rapid ramps are important wind-power operational risk cases, or clearly state that ramp-risk forecasting is outside the paper's scope.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 5--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 5}}}
+\emph{The method derivation needs clarification. The asymmetric variance regularizer is central to the paper, but the current derivation is difficult to verify. The authors should explain what quantities are treated as constants, why this is mathematically valid when residuals depend on the prediction function, and whether the variance term is computed on the source domain, target domain, or combined domain. The relation between the exact kernel formulation, the Nystrom approximation, and the SGD optimizer should also be separated more clearly.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 6--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 6}}}
+\emph{The theoretical claims are overstated. The manuscript refers to positive definiteness, convergence, and theoretical guarantees, but the proof conditions are only sketched. For a nonsmooth weighted pinball-loss objective with Nystrom approximation and SGD, the authors should specify assumptions on kernel definiteness, landmark selection, step-size schedule, regularization, bounded gradients, and approximation error. Otherwise, the claims should be softened.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 7--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 7}}}
+\emph{Baseline fairness and reproducibility are not sufficient. The paper compares TL-QLDMR with many baselines, but does not provide enough information about implementation sources, hyperparameter search spaces, selected hyperparameters, validation criteria, calibration procedures, random seeds, or repeated runs. The authors should also report confidence intervals or standard deviations and statistical tests against the strongest baselines. This is important because some improvements are modest, for example the RMSE improvement over HHO-SVR in Table 4.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 8--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 8}}}
+\emph{The probabilistic forecasting evaluation should be strengthened. A single 95\% interval table is not enough to establish interval quality. The authors should provide calibration curves or reliability diagrams, empirical coverage at multiple nominal levels, and sharpness-coverage trade-off results. They should also clarify whether TL-QLDMR is evaluated directly from quantile outputs or receives the same post-hoc calibration as conformal baselines.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 9--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 9}}}
+\emph{The noise-robustness experiment needs more detail. The authors should state which variables receive Gaussian noise, whether noise is added before or after normalization, whether wind direction is handled as a circular variable, whether the target power output is perturbed, and whether results are averaged over multiple noise realizations. The result that TL-QLDMR has higher R2 at SNR $=$ 60 dB than in the clean setting also needs explanation.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 10--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 10}}}
+\emph{The real-time and scalability claims should be restrained. The reported training time on a server with eight NVIDIA Tesla V100 GPUs is useful, but it does not by itself demonstrate real-time wind-farm deployment. The authors should report inference latency, memory footprint, CPU or single-GPU performance, online update cost, and the cost of landmark selection and preprocessing. If real-time operation is claimed, the operational latency requirement should be defined.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 11--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 11}}}
+\emph{The interpretability claim is not demonstrated. Kernel models may be more structured than some deep networks, but the manuscript does not provide feature attribution, sensitivity analysis, physical consistency checks, or operational interpretability examples. The interpretability language should be supported with evidence or made more cautious.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Major Comment 12--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 12}}}
+\emph{The data and code availability statement is too weak. For a method paper with custom extreme-event labels, many baselines, custom splits, and a new solver, ``available upon reasonable request'' is not sufficient. The authors should provide code, preprocessing scripts, exact source/target labels, train/validation/test split files, baseline configuration files, scripts for generating the main tables and figures, random seeds, and environment details.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 1--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 1}}}
+\emph{The abstract is dense and overstates the current evidence. It should distinguish the proposed method, the Farm 6 stress-test results, and the additional validation needed for broader deployment.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 2--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 2}}}
+\emph{The Highlights should be revised. The statement that ``Six-farm experiments show better accuracy, interval quality, and scalability'' is misleading because the main predictive comparisons are not reported across all six farms.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 3--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 3}}}
+\emph{The related work section should engage more deeply with wind-power probabilistic forecasting, extreme-event forecasting, transfer learning in renewable-energy forecasting, conformal prediction, and recent deep spatiotemporal baselines.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 4--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 4}}}
+\emph{Some baseline choices need justification. For example, ARA-SVR appears to come from traffic-flow forecasting rather than wind-power forecasting.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 5--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 5}}}
+\emph{The input-window construction should be described more clearly, including lag variables, forecasting horizon, normalization, missing-value handling, and whether future meteorological variables are used.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 6--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 6}}}
+\emph{Table 3 should include the proportion of extreme-event samples for each farm, not only absolute counts.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 7--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 7}}}
+\emph{Figures 3--7 use selected temporal segments. The selection criterion should be stated to avoid the impression of cherry-picked examples.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 8--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 8}}}
+\emph{The residual-density comparison should include quantitative residual statistics, such as skewness, kurtosis, tail-error frequency, and calibration error.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 9--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 9}}}
+\emph{The formulas for CWC and Winkler score should be provided, including penalty terms and normalization.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 10--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 10}}}
+\emph{A notation table would improve readability, as the manuscript introduces many symbols.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 11--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 11}}}
+\emph{The term ``extreme events'' should be used consistently. The current definition is sample-level out-of-distribution operating states, not necessarily named or tracked meteorological events.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 2, Minor Comment 12--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 2, Minor Comment 12}}}
+\emph{The conclusion should include limitations, including the single-farm main evaluation, sample-level extreme-event definition, need for chronological validation, and lack of deployment-latency evidence.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+\newpage
+
+% ---------------- Reviewer 3 ---------------------
+{\color{black}
+\section*{\textbf{REVIEWER 3}}\label{rev3}}
+
+{\color{black}
+\subsubsection*{\underline{General Comments}}
+\emph{This manuscript focuses on the challenges of limited samples, cross-domain distribution differences, and uncertainty quantification in wind power forecasting under extreme events. It proposes a TL-QLDMR framework integrating large-margin distribution learning, quantile regression, domain adaptation, and scalable optimization. The topic is practically relevant, the overall technical framework is reasonably complete, and the experiments cover point forecasting, interval forecasting, ablation studies, and computational efficiency.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 3, Concern 1--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 3, Concern 1}}}
+\emph{The review of the existing literature on wind power forecasting under extreme events remains insufficient in the Introduction. After explaining the importance of extreme-event forecasting, the manuscript moves rather quickly to the general advantages of kernel methods and LDMR, without systematically discussing recent developments and limitations of deep learning, transfer learning, and probabilistic forecasting methods in extreme-event scenarios. Consequently, the motivation for adopting a kernel-based approach is not yet sufficiently clear. The authors are encouraged to expand the review of extreme-event wind power forecasting and explain the suitability, advantages, and potential trade-offs of kernel methods compared with neural networks or other learnable representation methods.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 3, Concern 2--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 3, Concern 2}}}
+\emph{Please clarify how the source-domain mean residual in Eq.\ (4) is handled. According to its definition, this quantity is calculated from the model residuals and therefore appears to depend on the model parameters being optimized. However, the manuscript states that it is treated as a scalar constant during optimization. Meanwhile, the centered residual representation in Eq.\ (7) appears to imply that the mean residual is calculated from the current model. Please clarify whether it is calculated before optimization and then fixed, or updated during training as the model parameters change. If it is fixed, its calculation and initialization procedure should be explained. If it is updated dynamically, the expression ``scalar constant'' should be revised, and consistency among Eqs.\ (4), (6)--(7), and the subsequent kernelized derivation should be ensured.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 3, Concern 3--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 3, Concern 3}}}
+\emph{Please clarify the definition and derivation of the MMD-based domain adaptation term. In Eq.\ (4), it is presented as the standard distance between the source- and target-domain mean embeddings under a fixed RKHS mapping. When the kernel mapping is fixed, this formulation appears to be independent of the model parameters being optimized. However, Eq.\ (10) expresses it as a kernelized quadratic term involving the model coefficients, which appears to measure the difference between the mean predictions or projected means of the two domains. The authors should explain how Eq.\ (4) is transformed into Eq.\ (10) and clarify whether this term aligns the complete feature-space distributions or only constrains the difference between the two domains along the prediction direction.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 3, Concern 4--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 3, Concern 4}}}
+\emph{The mathematical basis of the proposed ``asymmetric variance regularization term'' should be clarified. The variance term in Eq.\ (4) is essentially based on squared centered residuals. Such a term penalizes positive and negative residuals in the same manner and does not explicitly depend on the quantile level. Therefore, its asymmetry and its essential difference from conventional symmetric variance regularization are not evident from the current formulation. The quantile-dependent asymmetry of the model appears to arise mainly from the pinball loss. If this is the case, the corresponding claims and descriptions of the variance regularization term should be revised accordingly.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 3, Concern 5--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 3, Concern 5}}}
+\emph{The manuscript assigns a substantially larger penalty weight to the target domain than to the source domain in order to prevent the large number of source-domain samples from dominating joint training. However, the current objective function directly sums the losses from the two domains. Their relative contributions therefore depend not only on the selected penalty weights but also on the corresponding sample sizes. For example, for Farm 6, the source domain contains 66,009 samples, whereas the target domain contains 4,144 samples, resulting in an approximate sample-size ratio of 16 to 1. At the same time, the candidate target-domain penalty weights are much larger than the candidate source-domain weights, resulting in a per-sample weight ratio ranging from 250 to 20,000. Therefore, this setting may not merely compensate for sample imbalance but may cause the optimization to be dominated by the target-domain loss. The existing ``w/o Transfer'' and ``w/o MMD'' ablation studies cannot independently identify the contribution of this weighting mechanism. The authors are encouraged to report the final source- and target-domain penalty weights used in each experiment and conduct a sensitivity analysis of the weighting strategy. Possible comparisons could include equal weighting, domain-size-normalized weighting, sample-imbalance-based weighting, and the current strategy.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 3, Concern 6--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 3, Concern 6}}}
+\emph{Please provide further details on how the training, validation, and test sets were constructed. Section 4.3 states that the data were randomly divided using a fixed random seed, while Figure 1 shows that the input samples were generated using sliding windows of length 24. Please clarify whether the datasets were divided chronologically, by independent time periods, or by randomly splitting the window samples. If overlapping windows can appear in different subsets, the authors should also explain how potential temporal information leakage was avoided.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+% -------------Reviewer 3, Minor Comment--------------
+\textcolor{customgreen}{
+\subsubsection*{\underline{\textbf{Reviewer 3, Minor Comment}}}
+\emph{The authors are advised to check whether the Highlights comply with the journal's formatting and writing requirements, including the use of abbreviations and the character limit for each bullet point.}
+}\\
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+
+\newpage
+\section*{\textbf{ACKNOWLEDGEMENT}}
+\noindent\rule[0.25\baselineskip]{\textwidth}{1pt}
+Special thanks to you for the valuable and helpful comments and suggestions from editors and anonymous reviewers.
+The comments are helpful in improving our paper, as well as the important guiding significance to our research.
+We hope that the editors' and reviewers' concerns have been adequately addressed in the revised version.
+
+Yours sincerely,
+
+\rightline{The Authors}
+
+\end{document}

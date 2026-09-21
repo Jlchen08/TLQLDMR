@@ -1,0 +1,23 @@
+{
+  "model": "RF-WPF",
+  "best_metrics": {
+    "rmse": 7.967440260458622,
+    "mae": 5.343658241612328,
+    "mape": 2856639.428831066,
+    "r2": 0.9491923418506424
+  },
+  "best_config": {
+    "feature_set": "full_dir_cyclic",
+    "window_size": 24,
+    "target_train_ratio": 0.9,
+    "n_estimators": 80,
+    "max_depth": 6,
+    "min_samples_split": 6,
+    "min_samples_leaf": 4,
+    "max_features": 0.6,
+    "random_state": 42
+  },
+  "farm_idx": 3,
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "split_seed": 0
+}

@@ -1,0 +1,2588 @@
+TL-QLDMR: A Transfer Learning Quantile Regression Model for
+Wind Power Forecasting under Extreme Events
+Junlin Chena , Bo Wanga,∗ , Zhihang Yua , Pei-chun Linb , Libo Zhangc and Junzo Watadad
+a School of Management and Engineering, Nanjing University, Nanjing 210093, China
+b Department of Information Engineering and Computer Science, Feng Chia University, Taiwan 40724, China
+c College of Artificial Intelligence, Southwest University, Chongqing 400715, China
+d Graduate School of Information, Production and Systems, Waseda University, Kitakyushu 808-0135, Japan
+
+ARTICLE INFO
+Keywords:
+Wind power forecasting
+Large-margin distribution machine
+Quantile regression
+Transfer learning
+Extreme events
+
+ABSTRACT
+Accurate wind power forecasting under extreme events is critical for grid stability and renewable
+energy integration, yet remains a formidable challenge due to severe data scarcity and substantial
+distribution shifts between normal and extreme-event operating regimes. While kernel-based
+methods, particularly support vector regression and Large-margin Distribution Machine-based
+Regression (LDMR), have demonstrated strong performance in various regression tasks due
+to their theoretical guarantees and robustness on limited data, their application to extremeevent forecasting faces critical limitations: the i.i.d. assumption underlying standard kernel
+methods is fundamentally violated under cross-domain scenarios, and the symmetric variance
+minimization in LDMR implicitly encourages symmetric error distributions, which conflicts
+with the asymmetric nature of quantile-based interval prediction required for uncertainty
+quantification. To extend kernel-based regression to extreme-event forecasting, we propose
+Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR),
+which addresses these challenges through three synergistic innovations: (i) an asymmetric
+variance regularizer that preserves LDMR’s distributional robustness while accommodating
+quantile-specific error asymmetry, (ii) a supervised transfer learning framework integrating
+maximum mean discrepancy for feature alignment and weighted pinball loss for label adaptation,
+enabling effective knowledge transfer from abundant normal-domain data to scarce extremeevent samples, and (iii) a scalable Nyström-SGD solver reducing complexity from 𝑂(𝑁 3 ) to
+𝑂(𝑇 ⋅ 𝑁 ⋅ 𝑚). Comprehensive experiments on six wind farms demonstrate that TL-QLDMR
+achieves competitive performance in both deterministic and probabilistic forecasting in the
+extreme-event domain, with superior reliability-sharpness trade-off and practical scalability,
+making it suitable for real-time applications where interpretability and theoretical guarantees
+are prioritized.
+
+1. Introduction
+The global transition toward renewable energy has positioned wind power as a cornerstone of sustainable electricity
+generation. However, the inherent intermittency and volatility of wind resources pose significant challenges to power
+grid stability and dispatch optimality (Yuan et al., 2023). Accurate wind power forecasting is therefore critical for
+balancing supply and demand, reducing operational costs, and ensuring reliable grid integration (Petersen et al.,
+2026; Wen & Pinson, 2026). While substantial progress has been achieved in short-term forecasting under normal
+meteorological conditions, prediction performance can degrade significantly during extreme events, particularly those
+associated with typhoons, cold waves, or heat waves, with error increases of 30-50% commonly observed when wind
+power fluctuations are most severe and grid stability is most vulnerable (Yan et al., 2025; Jonkers et al., 2024).
+Extreme events present a dual challenge for data-driven forecasting models. First, such events are inherently rare,
+resulting in severe data scarcity: extreme-condition samples typically constitute less than 5% of historical records
+(Chen & Xu, 2022). Second, the dynamics under extreme-event conditions differ fundamentally from normal operating
+∗ Corresponding author: Bo Wang
+E-mail address: jlchen08@163.com (J. Chen), bowangsme@nju.edu.cn (B. Wang), zhihangyu@smail.nju.edu.cn (Z. Yu),
+peiclin@fcu.edu.tw (P. Lin), lbzhang@swu.edu.cn (L. Zhang), junzo.watada@gmail.com (J. Watada)
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 1 of 31
+
+regimes, inducing substantial distribution shifts in both feature space (e.g., wind speed, temperature) and label space. In
+this work, the term extreme events is used in a broad operational sense: it includes, but is not limited to, named severeweather processes and instead denotes rare, high-risk, and out-of-distribution states induced by extreme meteorological
+deviations and their associated turbine responses. For instance, during typhoon events, wind speeds may exceed 25
+m/s, triggering turbine cut-out operations that produce near-zero power output—a pattern rarely observed in normaldomain training data. This creates a covariate shift in the input space and a label shift in the output space, both of
+which challenge conventional machine learning models that assume training and testing data are independently and
+identically distributed (i.i.d.) (Mustaffa & Sulaiman, 2025; Chen & Shi, 2025).
+Among the diverse landscape of forecasting methodologies, kernel-based approaches—particularly Support Vector
+Regression (SVR) and its variants—have been extensively applied to wind power forecasting and have demonstrated
+competitive performance under normal-operating conditions (Wang et al., 2021; Li et al., 2021; Luo et al., 2024; Yuan
+et al., 2022). The SVR methodology continues to evolve, with recent advances in optimization algorithms, convergence
+properties, and robustness enhancements. These kernel methods offer several distinctive advantages over black-box
+deep learning models: strong generalization guarantees rooted in statistical learning theory, effective handling of
+high-dimensional feature spaces through the kernel trick, convex optimization formulations that guarantee global
+optima, and robust performance on small-to-medium-sized datasets where deep models tend to overfit. Moreover,
+their interpretability and theoretical foundations make them particularly attractive for safety-critical applications such
+as grid dispatch, where model transparency is often required by regulatory standards. Recent studies have further
+enriched kernel regression through robust SVM formulations (Trafalis & Gilbert, 2006), bounded-loss regression (Fu
+et al., 2023), and multiple-kernel learning with compound regularization (Jiang et al., 2021), reinforcing the continuing
+relevance of robustness-oriented kernel learning for forecast tasks involving noisy and heterogeneous data.
+However, existing kernel-based wind power forecasting studies predominantly focus on normal-operating conditions with deterministic point prediction objectives. Traditional SVR minimizes the 𝜖-insensitive loss to estimate
+the conditional mean, achieving robust point predictions under Gaussian noise assumptions. More generally, direct
+quantile-based forecasting has long been recognized as an effective route to interval generation under skewed and
+heteroscedastic demand patterns (Taylor, 2007). To address the need for uncertainty quantification, Support Vector
+Quantile Regression (SVQR) extends SVR by replacing the symmetric 𝜖-loss with the asymmetric pinball loss,
+enabling estimation of conditional quantiles for prediction intervals (Ye et al., 2025b, 2023). Recent SVQR variants
+incorporate twin-hyperplane designs (Ye et al., 2023), robustness-enhancing loss formulations (Hazarika et al., 2023),
+and nonlinear feature selection (Ye et al., 2025b) to improve scalability and robustness. Despite these methodological
+advances, the application of kernel-based methods to extreme-event forecasting remains largely unexplored, presenting
+both challenges and opportunities for methodological extension.
+However, a fundamental limitation shared by both SVR and SVQR is that they optimize only the minimum margin
+while ignoring the statistical distribution of margins across the entire dataset. This focus on worst-case samples can
+lead to overfitting and poor generalization, particularly when training data contains outliers or label noise. To overcome
+this limitation, the Large-margin Distribution Machine-based Regression (LDMR) paradigm was introduced, which
+explicitly optimizes both the mean and variance of the margin distribution (Zhang & Zhou, 2020; Gupta & Gupta,
+2021). By concentrating prediction errors tightly around zero, LDMR achieves superior generalization compared to
+classical SVR on a wide range of regression tasks (Gupta & Gupta, 2021; Hazarika & Gupta, 2023). Variants of LDMR
+have been successfully applied to wind turbine fault detection (Tang et al., 2019), imbalanced classification (Cheng
+et al., 2016), and structural health monitoring (Yang et al., 2024), demonstrating its robustness in noisy industrial
+environments. However, LDMR has not been systematically applied to wind power forecasting, particularly under
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 2 of 31
+
+extreme-event conditions where both distributional robustness and probabilistic interval prediction are required. These
+characteristics—combined with LDMR’s theoretical foundations—make it a promising candidate for extension to
+forecasting in the extreme-event domain.
+However, extending kernel-based methods from the normal-operating domain to the extreme-event domain
+introduces three critical challenges that require methodological innovation. First, the i.i.d. assumption—that training
+and testing data are drawn from the same distribution—is a foundational premise of both SVR/SVQR and LDMR.
+While this assumption holds reasonably well within a single operating regime, it is systematically violated when
+transferring knowledge from normal (source domain) to extreme-event (target domain) conditions. For example, in
+our preliminary analysis of six wind farms, the Wasserstein distance between normal and extreme power distributions
+ranges from 5.96 to 21.06, indicating substantial distributional discrepancy. A model trained solely on abundant
+normal-domain data will inevitably exhibit performance degradation when deployed under extreme conditions,
+regardless of how well the margin distribution is optimized within the source domain. While transfer learning and
+domain adaptation techniques have been extensively studied in computer vision (Tao et al., 2012) and sensor drift
+compensation (Yan et al., 2022; Guo et al., 2022; Zhai et al., 2023; Se et al., 2023), their principled integration with
+kernel-based regression for wind power forecasting remains an open research question.
+Second, there exists a fundamental theoretical tension between LDMR’s distributional robustness mechanism
+and the requirements of quantile regression. The core principle of LDMR—minimizing the variance of prediction
+residuals—implicitly encourages a symmetric, concentrated error distribution around zero. This is theoretically
+appropriate and empirically effective for conditional mean estimation, as evidenced by LDMR’s superior performance
+over SVR in numerous regression benchmarks. However, quantile regression at level 𝜏 ≠ 0.5 requires an inherently
+asymmetric residual distribution: for example, when estimating the 95th percentile, approximately 95% of errors
+should be negative and only 5% positive. Naively applying LDMR’s variance minimization to quantile regression will
+force the error distribution toward symmetry, thereby degrading interval calibration and violating the target coverage
+probability. This theoretical conflict has received limited attention in the literature, as existing LDMR studies focus
+primarily on mean regression, and existing SVQR studies do not incorporate distributional robustness. Reconciling
+these two objectives—distributional robustness and quantile-specific asymmetry—requires a principled modification
+of the LDMR framework.
+Third, existing transfer learning approaches for wind power forecasting predominantly adopt unsupervised domain
+adaptation strategies, focusing exclusively on aligning feature distributions while treating target-domain labels—
+even when available in small quantities—as entirely unused supervision signals (Tao et al., 2012; Guo et al., 2022).
+This design choice is reasonable when target labels are completely unavailable, but is suboptimal for extremeevent forecasting, where scarce target samples represent high-value information that captures critical domain-specific
+dynamics such as cut-out behavior and power curtailment. A more effective transfer learning framework should
+leverage both feature-space alignment and label-space supervision, strategically weighting target samples to guide
+model adaptation. This supervised transfer learning paradigm has been successfully applied in computer vision and
+natural language processing, but its integration with kernel-based quantile regression for wind power forecasting
+remains unexplored.
+To address these challenges and extend kernel-based regression to extreme-event forecasting, Transfer Learning
+Quantile Large-margin Distribution Machine for Regression (TL-QLDMR) is proposed as a principled extension of the
+classical LDMR paradigm for cross-domain probabilistic wind power prediction. The resulting framework preserves
+the theoretical strengths of kernel-based methods—convex optimization, generalization guarantees, and robustness on
+limited data—while introducing three synergistic innovations tailored to the extreme-event setting.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 3 of 31
+
+First, a novel asymmetric variance regularization mechanism is introduced to reconcile the tension between
+distributional robustness and quantile estimation. Unlike standard LDMR, which implicitly encourages symmetric error
+distributions through variance minimization, the proposed formulation employs asymmetric variance regularization
+based on algebraic residuals, thereby compressing overall error dispersion while preserving the requisite skewness for
+accurate quantile prediction. This innovation enables TL-QLDMR to achieve both superior point prediction accuracy
+and well-calibrated prediction intervals, a capability that neither standard LDMR nor SVQR alone can provide.
+Second, a supervised transfer learning framework is developed to integrate two complementary adaptation
+mechanisms. In the feature space, Maximum Mean Discrepancy (MMD) minimization aligns the source and target
+distributions in the Reproducing Kernel Hilbert Space (RKHS), reducing covariate shift and ensuring that the learned
+feature representation is domain-invariant (Tao et al., 2012). In the label space, a weighted pinball loss mechanism
+assigns substantially higher weights to scarce target-domain samples, treating them as high-value corrective anchors
+that guide the model toward extreme-event dynamics. This dual-space adaptation strategy enables TL-QLDMR to
+leverage abundant source data for structural learning while prioritizing target data for domain-specific refinement,
+thereby addressing the label-neglect problem in existing unsupervised domain adaptation methods. This is particularly
+important for extreme-event forecasting, where every extreme sample carries valuable information about rare but
+critical operating conditions such as cut-out events and power curtailment.
+Third, because the standard quadratic programming (QP) formulation of kernel-based transfer learning incurs
+𝑂(𝑁 3 ) computational complexity through full kernel-matrix computation and inversion, a scalable Nyström-SGD
+algorithm is developed by combining Nyström approximation—which constructs an explicit low-rank feature mapping
+using 𝑚 ≪ 𝑁 landmark points—with stochastic gradient descent (SGD). The resulting complexity is reduced to
+𝑂(𝑇 ⋅ 𝑁 ⋅ 𝑚), enabling practical deployment on large-scale supervisory control and data acquisition (SCADA) datasets
+(Chen & Xu, 2022) that accumulate tens of thousands of samples annually.
+TL-QLDMR is evaluated on a publicly available multi-site wind farm SCADA dataset encompassing six wind
+farms with capacities ranging from 36 MW to 200 MW, in comparison with recent kernel-based methods, ensemble
+approaches, and deep learning baselines. Experimental results demonstrate that TL-QLDMR achieves competitive
+performance in both deterministic and probabilistic forecasting in the extreme-event domain, with consistent improvements across multiple evaluation metrics. Ablation studies confirm the contribution of each component, and scalability
+analysis validates the efficiency of the proposed Nyström-SGD solver.
+It is important to clarify the scope and positioning of this work. TL-QLDMR is designed for scenarios where
+kernel-based methods’ distinctive advantages—theoretical guarantees, interpretability, sample efficiency, and convex
+optimization—are particularly valuable. Such scenarios are common in practice: (i) extreme events are inherently rare,
+providing limited training data where kernel methods’ sample efficiency is advantageous, (ii) grid dispatch applications
+often require model transparency for regulatory compliance, and (iii) real-time forecasting systems benefit from the
+computational efficiency and stability of convex optimization. Our contribution is to extend the LDMR framework
+with quantile-aware asymmetry and supervised domain adaptation, demonstrating that kernel-based methods, when
+properly extended, remain a competitive and theoretically grounded choice for extreme-event forecasting.
+The remainder of this paper is organized as follows. Section 2 reviews the theoretical foundations of SVQR,
+LDMR, and transfer learning with MMD, establishing the building blocks for our method. Section 3 presents
+the TL-QLDMR formulation, including the asymmetric variance regularizer, supervised transfer framework, and
+scalable optimization algorithm. Section 4 describes the dataset, experimental setup, and comprehensive evaluation
+results across deterministic prediction, probabilistic interval forecasting, ablation studies, and computational efficiency
+analysis. Finally, Section 5 concludes the paper and discusses future research directions.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 4 of 31
+
+2. Related Work
+This section briefly reviews the theoretical foundations related to the proposed method, including Support Vector
+Quantile Regression, Large-margin Distribution Machine-based Regression, and Transfer Learning with Maximum
+Mean Discrepancy.
+
+2.1. Support Vector Quantile Regression
+Traditional SVR relies on the 𝜖-insensitive loss function, which assumes a symmetric error distribution (e.g.,
+Gaussian) and estimates the conditional mean of the target variable. However, in scenarios like partial shading
+or wind curtailment, the noise distribution is often asymmetric and heteroscedastic. To address this, SVQR was
+introduced to estimate conditional quantiles, providing a comprehensive view of the outcome distribution. Recent
+SVQR-family developments include twin-hyperplane designs, robustness-enhancing loss formulations, and nonlinear
+feature-selection variants, which improve scalability and robustness in non-Gaussian environments (Ye et al., 2023;
+Hazarika et al., 2023; Ye et al., 2025b).
+The core of SVQR is the non-symmetric pinball loss function, defined as
+⎧
+⎪𝜏𝑢,
+𝐿𝜏 (𝑢) = ⎨
+⎪(𝜏 − 1)𝑢,
+⎩
+
+𝑢≥0
+𝑢 < 0,
+
+(1)
+
+where 𝜏 ∈ (0, 1) indicates the target quantile. Unlike SVR, SVQR finds a decision boundary that divides the data such
+that a proportion 𝜏 of the samples lie below the boundary. The optimization problem minimizes the structural risk
+along with the empirical risk measured by the pinball loss
+𝑛
+∑
+1
+𝐿𝜏 (𝑦𝑖 − (𝒘𝑇 𝜙(𝒙𝑖 ) + 𝑏)),
+min ‖𝒘‖2 + 𝐶
+𝒘,𝑏 2
+𝑖=1
+
+(2)
+
+this formulation allows SVQR to capture heavy-tailed distributions and outliers more effectively than mean-based
+regression.
+
+2.2. Large-margin Distribution Machine-based Regression
+While SVR and SVQR focus on maximizing the minimum margin, they largely ignore the statistical distribution
+of the margin over the entire dataset. LDMR was proposed to improve generalization by explicitly optimizing the
+distribution of the margins. From early large-margin distribution formulations to least-squares and mode-seeking
+variants, LDMR has evolved into a practical framework for robust learning under noisy conditions (Zhang & Zhou,
+2014, 2020; Gupta & Gupta, 2021; Hazarika & Gupta, 2023).
+The key idea of LDMR is to not only maximize the margin of the support vectors but also to minimize the variance
+of the error distribution for all samples. A typical LDMR formulation for regression integrates two additional statistical
+regularization terms into the objective function
+𝑛
+∑
+1
+2
+min ‖𝒘‖ + 𝜆1 Var(Residuals) + 𝜆2 Mean(Residuals) + 𝐶
+𝐿(𝑦𝑖 , 𝑓 (𝒙𝑖 )),
+𝒘,𝑏 2
+𝑖=1
+
+(3)
+
+by constraining the variance, LDMR forces the prediction errors to be clustered tightly around zero, leading to a
+more compact and robust hypothesis space. However, this variance minimization implicitly encourages symmetric
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 5 of 31
+
+error distributions. Our work extends this concept by introducing an asymmetric variance regularization mechanism
+suitable for quantile regression, which preserves the distributional robustness of LDMR while accommodating the
+inherent asymmetry required for accurate quantile estimation.
+
+2.3. Transfer Learning and Maximum Mean Discrepancy
+Standard machine learning models operate under the assumption that training (source) and testing (target) data are
+drawn from the same probability distribution. When this assumption is violated—such as in wind power forecasting
+across different operating regimes—the model performance degrades significantly. Transfer learning aims to transfer
+knowledge from a label-rich source domain to a target domain with different but related distributions. MMD-based
+adaptation has been widely used in transfer scenarios because it provides a non-parametric discrepancy measure in
+RKHS and integrates naturally with kernelized objectives (Tao et al., 2012; Yan et al., 2022; Guo et al., 2022; Zhai
+et al., 2023; Se et al., 2023).
+A fundamental challenge in transfer learning is measuring and reducing the distribution discrepancy. MMD is a
+widely used non-parametric metric that measures the distance between two distributions in a RKHS. Given source data
+{𝒙𝑆,𝑖 } and target data {𝒙𝑇 ,𝑗 }, the squared MMD distance is defined as
+‖ ∑
+‖2
+𝑛𝑆
+𝑛𝑇
+∑
+‖
+‖
+1
+1
+MMD2 (𝐷𝑆 , 𝐷𝑇 ) = ‖
+𝜙(𝒙𝑆,𝑖 ) −
+𝜙(𝒙𝑇 ,𝑗 )‖
+‖𝑛
+‖ ,
+𝑛
+‖ 𝑆 𝑖=1
+‖
+𝑇 𝑗=1
+‖
+‖
+
+(4)
+
+where 𝜙(⋅) is the feature mapping induced by the kernel. By minimizing the MMD distance during training, the model
+learns a feature representation where the source and target domains are statistically aligned, enabling the classifier or
+regressor trained on the source domain to generalize well to the target domain. This alignment is particularly crucial for
+extreme-event forecasting, as it ensures that the learned predictor is robust to the feature-space shift between normal
+and extreme-event regimes.
+
+3. Proposed Method
+This section presents the construction of TL-QLDMR. Necessary notation is introduced first, followed by the final
+objective function integrating structural risk, distribution variance, domain adaptation, and weighted pinball loss. The
+constraints required to handle the non-differentiability of the quantile loss are then described.
+
+3.1. Notations
+Consider the problem of wind power forecasting under extreme events. The source domain is denoted by
+𝑛
+
+𝑆
+𝐷𝑆 = {(𝒙𝑆,𝑖 , 𝑦𝑆,𝑖 )}𝑖=1
+and contains abundant normal-operating samples, while the target domain is denoted by
+
+𝑛
+
+𝑇
+𝐷𝑇 = {(𝒙𝑇 ,𝑗 , 𝑦𝑇 ,𝑗 )}𝑗=1
+and contains scarce extreme-event samples. The input space  ⊆ ℝ𝑑 represents feature vectors
+
+constructed via sliding window processing, and the output space  ⊆ ℝ represents wind power. The sample sizes
+satisfy 𝑛𝑇 ≪ 𝑛𝑆 .
+Due to drastic meteorological changes during extreme events, the joint distributions differ significantly: 𝑃𝑆 (𝑿 𝑆 , 𝒀 𝑆 ) ≠
+𝑃𝑇 (𝑿 𝑇 , 𝒀 𝑇 ). This distribution discrepancy implies that a model trained solely on 𝑃𝑆 will fail on 𝑃𝑇 . A feature mapping
+𝜙 ∶  →  is used to map the input to a high-dimensional Reproducing Kernel Hilbert Space (RKHS). The prediction
+model is defined as
+𝑓 (𝒙) = 𝒘𝑇 𝜙(𝒙) + 𝑏,
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+(5)
+
+Page 6 of 31
+
+where 𝒘 is the weight vector and 𝑏 is the bias. The quantile 𝜏 ∈ (0, 1) is set to a specific value (e.g., 𝜏 = 0.95) for
+interval prediction (e.g., predicting the upper bound). Unless otherwise noted, 𝑘(⋅, ⋅) denotes the scalar kernel function,
+𝑲 denotes the Gram matrix, 𝜙(⋅) denotes the implicit RKHS mapping used in the exact kernel formulation, and 𝜓(⋅)
+denotes the explicit Nyström feature map used only in the scalable primal solver.
+
+3.2. TL-QLDMR Model Formulation
+The overall architecture of the proposed TL-QLDMR model is illustrated in Fig. 1. The left column presents
+a five-stage pipeline progressing from cross-domain data preparation through supervised transfer, quantile-aware
+objective construction, scalable optimization, to forecast outputs. In the supervised transfer stage, a shared kernel
+representation 𝜙(𝐱)/𝜓(𝐱) branches into two complementary adaptation paths: feature-space alignment via MMD in
+RKHS and label-space adaptation via target-weighted pinball loss. The quantile-aware objective integrates four terms—
+structural risk, asymmetric distribution variance, MMD-based domain adaptation, and weighted pinball loss—into a
+unified formulation. The optimization stage supports both an exact dual QP solver and a scalable Nyström-SGD solver,
+ultimately producing point forecasts and probabilistic prediction intervals.
+
+3.2.1. Objective Function
+Our optimization goal is to find the optimal 𝒘, 𝑏 and slack variables 𝝃, 𝝃 ∗ to minimize the following objective
+∑𝑛 𝑆
+function 𝐽 . Let 𝑢̄ 𝑆 = 𝑛1 𝑖=1
+(𝑦𝑆,𝑖 − 𝑓 (𝒙𝑆,𝑖 )) denote the mean residual over the source domain, which is treated as a
+𝑆
+scalar constant during optimization
+min
+
+𝒘,𝑏,𝝃,𝝃 ∗
+
+𝐽=
+
+1
+‖𝒘‖2
+2
+⏟⏟⏟
+(1) Structural Risk
+𝑛𝑆
+
++ 𝜆1
+
+∑(
+)2
+(𝑦𝑆,𝑖 − 𝒘𝑇 𝜙(𝒙𝑆,𝑖 ) − 𝑏) − 𝑢̄ 𝑆
+𝑖=1
+
+⏟⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏟⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏟
+(2) Distribution Variance
+
+‖ ∑
+‖2
+𝑛
+𝑛𝑇
+‖ 1 𝑆
+‖
+1 ∑
+‖
++ 𝜆2 ‖
+𝜙(𝒙𝑆,𝑖 ) −
+𝜙(𝒙𝑇 ,𝑗 )‖
+‖
+𝑛𝑇 𝑗=1
+‖ 𝑛𝑆 𝑖=1
+‖
+‖
+‖
+⏟⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏟⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏟
+
+(6)
+
+(3) Domain Adaptation
+𝑛𝑆
+
++ 𝐶𝑆
+
+∑
+
+𝐿𝜏 (𝑦𝑆,𝑖 , 𝑓 (𝒙𝑆,𝑖 )) + 𝐶𝑇
+
+𝑖=1
+
+𝑛𝑇
+∑
+
+𝐿𝜏 (𝑦𝑇 ,𝑗 , 𝑓 (𝒙𝑇 ,𝑗 )),
+
+𝑗=1
+
+⏟⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏟⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏟
+(4) Weighted Pinball Loss
+
+the physical meaning of each term is as follows:
+(1) Structural Risk: This term controls the complexity of the model and prevents overfitting, embodying the
+maximum margin principle of SVM.
+(2) Distribution Variance: This term is the core of our proposed Quantile LDMR model, incorporating a critical
+modification to the original LDMR variance.
+• Theoretical Conflict: The original LDMR minimizes the variance of residuals, which implicitly encourages a symmetric, concentrated error distribution around zero. However, quantile regression at level 𝜏 ≠ 0.5
+requires an asymmetric residual distribution where approximately 𝜏 proportion of errors are negative.
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 7 of 31
+
+Source domain DS
+Normal operation
+samples
+
+Cross-Domain
+Data
+
+Target domain DT
+Extreme-event
+samples
+
+Windowed covariates
+W = 24, meteorology,
+power history
+
+Sample imbalance: nT ≪ nS
+
+Shared kernel representation ϕ(x) / ψ(x)
+Supervised
+Transfer
+
+Label-space adaptation
+Target-weighted
+pinball loss
+
+Feature-space alignment
+MMD in RKHS
+
+J = RSR + λ1 RDV + λ2 RDA + RQ
+Quantile-Aware
+Objective
+
+RSR
+Structural Risk
+
+Scalable
+Optimization
+
+Forecast
+Outputs
+
++
+
+RDV
+Distribution
+Variance
+
+Exact dual solver
+Quadratic programming
+
++
+
+RDA
+Domain
+Adaptation
+
+Scalable solver
+Nyström + SGD
+
+Point forecast
+
++
+
+RQ
+Weighted
+Pinball Loss
+
+Complexity reduction
+O(N 3 ) →
+O(T · N · m)
+
+Prediction interval
+
+Fig. 1: Overall architecture of the proposed TL-QLDMR model. The left column shows the five-stage pipeline: cross-domain data
+preparation, supervised transfer learning, quantile-aware objective construction, scalable optimization, and forecast outputs. Each
+stage is elaborated in the corresponding right panel. In the supervised transfer stage, the shared kernel representation branches
+into feature-space alignment via MMD in RKHS and label-space adaptation via target-weighted pinball loss (indicated by dashed
+arrows). The quantile-aware objective decomposes into four additive terms: structural risk 𝑅SR , distribution variance 𝑅DV , domain
+adaptation 𝑅DA , and weighted pinball loss 𝑅Q . The optimization stage provides both an exact dual QP solver and a scalable NyströmSGD solver with complexity reduction from 𝑂(𝑁 3 ) to 𝑂(𝑇 ⋅ 𝑁 ⋅ 𝑚). The final outputs include deterministic point forecasts and
+probabilistic prediction intervals.
+
+Applying a symmetric variance penalty would force the residual distribution towards symmetry, degrading
+the skewness required for accurate quantile estimation.
+• Asymmetric Modification: To resolve this, we employ an asymmetric variance regularization based on
+the algebraic residuals. This design allows the model to reduce error dispersion without constraining the
+distribution’s direction, thereby preserving the non-symmetric properties essential for the Pinball Loss and
+improving interval coverage.
+(3) Domain Adaptation (MMD): This term aligns source and target feature distributions in RKHS by minimizing
+mean-embedding discrepancy. This alignment ensures that the learned predictor is robust to the feature-space
+shift between normal and extreme-event regimes. MMD is chosen because it is non-parametric, computationally
+tractable, and directly compatible with kernelized optimization.
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 8 of 31
+
+(4) Weighted Pinball Loss: This term performs label-space adaptation under sample imbalance. Unlike purely
+unsupervised alignment, the objective explicitly includes target-domain labels:
+• Label-supervised correction: extreme-event target labels constrain the model in regions where sourcedomain trends are no longer reliable (e.g., high wind speed under cut-out operation).
+• Imbalance-aware weighting: by setting 𝐶𝑇 ≫ 𝐶𝑆 , prediction errors on scarce target samples receive
+stronger penalties, preventing optimization from being dominated by abundant source samples.
+
+3.2.2. Constraints
+To handle the non-differentiability of the pinball loss, we introduce slack variables 𝜉𝑘 , 𝜉𝑘∗ to transform it into linear
+constraints. These constraints apply uniformly to all samples 𝑘 in the combined training set 𝐷 = 𝐷𝑆 ∪ 𝐷𝑇 , while
+domain-specific weighting is handled through 𝐶𝑆 and 𝐶𝑇 in the objective function
+⎧
+⎪𝑦𝑘 − (𝒘𝑇 𝜙(𝒙𝑘 ) + 𝑏) ≤ 𝜉𝑘 ,
+⎪ 𝑇
+⎨(𝒘 𝜙(𝒙𝑘 ) + 𝑏) − 𝑦𝑘 ≤ 𝜉𝑘∗ ,
+⎪
+⎪𝜉𝑘 ≥ 0, 𝜉𝑘∗ ≥ 0
+⎩
+
+∀𝑘 ∈ {1, … , 𝑛𝑆 + 𝑛𝑇 }
+∀𝑘 ∈ {1, … , 𝑛𝑆 + 𝑛𝑇 } ,
+
+(7)
+
+in the objective function, the term 𝐿𝜏 (𝑦𝑘 , 𝑓 (𝒙𝑘 )) corresponds to 𝜏𝜉𝑘 + (1 − 𝜏)𝜉𝑘∗ .
+
+3.3. Model Optimization
+This section derives the dual problem of TL-QLDMR to enable efficient solution via Quadratic Programming (QP).
+
+3.3.1. Matrix Reformulation of the Primal Problem
+To facilitate the derivation, the variance term and the MMD term in the objective function [Eq. (6)] are rewritten
+using matrix traces or norms. Let 𝑋 = [𝑿 𝑆 , 𝑿 𝑇 ] denote the entire training set with 𝑁 = 𝑛𝑆 + 𝑛𝑇 samples. For
+consistency with standard derivations, a coefficient of 1∕2 is added to the variance and MMD terms. The primal
+objective can be reformulated as
+min ∗
+
+𝒘,𝑏,𝝃,𝝃
+
+𝑁
+∑
+𝜆
+𝜆
+1
+𝐶𝑘 𝐿𝜏 (𝑦𝑘 , 𝑓 (𝒙𝑘 )),
+‖𝒘‖2 + 1 Var𝑆 (𝒘, 𝑏) + 2 MMD2 (𝒘) +
+2
+2
+2
+𝑘=1
+
+(8)
+
+where 𝐶𝑘 takes value 𝐶𝑆 if sample 𝑘 ∈ 𝐷𝑆 and 𝐶𝑇 if 𝑘 ∈ 𝐷𝑇 .
+Two auxiliary matrices are introduced to express the variance and MMD terms in Eq. (8) as quadratic forms of the
+weights:
+(1) Variance Matrix 𝐒: To represent the source-domain variance
+
+∑
+
+2
+𝑖∈𝐷𝑆 (𝑦𝑆,𝑖 −𝑓 (𝒙𝑆,𝑖 )− 𝑢̄ 𝑆 ) , we define a centering
+1
+𝑇
+matrix 𝑯 𝑆 = 𝑰 𝑛𝑆 − 𝑛 𝟏𝑛𝑆 𝟏𝑛 . The variance term can be written as ‖𝑯 𝑆 (𝒚 𝑆 − 𝒇 𝑆 )‖2 . To extend this to the full
+𝑆
+𝑆
+
+dataset, we define an 𝑁 × 𝑁 matrix 𝐒
+
+𝐒=
+
+Junlin Chen et al.:
+
+[
+𝑯𝑆
+
+]
+𝟎
+
+𝟎
+
+𝟎
+
+Preprint submitted to European Journal of Operational Research
+
+.
+
+(9)
+
+Page 9 of 31
+
+(2) MMD Matrix 𝐌: The MMD term represents the distance between means. We define the MMD coefficient
+matrix 𝐌 ∈ ℝ𝑁×𝑁 as
+
+⎧1
+⎪ 𝑛2𝑆
+⎪
+𝑀𝑖𝑗 = ⎨ 12
+𝑛
+⎪ 𝑇
+⎪ −1
+⎩ 𝑛𝑆 𝑛𝑇
+
+𝑖, 𝑗 ∈ 𝐷𝑆
+(10)
+
+𝑖, 𝑗 ∈ 𝐷𝑇 .
+otherwise
+
+3.3.2. Representer Theorem and Kernelization
+According to the representer theorem (Schölkopf et al. (2001)), the optimal weight vector 𝒘 lies in the span of
+the feature mappings of the training samples. Note that the representer theorem applies here because all regularization
+terms (structural risk, variance, and MMD) can be expressed as functions of inner products in RKHS, preserving the
+kernel structure. Therefore
+𝑁
+∑
+𝛽𝑖 𝜙(𝒙𝑖 ) = 𝚽𝜷,
+(11)
+𝒘=
+𝑖=1
+
+where 𝚽 = [𝜙(𝒙1 ), … , 𝜙(𝒙𝑁 )] is the feature matrix and 𝜷 = [𝛽1 , … , 𝛽𝑁 ]𝑇 are the coefficients. Substituting Eq. (11)
+into the prediction function, we get 𝑓 (𝑿) = 𝜷 𝑇 𝑲 + 𝑏𝟏𝑇 , where 𝑲 = 𝚽𝑇 𝚽 is the 𝑁 × 𝑁 kernel matrix. Consequently,
+using Eq. (9) and Eq. (10), the structural risk, variance, and MMD terms can be expressed in terms of 𝜷:
+• Structural Risk: ‖𝒘‖2 = 𝜷 𝑇 𝑲𝜷.
+• Distribution Variance: The quadratic part with respect to 𝜷 is 𝜷 𝑇 𝑲𝐒𝑲𝜷. Note that the bias 𝑏 is eliminated by
+the centering matrix 𝑯 𝑆 .
+• Domain Adaptation (MMD): MMD2 (𝒘) = 𝜷 𝑇 𝑲𝐌𝑲𝜷.
+Combining these, we define the total coefficient matrix 𝛀
+(12)
+
+𝛀 = 𝑲 + 𝜆1 𝑲𝐒𝑲 + 𝜆2 𝑲𝐌𝑲.
+
+Remark 1. When 𝑲 is positive definite (which holds for common kernels such as RBF on distinct samples) and
+𝜆1 , 𝜆2 > 0, the matrix 𝛀 is positive definite. This ensures that 𝛀 is invertible and the optimization problem is wellposed. The positive definiteness of 𝛀 also guarantees the strong convexity of the objective function, which is essential
+for both the dual QP formulation and the convergence analysis of the scalable SGD algorithm.
+By substituting the kernelized terms and Eq. (12) into Eq. (8), the kernelized primal problem becomes (ignoring
+constant terms w.r.t 𝑏 in variance)
+min ∗
+
+𝜷,𝑏,𝝃,𝝃
+
+𝑁
+∑
+1 𝑇
+𝜷 𝛀𝜷 − (𝜆1 𝑲𝐒𝒀 )𝑇 𝜷 +
+𝐶𝑘 (𝜏𝜉𝑘 + (1 − 𝜏)𝜉𝑘∗ ),
+2
+𝑘=1
+
+(13)
+
+(𝑲 𝑘 𝜷 + 𝑏) − 𝑦𝑘 ≤ 𝜉𝑘∗ ,
+
+(14)
+
+subject to the constraints from Eq. (7)
+𝑦𝑘 − (𝑲 𝑘 𝜷 + 𝑏) ≤ 𝜉𝑘 ,
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+𝜉𝑘 , 𝜉𝑘∗ ≥ 0.
+
+Page 10 of 31
+
+3.3.3. Lagrangian and Dual Problem
+We introduce Lagrange multipliers 𝛼𝑘 , 𝛼𝑘∗ , 𝜇𝑘 , 𝜇𝑘∗ ≥ 0 for Eq. (14). The Lagrangian function  is constructed as
+𝑁
+∑
+1
+𝐶𝑘 (𝜏𝜉𝑘 + (1 − 𝜏)𝜉𝑘∗ )
+ = 𝜷 𝑇 𝛀𝜷 − (𝜆1 𝑲𝐒𝒀 )𝑇 𝜷 +
+2
+𝑘=1
+
+−
+
+𝑁
+∑
+
+𝛼𝑘 (𝜉𝑘 − 𝑦𝑘 + 𝑲 𝑘 𝜷 + 𝑏) −
+
+𝑁
+∑
+
+𝛼𝑘∗ (𝜉𝑘∗ + 𝑦𝑘 − 𝑲 𝑘 𝜷 − 𝑏) −
+
+∑
+(𝜇𝑘 𝜉𝑘 + 𝜇𝑘∗ 𝜉𝑘∗ ),
+
+(15)
+
+𝑘=1
+
+𝑘=1
+
+by setting the partial derivatives of Eq. (15) with respect to the primal variables (𝑏, 𝝃, 𝝃 ∗ , 𝜷) to zero, along with the
+complementary slackness and primal feasibility conditions, we obtain the KKT conditions
+𝑁
+∑
+𝜕
+(𝛼𝑘 − 𝛼𝑘∗ ) = 0
+=0 ⟹
+𝜕𝑏
+𝑘=1
+
+(16)
+
+𝜕
+𝜕
+= 0, ∗ = 0 ⟹ 𝛼𝑘 ∈ [0, 𝐶𝑘 𝜏], 𝛼𝑘∗ ∈ [0, 𝐶𝑘 (1 − 𝜏)]
+𝜕𝜉𝑘
+𝜕𝜉𝑘
+𝜕
+= 0 ⟹ 𝛀𝜷 − 𝜆1 𝑲𝐒𝒀 − 𝑲(𝜶 − 𝜶 ∗ ) = 0,
+𝜕𝜷
+
+(17)
+(18)
+
+let 𝜸 = 𝜶 − 𝜶 ∗ . From Eq. (18), the optimal 𝜷 is derived as
+(19)
+
+𝜷 = 𝛀−1 (𝑲𝜸 + 𝜆1 𝑲𝐒𝒀 ).
+
+Substituting Eq. (19) back into Eq. (15), and simplifying using Eq. (16) and Eq. (17), we arrive at the dual Problem,
+which is a standard Quadratic Programming (QP) problem
+min∗
+𝜶,𝜶
+
+s.t.
+
+1
+(𝜶 − 𝜶 ∗ )𝑇 𝐐𝑑𝑢𝑎𝑙 (𝜶 − 𝜶 ∗ ) + 𝐩𝑇𝑑𝑢𝑎𝑙 (𝜶 − 𝜶 ∗ )
+2
+𝑁
+∑
+
+(𝛼𝑘 − 𝛼𝑘∗ ) = 0
+
+,
+
+𝑘=1
+
+0 ≤ 𝛼𝑘 ≤ 𝐶𝑘 𝜏,
+
+(20)
+
+∀𝑘
+
+0 ≤ 𝛼𝑘∗ ≤ 𝐶𝑘 (1 − 𝜏),
+
+∀𝑘
+
+where the dual matrix 𝐐𝑑𝑢𝑎𝑙 and vector 𝐩𝑑𝑢𝑎𝑙 are defined as
+𝐐𝑑𝑢𝑎𝑙 = 𝑲𝛀−1 𝑲,
+
+𝐩𝑑𝑢𝑎𝑙 = 𝜆1 𝑲𝛀−1 𝑲𝐒𝒀 − 𝒀 .
+
+(21)
+
+Once the optimal 𝜶, 𝜶 ∗ are found using a QP solver for Eq. (20), we can recover 𝜷 using Eq. (19) and construct
+the final decision function 𝑓 (𝒙).
+
+3.4. The Algorithm and Complexity Analysis
+The complete training process of the proposed TL-QLDMR model is summarized in Algorithm 1. The algorithm
+mainly consists of matrix construction and solving a QP problem.
+The computational complexity of TL-QLDMR primarily stems from three parts: matrix multiplication, matrix
+inversion, and the QP solver.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 11 of 31
+
+Algorithm 1: TL-QLDMR Training Algorithm
+𝑛
+
+𝑛
+
+𝑆
+𝑇
+Input : Source Data 𝐷𝑆 = {(𝒙𝑆,𝑖 , 𝑦𝑆,𝑖 )}𝑖=1
+, Target Data 𝐷𝑇 = {(𝒙𝑇 ,𝑗 , 𝑦𝑇 ,𝑗 )}𝑗=1
+, Quantile 𝜏, Kernel
+parameters, Regularization parameters 𝜆1 , 𝜆2 , Pinball Loss weights 𝐶𝑆 , 𝐶𝑇 .
+Output: Optimal dual variables 𝜶, 𝜶 ∗ and bias 𝑏.
+// Step 1: Data Preparation
+1 Combine Source and Target data: 𝑿 = [𝑿 𝑆 , 𝑿 𝑇 ], 𝒀 = [𝒀 𝑆 ; 𝒀 𝑇 ], 𝑁 = 𝑛𝑆 + 𝑛𝑇 ;
+𝑁
+2 Set weights vector 𝑪 ∈ ℝ where 𝐶𝑘 = 𝐶𝑆 for 𝑘 ≤ 𝑛𝑆 and 𝐶𝑇 otherwise;
+// Step 2: Matrix Construction
+𝑁×𝑁 using the specified kernel function;
+3 Compute Kernel Matrix 𝑲 ∈ ℝ
+4 Construct Variance Matrix 𝐒 using Eq. (9);
+5 Construct MMD Matrix 𝐌 using Eq. (10);
+// Step 3: Dual Problem Formulation
+6 Compute coefficient matrix 𝛀 = 𝑲 + 𝜆1 𝑲𝐒𝑲 + 𝜆2 𝑲𝐌𝑲 using Eq. (12);
+7 Invert 𝛀 to fit the dual form;
+−1
+8 Compute Dual Matrix 𝐐𝑑𝑢𝑎𝑙 = 𝑲𝛀 𝑲 using Eq. (21);
+−1
+9 Compute Dual Vector 𝐩𝑑𝑢𝑎𝑙 = 𝜆1 𝑲𝛀 𝑲𝐒𝒀 − 𝒀 using Eq. (21);
+// Step 4: Solve QP
+∗
+10 Solve the QP problem in Eq. (20) providing 𝐐𝑑𝑢𝑎𝑙 , 𝐩𝑑𝑢𝑎𝑙 , and constraints 0 ≤ 𝛼𝑘 ≤ 𝐶𝑘 𝜏, 0 ≤ 𝛼 ≤ 𝐶𝑘 (1 − 𝜏);
+𝑘
+∗
+11 Return Optimal 𝜶, 𝜶 ;
+// Step 5: Recover Primal Variables
+∗
+12 Compute 𝜸 = 𝜶 − 𝜶 ;
+13 Recover 𝜷 using Eq. (19);
+14 Compute bias 𝑏 using complementary slackness conditions (averaged over Support Vectors);
+
+(1) Matrix Operations: The construction of 𝑲, 𝐒, and 𝐌 involves 𝑂(𝑁 2 𝑑) or 𝑂(𝑁 2 ) operations. The calculation
+of 𝛀 involves matrix multiplications of size 𝑁 ×𝑁, leading to a complexity of 𝑂(𝑁 3 ) in the worst case for dense
+kernel matrices.
+(2) Matrix Inversion: Inverting the 𝑁 × 𝑁 matrix 𝛀 requires 𝑂(𝑁 3 ) complexity in the worst case.
+(3) QP Solver: Solving the standard Quadratic Programming problem for the dual variables typically has a
+complexity ranging from 𝑂(𝑁 2.3 ) to 𝑂(𝑁 3 ) depending on the solver implementation (e.g., Interior Point
+Method).
+Therefore, the overall time complexity of the proposed algorithm is approximately 𝑂(𝑁 3 ) in the worst case. Given
+that 𝑁 = 𝑛𝑆 + 𝑛𝑇 and 𝑛𝑇 ≪ 𝑛𝑆 , the scale is dominated by the source-domain sample size. While this complexity
+is acceptable for moderate-sized datasets, it becomes prohibitive for large-scale wind power forecasting scenarios
+involving tens of thousands of samples. To overcome this computational bottleneck and enable practical deployment
+in real-world wind farm applications, we develop a scalable optimization algorithm in the following subsection.
+
+3.5. Scalable Optimization via Nyström Approximation
+To address the computational bottleneck of the standard QP-based solver, we propose a scalable Nyström-SGD
+algorithm. This approach reduces the time complexity from 𝑂(𝑁 3 ) to 𝑂(𝑇 ⋅ 𝑁 ⋅ 𝑚), where 𝑇 denotes the number of
+iterations and 𝑚 ≪ 𝑁 is the number of landmark points.
+
+3.5.1. Nyström Feature Mapping
+The core idea is to approximate the implicit infinite-dimensional feature mapping 𝜙(𝒙) with an explicit finitedimensional representation. Given the training data, we first select 𝑚 landmark points 𝑍 = {𝑧1 , … , 𝑧𝑚 } from the source
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 12 of 31
+
+domain 𝐷𝑆 using K-Means clustering to capture the underlying data manifold, following the rationale of clustered
+Nyström landmark selection (Zhang & Kwok, 2010).
+Let 𝑾 ∈ ℝ𝑚×𝑚 denote the kernel matrix of landmarks, where 𝑊𝑖𝑗 = 𝑘(𝑧𝑖 , 𝑧𝑗 ). The explicit feature mapping
+𝜓 ∶  → ℝ𝑚 is then constructed as
+(22)
+
+𝜓(𝒙) = 𝑾 −1∕2 [𝑘(𝒙, 𝑧1 ), … , 𝑘(𝒙, 𝑧𝑚 )]𝑇 ,
+
+where 𝑾 −1∕2 is computed via eigendecomposition. This mapping satisfies the approximation property 𝑘(𝒙𝑖 , 𝒙𝑗 ) ≈
+𝜓(𝒙𝑖 )𝑇 𝜓(𝒙𝑗 ), enabling us to work directly in the primal space.
+
+3.5.2. Primal Formulation with Explicit Features
+With the explicit feature mapping, the prediction function becomes 𝑓 (𝒙) = 𝒘𝑇 𝜓(𝒙) + 𝑏, where 𝒘 ∈ ℝ𝑚 . Let
+𝚿𝑆 ∈ ℝ𝑛𝑆 ×𝑚 and 𝚿𝑇 ∈ ℝ𝑛𝑇 ×𝑚 denote the mapped feature matrices for source and target domains, respectively. The
+regularization matrix 𝑹 ∈ ℝ𝑚×𝑚 incorporating structural risk, variance, and MMD terms is formulated as
+(23)
+
+𝑹 = 𝑰 + 𝜆1 𝚿𝑇𝑆 𝑯 𝑆 𝚿𝑆 +𝜆2 (𝝍̄ 𝑆 − 𝝍̄ 𝑇 )(𝝍̄ 𝑆 − 𝝍̄ 𝑇 )𝑇 ,
+⏟⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏟⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏞⏟
+⏟⏞⏞⏞⏟⏞⏞⏞⏟
+MMD
+
+Variance
+
+where 𝑯 𝑆 = 𝑰 𝑛𝑆 − 𝑛1 𝟏𝑛𝑆 𝟏𝑇𝑛 is the centering matrix, and 𝝍̄ 𝑆 , 𝝍̄ 𝑇 are the mean feature vectors of source and target
+
+domains.
+
+𝑆
+
+𝑆
+
+3.5.3. Stochastic Gradient Descent Optimization
+Instead of solving the dual QP problem, we directly optimize the primal objective using the Nyström-SGD
+procedure. For each sample 𝑘 in a mini-batch , the sub-gradient of the Pinball Loss with respect to the prediction is
+⎧
+𝜕𝐿𝜏 ⎪𝜏 − 1,
+=⎨
+𝑔𝑘 =
+𝜕 𝑦̂𝑘
+⎪𝜏,
+⎩
+
+if 𝑦𝑘 < 𝑦̂𝑘
+
+(24)
+
+if 𝑦𝑘 ≥ 𝑦̂𝑘 .
+
+The weighted sub-gradient is computed as 𝑔̃𝑘 = 𝐶𝑘 ⋅𝑔𝑘 , where 𝐶𝑘 ∈ {𝐶𝑆 , 𝐶𝑇 } depends on the domain membership.
+The parameter gradients are then
+∇𝒘 𝐽 =
+
+1 ∑
+𝑔̃ 𝜓(𝒙𝑘 ) + 𝑹𝒘,
+|| 𝑘∈ 𝑘
+
+∇𝑏 𝐽 =
+
+1 ∑
+𝑔̃ .
+|| 𝑘∈ 𝑘
+
+(25)
+
+The complete training procedure is summarized in Algorithm 2.
+
+3.5.4. Complexity Analysis of the Scalable Algorithm
+The proposed scalable algorithm achieves significant computational savings:
+(1) Landmark Selection: K-Means clustering requires 𝑂(𝑁 ⋅ 𝑚 ⋅ 𝐼𝑘𝑚 ) operations, where 𝐼𝑘𝑚 is the number of
+K-Means iterations.
+(2) Feature Mapping: Computing 𝑾 −1∕2 costs 𝑂(𝑚3 ), and mapping all 𝑁 samples requires 𝑂(𝑁 ⋅ 𝑚 ⋅ 𝑑).
+(3) Regularization Matrix: Constructing 𝑹 involves 𝑂(𝑛𝑆 ⋅ 𝑚2 ) for the variance term and 𝑂(𝑚2 ) for the MMD
+term.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 13 of 31
+
+Algorithm 2: TL-QLDMR via Nyström-SGD
+Input : Source data 𝐷𝑆 , Target data 𝐷𝑇 , Number of landmarks 𝑚, Quantile 𝜏, Hyperparameters
+𝜆1 , 𝜆2 , 𝐶𝑆 , 𝐶𝑇 , Learning rate 𝜂, Batch size 𝐵, Max iterations 𝑇 .
+Output: Optimal weights 𝒘 ∈ ℝ𝑚 and bias 𝑏 ∈ ℝ.
+// Step 1: Nyström Feature Mapping
+1 Select 𝑚 landmarks 𝑍 = {𝑧1 , … , 𝑧𝑚 } from 𝐷𝑆 via K-Means;
+𝑚×𝑚 ;
+2 Compute landmark kernel matrix 𝑾 ∈ ℝ
+−1∕2
+3 Compute 𝑾
+via eigendecomposition;
+4 Construct explicit features 𝜓(𝒙) for all samples using Eq. (22);
+// Step 2: Pre-compute Regularization Matrix
+̄ 𝑆 , 𝝍̄ 𝑇 ;
+5 Compute feature matrices 𝚿𝑆 , 𝚿𝑇 and mean vectors 𝝍
+6 Construct regularization matrix 𝑹 using Eq. (23);
+// Step 3: Stochastic Optimization
+7 Initialize 𝒘 ← 𝟎, 𝑏 ← 0;
+8 for 𝑡 = 1 to 𝑇 do
+9
+Shuffle combined dataset 𝐷 = 𝐷𝑆 ∪ 𝐷𝑇 ;
+10
+for each mini-batch  ⊂ 𝐷 do
+11
+Compute predictions: 𝑦̂𝑘 = 𝒘𝑇 𝜓(𝒙𝑘 ) + 𝑏, ∀𝑘 ∈ ;
+12
+Compute sub-gradients 𝑔𝑘 using Eq. (24);
+13
+Apply sample weights: 𝑔̃𝑘 ← 𝐶𝑘 ⋅ 𝑔𝑘 ;
+14
+Compute gradients ∇𝒘 𝐽 , ∇𝑏 𝐽 using Eq. (25);
+15
+Update 𝒘, 𝑏 using the stochastic gradient step with learning rate 𝜂;
+16
+end
+17 end
+18 return 𝒘, 𝑏;
+
+Table 1
+Complexity comparison between standard QP and scalable algorithm
+
+Component
+
+Standard QP
+
+Scalable (Ours)
+
+Kernel/Feature Computation
+Matrix Inversion
+Optimization
+
+𝑂(𝑁 2 𝑑)
+𝑂(𝑁 3 )
+𝑂(𝑁 3 )
+
+𝑂(𝑁𝑚𝑑)
+𝑂(𝑚3 )
+𝑂(𝑇 𝑁𝑚)
+
+Total
+
+𝑂(𝑁 3 )
+
+𝑂(𝑇 𝑁𝑚 + 𝑚3 )
+
+(4) SGD Iterations: Each iteration processes 𝑂(𝑁) samples with 𝑂(𝑚) operations per sample, yielding 𝑂(𝑇 ⋅ 𝑁 ⋅ 𝑚)
+total complexity.
+
+√
+The overall time complexity is 𝑂(𝑇 ⋅𝑁 ⋅𝑚+𝑚3 ). Since 𝑚 ≪ 𝑁 (typically 𝑚 = 𝑂( 𝑁)), this represents a substantial
+reduction from the 𝑂(𝑁 3 ) complexity of the standard QP solver. Table 1 summarizes the comparison between the two
+algorithms.
+
+3.5.5. Theoretical Justification
+The convergence of the proposed Nyström-SGD algorithm is guaranteed under standard assumptions. Since the
+Pinball Loss is convex and Lipschitz continuous, and the regularization term 12 𝒘𝑇 𝑹𝒘 is strongly convex (as 𝑹 inherits
+positive definiteness from 𝛀 when 𝜆1 , 𝜆2 > 0), the overall objective function is strongly convex. According to the
+convergence theory of SGD for strongly convex functions (Bottou et al., 2018), the algorithm converges to the global
+optimum at a rate of 𝑂(1∕𝑇 ).
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 14 of 31
+
+̃ 𝑖 , 𝒙𝑗 ) = 𝜓(𝒙𝑖 )𝑇 𝜓(𝒙𝑗 ) denote the approximated
+Furthermore, the Nyström approximation error is bounded. Let 𝑘(𝒙
+kernel. Standard analyses of the Nyström method show that the approximation error decreases with the number of
+landmarks under suitable spectral assumptions and sampling schemes (Kumar et al., 2012; Zhang & Kwok, 2010). A
+representative order characterization is
+[
+]
+̃ 𝐹 ≤𝑂
+𝔼 ‖𝑲 − 𝑲‖
+
+(
+
+𝑁
+√
+𝑚
+
+)
+(26)
+
+,
+
+this bound ensures that with a sufficient number of landmarks, the approximation quality is well-controlled, and the
+solution obtained by the scalable algorithm closely approximates that of the exact QP solver.
+
+4. Experiments
+In this section, we conduct a comprehensive experimental evaluation of the proposed TL-QLDMR model for
+wind power forecasting in the extreme-event domain. The experiments are organized into five progressive stages:
+(1) extreme-event sample screening and domain shift quantification across multiple wind farms (Section 4.5); (2)
+deterministic point prediction comparison on the wind farm exhibiting the most severe distribution shift (Section 4.6);
+(3) probabilistic interval prediction evaluation under a 95% confidence level (Section 4.7); (4) ablation study to
+validate the contribution of each core component (Section 4.8); and (5) scalable optimization validation to assess
+the computational efficiency of the proposed Nyström-SGD solver (Section 4.9).
+
+4.1. Dataset Description
+The experiments are conducted on a publicly available wind farm SCADA dataset published by the State Grid
+Renewable Energy Generation Dataset (Chen & Xu, 2022). The dataset contains supervisory control and data
+acquisition records from six onshore wind farms with nominal capacities ranging from 36 MW to 200 MW. Each
+record is sampled at 15-minute intervals and includes the following meteorological and operational variables:
+• Wind speed at multiple heights: hub height, 50 m, 30 m, and 10 m (m/s);
+• Wind direction at hub height (degrees);
+• Air temperature (◦ C);
+• Atmospheric pressure (hPa);
+• Relative humidity (%);
+• Active power output (MW).
+Table 2 summarizes the basic characteristics of the six wind farms. Each farm contains approximately 70,000
+time-stamped records spanning multiple years of continuous operation.
+
+4.2. Feature Engineering and Data Preprocessing
+The feature set comprises multi-height wind speeds, air temperature, atmospheric pressure, relative humidity, and
+cyclically encoded wind direction. Specifically, the raw wind direction angle 𝜃 is transformed into two orthogonal
+components sin(𝜃) and cos(𝜃) to eliminate the discontinuity at the 0◦ ∕360◦ boundary, which is a well-established
+practice in meteorological feature engineering (Wang et al., 2021).
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 15 of 31
+
+Table 2
+Summary of wind farm sites used in the experiments.
+
+Farm ID
+
+Site Name
+
+Nominal Capacity (MW)
+
+Total Samples
+
+1
+2
+3
+4
+5
+6
+
+Wind farm site 1
+Wind farm site 2
+Wind farm site 3
+Wind farm site 4
+Wind farm site 5
+Wind farm site 6
+
+99
+200
+99
+66
+36
+96
+
+∼70,000
+∼70,000
+∼70,000
+∼70,000
+∼70,000
+∼70,000
+
+A sliding window of length 𝑊 = 24 (corresponding to a 6-hour lookback horizon at 15-minute resolution) is
+applied to construct supervised learning samples. This choice provides sufficient short-term temporal context to capture
+local persistence and ramping behavior, while avoiding the excessive input dimensionality and redundancy that longer
+windows may introduce in kernel-based models. For each window, the feature matrix 𝑿 𝑡 ∈ ℝ𝑊 ×𝑑 is flattened into
+a vector 𝒙𝑡 ∈ ℝ𝑊 𝑑 , and the target variable 𝑦𝑡 is the power output at the next time step. All features and the target
+variable are standardized to zero mean and unit variance using statistics computed from the training set. Missing
+values are imputed with the per-feature mean to ensure numerical stability for kernel-based models.
+
+4.3. Extreme-Event Domain Definition
+A critical prerequisite for evaluating transfer learning under extreme conditions is the rigorous definition of
+what constitutes an “extreme event” in wind power forecasting (Sideratos & Hatziargyriou, 2012; Liu et al., 2024).
+In this study, extreme events do not denote a single named meteorological subtype, such as typhoon, icing, or a
+specific ramping pattern. Instead, they refer to a unified target domain composed of rare, high-risk, high-volatility,
+and out-of-distribution operating states induced by extreme meteorological deviations and their associated turbine
+responses relative to the normal-operating domain, consistent with transfer-learning settings in which the source
+and target domains differ through their marginal distributions and operational regimes (Pan & Yang, 2010; BenDavid et al., 2010). To construct this target domain, a physics-statistics hybrid screening strategy is adopted: physical
+thresholding captures deterministic high-wind shutdown risk, whereas percentile-based rules identify statistically rare
+meteorological deviations at each wind farm, following the broader logic of mixed rule-and-statistics criteria used in
+recent extreme-event energy data studies (Liu et al., 2023). A sample is classified as belonging to the target domain if
+it satisfies any of the following criteria:
+(1) Statistical wind speed extreme: Hub-height wind speed exceeds the 98th percentile of the farm’s historical
+distribution;
+(2) Temperature extreme: Air temperature falls below the 2nd percentile or exceeds the 98th percentile;
+(3) Cut-out wind speed: Hub-height wind speed exceeds 25 m/s, the typical cut-out threshold for modern wind
+turbines.
+The 25 m/s threshold is treated here as a nominal cut-out speed. Although the exact cut-out point may vary
+slightly across turbine types, values around 25 m/s are widely used in wind turbine power-curve characterization as the
+shutdown region associated with safety protection (Rabanal et al., 2019). This threshold is therefore sufficient to capture
+the core methodological feature of high-wind-induced nonlinear shutdown risk. Notably, the power ramp criterion
+(rapid power fluctuations exceeding 5% of nominal capacity per 15-minute interval) is deliberately excluded from the
+extreme definition. This design choice avoids conflating control-induced power curtailment or dispatch adjustments
+with genuinely weather-driven anomalies.
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 16 of 31
+
+No further subdivision of extreme-event samples into multiple subclasses is attempted. This choice is deliberate
+because extreme events are inherently scarce in realistic forecasting settings; splitting them into fine-grained categories
+would substantially weaken the statistical support available for transfer learning and would turn a small-sample
+problem into a near-few-shot problem, a difficulty also reported in recent extreme-condition wind power studies
+(Liang et al., 2025). From the perspective of domain adaptation, these heterogeneous extreme states share the same
+modeling characteristic: they are all out-of-distribution samples exhibiting elevated volatility, non-stationarity, and
+clear deviation from normal operating patterns (Pan & Yang, 2010; Ben-David et al., 2010). The objective of TLQLDMR is therefore to learn a unified disturbance-robust adaptation mechanism rather than a separate submodel for
+each rare event type. The union of the above three rules thus forms a single target domain that is physically interpretable,
+statistically sufficient for model training, and consistent with the data-scarce nature of extreme-event forecasting. All
+remaining samples constitute the normal-operating source domain.
+
+4.4. Experimental Setup
+For deterministic point prediction, we employ Root Mean Squared Error (RMSE), Mean Absolute Error (MAE),
+and the Coefficient of Determination (𝑅2 ) as evaluation metrics. RMSE and MAE quantify the magnitude of prediction
+errors, while 𝑅2 measures the proportion of variance explained by the model. For probabilistic interval prediction, we
+adopt Prediction Interval Coverage Probability (PICP), Mean Prediction Interval Width (MPIW), Prediction Interval
+Normalized Average Width (PINAW), Coverage Width-based Criterion (CWC), and Winkler Score. PICP measures
+reliability (whether the interval achieves the target coverage), while MPIW and PINAW measure sharpness (how tight
+the interval is). CWC is a composite metric that penalizes PINAW when PICP falls below the nominal coverage 1 − 𝛼,
+and the Winkler Score combines interval width with a penalty proportional to the magnitude of coverage violations.
+An ideal model achieves PICP ≥ 1 − 𝛼 with the smallest possible PINAW.
+To quantify the distribution discrepancy between the normal-operating and extreme-event domains, we employ two
+complementary metrics computed on both wind speed and power dimensions: the Wasserstein-1 distance (𝑊1 ), which
+measures the minimum transportation cost to transform one distribution into the other, and the Kolmogorov–Smirnov
+statistic (KS), which captures the supremum of the absolute difference between the empirical cumulative distribution
+functions of the two domains.
+The hyperparameters of TL-QLDMR are selected by validation-based tuning within each experiment. The searched
+ranges are logarithmic grids for 𝜆1 and 𝜆2 from 10−6 to 106 , 𝐶𝑆 ∈ {0.05, 0.1, 0.2}, 𝐶𝑇 ∈ {50, 300, 1000}, and kernel
+bandwidth 𝛾 ∈ {2−6 , … , 26 }. The Nyström-SGD solver is tuned over landmark size 𝑚 ∈ [800, 1500], learning rate in
+{0.005, 0.01}, and training epochs in [48, 80], with mini-batch size fixed at 256. All experiments are implemented
+in Python and executed on a GPU server equipped with eight NVIDIA Tesla V100-SXM2-32GB GPUs (32 GB
+memory per GPU), using NVIDIA driver version 550.54.15 and CUDA 12.4. All random splits use a fixed seed for
+reproducibility.
+
+4.5. Experiment 1: Extreme-Event Sample Screening and Domain Shift Quantification
+The first experiment identifies extreme-event samples across all six wind farms using the criteria in Section 4.3,
+and then quantifies source-target distribution shift for each farm. Table 3 reports the domain-shift statistics sorted by
+the composite Wasserstein distance 𝑊1 (wind) + 𝑊1 (power). Preliminary sensitivity checks show that a stricter 99thpercentile wind-speed rule leaves too few target-domain samples for stable model development, whereas the adopted
+98th-percentile rule preserves event extremity while maintaining statistical sufficiency.
+Fig. 2 visualizes the distribution shift between normal-operating and extreme-event domains for all six wind farms.
+Each subplot displays the kernel density estimates of wind speed (upper panel) and power output (lower panel) for both
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 17 of 31
+
+Table 3
+Domain shift metrics between normal-operating and extreme-event domains across six wind farms. Farms are sorted by the
+composite Wasserstein distance in descending order.
+
+Wind Farm
+Farm 6 (96 MW)
+Farm 3 (99 MW)
+Farm 2 (200 MW)
+Farm 5 (36 MW)
+Farm 4 (66 MW)
+Farm 1 (99 MW)
+
+Extreme-Event Samples
+4,144
+4,144
+4,211
+3,039
+4,046
+4,184
+
+𝑊1 (Wind)
+
+𝑊1 (Power)
+
+KS(Wind)
+
+KS(Power)
+
+4.060
+3.389
+3.467
+4.195
+4.235
+3.140
+
+21.057
+18.915
+16.166
+9.851
+7.759
+5.964
+
+0.389
+0.338
+0.333
+0.460
+0.347
+0.335
+
+0.344
+0.265
+0.142
+0.363
+0.201
+0.116
+
+domains. The visual comparison confirms the quantitative findings in Table 3: Farm 6 exhibits the most pronounced
+separation between the two distributions, particularly in the power dimension, where the extreme-event domain shows
+a bimodal pattern with substantial mass near zero power (cut-out events) and high power (pre-cut-out high wind
+conditions).
+Several observations emerge from Table 3 and Fig. 2. First, all six farms exhibit non-trivial distribution shifts
+between the normal-operating and extreme-event domains, with KS statistics ranging from 0.116 to 0.460, confirming
+that extreme events induce statistically significant distributional changes in both wind speed and power output. Second,
+the magnitude of the power distribution shift varies substantially across farms: Farm 6 exhibits a Wasserstein distance
+of 21.057 in the power dimension, approximately 3.5 times that of Farm 1 (5.964). This disparity reflects differences
+in turbine control strategies, terrain effects, and the local meteorological characteristics of each site.
+Farm 6 (nominal capacity 96 MW) ranks first in the composite domain shift metric (𝑊1 (wind) + 𝑊1 (power) =
+25.117), indicating the most pronounced distributional discrepancy between its normal-operating and extreme-event
+regimes. Consequently, Farm 6 is selected as the target wind farm, providing the most stringent test bed for evaluating
+the robustness of transfer learning methods under extreme-event conditions.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 18 of 31
+
+Fig. 2: Distribution shift visualization for all six wind farms. From left to right, top to bottom: Site 1 (99 MW), Site 2 (200 MW),
+Site 3 (99 MW), Site 4 (66 MW), Site 5 (36 MW), and Site 6 (96 MW). Each subplot shows kernel density estimates of wind speed
+(upper panel) and power output (lower panel) for the normal-operating (source) and extreme-event (target) domains. Site 6 exhibits
+the most severe domain shift in the power dimension.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 19 of 31
+
+4.6. Experiment 2: Deterministic Point Prediction under Extreme Events
+The second experiment evaluates deterministic point prediction on Farm 6 and compares TL-QLDMR with nine
+baselines under the same data split and preprocessing protocol.
+The data partition for Farm 6 is as follows:
+• Source domain (normal operation): 66,009 samples;
+• Target domain (extreme-event domain): 4,143 samples.
+We compare TL-QLDMR against classical kernel baselines, robust kernel variants, and representative ensemble
+methods for wind power forecasting:
+Classical and robust kernel baselines:
+(1) Standard SVR: Classical Support Vector Regression with RBF kernel and 𝜖-insensitive loss, serving as the
+foundational kernel-based regression baseline;
+(2) Standard LDMR: Large-margin Distribution Machine-based Regression with symmetric variance regularization, representing the direct predecessor of TL-QLDMR without transfer learning or asymmetric modifications;
+(3) BLSSVR (Fu et al., 2023): A bounded-loss SVR-type regression model designed to improve robustness against
+outliers and heavy-tailed disturbances.
+Additional SVM variants:
+(4) HHO-SVR (Houssein et al., 2025): Support Vector Regression with hyperparameters optimized by the Harris
+Hawks Optimization metaheuristic;
+(5) FLSVR (Meena et al., 2025): A functional iterative method for solving the Lagrangian dual of SVR, offering
+improved convergence properties;
+(6) ARA-SVR (Duan et al., 2025): SVR with Associated Road Analysis for feature selection, originally proposed
+for short-term traffic flow prediction.
+Ensemble methods:
+(7) KMeans-GBT (Rizkallah, 2025): A two-stage model combining KMeans clustering with Gradient Boosted
+Trees to capture heterogeneous input–output relationships;
+(8) RF-WPF (Mustaffa & Sulaiman, 2025): A Random Forest model tailored for wind power forecasting with
+optimized tree depth and feature subsampling;
+(9) BRF-WPF (Chen & Shi, 2025): Broad Random Forest integrating Broad Learning System feature expansion
+with Random Forest regression for short-term wind power prediction.
+Table 4 and Figs. 3–7 jointly demonstrate that TL-QLDMR provides the most accurate and stable point forecasts
+on the Farm 6 extreme-event test set. Several observations are noteworthy:
+First, comparing TL-QLDMR against classical and robust kernel baselines reveals the value of the proposed
+extensions. Standard SVR achieves moderate performance (RMSE = 8.564, 𝑅2 = 0.9413), establishing a solid baseline
+for kernel-based regression. However, Standard LDMR, despite incorporating variance regularization for distributional
+robustness, exhibits the weakest performance among kernel methods (RMSE = 10.692, 𝑅2 = 0.9085). BLSSVR,
+although designed to improve robustness via bounded loss, improves only marginally over Standard LDMR (RMSE
+= 10.273, 𝑅2 = 0.9155) and remains clearly inferior to Standard SVR and HHO-SVR. This pattern confirms our
+theoretical analysis in Section 3: sample-wise robustness alone is insufficient in the cross-domain extreme-event setting
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 20 of 31
+
+Table 4
+Deterministic point prediction results on the extreme-event test set of Farm 6. Best results are highlighted in bold (similarly
+hereinafter).
+
+Model
+
+RMSE
+
+MAE
+
+𝑅2
+
+Kernel-based methods
+Standard LDMR
+BLSSVR
+ARA-SVR
+FLSVR
+Standard SVR
+HHO-SVR
+
+10.692
+10.273
+9.246
+8.794
+8.564
+7.603
+
+6.327
+6.140
+5.954
+6.301
+5.537
+5.530
+
+0.9085
+0.9155
+0.9316
+0.9381
+0.9413
+0.9537
+
+Ensemble methods
+BRF-WPF
+KMeans-GBT
+RF-WPF
+
+9.719
+9.620
+7.967
+
+6.870
+6.695
+5.344
+
+0.9244
+0.9259
+0.9492
+
+TL-QLDMR (Ours)
+
+7.478
+
+5.248
+
+0.9557
+
+(a) Standard LDMR
+
+(b) BLSSVR
+
+Standard-LDMR vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+True
+Prediction
+
+80
+60
+40
+
+True
+Prediction
+
+80
+
+Power (MW)
+
+Power (MW)
+
+BLSSVR vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+
+20
+
+60
+40
+20
+
+0
+
+0
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+Fig. 3: Prediction comparison over selected temporal segments on the Farm 6 extreme-event test set (Part I).
+(d) FLSVR
+
+(c) ARA-SVR
+
+ARA-SVR vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+True
+Prediction
+
+80
+60
+40
+
+True
+Prediction
+
+80
+
+Power (MW)
+
+Power (MW)
+
+FLSVR vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+
+20
+
+60
+40
+20
+
+0
+
+0
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+Fig. 4: Prediction comparison over selected temporal segments on the Farm 6 extreme-event test set (Part II).
+
+where (i) training and testing distributions differ substantially, and (ii) the model must adapt to target-domain dynamics.
+The large performance gaps from Standard LDMR and BLSSVR to TL-QLDMR quantitatively validate the necessity
+of jointly incorporating transfer learning and asymmetric variance regularization.
+Second, TL-QLDMR improves on the strongest non-transfer baselines, including HHO-SVR and RF-WPF.
+Relative to HHO-SVR, TL-QLDMR raises 𝑅2 from 0.9537 to 0.9557 and reduces RMSE from 7.603 to 7.478. It
+also improves on RF-WPF, the strongest ensemble comparator, reducing RMSE from 7.967 to 7.478. Although the
+numerical margin over HHO-SVR is moderate, it is obtained under the most severe domain-shift setting with only
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 21 of 31
+
+(e) Standard SVR
+
+(f) HHO-SVR
+
+Standard-SVR vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+
+60
+40
+
+True
+Prediction
+
+80
+
+Power (MW)
+
+Power (MW)
+
+100
+
+True
+Prediction
+
+80
+
+HHO-SVR vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+
+20
+
+60
+40
+20
+
+0
+
+0
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+Fig. 5: Prediction comparison over selected temporal segments on the Farm 6 extreme-event test set (Part III).
+(h) KMeans-GBT
+
+(g) BRF-WPF
+
+BRF-WPF vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+True
+Prediction
+
+80
+60
+40
+
+True
+Prediction
+
+80
+
+Power (MW)
+
+Power (MW)
+
+KMeans-GBT vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+
+20
+
+60
+40
+20
+
+0
+
+0
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+Fig. 6: Prediction comparison over selected temporal segments on the Farm 6 extreme-event test set (Part IV).
+(i) RF-WPF
+
+(j) TL-QLDMR
+TL-QLDMR vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+
+RF-WPF vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+True
+Prediction
+
+60
+40
+
+True
+Prediction
+
+80
+
+Power (MW)
+
+Power (MW)
+
+80
+
+20
+
+60
+40
+20
+
+0
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+0
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+Fig. 7: Prediction comparison over selected temporal segments on the Farm 6 extreme-event test set (Part V).
+
+4,143 extreme-event samples. The segment-level evidence in Figs. 3–7 is consistent with the aggregate metrics: TLQLDMR tracks abrupt ramps and low-power transitions more closely, while weaker kernel baselines such as Standard
+LDMR and BLSSVR show larger local deviations around rapid fluctuations.
+Third, among baselines, HHO-SVR remains the most competitive kernel method, RF-WPF remains the strongest
+non-kernel alternative, and BLSSVR does not translate its bounded-loss robustness into competitive cross-domain
+accuracy under the present small-sample extreme-event regime. The observed gain of TL-QLDMR is consistent with
+the combined effect of source-domain transfer, asymmetric target weighting, and cyclic wind-direction encoding.
+Because many extreme-event periods contain near-zero power outputs, MAPE is numerically unstable and therefore
+RMSE and 𝑅2 are treated as the principal deterministic indicators.
+To assess the robustness of the models against measurement noise, which is prevalent in SCADA systems during
+extreme events, we evaluate the point prediction performance by injecting Gaussian noise into both the training and
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 22 of 31
+
+Table 5
+Model performance (𝑅2 ) under varying SNR on the Farm 6 extreme-event test set.
+
+Model
+
+SNR = 30 dB
+
+SNR = 40 dB
+
+SNR = 60 dB
+
+Kernel-based methods
+Standard LDMR
+BLSSVR
+ARA-SVR
+FLSVR
+Standard SVR
+HHO-SVR
+
+0.9084
+0.9121
+0.9311
+0.9380
+0.9409
+0.9442
+
+0.9080
+0.9146
+0.9316
+0.9381
+0.9414
+0.9438
+
+0.9084
+0.9154
+0.9316
+0.9381
+0.9413
+0.9437
+
+Ensemble methods
+BRF-WPF
+KMeans-GBT
+RF-WPF
+
+0.9177
+0.9209
+0.9471
+
+0.9250
+0.9230
+0.9485
+
+0.9253
+0.9262
+0.9469
+
+TL-QLDMR (Ours)
+
+0.9584
+
+0.9560
+
+0.9603
+
+testing input features at Signal-to-Noise Ratios SNR ∈ {60, 40, 30} dB. The 𝑅2 results under different noise levels are
+summarized in Table 5.
+The results confirm that TL-QLDMR consistently maintains the highest 𝑅2 across all noise levels, achieving
+0.9584, 0.9560, and 0.9603 at SNR = 30, 40, and 60 dB, respectively. The strongest baseline under noisy inputs is
+HHO-SVR, but it remains below TL-QLDMR at all three settings (𝑅2 = 0.9442, 0.9438, and 0.9437). BLSSVR remains
+slightly better than Standard LDMR under noise (𝑅2 = 0.9121 vs. 0.9084 at SNR = 30 dB), but still trails the stronger
+kernel baselines by a clear margin, again indicating that bounded-loss robustness alone does not resolve the crossdomain mismatch. Standard SVR demonstrates moderate robustness (𝑅2 = 0.9409 at SNR = 30 dB), outperforming
+both Standard LDMR and BLSSVR but remaining substantially below TL-QLDMR. Among ensemble methods,
+BRF-WPF exhibits the steepest degradation, indicating higher sensitivity to measurement perturbations. The transfer
+learning framework, reinforced by asymmetric variance regularization, effectively mitigates overfitting to noisy target
+samples and demonstrates the strongest noise resilience among all comparative models.
+
+4.7. Experiment 3: Probabilistic Interval Prediction under Extreme Events
+The third experiment extends evaluation from point prediction to probabilistic interval forecasting. The objective is
+to verify whether TL-QLDMR can achieve reliable 95% prediction intervals while keeping interval width sufficiently
+sharp under extreme-event volatility.
+The interval prediction baselines are organized into two categories:
+Kernel-based quantile and robust learning variants:
+(1) Standard SVQR: Classical Support Vector Quantile Regression with pinball loss, serving as the foundational
+kernel-based interval prediction baseline;
+(2) TSVQR (Ye et al., 2023): Twin Support Vector Quantile Regression, which constructs separate hyperplanes for
+upper and lower quantiles;
+(3) UQSVM-SSVQR (Hazarika et al., 2023): A robust SVQR variant with truncated pinball loss, used as a strong
+SVM-based interval baseline;
+(4) NFS-SVQR (Ye et al., 2025b): Nonlinear Feature Selection combined with SVQR, published in Neural Networks
+(2025);
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 23 of 31
+
+Table 6
+Interval prediction results on the extreme-event test set of Farm 6 at 95% confidence level (𝛼 = 0.05).
+
+Model
+
+PICP
+
+MPIW
+
+PINAW
+
+CWC
+
+Winkler
+
+NuSVR-CI
+HybridDL-Interval
+RLMKL
+TSVQR
+Standard SVQR
+QGBR
+CQR-MLP
+AMQRNN
+NFS-SVQR
+UQSVM-SSVQR
+TL-QLDMR (Ours)
+
+0.843
+0.954
+0.957
+0.889
+0.959
+0.949
+0.942
+0.940
+0.913
+0.928
+0.959
+
+19.970
+31.645
+31.804
+24.592
+34.342
+31.715
+31.750
+32.432
+68.359
+81.710
+25.791
+
+0.208
+0.329
+0.331
+0.256
+0.357
+0.330
+0.330
+0.337
+0.711
+0.850
+0.268
+
+0.285
+0.329
+0.331
+0.342
+0.357
+0.429
+0.431
+0.441
+0.941
+1.117
+0.268
+
+54.603
+60.224
+39.275
+48.178
+42.067
+37.643
+46.772
+66.874
+76.997
+85.162
+34.506
+
+(5) NuSVR-CI (Romano et al., 2019): 𝜈-Support Vector Regression with conformalized quantile regression (CQR)calibrated prediction intervals, included as a classical SVM baseline;
+(6) RLMKL (Jiang et al., 2021): Robust low-rank multiple kernel learning with compound regularization; its
+quantile-loss instantiation is used here as a strong robust kernel interval baseline.
+Recent wind power interval prediction models:
+(7) HybridDL-Interval (Mao et al., 2025): A hybrid deep learning framework for day-ahead wind power interval
+forecasting, combining temporal attention and quantile loss;
+(8) AMQRNN (Ye et al., 2025a): A recurrent attention encoder-decoder network for multi-step interval wind power
+prediction, implemented using an attention-GRU network;
+(9) QGBR (Hu & Liu, 2025): Quantile Gradient Boosted Regression, representing the improved quantile ensemble
+learning framework for wind power prediction;
+(10) CQR-MLP (Hu et al., 2025): MLP quantile ensemble with dynamic conformalized quantile regression, acting
+as a simplified baseline for neural ensemble search methods.
+Table 6 presents the interval prediction results on the extreme-event test set of Farm 6 at the 95% confidence level
+(𝛼 = 0.05).
+The interval prediction results indicate a clear reliability-sharpness trade-off under extreme events, and TLQLDMR offers the most favorable balance. TL-QLDMR reaches the nominal 95% coverage target (PICP = 0.959)
+while obtaining the best composite quality (CWC = 0.268) and the best Winkler score (34.506), demonstrating that
+transfer learning with validation-based width scaling can provide both reliable and sharp intervals.
+Comparing against the kernel-based interval baselines highlights two distinct patterns. Standard SVQR achieves
+the same coverage level as TL-QLDMR (PICP = 0.959) but produces substantially wider intervals (PINAW = 0.357
+vs. 0.268), resulting in inferior CWC (0.357 vs. 0.268) and Winkler scores (42.067 vs. 34.506). RLMKL, as a robust
+multiple-kernel comparator, attains reliable coverage (PICP = 0.957) with noticeably narrower intervals than Standard
+SVQR (PINAW = 0.331 vs. 0.357) and a better Winkler score (39.275 vs. 42.067), confirming the value of robust kernel
+combination. Nevertheless, TL-QLDMR still provides a materially sharper and better-calibrated solution, reducing
+CWC from 0.331 to 0.268 while further improving the Winkler score to 34.506.
+By contrast, NuSVR-CI and TSVQR produce narrow intervals but severe under-coverage (PICP = 0.843 and 0.889,
+respectively), whereas HybridDL-Interval, QGBR, CQR-MLP, and AMQRNN can approach acceptable coverage only
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 24 of 31
+
+with wider intervals. RLMKL therefore emerges as a stronger robust-kernel baseline than the conventional quantile
+regressors, but it still remains dominated by TL-QLDMR on the joint reliability-sharpness criteria. This comparison
+suggests that explicit asymmetric regularization combined with cross-domain adaptation is more effective for heavily
+skewed extreme-event samples than either conventional quantile regression, robust multiple-kernel learning alone, or
+deep learning approaches.
+To assess interval robustness under sensor perturbation, Gaussian noise is injected into test inputs at SNR
+∈ {60, 40, 30} dB. Table 7 reports the full set of interval metrics under this noisy-test protocol. Across all noise levels,
+TL-QLDMR maintains the best CWC while keeping PICP above 0.95. The CWC values remain tightly concentrated
+around 0.278, indicating stable interval quality under moderate measurement perturbation. RLMKL remains one of
+the more stable robust-kernel baselines, with PINAW staying near 0.313 across all noise levels, but its PICP remains
+slightly below the nominal level (0.9494), leading to a larger CWC penalty than TL-QLDMR. In contrast, NuSVR-CI
+yields narrow intervals (small MPIW/PINAW) but exhibits severe under-coverage, and several deep/ensemble baselines
+require substantially wider intervals to approach reliable coverage. These results indicate that TL-QLDMR preserves
+a stronger reliability-sharpness balance under measurement perturbations.
+
+4.8. Experiment 4: Ablation Study
+To validate the contribution of the three core components (transfer learning, LDMR variance regularization,
+and MMD feature alignment), this ablation experiment evaluates structurally reduced variants on both point and
+interval tasks. Additionally, to verify the necessity of asymmetric variance regularization for quantile regression, we
+include LDMR-Quantile (SymVar), which replaces the asymmetric variance term with standard symmetric variance
+minimization while retaining the transfer learning framework.
+The full TL-QLDMR framework is compared against four architectural reductions:
+(1) LDMR-Quantile (SymVar): Replaces asymmetric variance regularization with symmetric variance minimization, testing whether the asymmetry is necessary for quantile-specific calibration.
+(2) w/o Transfer (Target-only QLDMR): Trained exclusively on extreme-event target samples without sourcedomain integration or MMD alignment.
+(3) w/o LDMR (Variance Penalty): The asymmetric variance regularizer is removed, deteriorating the framework
+into a generalized Transfer SVR/SVQR variant that lacks distributional robustness.
+(4) w/o MMD (Feature Alignment): The algorithm employs cross-domain training data but disables Maximum
+Mean Discrepancy alignment, relying purely on weighted objective loss.
+Table 8 reports the ablation results on Farm 6. The full TL-QLDMR consistently attains the best deterministic and
+probabilistic performance, indicating that all three components contribute non-trivially to final accuracy and calibration
+quality.
+The ablation outcomes confirm that each component contributes materially to robustness. Removing transfer
+learning reduces both point accuracy (𝑅2 : 0.9557 → 0.9497) and interval quality (CWC: 0.2683 → 0.2797), indicating
+that target-only training is insufficient under strong domain shift. Removing LDMR regularization or MMD alignment
+causes clear interval-quality degradation (CWC rises to 0.3507 and 0.3528), even when point-metric changes are
+smaller, showing that residual-shape control and feature alignment are central to reliable uncertainty estimation.
+Critically, the LDMR-Quantile (SymVar) variant—which replaces asymmetric variance with symmetric variance
+minimization—exhibits degraded performance on both point prediction (RMSE: 7.868 vs. 7.476) and interval prediction (CWC: 0.3029 vs. 0.2683, PINAW: 0.3029 vs. 0.2683). This degradation empirically validates our theoretical
+analysis in Section 3: symmetric variance minimization, while effective for mean regression, conflicts with the
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 25 of 31
+
+Table 7
+Interval prediction results under varying SNR on the extreme-event test set of Farm 6 at 95% confidence level (𝛼 = 0.05).
+
+Model
+NuSVR-CI
+HybridDL-Interval
+RLMKL
+TSVQR
+Standard SVQR
+QGBR
+CQR-MLP
+AMQRNN
+NFS-SVQR
+UQSVM-SSVQR
+
+TL-QLDMR (Ours)
+
+SNR (dB)
+
+PICP
+
+MPIW
+
+PINAW
+
+CWC
+
+Winkler
+
+30
+40
+60
+30
+40
+60
+30
+40
+60
+30
+40
+60
+30
+40
+60
+30
+40
+60
+30
+40
+60
+30
+40
+60
+30
+40
+60
+30
+40
+60
+30
+40
+60
+
+0.8386
+0.8361
+0.8434
+0.9422
+0.9422
+0.9422
+0.9494
+0.9494
+0.9494
+0.8892
+0.8892
+0.8892
+0.9446
+0.9422
+0.9446
+0.9518
+0.9518
+0.9470
+0.9325
+0.9325
+0.9325
+0.9518
+0.9518
+0.9518
+0.9060
+0.9133
+0.9133
+0.9229
+0.9277
+0.9277
+0.9542
+0.9566
+0.9566
+
+19.970
+19.970
+19.970
+32.304
+32.307
+32.306
+30.161
+30.101
+30.095
+24.570
+24.588
+24.592
+29.704
+29.725
+29.728
+32.067
+31.721
+31.706
+32.548
+32.550
+32.554
+33.517
+33.513
+33.512
+68.369
+68.376
+68.359
+81.706
+81.718
+81.710
+26.709
+26.713
+26.715
+
+0.2077
+0.2077
+0.2077
+0.3360
+0.3361
+0.3361
+0.3138
+0.3131
+0.3131
+0.2556
+0.2558
+0.2558
+0.3090
+0.3092
+0.3092
+0.3336
+0.3300
+0.3298
+0.3386
+0.3386
+0.3386
+0.3487
+0.3486
+0.3486
+0.7112
+0.7113
+0.7111
+0.8499
+0.8501
+0.8500
+0.2778
+0.2779
+0.2779
+
+0.2856
+0.2860
+0.2849
+0.4384
+0.4385
+0.4385
+0.4080
+0.4072
+0.4071
+0.3422
+0.3424
+0.3425
+0.4027
+0.4034
+0.4030
+0.3336
+0.3300
+0.4294
+0.4438
+0.4438
+0.4438
+0.3487
+0.3486
+0.3486
+0.9442
+0.9409
+0.9407
+1.1191
+1.1167
+1.1166
+0.2778
+0.2779
+0.2779
+
+54.922
+54.623
+54.588
+53.462
+53.420
+53.408
+39.063
+39.235
+39.200
+48.306
+48.140
+48.169
+41.541
+41.429
+41.420
+38.441
+37.424
+37.750
+48.828
+48.780
+48.743
+68.546
+68.517
+68.515
+77.305
+76.878
+76.983
+85.364
+85.178
+85.162
+36.307
+36.034
+36.083
+
+asymmetric residual distribution required for accurate quantile estimation. The symmetric regularizer forces errors
+toward a centered, Gaussian-like distribution, thereby degrading interval calibration at non-median quantiles.
+The residual-density comparison in Fig. 8 supports this conclusion by showing tighter central concentration and
+weaker heavy tails for the full TL-QLDMR model; some ablated variants exhibit sharper central peaks but noticeably
+thicker tails, which corresponds to a higher probability of large-error events.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 26 of 31
+
+Table 8
+Ablation study evaluations for point and interval prediction on the Farm 6 test set.
+
+Point Prediction
+Model Variants
+
+RMSE
+
+𝑅2
+
+w/o LDMR (Variance)
+w/o Transfer
+LDMR-Quantile (SymVar)
+w/o MMD
+TL-QLDMR (Full)
+
+8.205
+7.930
+7.868
+7.745
+7.476
+
+0.9461
+0.9497
+0.9472
+0.9520
+0.9557
+
+Interval Prediction (95% Level)
+PICP
+
+MPIW
+
+PINAW
+
+CWC
+
+0.949
+0.952
+0.952
+0.947
+0.959
+
+25.925
+26.891
+29.114
+26.049
+25.791
+
+0.2697
+0.2797
+0.3029
+0.2710
+0.2683
+
+0.3507
+0.2797
+0.3029
+0.3528
+0.2683
+
+Fig. 8: Residual density comparison between TL-QLDMR and ablated variants on the Farm 6 test set.
+
+4.9. Experiment 5: Scalable Optimization Validation
+Experiment 5 evaluates whether the proposed Nyström-SGD solver can maintain computational efficiency as the
+training scale increases. The proposed solver is compared against three representative optimization baselines: (i) exact
+dual quadratic programming solved by CVXOPT, (ii) gradient-based optimization of the QP objective (Torch-GD),
+and (iii) mini-batch SGD with kernel-slice approximation.
+To stress-test scalability, we consider seven training scales, increasing the combined training size from 100 to
+the full 𝑁 = 69,737. The evaluated sizes are 𝑁 = 100, 500, 1,000, 3,000, 10,000, 30,000, and 69,737. For each
+configuration, wall-clock training time (seconds) is recorded. Table 9 summarizes the results.
+The full-QP routes lose practicality quickly as the scale increases. CVXOPT grows from 0.509 seconds at 𝑁 = 100
+to 7.655 seconds at 𝑁 = 1,000 and is not extended further thereafter. Torch-GD remains workable slightly longer, but
+already requires 20.395 seconds at 𝑁 = 3,000, indicating that direct optimization of the kernel QP becomes inefficient
+well before the full training regime is reached.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 27 of 31
+
+Table 9
+Training time (seconds) of four solvers over expanding training scales on Farm 6. “—” denotes runs not extended further because
+of prohibitive computational cost.
+
+𝑁
+100
+500
+1,000
+3,000
+10,000
+30,000
+69,737
+
+CVXOPT
+
+Torch-GD
+
+Batch SGD
+
+Nyström-SGD (Ours)
+
+0.509
+1.052
+7.655
+—
+—
+—
+—
+
+2.155
+2.618
+2.979
+20.395
+—
+—
+—
+
+2.746
+4.637
+5.699
+6.418
+10.401
+25.338
+—
+
+0.035
+1.035
+1.038
+2.468
+2.703
+3.483
+5.021
+
+Batch SGD avoids exact QP solving but remains substantially slower than the proposed Nyström-SGD solver at
+medium and large scales; for example, at 𝑁 = 30,000 it requires 25.338 seconds, compared with 3.483 seconds for the
+Nyström-SGD route. By contrast, the proposed solver is the only optimization route that completes the entire uncapped
+training set, reaching 𝑁 = 69,737 in 5.021 seconds. This trend is consistent with the theoretical reduction from 𝑂(𝑁 3 )
+to 𝑂(𝑇 ⋅ 𝑁 ⋅ 𝑚): runtime growth remains comparatively mild even after the target-domain sample count saturates and
+the additional data come almost entirely from the source domain.
+
+4.10. Discussion
+The extended experimental evaluations yield the following conclusive insights:
+Classical and robust kernel baselines establish the necessity of proposed extensions. Experiment 2 demonstrates that Standard SVR achieves moderate performance (RMSE = 8.564), while Standard LDMR and BLSSVR
+remain substantially weaker on the cross-domain extreme-event task. This degradation confirms that symmetric
+variance minimization or bounded-loss robustness alone is insufficient when target-domain adaptation is absent.
+In Experiment 3, RLMKL provides a stronger robust-kernel interval baseline than conventional SVQR variants,
+but TL-QLDMR still achieves markedly better joint reliability-sharpness quality, showing that asymmetric variance
+regularization and supervised transfer adaptation remain necessary.
+Transfer learning improves deterministic forecasting under severe shift. Experiment 2 shows consistent gains
+in RMSE and 𝑅2 over both classical baselines and recent variants, and curve-level evidence confirms better tracking
+during abrupt peak-valley transitions.
+Interval forecasting achieves a better reliability-sharpness balance. In Experiment 3, TL-QLDMR achieves
+the highest coverage reliability among the compared methods while also obtaining the best composite penalty (CWC),
+and this advantage persists under injected measurement noise.
+Ablation confirms the necessity of each component. Removing transfer learning reduces both point and interval
+performance under severe domain shift; removing asymmetric LDMR variance regularization degrades distributional
+robustness and interval calibration; removing MMD alignment weakens feature-space adaptation. Critically, the
+LDMR-Quantile (SymVar) variant confirms that symmetric variance minimization conflicts with quantile-specific
+asymmetry requirements, validating our theoretical analysis. Residual-density plots provide complementary evidence
+for this degradation.
+The scalable optimizer materially reduces computational burden. Experiment 5 shows that the NyströmSGD solver is the only optimization route that reaches the full uncapped training scale (𝑁 = 69,737), completing
+training in 5.021 seconds, whereas CVXOPT, Torch-GD, and batch SGD stall much earlier due to rapidly increasing
+computational cost.
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 28 of 31
+
+Limitations and future work. The present evaluation is based on onshore wind farms and fixed feature engineering
+pipelines; extension to offshore assets, dynamic re-calibration strategies, and hybrid deep-kernel transfer formulations
+remains a relevant direction.
+
+5. Conclusion
+This paper presents TL-QLDMR for wind power forecasting under extreme events, where target-domain samples
+are limited and distribution shift is pronounced. The method combines asymmetric variance regularization, MMDbased feature alignment, and weighted pinball loss within a unified transfer-learning quantile framework, with
+theoretical guarantees on positive definiteness and convergence.
+Experimental results show that TL-QLDMR delivers consistent gains in both deterministic and interval forecasting
+on the most challenging target farm. For point prediction, it achieves the best RMSE (7.478) and 𝑅2 (0.9557). For 95%
+interval prediction, it attains PICP = 0.959 together with the best CWC (0.268), indicating a favorable reliabilitysharpness trade-off. Under injected noise, TL-QLDMR remains the strongest model across reported point and interval
+metrics. In addition, the Nyström-SGD solver provides practical scalability, completing the full uncapped training set
+(𝑁 = 69,737) in 5.021 seconds, whereas CVXOPT, Torch-GD, and batch SGD do not remain computationally viable
+at the same scale.
+Future work will focus on extending the framework to multi-site spatiotemporal coupling, adaptive online
+recalibration under non-stationary weather, and hybrid kernel-deep transfer formulations.
+
+CRediT authorship contribution statement
+Junlin Chen: Methodology, Software, Writing - original draft. Bo Wang: Writing – review & editing, Funding
+acquisition. Zhihang Yu: Formal analysis, Software. Pei-chun Lin: Validation, Supervision. Libo Zhang: Funding
+acquisition. Junzo Watada: Validation, Supervision.
+
+Declaration of Competing Interest
+The authors declare that they have no known competing financial interests or personal relationships that could have
+appeared to influence the work reported in this paper.
+
+Acknowledgments
+This work was supported in part by the National Natural Science Foundation of China under Grant 72471109 and
+Grant 62106205.
+
+References
+Ben-David, S., Blitzer, J., Crammer, K., Kulesza, A., Pereira, F., & Vaughan, J. W. (2010). A theory of learning from different domains. Machine
+Learning, 79, 151–175. doi:10.1007/s10994-009-5152-4.
+Bottou, L., Curtis, F. E., & Nocedal, J. (2018). Optimization methods for large-scale machine learning. SIAM Review, 60, 223–311. doi:10.1137/
+16M1080173.
+Chen, Y., & Shi, J. (2025). Broad random forest: A lightweight prediction model for short-term wind power by fusing broad learning and random
+forest. Sustainability, 17, 4894. doi:10.3390/su17114894.
+Chen, Y., & Xu, J. (2022). Solar and wind power data from the chinese state grid renewable energy generation forecasting competition. Scientific
+Data, 9, 684. doi:10.1038/s41597-022-01696-6.
+Cheng, F., Zhang, J., & Wen, C. (2016). Cost-sensitive large margin distribution machine for classification of imbalanced data. Pattern Recognition
+Letters, 80, 107–112. https://doi.org/10.1016/j.patrec.2016.06.009.
+Duan, Y. et al. (2025). Research on support vector regression short-time traffic flow prediction model for secondary roads based on associated road
+analysis. Applied Sciences, 15, 1779. doi:10.3390/app15041779.
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 29 of 31
+
+Fu, S., Tian, Y., & Tang, L. (2023). Robust regression under the general framework of bounded loss functions. European Journal of Operational
+Research, 310, 1325–1339. doi:10.1016/j.ejor.2023.04.025.
+Guo, T., Tan, X., Yang, L., Liang, Z., Zhang, B., & Zhang, L. (2022). Domain adaptive subspace transfer model for sensor drift compensation in
+biologically inspired electronic nose. Expert Systems with Applications, 208, 118237. https://doi.org/10.1016/j.eswa.2022.118237.
+Gupta, U., & Gupta, D. (2021). Least squares large margin distribution machine for regression. Applied Intelligence, 51, 7058–7093. doi:10.1007/
+s10489-020-02166-5.
+Hazarika, B. B., & Gupta, D. (2023). Mode decomposition based large margin distribution machines for sediment load prediction. Expert Systems
+with Applications, 232, 120844. doi:10.1016/j.eswa.2023.120844.
+Hazarika, B. B., Gupta, D., & Borah, P. (2023). Robust support vector quantile regression with truncated pinball loss (rsvqr). Computational and
+Applied Mathematics, 42. doi:10.1007/s40314-023-02402-x.
+Houssein, E. H. et al. (2025). A hybrid harris hawks optimization with support vector regression for air quality forecasting. Scientific Reports, 15.
+doi:10.1038/s41598-025-86275-6.
+Hu, J., Deng, Y., & Che, J. (2025). A novel wind power interval prediction method based on neural ensemble search and dynamic conformalized
+quantile regression. Applied Soft Computing, 180, 113476. doi:10.1016/j.asoc.2025.113476.
+Hu, L., & Liu, Y. (2025). A day-ahead wind power conformal interval forecasting framework based on numerical weather prediction data and
+improved quantile ensemble learning. Journal of Renewable and Sustainable Energy, 17, 046104. doi:10.1063/5.0233770.
+Jiang, H., Tao, C., Dong, Y., & Xiong, R. (2021). Robust low-rank multiple kernel learning with compound regularization. European Journal of
+Operational Research, 295, 634–647. doi:10.1016/j.ejor.2020.12.024.
+Jonkers, J., Avendano, D. N., Van Wallendael, G., & Van Hoecke, S. (2024). A novel day-ahead regional and probabilistic wind power forecasting
+framework using deep cnns and conformalized regression forests. Applied Energy, 361, 122900. doi:10.1016/j.apenergy.2024.122900.
+Kumar, S., Mohri, M., & Talwalkar, A. (2012). Sampling methods for the nyström method. Journal of Machine Learning Research, 13, 981–1006.
+Li, L.-L., Zhao, X., Tseng, M.-L., & Tan, R. R. (2021). Improving short-term wind power prediction using hybrid improved cuckoo search arithmetic
+– support vector regression machine. Journal of Cleaner Production, 279, 123739. doi:10.1016/j.jclepro.2020.123739.
+Liang, Z., Chai, R., Sun, Y., Jiang, Y., & Sun, D. (2025). Cold wave recognition and wind power forecasting technology considering sample scarcity
+and meteorological periodicity characteristics. Applied Sciences, 15, 4312. doi:10.3390/app15084312.
+Liu, G., Liu, J., Bai, Y., Wang, C., Wang, H., Zhao, H., Liang, G., Zhao, J., & Qiu, J. (2023). Eweld: A large-scale industrial and commercial load
+dataset in extreme weather events. Scientific Data, 10, 615. doi:10.1038/s41597-023-02503-6.
+Liu, Y., Wang, J., & Liu, L. (2024). Physics-informed reinforcement learning for probabilistic wind power forecasting under extreme events. Applied
+Energy, 376, 124068. doi:10.1016/j.apenergy.2024.124068.
+Luo, J., Hong, T., Gao, Z., & Fang, S.-C. (2024). Fuzzy support vector regressions for short-term load forecasting. Fuzzy Optimization and Decision
+Making, 23, 363–385. doi:10.1007/s10700-024-09422-0.
+Mao, Y., Song, L., & Huang, H. (2025). A novel hybrid deep learning model for day-ahead wind power interval forecasting. Sustainability, 17,
+3239. doi:10.3390/su17073239.
+Meena, Y. et al. (2025). FLSVR: Solving lagrangian support vector regression using functional iterative method. Neural Processing Letters, .
+doi:10.1007/s11063-025-11780-8.
+Mustaffa, Z., & Sulaiman, M. H. (2025). Random forest based wind power prediction method for sustainable energy system. Cleaner Energy
+Systems, . doi:10.1016/j.cles.2025.100210.
+Pan, S. J., & Yang, Q. (2010). A survey on transfer learning. IEEE Transactions on Knowledge and Data Engineering, 22, 1345–1359.
+doi:10.1109/TKDE.2009.191.
+Petersen, V. H., Pisinger, D., & Stålhane, M. (2026). Optimization in offshore wind farms – a survey of problems, models, and solution approaches.
+European Journal of Operational Research, 332, 841–865. doi:10.1016/j.ejor.2026.03.002.
+Rabanal, A., Ulazia, A., Ibarra-Berastegi, G., Saenz, J., & Elosegui, U. (2019). Midas: A benchmarking multi-criteria method for the identification
+of defective anemometers in wind farms. Energies, 12, 28. doi:10.3390/en12010028.
+Rizkallah, S. (2025). Enhancing the performance of gradient boosting trees on regression problems. Journal of Big Data, . doi:10.1186/
+s40537-025-01071-3.
+Romano, Y., Patterson, E., & Candès, E. J. (2019). Conformalized quantile regression. In Advances in Neural Information Processing Systems 32
+(NeurIPS 2019) (pp. 3538–3548). URL: https://papers.nips.cc/paper/8613-conformalized-quantile-regression.
+Schölkopf, B., Herbrich, R., & Smola, A. J. (2001). A general representer theorem. In Proceedings of the 14th Annual Conference on Computational
+Learning Theory (pp. 416–426). Springer. doi:10.1007/3-540-44581-1_27.
+Se, H., Song, K., Liu, H., Zhang, W., Wang, X., & Liu, J. (2023). A dual drift compensation framework based on subspace learning and cross-domain
+adaptive extreme learning machine for gas sensors. Knowledge-Based Systems, 259, 110024. https://doi.org/10.1016/j.knosys.2022.110024.
+Sideratos, G., & Hatziargyriou, N. D. (2012). Wind power forecasting focused on extreme power system events. IEEE Transactions on Sustainable
+Energy, 3, 445–454. doi:10.1109/TSTE.2012.2189442.
+Tang, M., Ding, S. X., Yang, C., Cheng, F., Shardt, Y. A., Long, W., & Liu, D. (2019). Cost-sensitive large margin distribution machine for fault
+detection of wind turbines. Cluster Computing, 22, 7525–7537. doi:10.1007/s10586-018-1854-3.
+Tao, J., lai Chung, F., & Wang, S. (2012). On minimum distribution discrepancy support vector machine for domain adaptation. Pattern Recognition,
+45, 3962–3984. https://doi.org/10.1016/j.patcog.2012.04.014.
+Taylor, J. W. (2007). Forecasting daily supermarket sales using exponentially weighted quantile regression. European Journal of Operational
+Research, 178, 154–167. doi:10.1016/j.ejor.2006.02.006.
+Trafalis, T. B., & Gilbert, R. C. (2006). Robust classification and regression using support vector machines. European Journal of Operational
+Research, 173, 893–909. doi:10.1016/j.ejor.2005.07.024.
+Wang, Y., Zou, R., Liu, F., Zhang, L., & Liu, Q. (2021). A review of wind speed and wind power forecasting with deep neural networks. Applied
+Energy, 304, 117766. doi:10.1016/j.apenergy.2021.117766.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 30 of 31
+
+Wen, H., & Pinson, P. (2026). Value-oriented forecast reconciliation for renewables in electricity markets. European Journal of Operational
+Research, 332, 492–504. doi:10.1016/j.ejor.2025.12.011.
+Yan, J., Chen, F., Liu, T., Zhang, Y., Peng, X., Yi, D., & Duan, S. (2022). Subspace alignment based on an extreme learning machine for electronic
+nose drift compensation. Knowledge-Based Systems, 235, 107664. https://doi.org/10.1016/j.knosys.2021.107664.
+Yan, J., Li, X., Wang, H., Si, F., Qiao, W., & Liu, Y. (2025). The economic value of wind power forecasting: A data-driven method and its application
+in various scenarios. Energy, 340, 139151. doi:10.1016/j.energy.2025.139151.
+Yang, W., Zhang, Z., & Chen, X. (2024). Vibration-based looseness identification of bolted structures via quasi-analytic wavelet packet and optimized
+large margin distribution machine. Structural Health Monitoring, 23, 856–875. doi:10.1177/14759217231159948.
+Ye, X., Liu, C., Xiong, X., & Qi, Y. (2025a). Recurrent attention encoder-decoder network for multi-step interval wind power prediction. Energy,
+315, 134317. doi:10.1016/j.energy.2024.134317.
+Ye, Y.-F., Wang, J., & Chen, W.-J. (2025b). Nonlinear feature selection for support vector quantile regression. Neural Networks, 185, 107136.
+doi:10.1016/j.neunet.2025.107136.
+Ye, Y.-F. et al. (2023). Twin support vector quantile regression. Expert Systems with Applications, 221, 121239. doi:10.1016/j.eswa.2023.
+121239.
+Yuan, R., Wang, B., Sun, Y., Song, X., & Watada, J. (2023). Conditional style-based generative adversarial networks for renewable scenario
+generation. IEEE Transactions on Power Systems, 38, 1281–1296. doi:10.1109/TPWRS.2022.3170992.
+Yuan, X., Shi, J., & Xu, J. (2022). Wind power prediction method: Support vector regression optimized by improved jellyfish search algorithm.
+Energies, 15, 6404. doi:10.3390/en15176404.
+Zhai, S., Han, M., Li, Z., Yang, S., Duan, S., & Yan, J. (2023). M2fl-ccc: Multibranch multilayer feature leaning and comprehensive classification criterion for gas sensor drift compensation. IEEE Transactions on Instrumentation and Measurement, 72, 1–12.
+https://doi.org/10.1109/TIM.2023.3296820.
+Zhang, K., & Kwok, J. T. (2010). Clustered nyström method for large scale manifold learning and dimension reduction. IEEE Transactions on
+Neural Networks, 21, 1576–1587. doi:10.1109/TNN.2010.2064786.
+Zhang, T., & Zhou, Z.-H. (2014). Large margin distribution machine. In Proceedings of the 20th ACM SIGKDD international conference on
+Knowledge discovery and data mining (pp. 313–322). doi:10.1145/2623330.2623710.
+Zhang, T., & Zhou, Z.-H. (2020). Optimal margin distribution machine. IEEE Transactions on Knowledge and Data Engineering, 32, 1143–1156.
+doi:10.1109/TKDE.2019.2897662.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 31 of 31
+
+

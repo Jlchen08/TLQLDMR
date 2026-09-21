@@ -1,0 +1,736 @@
+\documentclass[a4paper]{cas-sc}
+
+\usepackage[authoryear]{natbib}
+\usepackage{setspace}
+% Author macros
+\def\tsc#1{\csdef{#1}{\textsc{\lowercase{#1}}\xspace}}
+\tsc{WGM}
+\tsc{QE}
+
+\usepackage{amssymb}
+\usepackage{amsmath,amsfonts}
+\usepackage{caption}
+\captionsetup[figure]{
+  name={Fig.},
+  labelsep=colon,
+  font={rm,small},
+  labelfont=bf,
+  justification=raggedright,
+  singlelinecheck=off,
+  skip=4pt,
+}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.8}
+% Patch cas-common.sty: replace \sffamily with \rmfamily in caption functions to match body text
+\ExplSyntaxOn
+\cs_set:Npn \__make_tbl_caption:nn #1#2
+{
+  \l_tbl_align_tl
+  \skip_vertical:N \l_tbl_abovecap_skip
+  {\parbox{\dimexpr(\l_tbl_width_dim)}
+    {\setstretch{1}\rightskip=0pt\rmfamily\small\textbf{\color{scolor}#1}\par#2\par\vskip2pt}}
+  \skip_vertical:N \l_tbl_belowcap_skip
+}
+\cs_set:Npn \__make_fig_caption:nn #1#2
+{
+  \l_fig_align_tl
+  \skip_vertical:N \l_fig_abovecap_skip
+  \setbox\cascaptionbox=\hbox{%
+    \setstretch{1}\rmfamily\small\textbf{\color{scolor}#1:}~#2}
+  \ifdim\the\wd\cascaptionbox<\dim_use:N \l_fig_width_dim\relax
+    \parbox{\l_fig_width_dim}
+      {\setstretch{1}\raggedright\unskip\ignorespaces\rmfamily\small\textbf{\color{scolor}#1:}~#2\par}
+  \else
+    \parbox{\l_fig_width_dim}
+      {\setstretch{1}\raggedright\unskip\ignorespaces\rmfamily\small\textbf{\color{scolor}#1:}~#2\par}
+  \fi
+  \skip_vertical:N \l_fig_belowcap_skip
+}
+% Patch cas-common.sty: suppress ORCID line and customize first-page footer text
+\RenewDocumentCommand \printorcid { } { }
+\cs_set:Npn \__first_footerline:
+{
+  \group_begin:
+  \scriptsize
+  \sffamily
+  \ifnum\theblind>0\relax
+  \else
+    \__short_authors: :~
+  \fi
+  { \rmfamily \itshape Preprint~submitted~to~Energy }
+  \group_end:
+}
+\ExplSyntaxOff
+\usepackage[linesnumbered,ruled]{algorithm2e}
+\usepackage{array}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\epstopdfsetup{outdir=./build/}
+\graphicspath{{./}{./build/}}
+\usepackage{multirow}
+\usepackage{mathrsfs}
+%\usepackage{mathptmx}
+\usepackage{amsthm}
+\newtheorem{myDef}{Definition}
+\newtheorem{myTheo}{Theorem}
+\newtheorem{mypro}{Proposition}
+\newtheorem{myex}{Example}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{etoolbox}
+\captionsetup[table]{
+  labelsep=newline,
+  singlelinecheck=false,
+  skip=4pt,
+}
+\AtBeginEnvironment{table}{\rmfamily\normalsize}
+\AtBeginEnvironment{table*}{\rmfamily\normalsize}
+\AtBeginEnvironment{tabular}{\rmfamily\normalsize}
+\usepackage{hyperref}
+\hypersetup{%hypertex=true,
+            colorlinks=true,
+            linkcolor=blue,
+            anchorcolor=blue,
+            citecolor=blue}
+\newtheorem{remark}{Remark}   
+\renewcommand{\qedsymbol}{}
+\renewcommand{\theenumi}{\arabic{enumi}}
+\renewcommand{\labelenumi}{(\theenumi)}
+\setlength{\bibsep}{0pt}
+\AtBeginEnvironment{thebibliography}{\singlespacing\scriptsize\setlength{\parskip}{0pt}\setlength{\itemsep}{0pt}}
+
+% Keep abstract in main.tex to make SyncTeX jump to the source file.
+\makeatletter
+\ExplSyntaxOn
+\tl_new:N \g__cas_abs_tl
+
+\RenewDocumentEnvironment { abstract } { o +b }
+{
+  \IfNoValueTF { #1 } { }
+   { \tex_gdef:D \abstracttitle { #1 } }
+  \tl_gset:Nn \g__cas_abs_tl { #2 }
+}
+{ }
+
+\AtBeginDocument{\onehalfspacing}
+
+\RenewDocumentCommand \MaketitleBox { O{} }
+{
+  \tl_if_blank:nTF { #1 } { }
+  { \keys_set:nn { stm / mktitle } { #1 } }
+  \processbreakafter
+  \singlespacing
+  \group_begin:
+  \@title
+  \group_end:
+  %
+  \bool_if:NTF \g_stm_blind_bool
+  { \vspace* { 10 mm } }
+  {
+    \group_begin:
+    \normalsize \stmauthors \par
+    \stmcollab \par
+    \footnotesize \itshape \stmaddress \par
+    \group_end:
+    \bool_if:NTF \g_stm_breakafter_auaff_bool
+    { \newpage } { }
+  }
+  % \printFirstPageNotes
+  %
+  \dashrule{0pt}{3pt}
+  \begin{Abstract}
+    \noindent \ignorespaces
+    \tl_use:N \g__cas_abs_tl
+  \end{Abstract}
+  \dashrule{6pt}{3pt}
+  \bool_if:NTF \g_stm_breakafter_abstract_bool
+  { \newpage } { }
+  \onehalfspacing
+}
+
+\RenewDocumentCommand \LongMaketitleBox { O{} }
+{
+  \tl_if_blank:nTF { #1 } { }
+  { \keys_set:nn { stm / mktitle } { #1 } }
+  \vbox_gset:Nn \g_stm_front_box
+  {
+    \singlespacing
+    \group_begin:
+    \@title
+    \group_end:
+    %
+    \bool_if:NTF \g_stm_blind_bool
+     { \vspace* { 10 mm } }
+     { \group_begin:
+       \normalsize \stmauthors \par
+       \stmcollab \par
+       \footnotesize \itshape \stmaddress \par
+       \group_end:
+     }
+  %
+  \dashrule{0pt}{3pt}
+  \begin{Abstract}
+    \noindent \ignorespaces
+    \tl_use:N \g__cas_abs_tl
+  \end{Abstract}
+  \dashrule{3pt}{3pt}
+  }
+  \vbox_gset:Nn \g_stm_notes_box
+  {  \cs_set_eq:NN \footnotetext \__fn_text:n  \printFirstPageNotes }
+   \dim_gset:Nn \g_tmpb_dim { \box_ht:N \g_stm_notes_box }
+   % \iow_term:x { ...~[ht: \dim_use:N \g_tmpb_dim  ] }
+   \dim_gadd:Nn \g_tmpb_dim { \box_dp:N \g_stm_notes_box }
+   % \iow_term:x { ...~[ht+dp: \dim_use:N \g_tmpb_dim  ] }
+   \ifbool{sc}{\dim_gadd:Nn \g_tmpb_dim { 12pt } } { }
+}
+\ExplSyntaxOff
+\makeatother
+
+
+\begin{document}
+\let\WriteBookmarks\relax
+\def\floatpagepagefraction{1}
+\def\textpagefraction{.001}
+
+%------------------------ Title ------------------------
+
+% \title [mode = title]{Subspace Learning Based on Cross-Domain Large Margin Distribution Machine}
+\title [mode = title]{Transfer Learning Quantile Large-margin Distribution Machine for Wind Power Forecasting under Extreme Events}
+\shorttitle{}
+
+%------------------------ Authors ------------------------
+% short author
+\shortauthors{Junlin Chen et~al.}
+
+%% ---- First Author ----
+\author[1]{Junlin Chen}
+\credit{Methodology, Software, Writing - original draft}
+\affiliation[1]{
+    organization={School of Management and Engineering, Nanjing University},
+    city={Nanjing},
+    citysep={},
+    postcode={210093}, 
+    country={China}}
+
+\affiliation[2]{
+    organization={Department of Information Engineering and Computer Science, Feng Chia University},
+    city={Taiwan},
+    citysep={},
+    postcode={40724}, 
+    country={China}}
+
+\affiliation[3]{
+    organization={College of Artificial Intelligence, Southwest University},
+    city={Chongqing},
+    citysep={},
+    postcode={400715}, 
+    country={China}}
+
+\affiliation[4]{
+    organization={Graduate School of Information, Production and Systems, Waseda University},
+    city={Kitakyushu},
+    citysep={},
+    postcode={808-0135}, 
+    country={Japan}}
+
+%% ---- Second Author ----
+\author[1]{Bo Wang}
+\cormark[1]
+\credit{Writing -- review $\&$ editing, Funding acquisition}
+\cortext[cor1]{Corresponding author: Bo Wang\\
+\qquad \qquad E-mail address: jlchen08@163.com (J. Chen), bowangsme@nju.edu.cn (B. Wang), zhihangyu@smail.nju.edu.cn (Z. Yu),\\
+\qquad \qquad  linrenju7@163.com (R. Lin), peiclin@fcu.edu.tw (P. Lin), lbzhang@swu.edu.cn (L. Zhang), junzo.watada.ips@gmail.com (J. Watada)
+}
+
+%% ---- Third Author ----
+\author[1]{Zhihang Yu}
+\credit{Formal analysis, Software}
+
+\author[1]{Renju Lin}
+\credit{Software}
+
+%% ---- Fourth Author ----
+\author[2]{Pei-chun Lin}
+\credit{Validation, Supervision}
+
+
+%% ---- Fifth Author ----
+\author[3]{Libo Zhang}
+\credit{Funding acquisition}
+
+
+%% ---- sixth Author ----
+\author[4]{Junzo Watada}
+\credit{Validation, Supervision}
+
+
+%------------------------ Abstract ------------------------
+\begin{abstract}
+Accurate wind power forecasting under extreme events is critical for grid stability and renewable energy integration, yet remains a formidable challenge due to severe data scarcity and substantial distribution shifts between normal and extreme-event operating regimes. While kernel-based methods, particularly support vector regression and Large-margin Distribution Machine-based Regression (LDMR), have demonstrated strong performance in various regression tasks due to their theoretical guarantees and robustness on limited data, their application to extreme-event forecasting faces critical limitations: the i.i.d. assumption underlying standard kernel methods is fundamentally violated under cross-domain scenarios, and the symmetric variance minimization in LDMR implicitly encourages symmetric error distributions, which conflicts with the asymmetric nature of quantile-based interval prediction required for uncertainty quantification. To extend kernel-based regression to extreme-event forecasting, we propose Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR), which addresses these challenges through three synergistic innovations: (i) an asymmetric variance regularizer that preserves LDMR's distributional robustness while accommodating quantile-specific error asymmetry, (ii) a supervised transfer learning framework integrating maximum mean discrepancy for feature alignment and weighted pinball loss for label adaptation, enabling effective knowledge transfer from abundant normal-domain data to scarce extreme-event samples, and (iii) a scalable Nystr\"{o}m-SGD solver reducing complexity from $O(N^3)$ to $O(T \cdot N \cdot m)$. Comprehensive experiments on six wind farms demonstrate that TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with superior reliability-sharpness trade-off and practical scalability, making it suitable for real-time applications where interpretability and theoretical guarantees are prioritized.
+\end{abstract}
+
+
+%------------------------ Keywords ------------------------
+\begin{keywords}
+Wind power forecasting\\
+Large-margin distribution machine\\
+Quantile regression\\
+Transfer learning\\
+Extreme events
+\end{keywords}
+
+\maketitle
+%% \linenumbers
+
+%% main text
+%------------------------ Introduction ------------------------
+\section{Introduction}
+
+The global transition toward renewable energy has positioned wind power as a cornerstone of sustainable electricity generation. However, the inherent intermittency and volatility of wind resources pose significant challenges to power-system reliability, reserve allocation, and dispatch efficiency \citep{yuan2023conditional}. Accurate wind power forecasting is therefore critical for reducing balancing costs, supporting storage planning, and enabling secure grid integration \citep{yan2025economic, wang2025ensemble}. While substantial progress has been achieved in short-term forecasting under normal meteorological conditions, prediction performance can degrade significantly during extreme events, particularly those associated with typhoons, cold waves, or heat waves, when wind power fluctuations are most severe and energy-system operations are under the greatest stress \citep{wang2024scarcity, jonkers2024regional}.
+
+Extreme events present a dual challenge for data-driven forecasting models. First, such events are inherently rare, resulting in severe data scarcity: extreme-condition samples typically constitute only a small fraction of historical records \citep{s41597-022-01696-6, wang2024scarcity}. Second, the dynamics under extreme-event conditions differ fundamentally from normal operating regimes, inducing substantial distribution shifts in both feature space (e.g., wind speed, temperature) and label space. In this work, the term extreme events is used in a broad operational sense: it includes, but is not limited to, named severe-weather processes and instead denotes rare, high-risk, and out-of-distribution states induced by extreme meteorological deviations and their associated turbine responses. For instance, during typhoon events, wind speeds may exceed 25 m/s, triggering turbine cut-out operations that produce near-zero power output---a pattern rarely observed in normal-domain training data. This creates a covariate shift in the input space and a label shift in the output space, both of which challenge conventional machine learning models that assume training and testing data are independently and identically distributed (i.i.d.) \citep{dong2023mdan, yin2021serioparallel}.
+
+Among the diverse landscape of forecasting methodologies, kernel-based approaches—particularly Support Vector Regression (SVR) and its variants—have been extensively applied to wind power forecasting and have demonstrated competitive performance under normal-operating conditions \citep{wang2019review, li2021cuckoo, luo2024fsvr, yuan2022jellyfish}. The SVR methodology continues to evolve, with recent advances in optimization algorithms, convergence properties, and robustness enhancements. These kernel methods offer several distinctive advantages over black-box deep learning models: strong generalization guarantees rooted in statistical learning theory, effective handling of high-dimensional feature spaces through the kernel trick, convex optimization formulations that guarantee global optima, and robust performance on small-to-medium-sized datasets where deep models tend to overfit. Moreover, their interpretability and theoretical foundations make them particularly attractive for safety-critical applications such as grid dispatch, where model transparency is often required by regulatory standards. Recent studies have further enriched kernel regression through robust SVM formulations \citep{trafalis2006robust}, bounded-loss regression \citep{fu2023bounded}, and multiple-kernel learning with compound regularization \citep{jiang2021rlmkl}, reinforcing the continuing relevance of robustness-oriented kernel learning for forecast tasks involving noisy and heterogeneous data.
+
+Despite these strengths, existing kernel-based wind power forecasting studies predominantly focus on normal-operating conditions with deterministic point prediction objectives. Traditional SVR minimizes the $\epsilon$-insensitive loss to estimate the conditional mean, achieving robust point predictions under Gaussian noise assumptions. More generally, direct quantile-based forecasting has long been recognized as an effective route to interval generation under skewed and heteroscedastic demand patterns \citep{taylor2007ewqr}. To address the need for uncertainty quantification, Support Vector Quantile Regression (SVQR) extends SVR by replacing the symmetric $\epsilon$-loss with the asymmetric pinball loss, enabling estimation of conditional quantiles for prediction intervals \citep{ye2025nfs, tsvqr2023}. Recent SVQR variants incorporate twin-hyperplane designs \citep{tsvqr2023}, robustness-enhancing loss formulations \citep{wang2024ssvqr}, and nonlinear feature selection \citep{ye2025nfs} to improve scalability and robustness. Despite these methodological advances, the application of kernel-based methods to extreme-event forecasting remains largely unexplored, presenting both challenges and opportunities for methodological extension.
+
+At the methodological level, a fundamental limitation shared by both SVR and SVQR is that they optimize only the minimum margin while ignoring the statistical distribution of margins across the entire dataset. This focus on worst-case samples can lead to overfitting and poor generalization, particularly when training data contains outliers or label noise. To overcome this limitation, the Large-margin Distribution Machine-based Regression (LDMR) paradigm was introduced, which explicitly optimizes both the mean and variance of the margin distribution \citep{zhang2019optimal, gupta2021least}. By concentrating prediction errors tightly around zero, LDMR achieves superior generalization compared to classical SVR on a wide range of regression tasks \citep{gupta2021least, hazarika2023mode}. Variants of LDMR have been successfully applied to wind turbine fault detection \citep{tang2019cost}, imbalanced classification \citep{CHENG2016107}, and structural health monitoring \citep{doi:10.1177/14759217231159948}, demonstrating its robustness in noisy industrial environments. However, LDMR has not been systematically applied to wind power forecasting, particularly under extreme-event conditions where both distributional robustness and probabilistic interval prediction are required. These characteristics---combined with LDMR's theoretical foundations---make it a promising candidate for extension to forecasting in the extreme-event domain.
+
+Against this backdrop, extending kernel-based methods from the normal-operating domain to the extreme-event domain introduces three critical challenges that require methodological innovation. First, the i.i.d. assumption---that training and testing data are drawn from the same distribution---is a foundational premise of both SVR/SVQR and LDMR. While this assumption holds reasonably well within a single operating regime, it is systematically violated when transferring knowledge from normal (source domain) to extreme-event (target domain) conditions. For example, in our preliminary analysis of six wind farms, the Wasserstein distance between normal and extreme power distributions ranges from 5.96 to 21.06, indicating substantial distributional discrepancy. A model trained solely on abundant normal-domain data will inevitably exhibit performance degradation when deployed under extreme conditions, regardless of how well the margin distribution is optimized within the source domain. Recent wind-power studies have explored transfer learning and domain adaptation to alleviate data scarcity and domain shift in newly built or heterogeneous wind farms \citep{yin2021serioparallel, wang2024scarcity, dong2023mdan}; however, their principled integration with kernel-based regression remains an open research question.
+
+Second, there exists a fundamental theoretical tension between LDMR's distributional robustness mechanism and the requirements of quantile regression. The core principle of LDMR—minimizing the variance of prediction residuals—implicitly encourages a symmetric, concentrated error distribution around zero. This is theoretically appropriate and empirically effective for conditional mean estimation, as evidenced by LDMR's superior performance over SVR in numerous regression benchmarks. However, quantile regression at level $\tau \neq 0.5$ requires an inherently asymmetric residual distribution: for example, when estimating the 95th percentile, approximately 95\% of errors should be negative and only 5\% positive. Naively applying LDMR's variance minimization to quantile regression will force the error distribution toward symmetry, thereby degrading interval calibration and violating the target coverage probability. This theoretical conflict has received limited attention in the literature, as existing LDMR studies focus primarily on mean regression, and existing SVQR studies do not incorporate distributional robustness. Reconciling these two objectives—distributional robustness and quantile-specific asymmetry—requires a principled modification of the LDMR framework.
+
+Third, existing transfer learning approaches for wind power forecasting predominantly adopt unsupervised or weakly supervised adaptation strategies, focusing primarily on aligning feature distributions while underutilizing scarce target-domain labels \citep{yin2021serioparallel, wang2024scarcity, dong2023mdan}. This design choice is reasonable when target labels are completely unavailable, but is suboptimal for extreme-event forecasting, where scarce target samples represent high-value information that captures critical domain-specific dynamics such as cut-out behavior and power curtailment. A more effective transfer learning framework should leverage both feature-space alignment and label-space supervision, strategically weighting target samples to guide model adaptation. This supervised transfer learning paradigm has been successfully applied in computer vision and natural language processing, but its integration with kernel-based quantile regression for wind power forecasting remains unexplored.
+
+To address these challenges and extend kernel-based regression to extreme-event forecasting, Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR) is proposed as a principled extension of the classical LDMR paradigm for cross-domain probabilistic wind power prediction. The resulting framework preserves the theoretical strengths of kernel-based methods---convex optimization, generalization guarantees, and robustness on limited data---while introducing three synergistic innovations tailored to the extreme-event setting.
+
+First, a novel asymmetric variance regularization mechanism is introduced to reconcile the tension between distributional robustness and quantile estimation. Unlike standard LDMR, which implicitly encourages symmetric error distributions through variance minimization, the proposed formulation employs asymmetric variance regularization based on algebraic residuals, thereby compressing overall error dispersion while preserving the requisite skewness for accurate quantile prediction. This innovation enables TL-QLDMR to achieve both superior point prediction accuracy and well-calibrated prediction intervals, a capability that neither standard LDMR nor SVQR alone can provide.
+
+Second, a supervised transfer learning framework is developed to integrate two complementary adaptation mechanisms. In the feature space, Maximum Mean Discrepancy (MMD) minimization aligns the source and target distributions in the Reproducing Kernel Hilbert Space (RKHS), reducing covariate shift and ensuring that the learned feature representation is domain-invariant \citep{TAO20123962}. In the label space, a weighted pinball loss mechanism assigns substantially higher weights to scarce target-domain samples, treating them as high-value corrective anchors that guide the model toward extreme-event dynamics. This dual-space adaptation strategy enables TL-QLDMR to leverage abundant source data for structural learning while prioritizing target data for domain-specific refinement, thereby addressing the label-neglect problem in existing unsupervised domain adaptation methods. This is particularly important for extreme-event forecasting, where every extreme sample carries valuable information about rare but critical operating conditions such as cut-out events and power curtailment.
+
+Third, because the standard quadratic programming (QP) formulation of kernel-based transfer learning incurs $O(N^3)$ computational complexity through full kernel-matrix computation and inversion, a scalable Nystr\"{o}m-SGD algorithm is developed by combining Nystr\"{o}m approximation---which constructs an explicit low-rank feature mapping using $m \ll N$ landmark points---with stochastic gradient descent (SGD). The resulting complexity is reduced to $O(T \cdot N \cdot m)$, enabling practical deployment on large-scale supervisory control and data acquisition (SCADA) datasets \citep{s41597-022-01696-6} that accumulate tens of thousands of samples annually.
+
+TL-QLDMR is evaluated on a publicly available multi-site wind farm SCADA dataset encompassing six wind farms with capacities ranging from 36 MW to 200 MW, in comparison with recent kernel-based methods, ensemble approaches, and deep learning baselines. Experimental results demonstrate that TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with consistent improvements across multiple evaluation metrics. Ablation studies confirm the contribution of each component, and scalability analysis validates the efficiency of the proposed Nystr\"{o}m-SGD solver.
+
+% It is important to clarify the scope and positioning of this work. TL-QLDMR is designed for scenarios where kernel-based methods' distinctive advantages---theoretical guarantees, interpretability, sample efficiency, and convex optimization---are particularly valuable. Such scenarios are common in practice: (i) extreme events are inherently rare, providing limited training data where kernel methods' sample efficiency is advantageous, (ii) grid dispatch applications often require model transparency for regulatory compliance, and (iii) real-time forecasting systems benefit from the computational efficiency and stability of convex optimization. Our contribution is to extend the LDMR framework with quantile-aware asymmetry and supervised domain adaptation, demonstrating that kernel-based methods, when properly extended, remain a competitive and theoretically grounded choice for extreme-event forecasting.
+
+The remainder of this paper is organized as follows. Section~\ref{rel} reviews the theoretical foundations of SVQR, LDMR, and transfer learning with MMD, establishing the building blocks for our method. Section~\ref{novel} presents the TL-QLDMR formulation, including the asymmetric variance regularizer, supervised transfer framework, and scalable optimization algorithm. Section~\ref{Experiments} describes the dataset, experimental setup, and comprehensive evaluation results across deterministic prediction, probabilistic interval forecasting, ablation studies, and computational efficiency analysis. Finally, Section~\ref{conclusion} concludes the paper and discusses future research directions.
+
+
+%------------------------ Related work ------------------------
+
+\section{Related Work}\label{rel}
+This section briefly reviews the theoretical foundations related to the proposed method, including Support Vector Quantile Regression, Large-margin Distribution Machine-based Regression, and Transfer Learning with Maximum Mean Discrepancy.
+
+\subsection{Support Vector Quantile Regression}
+Traditional SVR relies on the $\epsilon$-insensitive loss function, which assumes a symmetric error distribution (e.g., Gaussian) and estimates the conditional mean of the target variable. However, in scenarios like partial shading or wind curtailment, the noise distribution is often asymmetric and heteroscedastic. To address this, SVQR was introduced to estimate conditional quantiles, providing a comprehensive view of the outcome distribution.
+Recent SVQR-family developments include twin-hyperplane designs, robustness-enhancing loss formulations, and nonlinear feature-selection variants, which improve scalability and robustness in non-Gaussian environments \citep{tsvqr2023, wang2024ssvqr, ye2025nfs}.
+
+The core of SVQR is the non-symmetric pinball loss function, defined as
+\begin{equation}
+L_{\tau}(u) = \begin{cases} 
+\tau u, & u \ge 0 \\ 
+(\tau - 1) u, & u < 0 ,
+\end{cases}
+\end{equation}
+where $\tau \in (0,1)$ indicates the target quantile. Unlike SVR, SVQR finds a decision boundary that divides the data such that a proportion $\tau$ of the samples lie below the boundary. The optimization problem minimizes the structural risk along with the empirical risk measured by the pinball loss
+\begin{equation}
+\min_{\boldsymbol{w}, b} \frac{1}{2} \|\boldsymbol{w}\|^2 + C \sum_{i=1}^{n} L_{\tau}(y_i - (\boldsymbol{w}^T \phi(\boldsymbol{x}_i) + b)),
+\end{equation}
+this formulation allows SVQR to capture heavy-tailed distributions and outliers more effectively than mean-based regression.
+
+\subsection{Large-margin Distribution Machine-based Regression}
+While SVR and SVQR focus on maximizing the minimum margin, they largely ignore the statistical distribution of the margin over the entire dataset. LDMR was proposed to improve generalization by explicitly optimizing the distribution of the margins.
+From early large-margin distribution formulations to least-squares and mode-seeking variants, LDMR has evolved into a practical framework for robust learning under noisy conditions \citep{zhang2014large, zhang2019optimal, gupta2021least, hazarika2023mode}.
+
+The key idea of LDMR is to not only maximize the margin of the support vectors but also to minimize the variance of the error distribution for all samples. A typical LDMR formulation for regression integrates two additional statistical regularization terms into the objective function
+\begin{equation}
+\label{eq:ldmr_concept}
+\min_{\boldsymbol{w}, b} \frac{1}{2} \|\boldsymbol{w}\|^2 + \lambda_1 \text{Var}(\text{Residuals}) + \lambda_2 \text{Mean}(\text{Residuals}) + C \sum_{i=1}^{n} L(y_i, f(\boldsymbol{x}_i)),
+\end{equation}
+by constraining the variance, LDMR forces the prediction errors to be clustered tightly around zero, leading to a more compact and robust hypothesis space. However, this variance minimization implicitly encourages symmetric error distributions. Our work extends this concept by introducing an asymmetric variance regularization mechanism suitable for quantile regression, which preserves the distributional robustness of LDMR while accommodating the inherent asymmetry required for accurate quantile estimation.
+
+\subsection{Transfer Learning and Maximum Mean Discrepancy}
+Standard machine learning models operate under the assumption that training (source) and testing (target) data are drawn from the same probability distribution. When this assumption is violated---such as in wind power forecasting across different operating regimes---the model performance degrades significantly. Transfer learning aims to transfer knowledge from a label-rich source domain to a target domain with different but related distributions.
+MMD-based adaptation has been widely used in transfer scenarios because it provides a non-parametric discrepancy measure in RKHS and integrates naturally with kernelized objectives \citep{TAO20123962, YAN2022107664, GUO2022118237, dp2, ss2}.
+
+A fundamental challenge in transfer learning is measuring and reducing the distribution discrepancy. MMD is a widely used non-parametric metric that measures the distance between two distributions in a RKHS. Given source data $\{\boldsymbol{x}_{S,i}\}$ and target data $\{\boldsymbol{x}_{T,j}\}$, the squared MMD distance is defined as
+\begin{equation}
+\text{MMD}^2(D_S, D_T) = \left\| \frac{1}{n_S} \sum_{i=1}^{n_S} \phi(\boldsymbol{x}_{S,i}) - \frac{1}{n_T} \sum_{j=1}^{n_T} \phi(\boldsymbol{x}_{T,j}) \right\|_{\mathcal{H}}^2 ,
+\end{equation}
+where $\phi(\cdot)$ is the feature mapping induced by the kernel. By minimizing the MMD distance during training, the model learns a feature representation where the source and target domains are statistically aligned, enabling the classifier or regressor trained on the source domain to generalize well to the target domain. This alignment is particularly crucial for extreme-event forecasting, as it ensures that the learned predictor is robust to the feature-space shift between normal and extreme-event regimes.
+
+
+\section{Proposed Method}\label{novel}
+This section presents the construction of TL-QLDMR. Necessary notation is introduced first, followed by the final objective function integrating structural risk, distribution variance, domain adaptation, and weighted pinball loss. The constraints required to handle the non-differentiability of the quantile loss are then described.
+
+\subsection{Notations}\label{not}
+Consider the problem of wind power forecasting under extreme events. The source domain is denoted by $D_{S} = \{(\boldsymbol{x}_{S,i}, y_{S,i})\}_{i=1}^{n_S}$ and contains abundant normal-operating samples, while the target domain is denoted by $D_{T} = \{(\boldsymbol{x}_{T,j}, y_{T,j})\}_{j=1}^{n_T}$ and contains scarce extreme-event samples. The input space $\mathcal{X} \subseteq \mathbb{R}^d$ represents feature vectors constructed via sliding window processing, and the output space $\mathcal{Y} \subseteq \mathbb{R}$ represents wind power. The sample sizes satisfy $n_T \ll n_S$.
+
+Due to drastic meteorological changes during extreme events, the joint distributions differ significantly: $P_S(\boldsymbol{X}_S, \boldsymbol{Y}_S) \neq P_T(\boldsymbol{X}_T, \boldsymbol{Y}_T)$. This distribution discrepancy implies that a model trained solely on $P_S$ will fail on $P_T$.
+A feature mapping $\phi: \mathcal{X} \to \mathcal{H}$ is used to map the input to a high-dimensional Reproducing Kernel Hilbert Space (RKHS). The prediction model is defined as
+\begin{equation}
+f(\boldsymbol{x}) = \boldsymbol{w}^T \phi(\boldsymbol{x}) + b,
+\end{equation}
+where $\boldsymbol{w}$ is the weight vector and $b$ is the bias. The quantile $\tau \in (0, 1)$ is set to a specific value (e.g., $\tau=0.95$) for interval prediction (e.g., predicting the upper bound).
+Unless otherwise noted, $k(\cdot,\cdot)$ denotes the scalar kernel function, $\boldsymbol{K}$ denotes the Gram matrix, $\phi(\cdot)$ denotes the implicit RKHS mapping used in the exact kernel formulation, and $\psi(\cdot)$ denotes the explicit Nystr\"{o}m feature map used only in the scalable primal solver.
+
+\subsection{TL-QLDMR Model Formulation}\label{MODEL}
+The overall architecture of the proposed TL-QLDMR model is illustrated in Fig. \ref{fig:framework}. The left column presents a five-stage pipeline progressing from cross-domain data preparation through supervised transfer, quantile-aware objective construction, scalable optimization, to forecast outputs. In the supervised transfer stage, a shared kernel representation $\phi(\mathbf{x})$/$\psi(\mathbf{x})$ branches into two complementary adaptation paths: feature-space alignment via MMD in RKHS and label-space adaptation via target-weighted pinball loss. The quantile-aware objective integrates four terms---structural risk, asymmetric distribution variance, MMD-based domain adaptation, and weighted pinball loss---into a unified formulation. The optimization stage supports both an exact dual QP solver and a scalable Nystr\"{o}m-SGD solver, ultimately producing point forecasts and probabilistic prediction intervals.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{build/framework.pdf}
+\caption{Overall architecture of the proposed TL-QLDMR model. The left column shows the five-stage pipeline: cross-domain data preparation, supervised transfer learning, quantile-aware objective construction, scalable optimization, and forecast outputs. Each stage is elaborated in the corresponding right panel. In the supervised transfer stage, the shared kernel representation branches into feature-space alignment via MMD in RKHS and label-space adaptation via target-weighted pinball loss (indicated by dashed arrows). The quantile-aware objective decomposes into four additive terms: structural risk $R_{\mathrm{SR}}$, distribution variance $R_{\mathrm{DV}}$, domain adaptation $R_{\mathrm{DA}}$, and weighted pinball loss $R_{\mathrm{Q}}$. The optimization stage provides both an exact dual QP solver and a scalable Nystr\"om-SGD solver with complexity reduction from $O(N^3)$ to $O(T \cdot N \cdot m)$. The final outputs include deterministic point forecasts and probabilistic prediction intervals.}
+\label{fig:framework}
+\end{figure}
+
+\subsubsection{Objective Function}
+Our optimization goal is to find the optimal $\boldsymbol{w}, b$ and slack variables $\boldsymbol{\xi}, \boldsymbol{\xi}^*$ to minimize the following objective function $J$. Let $\bar{u}_S = \frac{1}{n_S}\sum_{i=1}^{n_S}(y_{S,i} - f(\boldsymbol{x}_{S,i}))$ denote the mean residual over the source domain, which is treated as a scalar constant during optimization
+\begin{equation}
+\label{eq:objective}
+\begin{aligned}
+\min_{\boldsymbol{w}, b, \boldsymbol{\xi}, \boldsymbol{\xi}^*} \quad J = & \underbrace{\frac{1}{2} \|\boldsymbol{w}\|^2}_{\text{(1) Structural Risk}} \\
+& + \underbrace{\lambda_1 \sum_{i=1}^{n_S} \left( (y_{S,i} - \boldsymbol{w}^T\phi(\boldsymbol{x}_{S,i}) - b) - \bar{u}_S \right)^2}_{\text{(2) Distribution Variance}} \\
+& + \underbrace{\lambda_2 \left\| \frac{1}{n_S} \sum_{i=1}^{n_S} \phi(\boldsymbol{x}_{S,i}) - \frac{1}{n_T} \sum_{j=1}^{n_T} \phi(\boldsymbol{x}_{T,j}) \right\|_{\mathcal{H}}^2}_{\text{(3) Domain Adaptation}} \\
+& + \underbrace{C_S \sum_{i=1}^{n_S} L_{\tau}(y_{S,i}, f(\boldsymbol{x}_{S,i})) + C_T \sum_{j=1}^{n_T} L_{\tau}(y_{T,j}, f(\boldsymbol{x}_{T,j}))}_{\text{(4) Weighted Pinball Loss}},
+\end{aligned}
+\end{equation}
+the physical meaning of each term is as follows:
+\begin{enumerate}
+    \item \textbf{Structural Risk}: This term controls the complexity of the model and prevents overfitting, embodying the maximum margin principle of SVM.
+    \item \textbf{Distribution Variance}: This term is the core of our proposed Quantile LDMR model, incorporating a critical modification to the original LDMR variance.
+    \begin{itemize}
+        \item \textbf{Theoretical Conflict}: The original LDMR minimizes the variance of residuals, which implicitly encourages a symmetric, concentrated error distribution around zero. However, quantile regression at level $\tau \neq 0.5$ requires an asymmetric residual distribution where approximately $\tau$ proportion of errors are negative. Applying a symmetric variance penalty would force the residual distribution towards symmetry, degrading the skewness required for accurate quantile estimation.
+        \item \textbf{Asymmetric Modification}: To resolve this, we employ an asymmetric variance regularization based on the algebraic residuals. This design allows the model to reduce error dispersion without constraining the distribution's direction, thereby preserving the non-symmetric properties essential for the Pinball Loss and improving interval coverage.
+    \end{itemize}
+    \item \textbf{Domain Adaptation (MMD)}: This term aligns source and target feature distributions in RKHS by minimizing mean-embedding discrepancy. This alignment ensures that the learned predictor is robust to the feature-space shift between normal and extreme-event regimes. MMD is chosen because it is non-parametric, computationally tractable, and directly compatible with kernelized optimization.
+    \item \textbf{Weighted Pinball Loss}: This term performs label-space adaptation under sample imbalance. Unlike purely unsupervised alignment, the objective explicitly includes target-domain labels:
+    \begin{itemize}
+        \item \textbf{Label-supervised correction}: extreme-event target labels constrain the model in regions where source-domain trends are no longer reliable (e.g., high wind speed under cut-out operation).
+        \item \textbf{Imbalance-aware weighting}: by setting $C_T \gg C_S$, prediction errors on scarce target samples receive stronger penalties, preventing optimization from being dominated by abundant source samples.
+    \end{itemize}
+\end{enumerate}
+
+\subsubsection{Constraints}
+To handle the non-differentiability of the pinball loss, we introduce slack variables $\xi_k, \xi_k^*$ to transform it into linear constraints. These constraints apply uniformly to all samples $k$ in the combined training set $D = D_S \cup D_T$, while domain-specific weighting is handled through $C_S$ and $C_T$ in the objective function
+\begin{equation}
+\label{eq:constraints}
+\begin{cases}
+y_k - (\boldsymbol{w}^T\phi(\boldsymbol{x}_k) + b) \le \xi_k, & \forall k \in \{1, \dots, n_S + n_T\} \\
+(\boldsymbol{w}^T\phi(\boldsymbol{x}_k) + b) - y_k \le \xi_k^*, & \forall k \in \{1, \dots, n_S + n_T\} \\
+\xi_k \ge 0, \quad \xi_k^* \ge 0
+\end{cases},
+\end{equation}
+in the objective function, the term $L_{\tau}(y_k, f(\boldsymbol{x}_k))$ corresponds to $\tau \xi_k + (1-\tau) \xi_k^*$.
+
+\subsection{Model Optimization}\label{optimization}
+This section derives the dual problem of TL-QLDMR to enable efficient solution via Quadratic Programming (QP).
+
+\subsubsection{Matrix Reformulation of the Primal Problem}
+To facilitate the derivation, the variance term and the MMD term in the objective function [Eq. (\ref{eq:objective})] are rewritten using matrix traces or norms. Let $X = [\boldsymbol{X}_S, \boldsymbol{X}_T]$ denote the entire training set with $N = n_S + n_T$ samples.
+For consistency with standard derivations, a coefficient of $1/2$ is added to the variance and MMD terms. The primal objective can be reformulated as
+\begin{equation}
+\label{eq:primal_matrix}
+\min_{\boldsymbol{w}, b, \boldsymbol{\xi}, \boldsymbol{\xi}^*} \quad \frac{1}{2} \|\boldsymbol{w}\|^2 + \frac{\lambda_1}{2} \text{Var}_S(\boldsymbol{w}, b) + \frac{\lambda_2}{2} \text{MMD}^2(\boldsymbol{w}) + \sum_{k=1}^N C_k L_\tau(y_k, f(\boldsymbol{x}_k)),
+\end{equation}
+where $C_k$ takes value $C_S$ if sample $k \in D_S$ and $C_T$ if $k \in D_T$.
+
+Two auxiliary matrices are introduced to express the variance and MMD terms in Eq. (\ref{eq:primal_matrix}) as quadratic forms of the weights:
+\begin{enumerate}
+    \item \textbf{Variance Matrix} $\mathbf{S}$: To represent the source-domain variance $\sum_{i \in D_S} (y_{S,i} - f(\boldsymbol{x}_{S,i}) - \bar{u}_S)^2$, we define a centering matrix $\boldsymbol{H}_S = \boldsymbol{I}_{n_S} - \frac{1}{n_S} \boldsymbol{1}_{n_S} \boldsymbol{1}_{n_S}^T$. The variance term can be written as $\| \boldsymbol{H}_S (\boldsymbol{y}_S - \boldsymbol{f}_S) \|^2$. To extend this to the full dataset, we define an $N \times N$ matrix $\mathbf{S}$
+    \begin{equation}
+    \label{eq:matrix_S}
+    \mathbf{S} = \begin{bmatrix} \boldsymbol{H}_S & \mathbf{0} \\ \mathbf{0} & \mathbf{0} \end{bmatrix}.
+    \end{equation}
+    \item \textbf{MMD Matrix} $\mathbf{M}$: The MMD term represents the distance between means. We define the MMD coefficient matrix $\mathbf{M} \in \mathbb{R}^{N \times N}$ as
+    \begin{equation}
+    \label{eq:matrix_M}
+    M_{ij} = \begin{cases} \frac{1}{n_S^2} & i,j \in D_S \\ \frac{1}{n_T^2} & i,j \in D_T \\ \frac{-1}{n_S n_T} & \text{otherwise} \end{cases}.
+    \end{equation}
+\end{enumerate}
+
+\subsubsection{Representer Theorem and Kernelization}
+According to the representer theorem (\cite{scholkopf2001representer}), the optimal weight vector $\boldsymbol{w}$ lies in the span of the feature mappings of the training samples. Note that the representer theorem applies here because all regularization terms (structural risk, variance, and MMD) can be expressed as functions of inner products in RKHS, preserving the kernel structure. Therefore
+\begin{equation}
+\label{eq:representer}
+\boldsymbol{w} = \sum_{i=1}^{N} \beta_i \phi(\boldsymbol{x}_i) = \boldsymbol{\Phi} \boldsymbol{\beta},
+\end{equation}
+where $\boldsymbol{\Phi} = [\phi(\boldsymbol{x}_1), \dots, \phi(\boldsymbol{x}_N)]$ is the feature matrix and $\boldsymbol{\beta} = [\beta_1, \dots, \beta_N]^T$ are the coefficients.
+Substituting Eq. (\ref{eq:representer}) into the prediction function, we get $f(\boldsymbol{X}) = \boldsymbol{\beta}^T \boldsymbol{K} + b \boldsymbol{1}^T$, where $\boldsymbol{K} = \boldsymbol{\Phi}^T \boldsymbol{\Phi}$ is the $N \times N$ kernel matrix.
+Consequently, using Eq. (\ref{eq:matrix_S}) and Eq. (\ref{eq:matrix_M}), the structural risk, variance, and MMD terms can be expressed in terms of $\boldsymbol{\beta}$:
+\begin{itemize}
+    \item Structural Risk: $\|\boldsymbol{w}\|^2 = \boldsymbol{\beta}^T \boldsymbol{K} \boldsymbol{\beta}$.
+    \item Distribution Variance: The quadratic part with respect to $\boldsymbol{\beta}$ is $\boldsymbol{\beta}^T \boldsymbol{K} \mathbf{S} \boldsymbol{K} \boldsymbol{\beta}$. Note that the bias $b$ is eliminated by the centering matrix $\boldsymbol{H}_S$.
+    \item Domain Adaptation (MMD): $\text{MMD}^2(\boldsymbol{w}) = \boldsymbol{\beta}^T \boldsymbol{K} \mathbf{M} \boldsymbol{K} \boldsymbol{\beta}$.
+\end{itemize}
+
+Combining these, we define the total coefficient matrix $\boldsymbol{\Omega}$
+\begin{equation}
+\label{eq:Omega}
+\boldsymbol{\Omega} = \boldsymbol{K} + \lambda_1 \boldsymbol{K} \mathbf{S} \boldsymbol{K} + \lambda_2 \boldsymbol{K} \mathbf{M} \boldsymbol{K}.
+\end{equation}
+
+\begin{remark}
+When $\boldsymbol{K}$ is positive definite (which holds for common kernels such as RBF on distinct samples) and $\lambda_1, \lambda_2 > 0$, the matrix $\boldsymbol{\Omega}$ is positive definite. This ensures that $\boldsymbol{\Omega}$ is invertible and the optimization problem is well-posed. The positive definiteness of $\boldsymbol{\Omega}$ also guarantees the strong convexity of the objective function, which is essential for both the dual QP formulation and the convergence analysis of the scalable SGD algorithm.
+\end{remark}
+By substituting the kernelized terms and Eq. (\ref{eq:Omega}) into Eq. (\ref{eq:primal_matrix}), the kernelized primal problem becomes (ignoring constant terms w.r.t $b$ in variance)
+\begin{equation}
+\label{eq:kernel_primal}
+\min_{\boldsymbol{\beta}, b, \boldsymbol{\xi}, \boldsymbol{\xi}^*} \quad \frac{1}{2} \boldsymbol{\beta}^T \boldsymbol{\Omega} \boldsymbol{\beta} - (\lambda_1 \boldsymbol{K} \mathbf{S} \boldsymbol{Y})^T \boldsymbol{\beta} + \sum_{k=1}^N C_k (\tau \xi_k + (1-\tau)\xi_k^*),
+\end{equation}
+subject to the constraints from Eq. (\ref{eq:constraints})
+\begin{equation}
+\label{eq:kernel_constraints}
+y_k - (\boldsymbol{K}_k \boldsymbol{\beta} + b) \le \xi_k, \quad (\boldsymbol{K}_k \boldsymbol{\beta} + b) - y_k \le \xi_k^*, \quad \xi_k, \xi_k^* \ge 0.
+\end{equation}
+
+\subsubsection{Lagrangian and Dual Problem}
+We introduce Lagrange multipliers $\alpha_k, \alpha_k^*, \mu_k, \mu_k^* \ge 0$ for Eq. (\ref{eq:kernel_constraints}). The Lagrangian function $\mathcal{L}$ is constructed as
+\begin{equation}
+\label{eq:lagrangian}
+\begin{aligned}
+\mathcal{L} = &\frac{1}{2} \boldsymbol{\beta}^T \boldsymbol{\Omega} \boldsymbol{\beta} - (\lambda_1 \boldsymbol{K} \mathbf{S} \boldsymbol{Y})^T \boldsymbol{\beta} + \sum_{k=1}^N C_k (\tau \xi_k + (1-\tau)\xi_k^*) \\
+&- \sum_{k=1}^N \alpha_k (\xi_k - y_k + \boldsymbol{K}_k \boldsymbol{\beta} + b) - \sum_{k=1}^N \alpha_k^* (\xi_k^* + y_k - \boldsymbol{K}_k \boldsymbol{\beta} - b) - \sum (\mu_k \xi_k + \mu_k^* \xi_k^*),
+\end{aligned}
+\end{equation}
+by setting the partial derivatives of Eq. (\ref{eq:lagrangian}) with respect to the primal variables ($b, \boldsymbol{\xi}, \boldsymbol{\xi}^*, \boldsymbol{\beta}$) to zero, along with the complementary slackness and primal feasibility conditions, we obtain the KKT conditions
+\begin{align}
+    \label{eq:kkt_b} \frac{\partial \mathcal{L}}{\partial b} = 0 & \implies \sum_{k=1}^N (\alpha_k - \alpha_k^*) = 0 \\
+    \label{eq:kkt_xi} \frac{\partial \mathcal{L}}{\partial \xi_k} = 0, \frac{\partial \mathcal{L}}{\partial \xi_k^*} = 0 & \implies \alpha_k \in [0, C_k \tau], \quad \alpha_k^* \in [0, C_k (1-\tau)] \\
+    \label{eq:kkt_beta} \frac{\partial \mathcal{L}}{\partial \boldsymbol{\beta}} = 0 & \implies \boldsymbol{\Omega} \boldsymbol{\beta} - \lambda_1 \boldsymbol{K} \mathbf{S} \boldsymbol{Y} - \boldsymbol{K} (\boldsymbol{\alpha} - \boldsymbol{\alpha}^*) = 0,
+\end{align}
+let $\boldsymbol{\gamma} = \boldsymbol{\alpha} - \boldsymbol{\alpha}^*$. From Eq. (\ref{eq:kkt_beta}), the optimal $\boldsymbol{\beta}$ is derived as
+\begin{equation}
+\label{eq:beta_optimal}
+\boldsymbol{\beta} = \boldsymbol{\Omega}^{-1} (\boldsymbol{K} \boldsymbol{\gamma} + \lambda_1 \boldsymbol{K} \mathbf{S} \boldsymbol{Y}).
+\end{equation}
+
+Substituting Eq. (\ref{eq:beta_optimal}) back into Eq. (\ref{eq:lagrangian}), and simplifying using Eq. (\ref{eq:kkt_b}) and Eq. (\ref{eq:kkt_xi}), we arrive at the dual Problem, which is a standard Quadratic Programming (QP) problem
+\begin{equation}
+\label{eq:dual_problem}
+\begin{aligned}
+\min_{\boldsymbol{\alpha}, \boldsymbol{\alpha}^*} \quad & \frac{1}{2} (\boldsymbol{\alpha} - \boldsymbol{\alpha}^*)^T \mathbf{Q}_{dual} (\boldsymbol{\alpha} - \boldsymbol{\alpha}^*) + \mathbf{p}_{dual}^T (\boldsymbol{\alpha} - \boldsymbol{\alpha}^*) \\
+\text{s.t.} \quad & \sum_{k=1}^N (\alpha_k - \alpha_k^*) = 0 \\
+& 0 \le \alpha_k \le C_k \tau, \quad \forall k \\
+& 0 \le \alpha_k^* \le C_k (1-\tau), \quad \forall k
+\end{aligned},
+\end{equation}
+where the dual matrix $\mathbf{Q}_{dual}$ and vector $\mathbf{p}_{dual}$ are defined as
+\begin{equation}
+\label{eq:dual_matrices}
+\mathbf{Q}_{dual} = \boldsymbol{K} \boldsymbol{\Omega}^{-1} \boldsymbol{K}, \quad \mathbf{p}_{dual} = \lambda_1 \boldsymbol{K} \boldsymbol{\Omega}^{-1} \boldsymbol{K} \mathbf{S} \boldsymbol{Y} - \boldsymbol{Y}.
+\end{equation}
+
+Once the optimal $\boldsymbol{\alpha}, \boldsymbol{\alpha}^*$ are found using a QP solver for Eq. (\ref{eq:dual_problem}), we can recover $\boldsymbol{\beta}$ using Eq. (\ref{eq:beta_optimal}) and construct the final decision function $f(\boldsymbol{x})$.
+
+
+\subsection{The Algorithm and Complexity Analysis}\label{alg_section}
+The complete training process of the proposed TL-QLDMR model is summarized in Algorithm \ref{alg:TL-QLDMR}. The algorithm mainly consists of matrix construction and solving a QP problem.
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\caption{TL-QLDMR Training Algorithm}
+\label{alg:TL-QLDMR}
+\Input{Source Data $D_S = \{(\boldsymbol{x}_{S,i}, y_{S,i})\}_{i=1}^{n_S}$, Target Data $D_T = \{(\boldsymbol{x}_{T,j}, y_{T,j})\}_{j=1}^{n_T}$, Quantile $\tau$, Kernel parameters, Regularization parameters $\lambda_1, \lambda_2$, Pinball Loss weights $C_S, C_T$.}
+\Output{Optimal dual variables $\boldsymbol{\alpha}, \boldsymbol{\alpha}^*$ and bias $b$.}
+
+\tcp{Step 1: Data Preparation}
+Combine Source and Target data: $\boldsymbol{X} = [\boldsymbol{X}_S, \boldsymbol{X}_T]$, $\boldsymbol{Y} = [\boldsymbol{Y}_S; \boldsymbol{Y}_T]$, $N = n_S + n_T$\;
+Set weights vector $\boldsymbol{C} \in \mathbb{R}^N$ where $C_k = C_S$ for $k \le n_S$ and $C_T$ otherwise\;
+
+\tcp{Step 2: Matrix Construction}
+Compute Kernel Matrix $\boldsymbol{K} \in \mathbb{R}^{N \times N}$ using the specified kernel function\;
+Construct Variance Matrix $\mathbf{S}$ using Eq. \eqref{eq:matrix_S}\;
+Construct MMD Matrix $\mathbf{M}$ using Eq. \eqref{eq:matrix_M}\;
+
+\tcp{Step 3: Dual Problem Formulation}
+Compute coefficient matrix $\boldsymbol{\Omega} = \boldsymbol{K} + \lambda_1 \boldsymbol{K} \mathbf{S} \boldsymbol{K} + \lambda_2 \boldsymbol{K} \mathbf{M} \boldsymbol{K}$ using Eq. \eqref{eq:Omega}\;
+Invert $\boldsymbol{\Omega}$ to fit the dual form\;
+Compute Dual Matrix $\mathbf{Q}_{dual} = \boldsymbol{K} \boldsymbol{\Omega}^{-1} \boldsymbol{K}$ using Eq. \eqref{eq:dual_matrices}\;
+Compute Dual Vector $\mathbf{p}_{dual} = \lambda_1 \boldsymbol{K} \boldsymbol{\Omega}^{-1} \boldsymbol{K} \mathbf{S} \boldsymbol{Y} - \boldsymbol{Y}$ using Eq. \eqref{eq:dual_matrices}\;
+
+\tcp{Step 4: Solve QP}
+Solve the QP problem in Eq. \eqref{eq:dual_problem} providing $\mathbf{Q}_{dual}$, $\mathbf{p}_{dual}$, and constraints $0 \le \alpha_k \le C_k\tau$, $0 \le \alpha_k^* \le C_k(1-\tau)$\;
+\textbf{Return} Optimal $\boldsymbol{\alpha}, \boldsymbol{\alpha}^*$\;
+
+\tcp{Step 5: Recover Primal Variables}
+Compute $\boldsymbol{\gamma} = \boldsymbol{\alpha} - \boldsymbol{\alpha}^*$\;
+Recover $\boldsymbol{\beta}$ using Eq. \eqref{eq:beta_optimal}\;
+Compute bias $b$ using complementary slackness conditions (averaged over Support Vectors)\;
+\end{algorithm}
+
+The computational complexity of TL-QLDMR primarily stems from three parts: matrix multiplication, matrix inversion, and the QP solver.
+\begin{enumerate}
+    \item \textbf{Matrix Operations}: The construction of $\boldsymbol{K}$, $\mathbf{S}$, and $\mathbf{M}$ involves $O(N^2 d)$ or $O(N^2)$ operations. The calculation of $\boldsymbol{\Omega}$ involves matrix multiplications of size $N \times N$, leading to a complexity of $O(N^3)$ in the worst case for dense kernel matrices.
+    \item \textbf{Matrix Inversion}: Inverting the $N \times N$ matrix $\boldsymbol{\Omega}$ requires $O(N^3)$ complexity in the worst case.
+    \item \textbf{QP Solver}: Solving the standard Quadratic Programming problem for the dual variables typically has a complexity ranging from $O(N^{2.3})$ to $O(N^3)$ depending on the solver implementation (e.g., Interior Point Method).
+\end{enumerate}
+Therefore, the overall time complexity of the proposed algorithm is approximately $O(N^3)$ in the worst case. Given that $N = n_S + n_T$ and $n_T \ll n_S$, the scale is dominated by the source-domain sample size. While this complexity is acceptable for moderate-sized datasets, it becomes prohibitive for large-scale wind power forecasting scenarios involving tens of thousands of samples. To overcome this computational bottleneck and enable practical deployment in real-world wind farm applications, we develop a scalable optimization algorithm in the following subsection.
+
+\subsection{Scalable Optimization via Nystr\"{o}m Approximation}\label{fast_alg}
+To address the computational bottleneck of the standard QP-based solver, we propose a scalable Nystr\"{o}m-SGD algorithm. This approach reduces the time complexity from $O(N^3)$ to $O(T \cdot N \cdot m)$, where $T$ denotes the number of iterations and $m \ll N$ is the number of landmark points.
+
+\subsubsection{Nystr\"{o}m Feature Mapping}
+The core idea is to approximate the implicit infinite-dimensional feature mapping $\phi(\boldsymbol{x})$ with an explicit finite-dimensional representation. Given the training data, we first select $m$ landmark points $Z = \{z_1, \ldots, z_m\}$ from the source domain $D_S$ using K-Means clustering to capture the underlying data manifold, following the rationale of clustered Nystr\"{o}m landmark selection \citep{zhang2010clustered}.
+
+Let $\boldsymbol{W} \in \mathbb{R}^{m \times m}$ denote the kernel matrix of landmarks, where $W_{ij} = k(z_i, z_j)$. The explicit feature mapping $\psi: \mathcal{X} \to \mathbb{R}^m$ is then constructed as
+\begin{equation}
+\label{eq:nystrom_feature}
+\psi(\boldsymbol{x}) = \boldsymbol{W}^{-1/2} [k(\boldsymbol{x}, z_1), \ldots, k(\boldsymbol{x}, z_m)]^T,
+\end{equation}
+where $\boldsymbol{W}^{-1/2}$ is computed via eigendecomposition. This mapping satisfies the approximation property $k(\boldsymbol{x}_i, \boldsymbol{x}_j) \approx \psi(\boldsymbol{x}_i)^T \psi(\boldsymbol{x}_j)$, enabling us to work directly in the primal space.
+
+\subsubsection{Primal Formulation with Explicit Features}
+With the explicit feature mapping, the prediction function becomes $f(\boldsymbol{x}) = \boldsymbol{w}^T \psi(\boldsymbol{x}) + b$, where $\boldsymbol{w} \in \mathbb{R}^m$. Let $\boldsymbol{\Psi}_S \in \mathbb{R}^{n_S \times m}$ and $\boldsymbol{\Psi}_T \in \mathbb{R}^{n_T \times m}$ denote the mapped feature matrices for source and target domains, respectively. The regularization matrix $\boldsymbol{R} \in \mathbb{R}^{m \times m}$ incorporating structural risk, variance, and MMD terms is formulated as
+\begin{equation}
+\label{eq:reg_matrix}
+\boldsymbol{R} = \boldsymbol{I} + \lambda_1 \underbrace{\boldsymbol{\Psi}_S^T \boldsymbol{H}_S \boldsymbol{\Psi}_S}_{\text{Variance}} + \lambda_2 \underbrace{(\bar{\boldsymbol{\psi}}_S - \bar{\boldsymbol{\psi}}_T)(\bar{\boldsymbol{\psi}}_S - \bar{\boldsymbol{\psi}}_T)^T}_{\text{MMD}},
+\end{equation}
+where $\boldsymbol{H}_S = \boldsymbol{I}_{n_S} - \frac{1}{n_S} \boldsymbol{1}_{n_S} \boldsymbol{1}_{n_S}^T$ is the centering matrix, and $\bar{\boldsymbol{\psi}}_S$, $\bar{\boldsymbol{\psi}}_T$ are the mean feature vectors of source and target domains.
+
+\subsubsection{Stochastic Gradient Descent Optimization}
+Instead of solving the dual QP problem, we directly optimize the primal objective using the Nystr\"{o}m-SGD procedure. For each sample $k$ in a mini-batch $\mathcal{B}$, the sub-gradient of the Pinball Loss with respect to the prediction is
+\begin{equation}
+\label{eq:subgradient}
+g_k = \frac{\partial L_{\tau}}{\partial \hat{y}_k} = \begin{cases} 
+\tau - 1, & \text{if } y_k < \hat{y}_k \\ 
+\tau, & \text{if } y_k \ge \hat{y}_k.
+\end{cases}
+\end{equation}
+
+The weighted sub-gradient is computed as $\tilde{g}_k = C_k \cdot g_k$, where $C_k \in \{C_S, C_T\}$ depends on the domain membership. The parameter gradients are then
+\begin{equation}
+\label{eq:param_gradients}
+\nabla_{\boldsymbol{w}} J = \frac{1}{|\mathcal{B}|} \sum_{k \in \mathcal{B}} \tilde{g}_k \psi(\boldsymbol{x}_k) + \boldsymbol{R} \boldsymbol{w}, \quad \nabla_b J = \frac{1}{|\mathcal{B}|} \sum_{k \in \mathcal{B}} \tilde{g}_k.
+\end{equation}
+
+The complete training procedure is summarized in Algorithm \ref{alg:fast_TL-QLDMR}.
+
+\begin{algorithm}[t]
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+\caption{TL-QLDMR via Nystr\"{o}m-SGD}
+\label{alg:fast_TL-QLDMR}
+\Input{Source data $D_S$, Target data $D_T$, Number of landmarks $m$, Quantile $\tau$, Hyperparameters $\lambda_1, \lambda_2, C_S, C_T$, Learning rate $\eta$, Batch size $B$, Max iterations $T$.}
+\Output{Optimal weights $\boldsymbol{w} \in \mathbb{R}^m$ and bias $b \in \mathbb{R}$.}
+
+\tcp{Step 1: Nystr\"{o}m Feature Mapping}
+Select $m$ landmarks $Z = \{z_1, \ldots, z_m\}$ from $D_S$ via K-Means\;
+Compute landmark kernel matrix $\boldsymbol{W} \in \mathbb{R}^{m \times m}$\;
+Compute $\boldsymbol{W}^{-1/2}$ via eigendecomposition\;
+Construct explicit features $\psi(\boldsymbol{x})$ for all samples using Eq. \eqref{eq:nystrom_feature}\;
+
+\tcp{Step 2: Pre-compute Regularization Matrix}
+Compute feature matrices $\boldsymbol{\Psi}_S$, $\boldsymbol{\Psi}_T$ and mean vectors $\bar{\boldsymbol{\psi}}_S$, $\bar{\boldsymbol{\psi}}_T$\;
+Construct regularization matrix $\boldsymbol{R}$ using Eq. \eqref{eq:reg_matrix}\;
+
+\tcp{Step 3: Stochastic Optimization}
+Initialize $\boldsymbol{w} \leftarrow \boldsymbol{0}$, $b \leftarrow 0$\;
+\For{$t = 1$ \KwTo $T$}{
+    Shuffle combined dataset $D = D_S \cup D_T$\;
+    \For{each mini-batch $\mathcal{B} \subset D$}{
+        Compute predictions: $\hat{y}_k = \boldsymbol{w}^T \psi(\boldsymbol{x}_k) + b$, $\forall k \in \mathcal{B}$\;
+        Compute sub-gradients $g_k$ using Eq. \eqref{eq:subgradient}\;
+        Apply sample weights: $\tilde{g}_k \leftarrow C_k \cdot g_k$\;
+        Compute gradients $\nabla_{\boldsymbol{w}} J$, $\nabla_b J$ using Eq. \eqref{eq:param_gradients}\;
+        Update $\boldsymbol{w}$, $b$ using the stochastic gradient step with learning rate $\eta$\;
+    }
+}
+\Return $\boldsymbol{w}$, $b$\;
+\end{algorithm}
+
+\subsubsection{Complexity Analysis of the Scalable Algorithm}
+The proposed scalable algorithm achieves significant computational savings:
+\begin{enumerate}
+    \item \textbf{Landmark Selection}: K-Means clustering requires $O(N \cdot m \cdot I_{km})$ operations, where $I_{km}$ is the number of K-Means iterations.
+    \item \textbf{Feature Mapping}: Computing $\boldsymbol{W}^{-1/2}$ costs $O(m^3)$, and mapping all $N$ samples requires $O(N \cdot m \cdot d)$.
+    \item \textbf{Regularization Matrix}: Constructing $\boldsymbol{R}$ involves $O(n_S \cdot m^2)$ for the variance term and $O(m^2)$ for the MMD term.
+    \item \textbf{SGD Iterations}: Each iteration processes $O(N)$ samples with $O(m)$ operations per sample, yielding $O(T \cdot N \cdot m)$ total complexity.
+\end{enumerate}
+
+The overall time complexity is $O(T \cdot N \cdot m + m^3)$. Since $m \ll N$ (typically $m = O(\sqrt{N})$), this represents a substantial reduction from the $O(N^3)$ complexity of the standard QP solver. Table \ref{tab:complexity} summarizes the comparison between the two algorithms.
+
+\begin{table}[htbp]
+\centering
+\caption{Complexity comparison between standard QP and scalable algorithm}
+\label{tab:complexity}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Component} & \textbf{Standard QP} & \textbf{Scalable (Ours)} \\
+\midrule
+Kernel/Feature Computation & $O(N^2 d)$ & $O(N m d)$ \\
+Matrix Inversion & $O(N^3)$ & $O(m^3)$ \\
+Optimization & $O(N^3)$ & $O(T N m)$ \\
+\midrule
+\textbf{Total} & $O(N^3)$ & $O(T N m + m^3)$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Theoretical Justification}
+The convergence of the proposed Nystr\"{o}m-SGD algorithm is guaranteed under standard assumptions. Since the Pinball Loss is convex and Lipschitz continuous, and the regularization term $\frac{1}{2}\boldsymbol{w}^T \boldsymbol{R} \boldsymbol{w}$ is strongly convex (as $\boldsymbol{R}$ inherits positive definiteness from $\boldsymbol{\Omega}$ when $\lambda_1, \lambda_2 > 0$), the overall objective function is strongly convex. According to the convergence theory of SGD for strongly convex functions \citep{bottou2018optimization}, the algorithm converges to the global optimum at a rate of $O(1/T)$.
+
+Furthermore, the Nystr\"{o}m approximation error is bounded. Let $\tilde{k}(\boldsymbol{x}_i, \boldsymbol{x}_j) = \psi(\boldsymbol{x}_i)^T \psi(\boldsymbol{x}_j)$ denote the approximated kernel. Standard analyses of the Nystr\"{o}m method show that the approximation error decreases with the number of landmarks under suitable spectral assumptions and sampling schemes \citep{kumar2012sampling, zhang2010clustered}. A representative order characterization is
+\begin{equation}
+\label{eq:nystrom_error}
+\mathbb{E}\left[ \| \boldsymbol{K} - \tilde{\boldsymbol{K}} \|_F \right] \le O\left( \frac{N}{\sqrt{m}} \right),
+\end{equation}
+this bound ensures that with a sufficient number of landmarks, the approximation quality is well-controlled, and the solution obtained by the scalable algorithm closely approximates that of the exact QP solver.
+
+
+%------------------------- Experiments --------------------%
+\input{experiments}
+
+
+\section{Conclusion}\label{conclusion}
+This paper presents TL-QLDMR for wind power forecasting under extreme events, where target-domain samples are limited and distribution shift is pronounced. The method combines asymmetric variance regularization, MMD-based feature alignment, and weighted pinball loss within a unified transfer-learning quantile framework, with theoretical guarantees on positive definiteness and convergence.
+
+Experimental results show that TL-QLDMR delivers consistent gains in both deterministic and interval forecasting on the most challenging target farm. For point prediction, it achieves the best RMSE (7.478) and $R^2$ (0.9557). For 95\% interval prediction, it attains PICP $=0.959$ together with the best CWC (0.268), indicating a favorable reliability-sharpness trade-off. Under injected noise, TL-QLDMR remains the strongest model across reported point and interval metrics. In addition, the Nystr\"{o}m-SGD solver provides practical scalability, completing the full uncapped training set ($N=69{,}737$) in 5.021 seconds, whereas CVXOPT, Torch-GD, and batch SGD do not remain computationally viable at the same scale.
+
+Future work will focus on extending the framework to multi-site spatiotemporal coupling, adaptive online recalibration under non-stationary weather, and hybrid kernel-deep transfer formulations.
+
+%------------------------ Credit ------------------------
+\printcredits
+
+
+%------------------------ Declaration ------------------------
+\section*{Declaration of Competing Interest}
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+
+%------------------------ Acknowledgments ------------------------
+\section*{Acknowledgments}
+This work was supported in part by the National Natural Science Foundation of China under Grant 72471109 and Grant 62106205.
+
+
+
+%------------------------ Reference ------------------------
+
+%\bibliographystyle{unsrtnat}
+% \bibliography{ref}
+%\begin{refcontext}[sorting = none]
+% \hypersetup{
+%   %colorlinks=true,
+%   linkcolor=blue,
+%   urlcolor=blue
+% }
+
+% \bibliographystyle{unsrtnat}
+\bibliographystyle{model5-names} 
+\bibliography{ref.bib}
+%\end{refcontext}
+
+\end{document}

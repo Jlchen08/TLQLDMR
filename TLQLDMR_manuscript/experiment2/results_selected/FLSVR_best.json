@@ -1,0 +1,22 @@
+{
+  "model": "FLSVR",
+  "best_metrics": {
+    "rmse": 8.794455522713449,
+    "mae": 6.301000114137923,
+    "mape": 34425535.798654795,
+    "r2": 0.9380973188606768
+  },
+  "best_config": {
+    "feature_set": "full_dir_cyclic",
+    "window_size": 24,
+    "target_train_ratio": 0.9,
+    "C": 10,
+    "epsilon": 0.05,
+    "gamma": 0.001,
+    "max_iter": 25,
+    "tol": 0.0001
+  },
+  "farm_idx": 3,
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "split_seed": 0
+}

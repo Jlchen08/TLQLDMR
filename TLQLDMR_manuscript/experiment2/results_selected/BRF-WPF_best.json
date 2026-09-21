@@ -1,0 +1,26 @@
+{
+  "model": "BRF-WPF",
+  "best_metrics": {
+    "rmse": 9.719469522927822,
+    "mae": 6.869729461061501,
+    "mape": 46991050.61514049,
+    "r2": 0.9243904469919546
+  },
+  "best_config": {
+    "feature_set": "full_dir_cyclic",
+    "window_size": 24,
+    "target_train_ratio": 0.9,
+    "n_feature_groups": 3,
+    "n_feature_nodes": 12,
+    "n_enhance_nodes": 30,
+    "activation": "tanh",
+    "n_estimators": 120,
+    "max_depth": 6,
+    "min_samples_leaf": 4,
+    "max_features": 0.5,
+    "random_state": 42
+  },
+  "farm_idx": 3,
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "split_seed": 0
+}

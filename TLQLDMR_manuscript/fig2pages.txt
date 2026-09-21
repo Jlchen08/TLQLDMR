@@ -1,0 +1,344 @@
+Table 3
+Domain shift metrics between normal-operating and extreme-event domains across six wind farms. Farms are sorted by the
+composite Wasserstein distance in descending order.
+
+Wind Farm
+
+Extreme-Event Samples
+
+Farm 6 (96 MW)
+Farm 3 (99 MW)
+Farm 2 (200 MW)
+Farm 5 (36 MW)
+Farm 4 (66 MW)
+Farm 1 (99 MW)
+
+4,144
+4,144
+4,211
+3,039
+4,046
+4,184
+
+𝑊1 (Wind)
+
+𝑊1 (Power)
+
+KS(Wind)
+
+KS(Power)
+
+4.060
+3.389
+3.467
+4.195
+4.235
+3.140
+
+21.057
+18.915
+16.166
+9.851
+7.759
+5.964
+
+0.389
+0.338
+0.333
+0.460
+0.347
+0.335
+
+0.344
+0.265
+0.142
+0.363
+0.201
+0.116
+
+4.4. Experimental Setup
+For deterministic point prediction, we employ Root Mean Squared Error (RMSE), Mean Absolute Error (MAE),
+and the Coefficient of Determination (𝑅2 ) as evaluation metrics. RMSE and MAE quantify the magnitude of prediction
+errors, while 𝑅2 measures the proportion of variance explained by the model. For probabilistic interval prediction, we
+adopt Prediction Interval Coverage Probability (PICP), Mean Prediction Interval Width (MPIW), Prediction Interval
+Normalized Average Width (PINAW), Coverage Width-based Criterion (CWC), and Winkler Score. PICP measures
+reliability (whether the interval achieves the target coverage), while MPIW and PINAW measure sharpness (how tight
+the interval is). CWC is a composite metric that penalizes PINAW when PICP falls below the nominal coverage 1 − 𝛼,
+and the Winkler Score combines interval width with a penalty proportional to the magnitude of coverage violations.
+An ideal model achieves PICP ≥ 1 − 𝛼 with the smallest possible PINAW.
+To quantify the distribution discrepancy between the normal-operating and extreme-event domains, we employ two
+complementary metrics computed on both wind speed and power dimensions: the Wasserstein-1 distance (𝑊1 ), which
+measures the minimum transportation cost to transform one distribution into the other, and the Kolmogorov–Smirnov
+statistic (KS), which captures the supremum of the absolute difference between the empirical cumulative distribution
+functions of the two domains.
+The hyperparameters of TL-QLDMR are selected by validation-based tuning within each experiment. The searched
+ranges are logarithmic grids for 𝜆1 and 𝜆2 from 10−6 to 106 , 𝐶𝑆 ∈ {0.05, 0.1, 0.2}, 𝐶𝑇 ∈ {50, 300, 1000}, and kernel
+bandwidth 𝛾 ∈ {2−6 , … , 26 }. The Nyström-SGD solver is tuned over landmark size 𝑚 ∈ [800, 1500], learning rate in
+{0.005, 0.01}, and training epochs in [48, 80], with mini-batch size fixed at 256. All experiments are implemented
+in Python and executed on a GPU server equipped with eight NVIDIA Tesla V100-SXM2-32GB GPUs (32 GB
+memory per GPU), using NVIDIA driver version 550.54.15 and CUDA 12.4. All random splits use a fixed seed for
+reproducibility.
+
+4.5. Experiment 1: Extreme-Event Sample Screening and Domain Shift Quantification
+The first experiment identifies extreme-event samples across all six wind farms using the criteria in Section 4.3,
+and then quantifies source-target distribution shift for each farm. Table 3 reports the domain-shift statistics sorted by
+the composite Wasserstein distance 𝑊1 (wind) + 𝑊1 (power). Preliminary sensitivity checks show that a stricter 99thpercentile wind-speed rule leaves too few target-domain samples for stable model development, whereas the adopted
+98th-percentile rule preserves event extremity while maintaining statistical sufficiency.
+Fig. 2 visualizes the distribution shift between normal-operating and extreme-event domains for all six wind farms.
+Each subplot displays the kernel density estimates of wind speed (upper panel) and power output (lower panel) for both
+domains. The visual comparison confirms the quantitative findings in Table 3: Farm 6 exhibits the most pronounced
+separation between the two distributions, particularly in the power dimension, where the extreme-event domain shows
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 17 of 30
+
+a bimodal pattern with substantial mass near zero power (cut-out events) and high power (pre-cut-out high wind
+conditions).
+Several observations emerge from Table 3 and Fig. 2. First, all six farms exhibit non-trivial distribution shifts
+between the normal-operating and extreme-event domains, with KS statistics ranging from 0.116 to 0.460, confirming
+that extreme events induce statistically significant distributional changes in both wind speed and power output. Second,
+the magnitude of the power distribution shift varies substantially across farms: Farm 6 exhibits a Wasserstein distance
+of 21.057 in the power dimension, approximately 3.5 times that of Farm 1 (5.964). This disparity reflects differences
+in turbine control strategies, terrain effects, and the local meteorological characteristics of each site.
+Farm 6 (nominal capacity 96 MW) ranks first in the composite domain shift metric (𝑊1 (wind) + 𝑊1 (power) =
+25.117), indicating the most pronounced distributional discrepancy between its normal-operating and extreme-event
+regimes. Consequently, Farm 6 is selected as the target wind farm, providing the most stringent test bed for evaluating
+the robustness of transfer learning methods under extreme-event conditions.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 18 of 30
+
+Fig. 2. Distribution shift visualization for all six wind farms. From left to right, top to bottom: Site 1 (99 MW), Site 2
+(200 MW), Site 3 (99 MW), Site 4 (66 MW), Site 5 (36 MW), and Site 6 (96 MW). Each subplot shows kernel density
+estimates of wind speed (upper panel) and power output (lower panel) for the normal-operating (source) and extremeevent (target) domains. Site 6 exhibits the most severe domain shift in the power dimension.
+
+4.6. Experiment 2: Deterministic Point Prediction under Extreme Events
+The second experiment evaluates deterministic point prediction on Farm 6 and compares TL-QLDMR with nine
+baselines under the same data split and preprocessing protocol.
+The data partition for Farm 6 is as follows:
+• Source domain (normal operation): 66,009 samples;
+• Target domain (extreme-event domain): 4,143 samples.
+We compare TL-QLDMR against classical kernel baselines, robust kernel variants, and representative ensemble
+methods for wind power forecasting:
+Classical and robust kernel baselines:
+(1) Standard SVR: Classical Support Vector Regression with RBF kernel and 𝜖-insensitive loss, serving as the
+foundational kernel-based regression baseline;
+(2) Standard LDMR: Large-margin Distribution Machine-based Regression with symmetric variance regularization, representing the direct predecessor of TL-QLDMR without transfer learning or asymmetric modifications;
+(3) BLSSVR (Fu et al., 2023): A bounded-loss SVR-type regression model designed to improve robustness against
+outliers and heavy-tailed disturbances.
+Additional SVM variants:
+(4) HHO-SVR (Houssein et al., 2025): Support Vector Regression with hyperparameters optimized by the Harris
+Hawks Optimization metaheuristic;
+(5) FLSVR (Meena et al., 2025): A functional iterative method for solving the Lagrangian dual of SVR, offering
+improved convergence properties;
+(6) ARA-SVR (Duan et al., 2025): SVR with Associated Road Analysis for feature selection, originally proposed
+for short-term traffic flow prediction.
+Ensemble methods:
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 19 of 30
+
+Table 4
+Deterministic point prediction results on the extreme-event test set of Farm 6. Best results are highlighted in bold (similarly
+hereinafter).
+
+Model
+
+RMSE
+
+MAE
+
+𝑅2
+
+Kernel-based methods
+Standard LDMR
+BLSSVR
+ARA-SVR
+FLSVR
+Standard SVR
+HHO-SVR
+
+10.692
+10.273
+9.246
+8.794
+8.564
+7.603
+
+6.327
+6.140
+5.954
+6.301
+5.537
+5.530
+
+0.9085
+0.9155
+0.9316
+0.9381
+0.9413
+0.9537
+
+Ensemble methods
+BRF-WPF
+KMeans-GBT
+RF-WPF
+
+9.719
+9.620
+7.967
+
+6.870
+6.695
+5.344
+
+0.9244
+0.9259
+0.9492
+
+TL-QLDMR (Ours)
+
+7.478
+
+5.248
+
+0.9557
+
+(a) Standard LDMR
+
+(b) BLSSVR
+
+Standard-LDMR vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+True
+Prediction
+
+80
+60
+40
+
+True
+Prediction
+
+80
+
+Power (MW)
+
+Power (MW)
+
+BLSSVR vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+
+20
+
+60
+40
+20
+
+0
+
+0
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+Fig. 3: Prediction comparison over selected temporal segments on the Farm 6 extreme-event test set (Part I).
+(c) ARA-SVR
+
+(d) FLSVR
+
+ARA-SVR vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+True
+Prediction
+
+80
+60
+40
+
+True
+Prediction
+
+80
+
+Power (MW)
+
+Power (MW)
+
+FLSVR vs True (Wind farm site 6 (Nominal capacity-96MW)) | Local segment [0, 415)
+
+20
+
+60
+40
+20
+
+0
+
+0
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+0
+
+100
+
+200
+
+Time step (15 min)
+
+300
+
+400
+
+Fig. 4: Prediction comparison over selected temporal segments on the Farm 6 extreme-event test set (Part II).
+
+(7) KMeans-GBT (Rizkallah, 2025): A two-stage model combining KMeans clustering with Gradient Boosted
+Trees to capture heterogeneous input–output relationships;
+(8) RF-WPF (Mustaffa & Sulaiman, 2025): A Random Forest model tailored for wind power forecasting with
+optimized tree depth and feature subsampling;
+(9) BRF-WPF (Chen & Shi, 2025): Broad Random Forest integrating Broad Learning System feature expansion
+with Random Forest regression for short-term wind power prediction.
+
+Junlin Chen et al.:
+
+Preprint submitted to European Journal of Operational Research
+
+Page 20 of 30
+
+

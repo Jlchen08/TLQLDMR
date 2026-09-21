@@ -1,0 +1,88 @@
+{
+  "latex-workshop.latex.outDir": "build",
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.autoBuild.interval": 500,
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.view.pdf.refocus": false,
+  "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
+  "latex-workshop.view.pdf.tab.useNewGroup": true,
+  "latex-workshop.view.pdf.tab.editorGroup": "right",
+  "latex-workshop.synctex.afterBuild.enabled": true,
+  "latex-workshop.message.error.show": false,
+  "latex-workshop.message.warning.show": false,
+  "latex-workshop.message.badbox.show": false,
+  "files.autoSave": "off",
+  "files.autoSaveDelay": 1000,
+  "git.autoRepositoryDetection": false,
+  "git.openRepositoryInParentFolders": "never",
+  "git.scanRepositories": [
+    "."
+  ],
+  "git.repositoryScanMaxDepth": 0,
+  "git.repositoryScanIgnoredFolders": [
+    "node_modules",
+    "build",
+    "build_refcheck",
+    "data",
+    "experiment1",
+    "experiment2",
+    "experiment3",
+    "experiment4",
+    "experiment5"
+  ],
+  "[latex]": {
+    "editor.wordWrap": "on",
+    "editor.wordWrapColumn": 120,
+    "editor.wrappingIndent": "same"
+  },
+  "latex-workshop.latex.clean.fileTypes": [
+    "aux",
+    "bbl",
+    "blg",
+    "fdb_latexmk",
+    "fls",
+    "log",
+    "out",
+    "synctex.gz",
+    "toc",
+    "abs"
+  ],
+  "kiroAgent.configureMCP": "Disabled",
+  "latex-workshop.latex.tools": [
+    {
+      "name": "pdflatex",
+      "command": "pdflatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-output-directory=build",
+        "%DOC%"
+      ]
+    },
+    {
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": [
+        "build/%DOCFILE%"
+      ]
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "pdflatex ➜ bibtex ➜ pdflatex × 2",
+      "tools": [
+        "pdflatex",
+        "bibtex",
+        "pdflatex",
+        "pdflatex"
+      ]
+    },
+    {
+      "name": "pdflatex",
+      "tools": [
+        "pdflatex"
+      ]
+    }
+  ]
+}

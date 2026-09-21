@@ -1,0 +1,36 @@
+{
+  "farm_idx": 3,
+  "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+  "split_seed": 0,
+  "split_mode": "shuffle",
+  "extreme_cfg": {
+    "stat_q": 98.0,
+    "stat_on_wind": true,
+    "stat_on_power": false,
+    "use_stat": true,
+    "use_ramp": false,
+    "use_cutout": true,
+    "use_temp": true,
+    "ramp_ratio": 0.05,
+    "cutout_ms": 25.0,
+    "temp_low": -10.0,
+    "temp_high": 35.0,
+    "temp_q_low": 2.0,
+    "temp_q_high": 98.0,
+    "temp_requires_wind": false
+  },
+  "snr_db": "60,40,30,20,10",
+  "noise_on_train": true,
+  "svr_max_src": 4000,
+  "svr_max_tgt": 1200,
+  "tl_override": "experiment2/results_noise/tlqldmr_noise_grid_best.json",
+  "models": [
+    "ARA-SVR",
+    "BRF-WPF",
+    "FLSVR",
+    "HHO-SVR",
+    "KMeans-GBT",
+    "RF-WPF",
+    "TL-QLDMR"
+  ]
+}

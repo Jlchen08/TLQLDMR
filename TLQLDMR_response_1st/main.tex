@@ -127,9 +127,19 @@ The review of your paper is now complete. As you can see, the Reviewers present 
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+Thank you for noting that single-farm evaluation limits generality. We have narrowed every claim so that the six farms serve only for screening and ranking domain shift, while Farm~6 with the largest composite shift is presented explicitly as the selected stress-test case. Leave-one-farm-out and cross-farm validation are stated as future work in the Conclusion, and no additional farm experiments were run in this revision.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Abstract, Section~1, and Conclusion were revised.\\
+$\blacktriangleright\blacktriangleright$ Abstract:\\
+$\longrightarrow$ Original text: ``Comprehensive experiments on six wind farms demonstrate that TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with superior reliability-sharpness trade-off and practical scalability, making it suitable for real-time applications where interpretability and theoretical guarantees are prioritized.''\\\\
+$\longrightarrow$ Revised text: ``{\color{blue}Six wind farms are used for extreme-event screening and domain-shift quantification, and Farm~6 with the largest composite shift is selected as a stress-test case. On the Farm~6 extreme-event test set,} TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with {\color{blue}a favorable reliability-sharpness trade-off and practical training scalability.}''\\\\
+$\blacktriangleright\blacktriangleright$ Section~1 (contributions):\\
+$\longrightarrow$ Original text: ``Extensive experiments on six wind farms verify the effectiveness of the proposed method in deterministic prediction, interval forecasting, ablation comparison, and scalability evaluation under extreme-event settings.''\\\\
+$\longrightarrow$ Revised text: ``Extensive experiments {\color{blue}begin with six-farm screening and domain-shift quantification, and then conduct} deterministic prediction, interval forecasting, ablation comparison, and scalability evaluation {\color{blue}on the selected Farm~6 stress-test case} under extreme-event settings.''\\\\
+$\blacktriangleright\blacktriangleright$ Conclusion (limitations added):\\
+$\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are reported on the Farm~6 stress-test case selected after six-farm screening, rather than as full six-farm validation; generalization to other farms, seasons, and extreme-event types therefore remains to be established.} {\color{blue}Extreme events are defined here as sample-level out-of-distribution operating states, and ramp-event risk forecasting is outside the scope of this study.} {\color{blue}The reported evaluation uses a window-sample random split with a fixed seed, so neighboring windows from the same event may appear in both training and test sets; results should thus be read as sample-level out-of-distribution generalization rather than strict chronological forecasting.} {\color{blue}Scalability evidence concerns training time of the Nystr\"{o}m-SGD solver, without deployment-latency measurement.}''
 
 % -------------Reviewer 1, Concern 4--------------
 \textcolor{customgreen}{
@@ -211,9 +221,19 @@ The review of your paper is now complete. As you can see, the Reviewers present 
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+We appreciate the suggestion to broaden robustness across seasons, event types, and datasets. In this revision we instead delimit the scope precisely: all robustness, ablation, and scalability findings are described as Farm~6 stress-test results, and the Conclusion states that generalization across seasons, event types, and datasets remains future work. No new seasonal or cross-dataset experiments were added.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Abstract, Section~1, and Conclusion were revised.\\
+$\blacktriangleright\blacktriangleright$ Abstract:\\
+$\longrightarrow$ Original text: ``Comprehensive experiments on six wind farms demonstrate that TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with superior reliability-sharpness trade-off and practical scalability, making it suitable for real-time applications where interpretability and theoretical guarantees are prioritized.''\\\\
+$\longrightarrow$ Revised text: ``{\color{blue}Six wind farms are used for extreme-event screening and domain-shift quantification, and Farm~6 with the largest composite shift is selected as a stress-test case. On the Farm~6 extreme-event test set,} TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with {\color{blue}a favorable reliability-sharpness trade-off and practical training scalability.}''\\\\
+$\blacktriangleright\blacktriangleright$ Section~1 (contributions):\\
+$\longrightarrow$ Original text: ``Extensive experiments on six wind farms verify the effectiveness of the proposed method in deterministic prediction, interval forecasting, ablation comparison, and scalability evaluation under extreme-event settings.''\\\\
+$\longrightarrow$ Revised text: ``Extensive experiments {\color{blue}begin with six-farm screening and domain-shift quantification, and then conduct} deterministic prediction, interval forecasting, ablation comparison, and scalability evaluation {\color{blue}on the selected Farm~6 stress-test case} under extreme-event settings.''\\\\
+$\blacktriangleright\blacktriangleright$ Conclusion (limitations added):\\
+$\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are reported on the Farm~6 stress-test case selected after six-farm screening, rather than as full six-farm validation; generalization to other farms, seasons, and extreme-event types therefore remains to be established.} {\color{blue}Extreme events are defined here as sample-level out-of-distribution operating states, and ramp-event risk forecasting is outside the scope of this study.} {\color{blue}The reported evaluation uses a window-sample random split with a fixed seed, so neighboring windows from the same event may appear in both training and test sets; results should thus be read as sample-level out-of-distribution generalization rather than strict chronological forecasting.} {\color{blue}Scalability evidence concerns training time of the Nystr\"{o}m-SGD solver, without deployment-latency measurement.}''
 
 % -------------Reviewer 1, Concern 11--------------
 \textcolor{customgreen}{
@@ -252,9 +272,16 @@ The review of your paper is now complete. As you can see, the Reviewers present 
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+You are correct that deterministic prediction, interval evaluation, noise, ablation, residual, and scalability analyses are all reported on Farm~6. We revised the manuscript to describe this design honestly: the six-farm analysis ranks composite domain shift for screening, and Farm~6 is the most challenging case selected for in-depth evaluation. Full six-farm validation is no longer claimed, and the gap to multi-farm validation is stated as a limitation. No new farm experiments were added.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Abstract, Section~1 (contributions), and Section~5 (Conclusion) were revised. Example (Abstract):
+
+$\blacktriangleright\\blacktriangleright$ Abstract:\\
+$\longrightarrow$ Original text: ``Comprehensive experiments on six wind farms demonstrate that TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with superior reliability-sharpness trade-off and practical scalability, making it suitable for real-time applications where interpretability and theoretical guarantees are prioritized.''\\\\
+$\longrightarrow$ Revised text: ``{\color{blue}Six wind farms are used for extreme-event screening and domain-shift quantification, and Farm~6 with the largest composite shift is selected as a stress-test case. On the Farm~6 extreme-event test set,} TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with {\color{blue}a favorable reliability-sharpness trade-off and practical training scalability.}''\\\\
+Conclusion adds: ``{\color{blue}The main predictive comparisons are reported on the Farm~6 stress-test case selected after six-farm screening, rather than as full six-farm validation; generalization to other farms, seasons, and extreme-event types therefore remains to be established.} {\color{blue}Extreme events are defined here as sample-level out-of-distribution operating states, and ramp-event risk forecasting is outside the scope of this study.} {\color{blue}The reported evaluation uses a window-sample random split with a fixed seed, so neighboring windows from the same event may appear in both training and test sets; results should thus be read as sample-level out-of-distribution generalization rather than strict chronological forecasting.} {\color{blue}Scalability evidence concerns training time of the Nystr\"{o}m-SGD solver, without deployment-latency measurement.}''.
 
 % -------------Reviewer 2, Major Comment 2--------------
 \textcolor{customgreen}{
@@ -396,9 +423,19 @@ The review of your paper is now complete. As you can see, the Reviewers present 
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+We agree the Abstract previously blended method, evidence, and outlook. It now separates the three: the TL-QLDMR framework, the Farm~6 stress-test results, and a restrained statement that broader deployment needs further validation. Six-farm generalization and real-time deployment claims were removed from the Abstract.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Abstract, Section~1, and Conclusion were revised.\\
+$\blacktriangleright\blacktriangleright$ Abstract:\\
+$\longrightarrow$ Original text: ``Comprehensive experiments on six wind farms demonstrate that TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with superior reliability-sharpness trade-off and practical scalability, making it suitable for real-time applications where interpretability and theoretical guarantees are prioritized.''\\\\
+$\longrightarrow$ Revised text: ``{\color{blue}Six wind farms are used for extreme-event screening and domain-shift quantification, and Farm~6 with the largest composite shift is selected as a stress-test case. On the Farm~6 extreme-event test set,} TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with {\color{blue}a favorable reliability-sharpness trade-off and practical training scalability.}''\\\\
+$\blacktriangleright\blacktriangleright$ Section~1 (contributions):\\
+$\longrightarrow$ Original text: ``Extensive experiments on six wind farms verify the effectiveness of the proposed method in deterministic prediction, interval forecasting, ablation comparison, and scalability evaluation under extreme-event settings.''\\\\
+$\longrightarrow$ Revised text: ``Extensive experiments {\color{blue}begin with six-farm screening and domain-shift quantification, and then conduct} deterministic prediction, interval forecasting, ablation comparison, and scalability evaluation {\color{blue}on the selected Farm~6 stress-test case} under extreme-event settings.''\\\\
+$\blacktriangleright\blacktriangleright$ Conclusion (limitations added):\\
+$\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are reported on the Farm~6 stress-test case selected after six-farm screening, rather than as full six-farm validation; generalization to other farms, seasons, and extreme-event types therefore remains to be established.} {\color{blue}Extreme events are defined here as sample-level out-of-distribution operating states, and ramp-event risk forecasting is outside the scope of this study.} {\color{blue}The reported evaluation uses a window-sample random split with a fixed seed, so neighboring windows from the same event may appear in both training and test sets; results should thus be read as sample-level out-of-distribution generalization rather than strict chronological forecasting.} {\color{blue}Scalability evidence concerns training time of the Nystr\"{o}m-SGD solver, without deployment-latency measurement.}''
 
 % -------------Reviewer 2, Minor Comment 2--------------
 \textcolor{customgreen}{
@@ -408,9 +445,19 @@ The review of your paper is now complete. As you can see, the Reviewers present 
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+Thank you for catching the misleading Highlights wording. The Highlights were rewritten so six farms are described only as the screening set and all accuracy, interval-quality, and scalability statements are attributed to the Farm~6 stress-test case. No six-farm superiority claim is retained.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Highlights, Abstract, Section~1, and Conclusion were revised.\\
+$\blacktriangleright\blacktriangleright$ Abstract:\\
+$\longrightarrow$ Original text: ``Comprehensive experiments on six wind farms demonstrate that TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with superior reliability-sharpness trade-off and practical scalability, making it suitable for real-time applications where interpretability and theoretical guarantees are prioritized.''\\\\
+$\longrightarrow$ Revised text: ``{\color{blue}Six wind farms are used for extreme-event screening and domain-shift quantification, and Farm~6 with the largest composite shift is selected as a stress-test case. On the Farm~6 extreme-event test set,} TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with {\color{blue}a favorable reliability-sharpness trade-off and practical training scalability.}''\\\\
+$\blacktriangleright\blacktriangleright$ Section~1 (contributions):\\
+$\longrightarrow$ Original text: ``Extensive experiments on six wind farms verify the effectiveness of the proposed method in deterministic prediction, interval forecasting, ablation comparison, and scalability evaluation under extreme-event settings.''\\\\
+$\longrightarrow$ Revised text: ``Extensive experiments {\color{blue}begin with six-farm screening and domain-shift quantification, and then conduct} deterministic prediction, interval forecasting, ablation comparison, and scalability evaluation {\color{blue}on the selected Farm~6 stress-test case} under extreme-event settings.''\\\\
+$\blacktriangleright\blacktriangleright$ Conclusion (limitations added):\\
+$\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are reported on the Farm~6 stress-test case selected after six-farm screening, rather than as full six-farm validation; generalization to other farms, seasons, and extreme-event types therefore remains to be established.} {\color{blue}Extreme events are defined here as sample-level out-of-distribution operating states, and ramp-event risk forecasting is outside the scope of this study.} {\color{blue}The reported evaluation uses a window-sample random split with a fixed seed, so neighboring windows from the same event may appear in both training and test sets; results should thus be read as sample-level out-of-distribution generalization rather than strict chronological forecasting.} {\color{blue}Scalability evidence concerns training time of the Nystr\"{o}m-SGD solver, without deployment-latency measurement.}''
 
 % -------------Reviewer 2, Minor Comment 3--------------
 \textcolor{customgreen}{
@@ -528,9 +575,19 @@ The review of your paper is now complete. As you can see, the Reviewers present 
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+We thank the reviewer for listing the limitations to state. The Conclusion now contains an explicit limitations paragraph covering single-farm main evaluation, the sample-level event definition with ramp events out of scope, the window-sample random-split protocol, and training-time-only scalability without deployment-latency evidence.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Abstract, Section~1, and Conclusion were revised.\\
+$\blacktriangleright\blacktriangleright$ Abstract:\\
+$\longrightarrow$ Original text: ``Comprehensive experiments on six wind farms demonstrate that TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with superior reliability-sharpness trade-off and practical scalability, making it suitable for real-time applications where interpretability and theoretical guarantees are prioritized.''\\\\
+$\longrightarrow$ Revised text: ``{\color{blue}Six wind farms are used for extreme-event screening and domain-shift quantification, and Farm~6 with the largest composite shift is selected as a stress-test case. On the Farm~6 extreme-event test set,} TL-QLDMR achieves competitive performance in both deterministic and probabilistic forecasting in the extreme-event domain, with {\color{blue}a favorable reliability-sharpness trade-off and practical training scalability.}''\\\\
+$\blacktriangleright\blacktriangleright$ Section~1 (contributions):\\
+$\longrightarrow$ Original text: ``Extensive experiments on six wind farms verify the effectiveness of the proposed method in deterministic prediction, interval forecasting, ablation comparison, and scalability evaluation under extreme-event settings.''\\\\
+$\longrightarrow$ Revised text: ``Extensive experiments {\color{blue}begin with six-farm screening and domain-shift quantification, and then conduct} deterministic prediction, interval forecasting, ablation comparison, and scalability evaluation {\color{blue}on the selected Farm~6 stress-test case} under extreme-event settings.''\\\\
+$\blacktriangleright\blacktriangleright$ Conclusion (limitations added):\\
+$\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are reported on the Farm~6 stress-test case selected after six-farm screening, rather than as full six-farm validation; generalization to other farms, seasons, and extreme-event types therefore remains to be established.} {\color{blue}Extreme events are defined here as sample-level out-of-distribution operating states, and ramp-event risk forecasting is outside the scope of this study.} {\color{blue}The reported evaluation uses a window-sample random split with a fixed seed, so neighboring windows from the same event may appear in both training and test sets; results should thus be read as sample-level out-of-distribution generalization rather than strict chronological forecasting.} {\color{blue}Scalability evidence concerns training time of the Nystr\"{o}m-SGD solver, without deployment-latency measurement.}''
 
 \newpage
 

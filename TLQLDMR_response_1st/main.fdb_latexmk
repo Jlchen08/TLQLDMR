@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1789983942.46883 "/home/user/lin/TLQLDMR_response_1st/main.tex" "main.pdf" "main" 1789983943.38281 0
+["pdflatex"] 1790042303.50286 "/home/user/lin/TLQLDMR_response_1st/main.tex" "main.pdf" "main" 1790042304.39257 0
   "/home/user/.TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/home/user/.TinyTeX/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
   "/home/user/.TinyTeX/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm" 1136768653 4524 6bce29db5bc272ba5f332261583fee9c ""
@@ -21,8 +21,10 @@
   "/home/user/.TinyTeX/texmf-dist/fonts/tfm/public/rsfs/rsfs10.tfm" 1229303445 688 37338d6ab346c2f1466b29e195316aa4 ""
   "/home/user/.TinyTeX/texmf-dist/fonts/tfm/public/rsfs/rsfs5.tfm" 1229303445 684 3a51bd4fd9600428d5264cf25f04bb9a ""
   "/home/user/.TinyTeX/texmf-dist/fonts/tfm/public/rsfs/rsfs7.tfm" 1229303445 692 1b6510779f0f05e9cbf03e0f6c8361e6 ""
+  "/home/user/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1248133631 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
   "/home/user/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1248133631 35752 024fb6c41858982481f6968b5fc26508 ""
   "/home/user/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1248133631 32569 5e5ddc8df908dea60932f3c484a54c0d ""
+  "/home/user/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb" 1248133631 31764 459c573c03a4949a528c2cc7f557e217 ""
   "/home/user/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1136849748 44729 811d6c62865936705a31c797a1d5dada ""
   "/home/user/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb" 1136849748 44656 0cbca70e0534538582128f6b54593cca ""
   "/home/user/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1136849748 46026 6dab18b61c907687b520c72847215a68 ""
@@ -98,10 +100,10 @@
   "/home/user/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1779260300 516853 70d13c196e4d231827e3da090887c74f ""
   "/home/user/.TinyTeX/texmf-var/web2c/pdftex/pdflatex.fmt" 1773201303 2236157 95fd0dca3e5a513aca57e2656644e5b0 ""
   "/home/user/.TinyTeX/texmf.cnf" 1773201267 637 edd806fb06a89761a6034e1968af9017 ""
-  "/home/user/lin/TLQLDMR_response_1st/main.tex" 1789983510.90606 35569 a62b90820dd66b211e3f2b8e1c1b7024 ""
-  "main.aux" 1789983943.19352 397 b33b74d9f61cc08200c6a0d8e53c4372 "pdflatex"
-  "main.out" 1789983943.03752 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "main.tex" 1789983510.90606 35569 a62b90820dd66b211e3f2b8e1c1b7024 ""
+  "/home/user/lin/TLQLDMR_response_1st/main.tex" 1790042125.25181 49487 a8b993192d4bc4259ce35cda62512064 ""
+  "main.aux" 1790042304.20172 398 3864612dba56d934f77d6dccdff2ecbb "pdflatex"
+  "main.out" 1790042304.02972 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "main.tex" 1790042125.25181 49487 a8b993192d4bc4259ce35cda62512064 ""
   (generated)
   "main.aux"
   "main.log"

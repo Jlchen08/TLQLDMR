@@ -3,7 +3,7 @@
 Use this document before any further edits to the paper or response letter.
 
 1. `Original` text in the response letter must be copied from `/home/user/lin/TLQLDMR_manuscript`.
-2. The paper text in `/home/user/lin/TLQLDMR_R1` must read like a normal manuscript, not like a rebuttal.
+2. The paper text in `/Users/lin/project/TLQLDMR_R1/TLQLDMR_R1/TLQLDMR_energy.tex` must read like a normal manuscript, not like a rebuttal.
 3. The `Author response` must answer the reviewer's concern by explaining what the revised manuscript now says, shows, or concludes. It should read like a direct answer to the comment, not like a generic statement that something was revised.
 4. The `Author response` should be understandable without reading `Author action`. It must summarize the substantive revision or result in concrete terms.
 5. The `Author action` should give the exact paper replacement, including original text and revised text.
@@ -13,3 +13,4 @@ Use this document before any further edits to the paper or response letter.
 9. Experimental results must satisfy academic integrity requirements: do not fabricate, manually alter, cherry-pick, or post-hoc filter results in a way that creates misleading conclusions. Experiments must be reproducible, methodologically convincing, and directly responsive to the reviewer concern so that the evidence can withstand scrutiny.
 10. In the revised manuscript, mark only newly added or substantively modified sentences in blue. Do not wrap an entire paragraph in blue when only part of it changed, so reviewers can locate revisions quickly.
 11. Even when several reviewer comments concern the same underlying issue, reply to each comment independently and completely. Do not use cross-references such as "same as", "see", or "as addressed in" another comment; every `Author response` and `Author action` must be self-contained with its own full Original/Revised pair. Vary the wording of each `Author response` so the replies do not read as duplicated text, while keeping the stated facts consistent.
+12. If a current revision changes text that was modified in an earlier revision, replace the earlier revised text everywhere with the latest version, including the manuscript and every corresponding `Original`/`Revised` pair in the response letter.

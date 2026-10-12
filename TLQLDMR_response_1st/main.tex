@@ -29,12 +29,7 @@
 \renewcommand\labelenumi{(\alph{enumi})}
 \DeclareMathOperator*{\argmax}{\arg\max}
 \DeclareMathOperator*{\argmin}{\arg\min}
-\usepackage[colorlinks,linkcolor=orange,anchorcolor=orange,citecolor=orange,]{hyperref}
-\hypersetup{hypertex=true,
-            colorlinks=true,
-            linkcolor=cyan,
-            anchorcolor=orange,
-            citecolor=green}
+\usepackage[colorlinks,linkcolor=cyan,anchorcolor=orange,citecolor=green]{hyperref}
 \renewcommand{\baselinestretch}{0.96}
 \begin{document}
 
@@ -103,11 +98,14 @@ The review of your paper is now complete. As you can see, the Reviewers present 
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+Thank you for asking us to isolate the novelty beyond combining SVQR, LDMR, and transfer learning. The revised manuscript now states explicitly why the combination is necessary rather than engineering integration: LDMR variance is restricted to source-domain centered residuals and co-optimized with $\tau$-dependent pinball asymmetry for quantile calibration plus spread control; MMD is reformulated as a projected discrepancy on the predictive function rather than full unsupervised feature alignment; and scarce target labels are supervised with $C_T \gg C_S$ to prevent source domination. Related Work now contrasts each baseline on what it lacks, and Section~3 clarifies the division of labor between pinball calibration, variance compression, and dual-space adaptation.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
-
-% -------------Reviewer 1, Concern 2--------------
+In Introduction, Related Work (LDMR), and Section~3 Objective, the following revisions were made.\\
+\textbf{Original text (Introduction):} ``To address these challenges, Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR) is proposed as a principled extension of the classical LDMR paradigm for cross-domain probabilistic wind power prediction. The framework introduces three synergistic innovations.''\\
+\textbf{Revised text:} ``To address these challenges, Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR) is proposed as a principled extension of the classical LDMR paradigm for cross-domain probabilistic wind power prediction. {\color{blue}Unlike a direct stacking of SVQR, LDMR, and MMD, TL-QLDMR modifies each component so that they are mutually compatible under quantile asymmetry and source-target imbalance: the LDMR variance is restricted to source-domain centered residuals and jointly optimized with an asymmetric pinball loss, the MMD is reformulated as a projected discrepancy on the predictive function rather than unsupervised feature alignment, and target labels are explicitly supervised through imbalance-aware weights $C_T \gg C_S$.} The framework introduces three synergistic innovations.''\\
+Related Work now contrasts standard LDMR (symmetric, no $\tau$, single-domain), SVQR (asymmetry, no variance/cross-domain), and standard MMD (unsupervised), and Section~3 states that MMD constrains only the projected discrepancy and that $C_T \gg C_S$ steers quantile calibration.
 \textcolor{customgreen}{
 \subsubsection*{\underline{\textbf{Reviewer 1, Concern 2}}}
 \emph{The definition of ``extreme events'' is somewhat heuristic and may bias the target-domain construction. The use of 98th-percentile thresholds, temperature cutoffs, and a fixed 25 m/s cut-out rule should be justified more rigorously, and the authors should include a sensitivity analysis showing how results change under alternative extreme-event definitions.}
@@ -127,7 +125,7 @@ The review of your paper is now complete. As you can see, the Reviewers present 
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
-Thank you for noting that single-farm evaluation limits generality. We have narrowed every claim so that the six farms serve only for screening and ranking domain shift, while Farm~6 with the largest composite shift is presented explicitly as the selected stress-test case. Leave-one-farm-out and cross-farm validation are stated as future work in the Conclusion, and no additional farm experiments were run in this revision.
+Thank you for noting that single-farm evaluation limits generality. We have narrowed every claim so that the six farms serve only for screening and ranking domain shift, while Farm~6 with the largest composite shift is presented explicitly as the selected stress-test case. Leave-one-farm-out and cross-farm validation are stated as future work in the Conclusion.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}

@@ -56,7 +56,6 @@
     "*.fls",
     "*.log",
     "*.out",
-    "*.synctex.gz",
     "*.toc",
     "*.abs"
   ],

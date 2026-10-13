@@ -8,7 +8,7 @@
 \usepackage{makecell}
 \usepackage{float}
 \usepackage{textcomp}
-\usepackage{cite}
+\usepackage[numbers]{natbib}
 \usepackage{amsthm}
 \usepackage{verbatim}
 \usepackage{array}
@@ -70,7 +70,7 @@ The Authors\\}
 
 \newpage
 
-\section*{\textbf{Editor}}\label{edi}
+\phantomsection\def\@currentlabelname{Editor}\section*{\textbf{Editor}}\label{edi}
 
 {\color{black}
 \subsubsection*{\underline{General Comments}}
@@ -88,7 +88,7 @@ The review of your paper is now complete. As you can see, the Reviewers present 
 
 % ---------------- Reviewer 1 ---------------------
 {\color{black}
-\section*{\textbf{REVIEWER 1}}\label{rev1}}
+\section*{\textbf{REVIEWER 1}\label{rev1}}
 
 % -------------Reviewer 1, Concern 1--------------
 \textcolor{customgreen}{
@@ -113,11 +113,13 @@ Related Work now contrasts standard LDMR (symmetric, no $\tau$, single-domain), 
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+Thank you for raising this important point about the extreme-event definition and for suggesting a sensitivity analysis; we agree that the target-domain construction deserves a rigorous justification because it conditions every downstream comparison. The revised Section~4.2 now states the definitional basis directly: the percentile rules follow the conventional rarity-based definition of extreme meteorological states in wind-energy studies, isolating about the rarest 2\% of states at each site in a farm-adaptive way that preserves cross-site comparability, while 25\,m/s is the nominal turbine cut-out speed marking shutdown nonlinearity. Ramp events remain excluded to avoid mixing control-induced curtailment with weather-driven anomalies. We fully acknowledge your intuition that a different percentile or a different wind-speed cutoff would change the screened sample set and could shift absolute metric values. The reason we do not pursue a full retraining-based sensitivity in this revision is not that such variation is uninformative, but that it answers a different question from the one this paper asks. The focus of this work is, given a fixed and physically interpretable extreme-event target domain, whether the proposed quantile transfer mechanism improves calibration and sharpness over existing baselines under severe shift and label scarcity. Varying the definition would redefine the target population itself, so each alternative threshold would require rebuilding the target set and retraining TL-QLDMR together with all nine point-prediction and ten interval baselines in parallel, i.e.\ a complete experimental track alongside the reported one rather than a perturbation check on the same results. To keep the comparison fair and the scope focused, we therefore retain the adopted conventional definition and state alternative thresholds and per-type breakdowns as a limitation in the Conclusion, where they can motivate dedicated follow-up work.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
-
-% -------------Reviewer 1, Concern 3--------------
+Section~4.2 (Extreme-Event Domain Definition) was revised.\\
+$\blacktriangleright\blacktriangleright$ Original text: ``The 25\,m/s threshold is treated here as a nominal cut-out speed. Although the exact cut-out point may vary slightly across turbine types, values around 25\,m/s are widely used in wind turbine power-curve characterization as the shutdown region associated with safety protection \citep{rabanal2019midas}. This threshold is therefore sufficient to capture the core methodological feature of high-wind-induced nonlinear shutdown risk. Notably, the power ramp criterion (rapid power fluctuations exceeding 5\% of nominal capacity per 15-minute interval) is deliberately excluded from the extreme definition. This design choice avoids conflating control-induced power curtailment or dispatch adjustments with genuinely weather-driven anomalies.''\\\\
+$\longrightarrow$ Revised text: ``The 25\,m/s threshold is treated here as a nominal cut-out speed. Although the exact cut-out point may vary slightly across turbine types, values around 25\,m/s are widely used in wind turbine power-curve characterization as the shutdown region associated with safety protection \citep{rabanal2019midas}. {\color{blue}The percentile thresholds follow the conventional rarity-based definition of extreme meteorological states in wind-energy studies: the 98th-percentile wind-speed rule and the 2nd/98th-percentile temperature rules each isolate approximately the rarest 2\% of meteorological states at a given site. Being farm-adaptive rather than absolute, these rules preserve comparability across sites with different climatologies while ensuring that the screened states correspond to statistically rare deviations from normal operation.} Notably, the power ramp criterion (rapid power fluctuations exceeding 5\% of nominal capacity per 15-minute interval) is deliberately excluded from the extreme definition. This design choice avoids conflating control-induced power curtailment or dispatch adjustments with genuinely weather-driven anomalies.''
 \textcolor{customgreen}{
 \subsubsection*{\underline{\textbf{Reviewer 1, Concern 3}}}
 \emph{The study evaluates the final model mainly on a single selected target farm, which limits the generality of the conclusions. A stronger experimental design would test the method through leave-one-farm-out or cross-farm transfer validation to demonstrate that the reported gains are not specific to Farm 6 alone.}
@@ -249,7 +251,7 @@ $\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are
 
 % ---------------- Reviewer 2 ---------------------
 {\color{black}
-\section*{\textbf{REVIEWER 2}}\label{rev2}}
+\phantomsection\def\@currentlabelname{REVIEWER 2}\section*{\textbf{REVIEWER 2}}\label{rev2}}
 
 {\color{black}
 \subsubsection*{\underline{General Comments}}
@@ -591,7 +593,7 @@ $\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are
 
 % ---------------- Reviewer 3 ---------------------
 {\color{black}
-\section*{\textbf{REVIEWER 3}}\label{rev3}}
+\phantomsection\def\@currentlabelname{REVIEWER 3}\section*{\textbf{REVIEWER 3}}\label{rev3}}
 
 {\color{black}
 \subsubsection*{\underline{General Comments}}
@@ -698,5 +700,8 @@ We hope that the editors' and reviewers' concerns have been adequately addressed
 Yours sincerely,
 
 \rightline{The Authors}
+
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,mybib}
 
 \end{document}

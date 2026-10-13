@@ -652,7 +652,7 @@ A critical prerequisite for evaluating transfer learning under extreme condition
     \item \textbf{Cut-out wind speed}: Hub-height wind speed exceeds 25\,m/s, the typical cut-out threshold for modern wind turbines.
 \end{enumerate}
 
-The 25\,m/s threshold is treated here as a nominal cut-out speed. Although the exact cut-out point may vary slightly across turbine types, values around 25\,m/s are widely used in wind turbine power-curve characterization as the shutdown region associated with safety protection \citep{rabanal2019midas}. This threshold is therefore sufficient to capture the core methodological feature of high-wind-induced nonlinear shutdown risk. Notably, the power ramp criterion (rapid power fluctuations exceeding 5\% of nominal capacity per 15-minute interval) is deliberately excluded from the extreme definition. This design choice avoids conflating control-induced power curtailment or dispatch adjustments with genuinely weather-driven anomalies.
+The 25\,m/s threshold is treated here as a nominal cut-out speed. Although the exact cut-out point may vary slightly across turbine types, values around 25\,m/s are widely used in wind turbine power-curve characterization as the shutdown region associated with safety protection \citep{rabanal2019midas}. {\color{blue}The percentile thresholds follow the conventional rarity-based definition of extreme meteorological states in wind-energy studies: the 98th-percentile wind-speed rule and the 2nd/98th-percentile temperature rules each isolate approximately the rarest 2\% of meteorological states at a given site. Being farm-adaptive rather than absolute, these rules preserve comparability across sites with different climatologies while ensuring that the screened states correspond to statistically rare deviations from normal operation.} Notably, the power ramp criterion (rapid power fluctuations exceeding 5\% of nominal capacity per 15-minute interval) is deliberately excluded from the extreme definition. This design choice avoids conflating control-induced power curtailment or dispatch adjustments with genuinely weather-driven anomalies.
 
 No further subdivision of extreme-event samples into multiple subclasses is attempted. This choice is deliberate because extreme events are inherently scarce in realistic forecasting settings; splitting them into fine-grained categories would substantially weaken the statistical support available for transfer learning and would turn a small-sample problem into a near-few-shot problem, a difficulty also reported in recent extreme-condition wind power studies \citep{liang2025coldwave}. From the perspective of domain adaptation, these heterogeneous extreme states share the same modeling characteristic: they are all out-of-distribution samples exhibiting elevated volatility, non-stationarity, and clear deviation from normal operating patterns \citep{pan2010survey, bendavid2010theory}. The objective of TL-QLDMR is therefore to learn a unified disturbance-robust adaptation mechanism rather than a separate submodel for each rare event type. The union of the above three rules thus forms a single target domain that is physically interpretable, statistically sufficient for model training, and consistent with the data-scarce nature of extreme-event forecasting. All remaining samples constitute the normal-operating source domain.
 
@@ -669,7 +669,7 @@ The hyperparameters of TL-QLDMR are selected by validation-based tuning within e
 %---------------- Experiment 1 --------------------%
 \subsection{Experiment 1: Extreme-Event Sample Screening and Domain Shift Quantification}\label{sec:exp1}
 
-The first experiment identifies extreme-event samples across all six wind farms using the criteria in Section~\ref{sec:extreme_def}, and then quantifies source-target distribution shift for each farm. Table~\ref{tab:exp1_shift} reports the domain-shift statistics sorted by the composite Wasserstein distance $W_1(\text{wind}) + W_1(\text{power})$. Preliminary sensitivity checks show that a stricter 99th-percentile wind-speed rule leaves too few target-domain samples for stable model development, whereas the adopted 98th-percentile rule preserves event extremity while maintaining statistical sufficiency.
+The first experiment identifies extreme-event samples across all six wind farms using the criteria in Section~\ref{sec:extreme_def}, and then quantifies source-target distribution shift for each farm. Table~\ref{tab:exp1_shift} reports the domain-shift statistics sorted by the composite Wasserstein distance $W_1(\text{wind}) + W_1(\text{power})$. {\color{blue}Under the adopted definition, each farm yields approximately three to four thousand extreme-event samples, supporting stable transfer learning while retaining the rarity of the screened states.}
 
 \begin{table*}[ht]
 \centering
@@ -696,8 +696,9 @@ Several observations emerge from Table~\ref{tab:exp1_shift} and Fig.~\ref{fig:do
 
 Farm~6 (nominal capacity 96\,MW) ranks first in the composite domain shift metric ($W_1(\text{wind}) + W_1(\text{power}) = 25.117$), indicating the most pronounced distributional discrepancy between its normal-operating and extreme-event regimes. Consequently, Farm~6 is selected as the target wind farm, providing the most stringent test bed for evaluating the robustness of transfer learning methods under extreme-event conditions.
 
-\begin{center}
-\captionsetup{type=figure,hypcap=false}
+\begin{figure}[htbp]
+\centering
+\captionsetup{type=figure}
 \includegraphics[width=0.46\textwidth]{experiment1/outputs/plots/farm1_domain_shift.jpg}
 \hfill
 \includegraphics[width=0.46\textwidth]{experiment1/outputs/plots/farm0_domain_shift.jpg}
@@ -711,9 +712,9 @@ Farm~6 (nominal capacity 96\,MW) ranks first in the composite domain shift metri
 \includegraphics[width=0.46\textwidth]{experiment1/outputs/plots/farm5_domain_shift.jpg}
 \hfill
 \includegraphics[width=0.46\textwidth]{experiment1/outputs/plots/farm3_domain_shift.jpg}
-\captionof{figure}{Distribution shift visualization for all six wind farms. From left to right, top to bottom: Site~1 (99\,MW), Site~2 (200\,MW), Site~3 (99\,MW), Site~4 (66\,MW), Site~5 (36\,MW), and Site~6 (96\,MW). Each subplot shows kernel density estimates of wind speed (upper panel) and power output (lower panel) for the normal-operating (source) and extreme-event (target) domains. Site~6 exhibits the most severe domain shift in the power dimension.}
+\caption{Distribution shift visualization for all six wind farms. From left to right, top to bottom: Site~1 (99\,MW), Site~2 (200\,MW), Site~3 (99\,MW), Site~4 (66\,MW), Site~5 (36\,MW), and Site~6 (96\,MW). Each subplot shows kernel density estimates of wind speed (upper panel) and power output (lower panel) for the normal-operating (source) and extreme-event (target) domains. Site~6 exhibits the most severe domain shift in the power dimension.}
 \label{fig:domain_shift}
-\end{center}
+\end{figure}
 
 %---------------- Experiment 2 --------------------%
 \subsection{Experiment 2: Deterministic Point Prediction under Extreme Events}\label{sec:exp2}
@@ -815,8 +816,9 @@ RF-WPF        & 7.967 & 5.344 & 0.9492 \\
 \label{fig:exp2_curves_d}
 \end{figure}
 
-\begin{center}
-\captionsetup{type=figure,hypcap=false}
+\begin{figure}[htbp]
+\centering
+\captionsetup{type=figure}
 \begin{minipage}[t]{0.47\linewidth}
 \centering
 (i) RF-WPF\par
@@ -827,9 +829,9 @@ RF-WPF        & 7.967 & 5.344 & 0.9492 \\
 (j) TL-QLDMR\par
 \includegraphics[width=0.96\linewidth]{experiment2/plots_selected/farm3_TL-QLDMR.pdf}
 \end{minipage}
-\captionof{figure}{Prediction comparison over selected temporal segments on the Farm~6 extreme-event test set (Part V).}
+\caption{Prediction comparison over selected temporal segments on the Farm~6 extreme-event test set (Part V).}
 \label{fig:exp2_curves_e}
-\end{center}
+\end{figure}
 
 Table~\ref{tab:exp2_results} and Figs.~\ref{fig:exp2_curves_a}--\ref{fig:exp2_curves_e} jointly demonstrate that TL-QLDMR provides the most accurate and stable point forecasts on the Farm~6 extreme-event test set. LDMR exhibits the weakest performance among kernel methods (RMSE = 10.692, $R^2$ = 0.9085), confirming that symmetric variance regularization alone is insufficient in the cross-domain extreme-event setting. TL-QLDMR improves on the strongest non-transfer baselines: relative to HHO-SVR, it raises $R^2$ from 0.9537 to 0.9557 and reduces RMSE from 7.603 to 7.478; it also improves on RF-WPF (RMSE from 7.967 to 7.478). The segment-level evidence in Figs.~\ref{fig:exp2_curves_a}--\ref{fig:exp2_curves_e} confirms that TL-QLDMR tracks abrupt ramps and low-power transitions more closely than weaker baselines.
 
@@ -996,12 +998,12 @@ w/o MMD                 & 7.745 & 0.9520 & 0.947 & 26.049 & 0.2710 & 0.3528 \\
 \label{tab:ablation_results}
 \end{table*}
 
-\begin{center}
-\captionsetup{type=figure,hypcap=false}
+\begin{figure}[htbp]
+\centering
 \includegraphics[width=0.82\linewidth]{experiment4/plots/residual_distribution.png}
-\captionof{figure}{Residual density comparison between TL-QLDMR and ablated variants on the Farm~6 test set.}
+\caption{Residual density comparison between TL-QLDMR and ablated variants on the Farm~6 test set.}
 \label{fig:ablation_residual}
-\end{center}
+\end{figure}
 
 The ablation outcomes confirm that each component contributes materially to robustness. Removing transfer learning reduces both point accuracy ($R^2$: 0.9557 $\rightarrow$ 0.9497) and interval quality (CWC: 0.2683 $\rightarrow$ 0.2797), indicating that target-only training is insufficient under strong domain shift. Removing LDMR regularization or MMD alignment causes clear interval-quality degradation (CWC rises to 0.3507 and 0.3528), even when point-metric changes are smaller, showing that residual-shape control and feature alignment are central to reliable uncertainty estimation.
 

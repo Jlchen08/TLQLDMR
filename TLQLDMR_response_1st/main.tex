@@ -149,11 +149,13 @@ $\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+Thank you for asking for a systematic scarcity study. We fixed the Farm~6 test set, kept the full source domain and froze hyperparameters to the main-task optimum ($C_S=0.05$, $C_T=150$), then subsampled target training to 5\%, 10\%, 25\%, 50\% and 90\% with three seeds. Section~4 reports the new Table~5: TL-QLDMR improves from mean RMSE 11.57 at 5\% (186 samples) to 7.71 at 90\% (3{,}355 samples), consistently beating its unweighted counterpart by 0.1 RMSE at 5--10\% and 2.3--3.1 RMSE at 25--90\%. HHO-SVR is comparable at 5--25\% but stronger at 50--90\%, so the transfer gain concentrates in the stricter few-shot regime. The curve confirms the method is usable under stricter few-shot conditions.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
-
-% -------------Reviewer 1, Concern 5--------------
+Section~4 (Experiment~2) was revised.\\
+$\blacktriangleright\blacktriangleright$ Original text: ``The transfer learning framework, reinforced by asymmetric variance regularization, effectively mitigates overfitting to noisy target samples.''\\
+$\longrightarrow$ Revised text: ``{\color{blue}To quantify sensitivity to target-label scarcity, a few-shot study fixes the Farm~6 test set (415 samples) and subsamples target training to 186, 372, 932, 1{,}864 and 3{,}355 samples at 5\%--90\%, with the 66{,}009-sample source domain unchanged and hyperparameters frozen ($C_S=0.05$, $C_T=150$). Weighted TL-QLDMR reaches RMSE 11.57 at 5\% and 7.71 at 90\%, beating the unweighted variant by 0.1--3.1 RMSE across levels.}'' New Table~5 reports the few-shot RMSE and $R^2$ means over three seeds.
 \textcolor{customgreen}{
 \subsubsection*{\underline{\textbf{Reviewer 1, Concern 5}}}
 \emph{The asymmetric variance regularizer is an interesting idea, but its mathematical justification remains incomplete. The manuscript should provide a more rigorous derivation explaining why the proposed asymmetric form is the most appropriate quantile-compatible modification of LDMR, and whether the stated positive-definiteness and convexity claims always hold under all kernel and hyperparameter settings.}
@@ -161,9 +163,15 @@ $\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+Thank you for asking why the variance form is quantile-compatible and whether positive-definiteness and convexity hold universally. The revised manuscript now states the division of labor honestly: the variance term is a symmetric second-moment penalty on source-domain centered residuals and carries no $\tau$; quantile asymmetry comes from the weighted pinball loss, which calibrates location and skewness, while variance compresses spread. We therefore use ``asymmetric'' only in this joint sense (a quantile-compatible spread regularizer). On theory, we no longer claim universal guarantees: with $\mathbf{S}\succeq 0$, $\mathbf{M}=\mathbf{m}\mathbf{m}^T\succeq 0$, $\boldsymbol{\Omega}$ is positive definite and invertible only when $\boldsymbol{K}$ is positive definite (e.g.\ RBF on distinct samples) with $\lambda_1,\lambda_2\ge 0$; with a singular $\boldsymbol{K}$ the exact objective is still convex in $\boldsymbol{\beta}$ but invertibility and strong convexity are not claimed, and nonsmooth pinball terms use subgradients.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Section~3 (Objective and Remark) was revised.\\
+$\blacktriangleright\blacktriangleright$ Original text: ``we employ an asymmetric variance regularization based on the algebraic residuals. This design allows the model to reduce error dispersion without constraining the distribution's direction.''\\
+$\longrightarrow$ Revised text: ``{\color{blue}the variance term itself is a symmetric second-moment penalty on source-domain centered residuals and does not explicitly depend on $\tau$; quantile asymmetry is provided by the weighted pinball loss. Their division of labor is therefore explicit: the pinball loss calibrates the $\tau$-dependent location and skewness, while the variance term compresses overall residual spread.}''\\
+$\blacktriangleright\blacktriangleright$ Original text: ``When $\boldsymbol{K}$ is positive definite and $\lambda_1, \lambda_2 > 0$, the matrix $\boldsymbol{\Omega}$ is positive definite.''\\
+$\longrightarrow$ Revised text: ``{\color{blue}Since $\mathbf{S}\succeq 0$ and $\mathbf{M}=\mathbf{m}\mathbf{m}^T\succeq 0$, both $\boldsymbol{K}\mathbf{S}\boldsymbol{K}$ and $\boldsymbol{K}\mathbf{M}\boldsymbol{K}$ are positive semidefinite. If $\boldsymbol{K}$ is positive definite and $\lambda_1,\lambda_2\ge 0$, then $\boldsymbol{\Omega}$ is positive definite and invertible; if $\boldsymbol{K}$ is only positive semidefinite, $\boldsymbol{\Omega}$ is positive semidefinite and the exact kernel objective remains convex in $\boldsymbol{\beta}$, but invertibility and strong convexity are no longer claimed.}''}
 
 % -------------Reviewer 1, Concern 6--------------
 \textcolor{customgreen}{
@@ -295,6 +303,16 @@ Conclusion adds: ``{\color{blue}The main predictive comparisons are reported on 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
 
+{\color{black}
+\subsubsection*{\textbf{\underline{Author response}}}
+You are right that the target counts were unclear. Farm~6 uses 66{,}009 source samples and 4{,}143 target samples split 90\%/10\% into about 3{,}728 training and 415 test samples, with 20\% of training held out for validation; thresholds, normalization and tuning use training data only. The new few-shot Table~5 in Section~4 lists the exact training size at each scarcity level (5\% to 90\%) on the same fixed test set, so the protocol is fully auditable.
+
+{\color{black}
+\subsubsection*{\textbf{\underline{Author action}}}
+Section~4 (Experiment~2) was revised.\\
+$\blacktriangleright\blacktriangleright$ Original text: ``The data partition for Farm~6 is as follows: Source domain 66{,}009 samples; Target domain 4{,}143 samples.''\\\\
+$\longrightarrow$ Revised text: ``{\color{blue}The data partition for Farm~6 uses 66{,}009 source samples and 4{,}143 target samples split 90\%/10\% into about 3{,}728 training and 415 test samples, with 20\% of training held out for validation; thresholds, normalization and tuning use training data only. A few-shot table reports exact training sizes at 5\%, 10\%, 25\%, 50\% and 90\% on the fixed test set.}''
+
 % -------------Reviewer 2, Major Comment 3--------------
 \textcolor{customgreen}{
 \subsubsection*{\underline{\textbf{Reviewer 2, Major Comment 3}}}
@@ -327,9 +345,16 @@ Conclusion adds: ``{\color{blue}The main predictive comparisons are reported on 
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+You are right that the derivation was hard to verify. The revision clarifies all three points: $\bar{u}_S$ is a function of $(\boldsymbol{w},b)$, not a fixed constant, and centering via $\boldsymbol{H}_S$ cancels $b$ exactly with no approximation; the variance is computed on the source domain only through $\mathbf{S}=\mathrm{diag}(\boldsymbol{H}_S,\mathbf{0})$; and the domain term is the squared projected mean discrepancy $(\boldsymbol{w}^T(\bar{\phi}_S-\bar{\phi}_T))^2=\boldsymbol{\beta}^T\boldsymbol{K}\mathbf{M}\boldsymbol{K}\boldsymbol{\beta}$ with $\mathbf{M}=\mathbf{m}\mathbf{m}^T$, i.e.\ a prediction-direction constraint rather than full feature alignment. The manuscript now also separates the exact kernel objective, the Nystr\"{o}m feature approximation, and the SGD solver into distinct layers (Layer~1 exact QP, Layer~2 fixed $m$-dimensional Nystr\"{o}m surrogate on K-means landmarks, Layer~3 SGD on the surrogate only), with convergence restricted to the Layer-2 surrogate and no Layer-2 vs Layer-1 error bound claimed.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Section~3 (Objective definition, matrix reformulation, Nystrom feature map, subgradient paragraph, optimizer, and convergence paragraph) was revised.\\
+$\blacktriangleright\blacktriangleright$ Added text: ``{\color{blue}This section involves three distinct layers that should not be conflated: (L1) the exact kernel formulation in Eqs.~(4)--(19), where $\phi(\cdot)$ is the implicit RKHS mapping and the dual is an exact convex QP; (L2) the Nystr\"{o}m feature approximation in Eqs.~(20)--(23), which replaces $k(\cdot,\cdot)$ by the explicit inner product $\psi(\cdot)^T\psi(\cdot)$ and hence solves a different, fixed $m$-dimensional surrogate objective; and (L3) the SGD optimizer in Eqs.~(24)--(25) and Algorithm~1, which minimizes only the Layer-2 surrogate with subgradients. Convergence statements in this section therefore concern the Layer-2 surrogate alone, and no bound between the Layer-2 and Layer-1 solutions is claimed.}''\\
+$\blacktriangleright\blacktriangleright$ Original text: ``which is treated as a scalar constant during optimization''\\
+$\longrightarrow$ Revised text: ``{\color{blue}which is a function of $(\boldsymbol{w},b)$; after centering, the bias $b$ cancels exactly via the matrix $\boldsymbol{H}_S$ introduced below, so no approximation is involved}''\\
+$\blacktriangleright\blacktriangleright$ Original text: the domain term as an RKHS norm of mean embeddings.\\
+$\longrightarrow$ Revised text: ``{\color{blue}$\lambda_2(\boldsymbol{w}^T(\frac{1}{n_S}\sum\phi(\boldsymbol{x}_{S,i})-\frac{1}{n_T}\sum\phi(\boldsymbol{x}_{T,j})))^2$, i.e.\ only the discrepancy projected onto the predictive function, kernelized as $\boldsymbol{\beta}^T\boldsymbol{K}\mathbf{M}\boldsymbol{K}\boldsymbol{\beta}$.}''}
 
 % -------------Reviewer 2, Major Comment 6--------------
 \textcolor{customgreen}{
@@ -339,9 +364,20 @@ Conclusion adds: ``{\color{blue}The main predictive comparisons are reported on 
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+We agree the guarantee language was overstated and have softened every claim to its conditions. The revised Remark anchors each assumption to the implementation: (A1) RBF kernel only; (A2) K-means landmarks fixed before optimization with SVD plus $10^{-6}$ jitter; (A3) Adam at fixed learning rate $0.01$ in the experiments, so the quoted $O(1/T)$ decaying-SGD rate is a reference rather than a proven rate for the Adam runs; (A4) $\boldsymbol{R}$ with identity plus $1/n_S$-scaled variance in default symmetric mode, hence positive definite; (A5) pinball bounds as coded; and (A6) no Layer-2 vs Layer-1 error bound is claimed. On your narrower reading, the only approximation-error assumption is (A6); (A1)--(A5) are the optimizer regularity conditions scoping that no-bound statement.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Remark, Nystr\"{o}m convergence paragraph, and Conclusion were revised.\\
+$\blacktriangleright\blacktriangleright$ Added text (Remark~1, implementation-anchored assumptions for the nonsmooth Nystr\"{o}m objective): ``{\color{blue}(A1) Kernel definiteness: the implementation uses the RBF kernel, which is positive semidefinite (positive definite on distinct samples); no indefinite kernel is used. (A2) Landmark selection: $m$ landmarks are fixed before optimization by K-means on the combined training pool (random\_state=42, n\_init=10; all landmarks kept when $N \le m$); $\boldsymbol{W}^{-1/2}$ is formed by SVD with a $10^{-6}$ jitter and an identity fallback, so all statements below are conditional on this fixed $Z$. (A3) Step-size schedule: the reported experiments optimize the Layer-2 surrogate with Adam at a fixed learning rate (default 0.01) for a fixed number of epochs with mini-batch 256 and shuffling; the $O(1/T)$ rate quoted below is the standard decaying-step-size SGD reference and is not claimed as a proven rate for the Adam implementation. (A4) Regularization: the Layer-2 matrix is $\boldsymbol{R}=\boldsymbol{I}+\lambda_1\boldsymbol{\Psi}_S^T\boldsymbol{H}_S\boldsymbol{\Psi}_S/n_S+\lambda_2\Delta_{\psi}\Delta_{\psi}^T$ in the default symmetric mode, hence positive definite because of the identity term; the exact Layer-1 matrix $\boldsymbol{\Omega}$ is positive definite only when $\boldsymbol{K}$ is positive definite, otherwise only positive semidefinite (convex in $\boldsymbol{\beta}$, pseudo-inverse). (A5) Bounded (sub)gradients: the pinball subgradient satisfies $|g_k|\le\max(\tau,1-\tau)$ and $|\tilde{g}_k|\le\max(C_S,C_T)$. (A6) Approximation error: no error bound between the Layer-2 Nystr\"{o}m solution and the Layer-1 exact solution is claimed; a larger $m$ is reported only as an empirical tendency.}''\\
+$\blacktriangleright\blacktriangleright$ Original text: ``The positive definiteness of $\boldsymbol{\Omega}$ also guarantees the strong convexity of the objective function.''\\
+$\longrightarrow$ Revised text: ``{\color{blue}If $\boldsymbol{K}$ is only positive semidefinite, $\boldsymbol{\Omega}$ is positive semidefinite and the exact kernel objective remains convex in $\boldsymbol{\beta}$, but invertibility and strong convexity are no longer claimed. Non-smooth pinball terms are handled with subgradients.}''\\
+$\blacktriangleright\blacktriangleright$ Original text: ``SGD converges to the global optimum at a rate of $O(1/T)$.''\\
+$\longrightarrow$ Revised text: ``{\color{blue}SGD on this fixed $m$-dimensional approximate objective converges to its global optimum at $O(1/T)$ under standard bounded-feature, bounded-subgradient assumptions with a decaying step-size schedule; no approximation-error bound between the Nystr\"{o}m solution and the exact kernel solution is claimed.}''\\
+$\blacktriangleright\blacktriangleright$ Original text: ``with theoretical guarantees on positive definiteness and convergence.''\\
+$\longrightarrow$ Revised text: ``{\color{blue}with conditional convexity of the exact kernel objective and the stated SGD assumptions for the fixed Nystr\"{o}m objective.}''\\
+$\blacktriangleright\blacktriangleright$ Original text: the regularization matrix without $1/n_S$ scaling and the vanilla SGD update.\\
+$\longrightarrow$ Revised text: ``{\color{blue}The Layer-2 matrix is $\boldsymbol{R}=\boldsymbol{I}+(\lambda_1/n_S)\boldsymbol{\Psi}_S^T\boldsymbol{H}_S\boldsymbol{\Psi}_S+\lambda_2\Delta_{\psi}\Delta_{\psi}^T$ in default symmetric mode, hence positive definite via the identity term; the optimizer updates $\boldsymbol{w},b$ with Adam at fixed learning rate $0.01$.}''}
 
 % -------------Reviewer 2, Major Comment 7--------------
 \textcolor{customgreen}{
@@ -626,9 +662,13 @@ $\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+Thank you for spotting the ``scalar constant'' inconsistency; that wording was incorrect and has been removed. $\bar{u}_S$ is defined as the mean of the current residuals and hence depends on $(\boldsymbol{w},b)$. There is no fix-then-freeze step and no initialization procedure: substituting the definition gives $\|\boldsymbol{H}_S(\boldsymbol{y}_S-\boldsymbol{f}_S)\|^2$ exactly, and because $\boldsymbol{H}_S\mathbf{1}=\mathbf{0}$ the bias cancels, leaving a quadratic form $\boldsymbol{\beta}^T\boldsymbol{K}\mathbf{S}\boldsymbol{K}\boldsymbol{\beta}$ plus a linear term. Eqs.\ (4), (6)--(7) and the kernelized derivation are now consistent under this exact identity.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Section~3 (Objective and variance matrix) was revised.\\
+$\blacktriangleright\blacktriangleright$ Original text: ``which is treated as a scalar constant during optimization''\\
+$\longrightarrow$ Revised text: ``{\color{blue}which is a function of $(\boldsymbol{w},b)$; after centering, the bias $b$ cancels exactly via the matrix $\boldsymbol{H}_S$ introduced below, so no approximation is involved}'' Variance is written exactly as $\|\boldsymbol{H}_S(\boldsymbol{y}_S-\boldsymbol{f}_S)\|^2$ with $\mathbf{S}=\mathrm{diag}(\boldsymbol{H}_S,\mathbf{0})$ on the source domain only.}
 
 % -------------Reviewer 3, Concern 3--------------
 \textcolor{customgreen}{
@@ -638,9 +678,13 @@ $\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+You are correct: a fixed-mapping MMD norm would not involve the regression coefficients. What the manuscript optimizes is the projected version $(\boldsymbol{w}^T(\bar{\phi}_S-\bar{\phi}_T))^2$. Writing $\boldsymbol{w}=\boldsymbol{\Phi}\boldsymbol{\beta}$ gives $\boldsymbol{w}^T(\bar{\phi}_S-\bar{\phi}_T)=\boldsymbol{\beta}^T\boldsymbol{K}\mathbf{m}$ with $m_i=1/n_S$ on $D_S$ and $-1/n_T$ on $D_T$, whose square is $\boldsymbol{\beta}^T\boldsymbol{K}\mathbf{M}\boldsymbol{K}\boldsymbol{\beta}$ with $\mathbf{M}=\mathbf{m}\mathbf{m}^T$ as in Eq.\ (matrix\_M). The revised objective therefore displays the projected form directly, and states explicitly that it constrains only the inter-domain difference along the prediction direction, not the full feature-space distributions, which is sufficient for a regression task.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Section~3 (Objective term (3) and MMD matrix) was revised.\\
+$\blacktriangleright\blacktriangleright$ Original text: the domain term as $\|\frac{1}{n_S}\sum\phi(\boldsymbol{x}_{S,i})-\frac{1}{n_T}\sum\phi(\boldsymbol{x}_{T,j})\|_{\mathcal{H}}^2$.\\
+$\longrightarrow$ Revised text: ``{\color{blue}$\lambda_2(\boldsymbol{w}^T(\frac{1}{n_S}\sum\phi(\boldsymbol{x}_{S,i})-\frac{1}{n_T}\sum\phi(\boldsymbol{x}_{T,j})))^2$, kernelized as $\boldsymbol{\beta}^T\boldsymbol{K}\mathbf{M}\boldsymbol{K}\boldsymbol{\beta}$ with $\mathbf{M}=\mathbf{m}\mathbf{m}^T$; this constrains only the discrepancy projected onto the predictive function rather than full marginal alignment.}''}
 
 % -------------Reviewer 3, Concern 4--------------
 \textcolor{customgreen}{
@@ -650,9 +694,13 @@ $\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+We accept this correction: the variance term penalizes squared centered residuals symmetrically and carries no $\tau$, so quantile asymmetry indeed comes from the pinball loss. The manuscript now says so explicitly and retreats from calling the variance itself asymmetric: it is a quantile-compatible (residual-spread) regularizer whose role is to compress dispersion while the weighted pinball loss sets the $\tau$-dependent location and skewness. This is also why the method remains compatible with LDMR's robustness idea without forcing symmetric residuals at $\tau\ne 0.5$.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Section~3 (Distribution Variance bullet) was revised.\\
+$\blacktriangleright\blacktriangleright$ Original text: ``we employ an asymmetric variance regularization based on the algebraic residuals. This design allows the model to reduce error dispersion without constraining the distribution's direction.''\\
+$\longrightarrow$ Revised text: ``{\color{blue}the variance term itself is a symmetric second-moment penalty on source-domain centered residuals and does not explicitly depend on $\tau$; quantile asymmetry is provided by the weighted pinball loss. The pinball loss calibrates the $\tau$-dependent location and skewness, while the variance term compresses overall residual spread.}''}
 
 % -------------Reviewer 3, Concern 5--------------
 \textcolor{customgreen}{
@@ -662,9 +710,13 @@ $\longrightarrow$ Added text: ``{\color{blue}The main predictive comparisons are
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author response}}}
+Thank you for computing the effective imbalance: with 66{,}009 source and 4{,}143 target samples the count ratio is about 16:1, while $C_T/C_S=3{,}000$ indeed gives a large per-sample emphasis on the target. The new few-shot comparison shows this is compensatory, not dominating: on the same fixed test set the weighted TL-QLDMR beats the unweighted ($C_S=C_T$) variant by 0.1 RMSE at 5--10\% and 2.3--3.1 RMSE at 25--90\%, and both degrade smoothly rather than collapsing. Final weights $C_S=0.05$, $C_T=150$ are now reported in Section~4 with the sensitivity table.
 
 {\color{black}
 \subsubsection*{\textbf{\underline{Author action}}}
+Section~4 (Experiment~2) was revised.\\
+$\blacktriangleright\blacktriangleright$ Original text: ``The large ratio $C_T/C_S=3{,}000$ reflects asymmetric weighting for scarce extreme-event samples.''\\\\
+$\longrightarrow$ Revised text: ``{\color{blue}Final weights are $C_S=0.05$ and $C_T=150$ ($C_T/C_S=3{,}000$). A few-shot sensitivity with frozen weights shows weighted TL-QLDMR outperforms the unweighted variant by 0.1 RMSE at 5--10\% and 2.3--3.1 RMSE at 25--90\%, confirming compensation for the 16:1 sample imbalance rather than target domination.}'' New Table~5 reports the comparison.
 
 % -------------Reviewer 3, Concern 6--------------
 \textcolor{customgreen}{

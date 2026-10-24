@@ -1,47 +1,61 @@
-This is BibTeX, Version 0.99d (TeX Live 2025)
+This is BibTeX, Version 0.99e (TeX Live 2026)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
-The style file: ieeetr.bst
+The style file: IEEEtranN.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: IEEEabrv.bib
 Database file #2: mybib.bib
-You've used 5 entries,
-            1876 wiz_defined-function locations,
-            1044 strings with 15143 characters,
-and the built_in function-call counts, 1898 in all, are:
-= -- 180
-> -- 85
-< -- 0
-+ -- 30
-- -- 25
-* -- 141
-:= -- 261
-add.period$ -- 5
-call.type$ -- 5
-change.case$ -- 5
-chr.to.int$ -- 0
-cite$ -- 5
-duplicate$ -- 95
-empty$ -- 171
-format.name$ -- 25
-if$ -- 455
-int.to.chr$ -- 0
-int.to.str$ -- 5
-missing$ -- 5
-newline$ -- 18
-num.names$ -- 5
-pop$ -- 24
+-- IEEEtranN.bst version 1.14 (2015/08/26) by Michael Shell.
+-- http://www.michaelshell.org/tex/ieeetran/bibtex/
+-- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
+** Natbib version - not for normal IEEE work.
+Reallocated glb_str_ptr (elt_size=4) to 20 items from 10.
+Reallocated global_strs (elt_size=200001) to 20 items from 10.
+Reallocated glb_str_end (elt_size=4) to 20 items from 10.
+
+Done.
+You've used 47 entries,
+            4855 wiz_defined-function locations,
+            1755 strings with 27643 characters,
+and the built_in function-call counts, 45847 in all, are:
+= -- 4296
+> -- 1445
+< -- 317
++ -- 693
+- -- 336
+* -- 2636
+:= -- 6968
+add.period$ -- 95
+call.type$ -- 47
+change.case$ -- 94
+chr.to.int$ -- 595
+cite$ -- 47
+duplicate$ -- 3137
+empty$ -- 2959
+format.name$ -- 454
+if$ -- 10421
+int.to.chr$ -- 2
+int.to.str$ -- 48
+missing$ -- 482
+newline$ -- 171
+num.names$ -- 141
+pop$ -- 1085
 preamble$ -- 1
-purify$ -- 0
-quote$ -- 0
-skip$ -- 74
+purify$ -- 47
+quote$ -- 2
+skip$ -- 3517
 stack$ -- 0
-substring$ -- 160
-swap$ -- 45
-text.length$ -- 0
+substring$ -- 1653
+swap$ -- 2462
+text.length$ -- 117
 text.prefix$ -- 0
-top$ -- 0
-type$ -- 0
+top$ -- 6
+type$ -- 752
 warning$ -- 0
-while$ -- 17
-width$ -- 6
-write$ -- 50
+while$ -- 202
+width$ -- 0
+write$ -- 619

@@ -1,0 +1,129 @@
+% Proposed mathematical-audit replacement fragments; not a standalone manuscript.
+% JSON companion records exact old/new strings and reviewer mappings.
+
+% ===== intro_ldmr_source_correction =====
+% Original manuscript line 294
+{\color{blue}SVR combines norm regularization with an $\epsilon$-insensitive loss, whereas support vector quantile regression uses a quantile-dependent pinball loss \citep{smola2004tutorial,takeuchi2006nonparametric}. The original large-margin distribution machine concerns classification margins \citep{zhang2014large}; its regression extension, LDMR, combines $\epsilon$-insensitive and quadratic losses \citep{rastogi2020ldmr}. Later work includes a least-squares formulation and applications with empirical mode decomposition \citep{gupta2021least,hazarika2023mode}. These developments motivate examining residual dispersion together with quantile loss in supervised transfer. Our centered residual-variance term is specified separately below; it is not identified with every earlier LDMR objective or with a mechanism that forces residuals to be symmetric.}
+
+% ===== related_ldmr_source_correction =====
+% Original manuscript line 319
+\subsection{LDMR}
+{\color{blue}The large-margin distribution machine introduced by \citet{zhang2014large} optimizes classification-margin statistics. Its minimum-margin motivation should not be transferred directly to regression: SVR regularizes function flatness while penalizing errors outside an $\epsilon$ tube, and SVQR combines norm regularization with pinball loss \citep{smola2004tutorial,takeuchi2006nonparametric}. \citet{rastogi2020ldmr} developed an LDM-inspired regression model whose objective combines $\epsilon$-insensitive and quadratic losses. The least-squares extension changes inequality constraints to equalities \citep{gupta2021least}, while \citet{hazarika2023mode} combines regression models with empirical mode decomposition and ensemble empirical mode decomposition for sediment-load prediction. The latter concerns signal decomposition, not mode-seeking estimation.}
+
+{\color{blue}In the present formulation, residual dispersion is measured by the variance about the current source residual mean. This is a symmetric, translation-invariant penalty; it neither fixes that mean at zero nor prescribes residual symmetry or Gaussianity. Weighted pinball loss supplies the quantile-dependent costs. We therefore define and analyze the proposed objective explicitly rather than use a generic residual-mean-plus-variance expression as a representation of prior LDMR methods.}
+
+% ===== related_mmd_scope =====
+% Original manuscript line 335
+{\color{blue}MMD measures a discrepancy between kernel mean embeddings. For a characteristic kernel, the population MMD is zero if and only if the two probability distributions coincide \citep{gretton2012kernel}. Its empirical squared mean-embedding discrepancy is}
+\begin{equation}
+\widehat{\operatorname{MMD}}^2(D_S,D_T)=\left\|\frac{1}{n_S}\sum_i\phi(\boldsymbol{x}_{S,i})-\frac{1}{n_T}\sum_j\phi(\boldsymbol{x}_{T,j})\right\|_{\mathcal H}^2.
+\end{equation}
+{\color{blue}For fixed inputs and a fixed kernel map, this quantity does not depend on the predictor coefficients, so adding it to a regression objective cannot train those coefficients or learn a new representation. Our model instead penalizes the squared difference of mean predictions, $(\boldsymbol{w}^T(\bar\phi_S-\bar\phi_T))^2$. This can be viewed as empirical MMD with the linear kernel on scalar predictor outputs, rather than MMD in the original feature RKHS. It constrains one predictive direction; a zero value does not imply matching feature distributions or accurate target predictions. Domain alignment therefore provides a modeling motivation, not an unconditional transfer guarantee.}
+
+% ===== structural_risk_scope =====
+% Original manuscript line 381
+    \item {\color{blue}\textbf{Structural Regularization}: The squared norm penalizes predictor complexity. In regression this is a flatness or smoothness regularizer, not by itself a statement about a minimum classification margin or a guarantee against overfitting.}
+
+% ===== variance_quantile_scope =====
+% Original manuscript line 382
+    \item {\color{blue}\textbf{Residual-Variance Regularization}: The source-only term is a symmetric penalty on centered residuals and contains no quantile parameter. For any residual vector $\boldsymbol{u}$ and scalar $a$, $\|\boldsymbol{H}_S(\boldsymbol{u}+a\boldsymbol{1})\|^2=\|\boldsymbol{H}_S\boldsymbol{u}\|^2$. It controls dispersion without fixing the residual mean or imposing a distributional shape. Quantile dependence enters through pinball loss. Translation invariance alone does not ensure that the penalized population minimizer equals the target conditional quantile; no such consistency or calibration guarantee is asserted.}
+
+% ===== weighted_svqr_theoretical_relation =====
+% Original manuscript line 533
+{\color{blue}The same $1/n_S$ normalization appears in both $\boldsymbol{R}$ and $\boldsymbol{c}$ because they arise from a single expansion of the centered source-residual penalty. Omitting $\boldsymbol{c}$ would instead penalize the spread of predictions and would define a different model. Relative to the exact formulation, only the kernel representation is approximated; the residual-variance normalization and loss-sum convention are preserved.}
+
+\begin{remark}
+{\color{blue}\textbf{Relation to weighted SVQR.} For a fixed feature map, $\boldsymbol{R}\succeq\boldsymbol{I}$. Set $\boldsymbol{w}_0=\boldsymbol{R}^{-1}\boldsymbol{c}$, $\boldsymbol{v}=\boldsymbol{R}^{1/2}(\boldsymbol{w}-\boldsymbol{w}_0)$, $\widetilde\psi(\boldsymbol{x})=\boldsymbol{R}^{-1/2}\psi(\boldsymbol{x})$, and $\widetilde y_k=y_k-\psi(\boldsymbol{x}_k)^T\boldsymbol{w}_0$. Completing the square makes Eq.~\eqref{eq:nystrom_primal} equivalent, up to an additive constant, to
+\begin{equation}
+\label{eq:weighted_svqr_relation}
+\min_{\boldsymbol{v},b}\ \frac12\|\boldsymbol{v}\|^2+\sum_k C_k L_\tau\bigl(\widetilde y_k,\boldsymbol{v}^T\widetilde\psi(\boldsymbol{x}_k)+b\bigr).
+\end{equation}
+Thus the objective is a weighted SVQR problem with a data-dependent feature transformation and label shift \citep{takeuchi2006nonparametric}. When $\lambda_1=\lambda_2=0$, it reduces to weighted SVQR in the original fixed features. The centered source-residual term contributes both a covariance-dependent quadratic term and a label-dependent linear term; the projected discrepancy adds a positive-semidefinite term of rank at most one. This identifies the precise modification to the established objective, rather than a new asymmetric loss or a new class of optimizers. It does not establish that the combination is uniquely preferable or improves target prediction.}
+\end{remark}
+
+{\color{blue}Unregularized expected pinball risk is minimized by a conditional quantile \citep{takeuchi2006nonparametric}. Additional penalties and source--target weighting can change that minimizer. An unregularized intercept yields weighted empirical sign-count inequalities at an exact optimum, but these pooled training conditions do not imply conditional or target-only calibration. Finite-epoch Adam is not asserted to satisfy exact optimality conditions.}
+
+% ===== complexity_iteration_and_selection_scope =====
+% Original manuscript line 555
+The complete procedure is summarized in Algorithm \ref{alg:fast_TL-QLDMR}. {\color{blue}Let $T$ denote epochs, $B$ the batch size, and $C_Z$ the cost of selecting the input pool and landmarks. If K-means is used on a pool of size $q\le2{,}000$, a dense Lloyd implementation with $r$ initializations and at most $I_K$ iterations per initialization costs $O(rI_Kqmd)$, in addition to pool selection; the clustering cost is absent when the pool itself supplies the landmarks. Dense feature transformation and regularizer construction cost $O(Nm^2)$, kernel evaluation costs $O(Nmd)$, and landmark factorization costs $O(m^3)$. The optimization cost is $O(T[Nm+\lceil N/B\rceil m^2])$. For the exact-kernel comparison, $I_{\mathrm{QP}}$ denotes the number of dense interior-point iterations: each iteration has a cubic dense linear-algebra cost, but the total solve time also depends on the iteration count and requested accuracy.} Table \ref{tab:complexity} summarizes these costs.
+
+% ===== complexity_table_scope =====
+% Original manuscript line 592
+\begin{table}[htbp]
+\centering
+\caption{Dense arithmetic costs for an interior-point QP implementation and the fixed-feature algorithm. $C_Z$ includes pool and landmark selection.}
+\label{tab:complexity}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Component} & \textbf{Dense kernel QP} & \textbf{Fixed features and Adam} \\
+\midrule
+Landmark selection & --- & $C_Z$ \\
+Kernel/features and regularizer & $O(N^2d+N^3)$ & $O(Nmd+Nm^2)$ \\
+Dense factorization & $O(N^3)$ & $O(m^3)$ \\
+Optimization & $O(I_{\mathrm{QP}}N^3)$ & $O(T[Nm+\lceil N/B\rceil m^2])$ \\
+\midrule
+\textbf{Total} & $O(N^2d+(I_{\mathrm{QP}}+1)N^3)$ & $O(C_Z+Nmd+Nm^2+m^3+T[Nm+\lceil N/B\rceil m^2])$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ===== matrix_projected_term_name =====
+% Original manuscript line 406
+To facilitate the derivation, the residual-variance and projected mean-discrepancy terms in Eq.~\eqref{eq:objective} are rewritten as quadratic forms.
+
+% ===== auxiliary_projected_term_name =====
+% Original manuscript line 415
+Two auxiliary matrices express the residual-variance and projected mean-discrepancy terms in Eq.~\eqref{eq:primal_matrix} as quadratic forms:
+
+% ===== kernel_projected_term_name =====
+% Original manuscript line 437
+Consequently, using Eqs.~\eqref{eq:matrix_S} and \eqref{eq:matrix_M}, the structural, residual-variance, and projected mean-discrepancy terms can be expressed in terms of $\boldsymbol{\beta}$:
+
+% ===== Optional counterexample and derivation =====
+% Optional explanatory counterexample; omit from manuscript if space is limited.
+% This is our own derivation, not a quoted result from Takeuchi et al.
+Let $P(X=0)=P(X=1)=1/2$, $Y\mid X=0\sim U[0,1]$, $Y\mid X=1\sim U[0,2]$, and $\tau=3/4$.
+Write $a=f(0)$ and $b=f(1)$. The conditional quantiles are $(3/4,3/2)$.
+For predictions inside the two supports,
+\[
+E\rho_{3/4}(Y-f(X))=\tfrac14a^2+\tfrac18b^2-\tfrac38(a+b)+\tfrac9{16},
+\quad
+\operatorname{Var}(Y-f(X))=\tfrac5{24}+\tfrac14(b-a-\tfrac12)^2.
+\]
+For $J=E\rho_{3/4}(Y-f(X))+\tfrac12\operatorname{Var}(Y-f(X))$, stationarity gives $3a-b=1$ and $-a+2b=2$, so the unique minimizer is $(a,b)=(4/5,7/5)$.
+The conditional coverages are consequently $4/5$ and $7/10$, rather than $3/4$.
+At the true quantiles, $\nabla J=(-1/16,1/16)\ne0$.
+The objective decreases from $97/384\approx0.25260417$ to $119/480\approx0.24791667$.
+The common-shift invariance is preserved and pooled coverage remains $3/4$; conditional quantile preservation fails.
+This counterexample concerns a nonvanishing population variance weight, and is not a claim about the magnitude of bias at the paper's inherited finite-sample hyperparameters.
+
+
+% ===== New BibTeX entries (copy to bibliography, not main text) =====
+@article{takeuchi2006nonparametric,
+  author = {Takeuchi, Ichiro and Le, Quoc V. and Sears, Timothy D. and Smola, Alexander J.},
+  title = {Nonparametric Quantile Estimation},
+  journal = {Journal of Machine Learning Research},
+  year = {2006}, volume = {7}, number = {45}, pages = {1231--1264},
+  url = {https://www.jmlr.org/papers/v7/takeuchi06a.html}
+}
+@article{rastogi2020ldmr,
+  author = {Rastogi, Reshma and Anand, Pritam and Chandra, Suresh},
+  title = {Large-margin Distribution Machine-based regression},
+  journal = {Neural Computing and Applications},
+  year = {2020}, volume = {32}, number = {8}, pages = {3633--3648},
+  doi = {10.1007/s00521-018-3921-3}
+}
+@article{smola2004tutorial,
+  author = {Smola, Alex J. and Sch{\"o}lkopf, Bernhard},
+  title = {A tutorial on support vector regression},
+  journal = {Statistics and Computing},
+  year = {2004}, volume = {14}, number = {3}, pages = {199--222},
+  doi = {10.1023/B:STCO.0000035301.49549.88}
+}
+@article{gretton2012kernel,
+  author = {Gretton, Arthur and Borgwardt, Karsten M. and Rasch, Malte J. and Sch{\"o}lkopf, Bernhard and Smola, Alexander},
+  title = {A Kernel Two-Sample Test},
+  journal = {Journal of Machine Learning Research},
+  year = {2012}, volume = {13}, number = {25}, pages = {723--773},
+  url = {https://www.jmlr.org/papers/v13/gretton12a.html}
+}

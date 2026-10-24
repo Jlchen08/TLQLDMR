@@ -1,0 +1,71 @@
+{
+  "version": "matched_ablation_v2_analysis_results_1",
+  "analysis_lock_sha256": "89db03f68b39e19641e090d40bfe56f97cce00f6d1a5fa2e7e12ba1b07288336",
+  "matched_lock_sha256": "c9dd7b7c46f64cd2638c78d23c26c20dd983cead4369a5582fedc88f84ebed4f",
+  "matched_results_sha256": "6770340697e54e1fb23d72f4250b8a6d5debcb0f7e6e812b7c96e58dadd26ab0",
+  "complete_evaluation_keys": 144,
+  "task_metric_rows": 48,
+  "paired_tests": {
+    "within": 18,
+    "cross": 18
+  },
+  "aggregate_metrics": [
+    {
+      "scope": "within",
+      "variant": "Full",
+      "sites": 6,
+      "macro_normalized_rmse": 0.18090489475463165,
+      "mean_rank": 2.0
+    },
+    {
+      "scope": "within",
+      "variant": "NoVariance",
+      "sites": 6,
+      "macro_normalized_rmse": 0.1786998285237337,
+      "mean_rank": 2.1666666666666665
+    },
+    {
+      "scope": "within",
+      "variant": "NoDiscrepancy",
+      "sites": 6,
+      "macro_normalized_rmse": 0.19962575970456242,
+      "mean_rank": 2.6666666666666665
+    },
+    {
+      "scope": "within",
+      "variant": "WeightedSVQR",
+      "sites": 6,
+      "macro_normalized_rmse": 0.19812545589276778,
+      "mean_rank": 3.1666666666666665
+    },
+    {
+      "scope": "cross",
+      "variant": "Full",
+      "sites": 6,
+      "macro_normalized_rmse": 0.17694352264072266,
+      "mean_rank": 2.1666666666666665
+    },
+    {
+      "scope": "cross",
+      "variant": "NoVariance",
+      "sites": 6,
+      "macro_normalized_rmse": 0.17670886745094314,
+      "mean_rank": 2.5
+    },
+    {
+      "scope": "cross",
+      "variant": "NoDiscrepancy",
+      "sites": 6,
+      "macro_normalized_rmse": 0.1771465070699757,
+      "mean_rank": 2.3333333333333335
+    },
+    {
+      "scope": "cross",
+      "variant": "WeightedSVQR",
+      "sites": 6,
+      "macro_normalized_rmse": 0.1770214326186502,
+      "mean_rank": 3.0
+    }
+  ],
+  "interpretation": "component effects are conditional on each task's locked Full configuration and are not independently retuned procedure comparisons; failure to reject is not evidence of equivalence"
+}

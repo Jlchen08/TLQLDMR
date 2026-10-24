@@ -1,0 +1,297 @@
+{
+  "scope": "Farm 6 validation-selected point configurations; all 2,233 Q3-Q4 target test forecasts",
+  "residual_definition": "observed power minus point forecast",
+  "moment_definition": "empirical standardized central moments with population denominators; kurtosis is excess kurtosis",
+  "tail_definition": "absolute residual greater than 0.20 of 96.0 MW nominal capacity",
+  "aggregation": "compute each diagnostic within each landmark seed, then average diagnostics across seeds; HistGBR is deterministic",
+  "records": [
+    {
+      "method": "Full",
+      "prediction_files": [
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/Full/final_seed0/predictions.csv",
+          "sha256": "42e1e275fb2bf597123514496da91878e1ba3fb8f95052a106958f5c25148410"
+        },
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/Full/final_seed1/predictions.csv",
+          "sha256": "140e8a119963dfbd74e1e131126235b704adeb7a6c60527b0a153988c7f58eb4"
+        },
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/Full/final_seed2/predictions.csv",
+          "sha256": "77df6d921325c6864183bcea96c7fa47a82b634854d74a6110b6e6c3c412e484"
+        }
+      ],
+      "runs": 3,
+      "per_run": [
+        {
+          "mean_mw": -4.886500320634863,
+          "sd_mw": 11.17501733975492,
+          "skewness": -2.9096087038841776,
+          "excess_kurtosis": 16.49192537683594,
+          "absolute_error_p95_mw": 21.78246463816932,
+          "tail_error_frequency": 0.06359158083296014
+        },
+        {
+          "mean_mw": -4.96493854400623,
+          "sd_mw": 11.201510800832605,
+          "skewness": -2.892277137830832,
+          "excess_kurtosis": 16.305932922233275,
+          "absolute_error_p95_mw": 21.68802309303063,
+          "tail_error_frequency": 0.06448723690103
+        },
+        {
+          "mean_mw": -4.897877888556531,
+          "sd_mw": 11.147372729372997,
+          "skewness": -2.9234582885753335,
+          "excess_kurtosis": 16.57896736795663,
+          "absolute_error_p95_mw": 21.83172194534371,
+          "tail_error_frequency": 0.06224809673085535
+        }
+      ],
+      "mean_over_runs": {
+        "mean_mw": -4.916438917732541,
+        "sd_mw": 11.174633623320174,
+        "skewness": -2.908448043430114,
+        "excess_kurtosis": 16.458941889008617,
+        "absolute_error_p95_mw": 21.767403225514556,
+        "tail_error_frequency": 0.06344230482161517
+      }
+    },
+    {
+      "method": "NoVariance",
+      "prediction_files": [
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/NoVariance/final_seed0/predictions.csv",
+          "sha256": "74ac5f6a036ba39bf36a12f715610d49b88b31369c4386a6e18feeb61fc89046"
+        },
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/NoVariance/final_seed1/predictions.csv",
+          "sha256": "7b8ee314a91d6271a375e4569f9228db344724b11d1cf21c6d066b049314342f"
+        },
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/NoVariance/final_seed2/predictions.csv",
+          "sha256": "c66fbf33799c09368ef3af5cd0569726c9ce2179b3240cd10f106c445c2eb09b"
+        }
+      ],
+      "runs": 3,
+      "per_run": [
+        {
+          "mean_mw": -3.8061930953946645,
+          "sd_mw": 11.201912651450884,
+          "skewness": -3.0794798384276403,
+          "excess_kurtosis": 17.81093439975824,
+          "absolute_error_p95_mw": 21.57898278910187,
+          "tail_error_frequency": 0.06493506493506493
+        },
+        {
+          "mean_mw": -3.8231872999157743,
+          "sd_mw": 11.20314350169212,
+          "skewness": -3.067847881000317,
+          "excess_kurtosis": 17.709516112531958,
+          "absolute_error_p95_mw": 21.503482193861608,
+          "tail_error_frequency": 0.06493506493506493
+        },
+        {
+          "mean_mw": -3.821151377223675,
+          "sd_mw": 11.194226181238493,
+          "skewness": -3.076848258562877,
+          "excess_kurtosis": 17.770320946197014,
+          "absolute_error_p95_mw": 21.485302927548094,
+          "tail_error_frequency": 0.06538289296909987
+        }
+      ],
+      "mean_over_runs": {
+        "mean_mw": -3.8168439241780376,
+        "sd_mw": 11.199760778127166,
+        "skewness": -3.0747253259969454,
+        "excess_kurtosis": 17.763590486162403,
+        "absolute_error_p95_mw": 21.52258930350386,
+        "tail_error_frequency": 0.06508434094640991
+      }
+    },
+    {
+      "method": "NoDiscrepancy",
+      "prediction_files": [
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/NoDiscrepancy/final_seed0/predictions.csv",
+          "sha256": "b5cd067dfdbcf9419f8ddd2422fdbb8920cef584af9fc3418e73d42aa930f1ec"
+        },
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/NoDiscrepancy/final_seed1/predictions.csv",
+          "sha256": "15b0de869c9e7e5b9433ef244cf47b7320c0223d89c619f8d6bb6578b93133c7"
+        },
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/NoDiscrepancy/final_seed2/predictions.csv",
+          "sha256": "52eeb55a4b481402a250306052c620bfabe75651f14cb6355c918e5145d2156b"
+        }
+      ],
+      "runs": 3,
+      "per_run": [
+        {
+          "mean_mw": -4.895380023934236,
+          "sd_mw": 11.175828746543509,
+          "skewness": -2.9091550030727107,
+          "excess_kurtosis": 16.489043932700675,
+          "absolute_error_p95_mw": 21.793173963834633,
+          "tail_error_frequency": 0.06403940886699508
+        },
+        {
+          "mean_mw": -4.964549447817782,
+          "sd_mw": 11.20243815141937,
+          "skewness": -2.891756773599546,
+          "excess_kurtosis": 16.30234710782386,
+          "absolute_error_p95_mw": 21.68703042152242,
+          "tail_error_frequency": 0.06448723690103
+        },
+        {
+          "mean_mw": -4.90197254251433,
+          "sd_mw": 11.148170760179779,
+          "skewness": -2.922960057693675,
+          "excess_kurtosis": 16.575637838104722,
+          "absolute_error_p95_mw": 21.83683014772184,
+          "tail_error_frequency": 0.06224809673085535
+        }
+      ],
+      "mean_over_runs": {
+        "mean_mw": -4.920634004755449,
+        "sd_mw": 11.175479219380888,
+        "skewness": -2.907957278121977,
+        "excess_kurtosis": 16.45567629287642,
+        "absolute_error_p95_mw": 21.772344844359633,
+        "tail_error_frequency": 0.06359158083296014
+      }
+    },
+    {
+      "method": "WeightedSVQR",
+      "prediction_files": [
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/WeightedSVQR/final_seed0/predictions.csv",
+          "sha256": "0c5e6a890ce39d09e6f54a7cea16e7eed46cf419bddb7e3964de2035686756b2"
+        },
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/WeightedSVQR/final_seed1/predictions.csv",
+          "sha256": "34648e431148da3cc3404eeac0a9032d05660355a542c6a59a89278d36779cb5"
+        },
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/WeightedSVQR/final_seed2/predictions.csv",
+          "sha256": "fe09d2cd8991a5e39cb054300657d5f38b16891b54ac2c82f49a2c081ec77cfc"
+        }
+      ],
+      "runs": 3,
+      "per_run": [
+        {
+          "mean_mw": -3.790376309526779,
+          "sd_mw": 11.2020659424493,
+          "skewness": -3.079499174798368,
+          "excess_kurtosis": 17.815113391783942,
+          "absolute_error_p95_mw": 21.60375285743852,
+          "tail_error_frequency": 0.06448723690103
+        },
+        {
+          "mean_mw": -3.8341350149689446,
+          "sd_mw": 11.205050651804356,
+          "skewness": -3.067077721626752,
+          "excess_kurtosis": 17.70451699101614,
+          "absolute_error_p95_mw": 21.503332935976598,
+          "tail_error_frequency": 0.06493506493506493
+        },
+        {
+          "mean_mw": -3.8263118897000497,
+          "sd_mw": 11.195243415764663,
+          "skewness": -3.076513167660929,
+          "excess_kurtosis": 17.76846418982601,
+          "absolute_error_p95_mw": 21.48931667708979,
+          "tail_error_frequency": 0.06538289296909987
+        }
+      ],
+      "mean_over_runs": {
+        "mean_mw": -3.8169410713985914,
+        "sd_mw": 11.200786670006108,
+        "skewness": -3.07436335469535,
+        "excess_kurtosis": 17.762698190875366,
+        "absolute_error_p95_mw": 21.532134156834967,
+        "tail_error_frequency": 0.06493506493506494
+      }
+    },
+    {
+      "method": "TargetSVQR",
+      "prediction_files": [
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/TargetSVQR/final_seed0/predictions.csv",
+          "sha256": "bede195e90b8cfe3dbb3c717e348255c891d2c021ec18e64b4db87cced1fb10d"
+        },
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/TargetSVQR/final_seed1/predictions.csv",
+          "sha256": "91bc9f1a2a6b39f577e7467cbb090abaf141e4b4b87f78bc45dbddc5d7a06704"
+        },
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/TargetSVQR/final_seed2/predictions.csv",
+          "sha256": "caa0badd6b48ca73b7fada3d7e1cf74b3cdf365aa0444f73696262cf83a355fa"
+        }
+      ],
+      "runs": 3,
+      "per_run": [
+        {
+          "mean_mw": -3.782681476486715,
+          "sd_mw": 11.225125330197079,
+          "skewness": -3.1807753870639455,
+          "excess_kurtosis": 18.19013394709367,
+          "absolute_error_p95_mw": 21.39348148694901,
+          "tail_error_frequency": 0.06359158083296014
+        },
+        {
+          "mean_mw": -3.7804588093802565,
+          "sd_mw": 11.227630825845774,
+          "skewness": -3.1748902414184683,
+          "excess_kurtosis": 18.140712510462972,
+          "absolute_error_p95_mw": 21.422494145669628,
+          "tail_error_frequency": 0.06314375279892522
+        },
+        {
+          "mean_mw": -3.7931276180564932,
+          "sd_mw": 11.222673799483768,
+          "skewness": -3.1742227980215394,
+          "excess_kurtosis": 18.138556312215027,
+          "absolute_error_p95_mw": 21.402004646205263,
+          "tail_error_frequency": 0.06269592476489028
+        }
+      ],
+      "mean_over_runs": {
+        "mean_mw": -3.785422634641155,
+        "sd_mw": 11.225143318508875,
+        "skewness": -3.176629475501318,
+        "excess_kurtosis": 18.156467589923892,
+        "absolute_error_p95_mw": 21.405993426274634,
+        "tail_error_frequency": 0.06314375279892522
+      }
+    },
+    {
+      "method": "HistGBR",
+      "prediction_files": [
+        {
+          "path": "review/selection_runs/selection_v1/within_site6/HistGBR/final_seed0/predictions.csv",
+          "sha256": "c74245dcaa2c4bff38bf4998374ea8ac9a20458f9bd573e68077a7a2dbc53322"
+        }
+      ],
+      "runs": 1,
+      "per_run": [
+        {
+          "mean_mw": -3.8395544619026447,
+          "sd_mw": 10.381651286524997,
+          "skewness": -2.898053464866391,
+          "excess_kurtosis": 17.342132647151814,
+          "absolute_error_p95_mw": 20.069201299916447,
+          "tail_error_frequency": 0.057321988356471114
+        }
+      ],
+      "mean_over_runs": {
+        "mean_mw": -3.8395544619026447,
+        "sd_mw": 10.381651286524997,
+        "skewness": -2.898053464866391,
+        "excess_kurtosis": 17.342132647151814,
+        "absolute_error_p95_mw": 20.069201299916447,
+        "tail_error_frequency": 0.057321988356471114
+      }
+    }
+  ]
+}

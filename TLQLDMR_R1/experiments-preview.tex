@@ -1,0 +1,28 @@
+% Standalone preview of experiments.tex; the revised paper keeps its own
+% inline experiments section in TLQLDMR_energy.tex.
+% Compile TLQLDMR_energy.tex first to resolve references to its method section.
+\documentclass[a4paper,10pt]{article}
+\usepackage[margin=18mm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx,caption}
+\usepackage{booktabs,multirow}
+\usepackage{placeins}
+\usepackage[authoryear]{natbib}
+\usepackage{xr}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+
+% Prefix imported labels so that the preview's own labels remain independent.
+% Both PDFs are written to build/, so their hyperlink uses only the basename.
+\externaldocument[energy-]{build/TLQLDMR_energy}[TLQLDMR_energy.pdf]
+\makeatletter
+\@ifundefined{r@energy-novel}{}{%
+  \expandafter\let\expandafter\r@novel\csname r@energy-novel\endcsname
+}
+\makeatother
+
+\begin{document}
+\input{experiments}
+\bibliographystyle{model5-names}
+\bibliography{ref}
+\end{document}

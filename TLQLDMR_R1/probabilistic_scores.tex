@@ -1,0 +1,20 @@
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Legacy exploratory Farm~6 evaluation on nine quantiles. Kernel entries are means over three landmark seeds; HistGBR uses its deterministic seed-0 fit. Selection uses Q1 mean pinball loss (MPL); test MPL is computed on unrearranged forecasts. WIS and calibration error use the fixed row-wise monotone rearrangement. Crossing is retained from raw forecasts. Lower scores and calibration error are preferable.}}
+\label{tab:probabilistic_scores}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Method & Candidate & Q1 MPL & Test MPL & WIS (MW) & MACE (pp) & Crossing (\%) \\
+\midrule
+Full & c12 & 2.432 & 2.045 & 4.090 & 8.66 & 0.00 \\
+No variance & c11 & 2.435 & 2.093 & 4.168 & 7.35 & 45.81 \\
+No discrepancy & c12 & 2.433 & 2.045 & 4.090 & 8.66 & 0.00 \\
+Weighted SVQR & c11 & 2.435 & 2.093 & 4.169 & 7.35 & 45.84 \\
+Target SVQR & c13 & 2.754 & 1.995 & 3.971 & 8.09 & 38.07 \\
+HistGBR & c03 & 2.369 & 1.767 & 3.531 & 8.73 & 41.60 \\
+\bottomrule
+\end{tabular}}
+\end{table}

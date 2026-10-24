@@ -1,0 +1,5050 @@
+{
+  "audit_utc": "2026-10-22T03:10:44.771938+00:00",
+  "purpose": "Read-only fact audit of newly supplied original and processed wind-farm workbooks; no input data or historical results changed.",
+  "farms": [
+    {
+      "site": 1,
+      "nominal_capacity_mw": 99,
+      "original": {
+        "path": "data/wind_farm_data/data_original/wind_farms/Wind farm site 1 (Nominal capacity-99MW).xlsx",
+        "sha256": "c7b6c86e80fa1f36c7547bcbb17205dc063c554981f07620fa3a2e7ec463fddc",
+        "shape": [
+          70176,
+          13
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub(m/s)",
+          "Wind speed - at the height of wheel hub (˚)",
+          "Air temperature  (°C) ",
+          "Atmosphere (hpa)",
+          "Relative humidity (%)",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "object",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub(m/s)": "float64",
+          "Wind speed - at the height of wheel hub (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Atmosphere (hpa)": "float64",
+          "Relative humidity (%)": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub(m/s)": 0,
+          "Wind speed - at the height of wheel hub (˚)": 1,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub(m/s)": 0,
+          "Wind speed - at the height of wheel hub (˚)": 1,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": -99.0,
+            "max": 25.465
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": -99.0,
+            "max": 358.987
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": -99.0,
+            "max": 29.187
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": -99.0,
+            "max": 359.087
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": -99.0,
+            "max": 29.678
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": -99.0,
+            "max": 358.933
+          },
+          "Wind speed - at the height of wheel hub(m/s)": {
+            "min": -99.0,
+            "max": 30.247
+          },
+          "Wind speed - at the height of wheel hub (˚)": {
+            "min": -99.0,
+            "max": 358.5
+          },
+          "Air temperature  (°C) ": {
+            "min": -99.0,
+            "max": 36.13
+          },
+          "Atmosphere (hpa)": {
+            "min": -99.0,
+            "max": 918.192
+          },
+          "Relative humidity (%)": {
+            "min": -99.0,
+            "max": 93.12
+          },
+          "Power (MW)": {
+            "min": 0.0,
+            "max": 98.09444
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 0,
+          "invalid_raw_timestamp_examples": [],
+          "hour24_count": 0,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 00:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": true,
+          "duplicate_timestamp_count_after_normalization": 0,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 70175
+          },
+          "irregular_interval_count": 0,
+          "irregular_examples": []
+        },
+        "power": {
+          "min": 0.0,
+          "max": 98.09444,
+          "negative_count": 0,
+          "above_nominal_capacity_count": 0,
+          "zero_count": 206
+        },
+        "minus99_count_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 138,
+          "Wind direction at height of 10 meters (˚)": 138,
+          "Wind speed at height of 30 meters (m/s)": 138,
+          "Wind direction at height of 30 meters (˚)": 138,
+          "Wind speed at height of 50 meters (m/s)": 138,
+          "Wind direction at height of 50 meters (˚)": 138,
+          "Wind speed - at the height of wheel hub(m/s)": 138,
+          "Wind speed - at the height of wheel hub (˚)": 138,
+          "Air temperature  (°C) ": 138,
+          "Atmosphere (hpa)": 138,
+          "Relative humidity (%)": 138
+        },
+        "nonnumeric_token_counts": {}
+      },
+      "processed": {
+        "path": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 1 (Nominal capacity-99MW).xlsx",
+        "sha256": "c9bdafaab05ae728b88f252c6858033800c31b058d48ab4123dfedfbe4c7a21f",
+        "shape": [
+          70176,
+          13
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub (m/s)",
+          "Wind speed - at the height of wheel hub (˚)",
+          "Air temperature  (°C) ",
+          "Atmosphere (hpa)",
+          "Relative humidity (%)",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "object",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub (m/s)": "float64",
+          "Wind speed - at the height of wheel hub (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Atmosphere (hpa)": "float64",
+          "Relative humidity (%)": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": 0.0,
+            "max": 25.465
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": 0.0,
+            "max": 358.987
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": 0.0,
+            "max": 29.187
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": 0.0,
+            "max": 359.087
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": 0.0,
+            "max": 29.678
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": 0.0,
+            "max": 358.933
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "min": 0.0,
+            "max": 30.247
+          },
+          "Wind speed - at the height of wheel hub (˚)": {
+            "min": 0.0,
+            "max": 358.5
+          },
+          "Air temperature  (°C) ": {
+            "min": -24.131,
+            "max": 36.13
+          },
+          "Atmosphere (hpa)": {
+            "min": 858.4,
+            "max": 918.192
+          },
+          "Relative humidity (%)": {
+            "min": 1.502,
+            "max": 93.12
+          },
+          "Power (MW)": {
+            "min": 0.0,
+            "max": 98.09444
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 0,
+          "invalid_raw_timestamp_examples": [],
+          "hour24_count": 0,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 00:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": true,
+          "duplicate_timestamp_count_after_normalization": 0,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 70175
+          },
+          "irregular_interval_count": 0,
+          "irregular_examples": []
+        },
+        "power": {
+          "min": 0.0,
+          "max": 98.09444,
+          "negative_count": 0,
+          "above_nominal_capacity_count": 0,
+          "zero_count": 206
+        },
+        "minus99_count_by_column": {},
+        "nonnumeric_token_counts": {}
+      },
+      "original_vs_processed": {
+        "same_shape": true,
+        "same_columns": false,
+        "column_name_normalization": "Remove whitespace for matching only; input column names unchanged.",
+        "missing_in_processed_columns": [],
+        "added_in_processed_columns": [],
+        "row_alignment": "Original row index; same row count.",
+        "changed_columns": {
+          "Time(year-month-day h:m:s)": {
+            "original_column": "Time(year-month-day h:m:s)",
+            "processed_column": "Time(year-month-day h:m:s)",
+            "changed_count": 2,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 47717,
+                "original_row": 47717,
+                "original": "2020-05-12 01:15:00",
+                "processed": "2020-05-12 01:15:00"
+              },
+              {
+                "processed_row": 47792,
+                "original_row": 47792,
+                "original": "2020-05-12 20:00:00",
+                "processed": "2020-05-12 20:00:00"
+              }
+            ]
+          },
+          "Wind speed - at the height of wheel hub (˚)": {
+            "original_column": "Wind speed - at the height of wheel hub (˚)",
+            "processed_column": "Wind speed - at the height of wheel hub (˚)",
+            "changed_count": 262,
+            "original_missing_to_processed_present": 1,
+            "examples": [
+              {
+                "processed_row": 2,
+                "original_row": 2,
+                "original": "nan",
+                "processed": "89.0"
+              },
+              {
+                "processed_row": 6762,
+                "original_row": 6762,
+                "original": "0.001",
+                "processed": "284.4"
+              },
+              {
+                "processed_row": 6768,
+                "original_row": 6768,
+                "original": "0.001",
+                "processed": "284.167"
+              },
+              {
+                "processed_row": 6893,
+                "original_row": 6893,
+                "original": "0.001",
+                "processed": "313.8"
+              },
+              {
+                "processed_row": 8898,
+                "original_row": 8898,
+                "original": "0.001",
+                "processed": "288.717"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -42.69999999999999,
+              389.8
+            ],
+            "finite_pair_changed_count": 261,
+            "original_minus99_changed_count": 138
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "original_column": "Wind speed at height of 30 meters (m/s)",
+            "processed_column": "Wind speed at height of 30 meters (m/s)",
+            "changed_count": 260,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 6762,
+                "original_row": 6762,
+                "original": "0.001",
+                "processed": "4.924"
+              },
+              {
+                "processed_row": 6768,
+                "original_row": 6768,
+                "original": "0.001",
+                "processed": "7.795"
+              },
+              {
+                "processed_row": 6893,
+                "original_row": 6893,
+                "original": "0.001",
+                "processed": "5.336"
+              },
+              {
+                "processed_row": 8898,
+                "original_row": 8898,
+                "original": "0.001",
+                "processed": "7.976"
+              },
+              {
+                "processed_row": 9740,
+                "original_row": 9740,
+                "original": "-99.0",
+                "processed": "8.412"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.02400000000000002,
+              107.664
+            ],
+            "finite_pair_changed_count": 260,
+            "original_minus99_changed_count": 138
+          },
+          "Power (MW)": {
+            "original_column": "Power (MW)",
+            "processed_column": "Power (MW)",
+            "changed_count": 30,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 47763,
+                "original_row": 47763,
+                "original": "2.720049",
+                "processed": "61.150658"
+              },
+              {
+                "processed_row": 47764,
+                "original_row": 47764,
+                "original": "3.836349",
+                "processed": "61.150658"
+              },
+              {
+                "processed_row": 47765,
+                "original_row": 47765,
+                "original": "8.167964",
+                "processed": "61.150658"
+              },
+              {
+                "processed_row": 47766,
+                "original_row": 47766,
+                "original": "13.550506",
+                "processed": "61.150658"
+              },
+              {
+                "processed_row": 47767,
+                "original_row": 47767,
+                "original": "10.905777",
+                "processed": "61.150658"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -7.236411999999994,
+              60.564441
+            ],
+            "finite_pair_changed_count": 30,
+            "original_minus99_changed_count": 0
+          },
+          "Air temperature  (°C) ": {
+            "original_column": "Air temperature  (°C) ",
+            "processed_column": "Air temperature  (°C) ",
+            "changed_count": 261,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 6762,
+                "original_row": 6762,
+                "original": "0.001",
+                "processed": "0.382"
+              },
+              {
+                "processed_row": 6768,
+                "original_row": 6768,
+                "original": "0.001",
+                "processed": "2.816"
+              },
+              {
+                "processed_row": 6893,
+                "original_row": 6893,
+                "original": "0.001",
+                "processed": "9.178"
+              },
+              {
+                "processed_row": 8898,
+                "original_row": 8898,
+                "original": "0.001",
+                "processed": "18.918"
+              },
+              {
+                "processed_row": 9740,
+                "original_row": 9740,
+                "original": "-99.0",
+                "processed": "11.278"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -12.703999999999999,
+              122.985
+            ],
+            "finite_pair_changed_count": 261,
+            "original_minus99_changed_count": 138
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "original_column": "Wind speed at height of 50 meters (m/s)",
+            "processed_column": "Wind speed at height of 50 meters (m/s)",
+            "changed_count": 260,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 6762,
+                "original_row": 6762,
+                "original": "0.001",
+                "processed": "5.068"
+              },
+              {
+                "processed_row": 6768,
+                "original_row": 6768,
+                "original": "0.001",
+                "processed": "8.073"
+              },
+              {
+                "processed_row": 6893,
+                "original_row": 6893,
+                "original": "0.001",
+                "processed": "5.53"
+              },
+              {
+                "processed_row": 8898,
+                "original_row": 8898,
+                "original": "0.001",
+                "processed": "8.191"
+              },
+              {
+                "processed_row": 9740,
+                "original_row": 9740,
+                "original": "-99.0",
+                "processed": "8.512"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.30100000000000016,
+              108.45
+            ],
+            "finite_pair_changed_count": 260,
+            "original_minus99_changed_count": 138
+          },
+          "Relative humidity (%)": {
+            "original_column": "Relative humidity (%)",
+            "processed_column": "Relative humidity (%)",
+            "changed_count": 261,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 6762,
+                "original_row": 6762,
+                "original": "0.001",
+                "processed": "39.376"
+              },
+              {
+                "processed_row": 6768,
+                "original_row": 6768,
+                "original": "0.001",
+                "processed": "32.933"
+              },
+              {
+                "processed_row": 6893,
+                "original_row": 6893,
+                "original": "0.001",
+                "processed": "17.035"
+              },
+              {
+                "processed_row": 8898,
+                "original_row": 8898,
+                "original": "0.001",
+                "processed": "13.169"
+              },
+              {
+                "processed_row": 9740,
+                "original_row": 9740,
+                "original": "-99.0",
+                "processed": "22.995"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.3100000000000023,
+              171.272
+            ],
+            "finite_pair_changed_count": 261,
+            "original_minus99_changed_count": 138
+          },
+          "Wind speed at height of 10 meters (m/s)": {
+            "original_column": "Wind speed at height of 10 meters (m/s)",
+            "processed_column": "Wind speed at height of 10 meters (m/s)",
+            "changed_count": 261,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 6762,
+                "original_row": 6762,
+                "original": "0.001",
+                "processed": "4.766"
+              },
+              {
+                "processed_row": 6768,
+                "original_row": 6768,
+                "original": "0.001",
+                "processed": "7.445"
+              },
+              {
+                "processed_row": 6893,
+                "original_row": 6893,
+                "original": "0.001",
+                "processed": "4.856"
+              },
+              {
+                "processed_row": 8898,
+                "original_row": 8898,
+                "original": "0.001",
+                "processed": "7.446"
+              },
+              {
+                "processed_row": 9740,
+                "original_row": 9740,
+                "original": "-99.0",
+                "processed": "7.693"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.2370000000000001,
+              106.693
+            ],
+            "finite_pair_changed_count": 261,
+            "original_minus99_changed_count": 138
+          },
+          "Atmosphere (hpa)": {
+            "original_column": "Atmosphere (hpa)",
+            "processed_column": "Atmosphere (hpa)",
+            "changed_count": 261,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 6762,
+                "original_row": 6762,
+                "original": "0.001",
+                "processed": "889.317"
+              },
+              {
+                "processed_row": 6768,
+                "original_row": 6768,
+                "original": "0.001",
+                "processed": "889.8"
+              },
+              {
+                "processed_row": 6893,
+                "original_row": 6893,
+                "original": "0.001",
+                "processed": "889.733"
+              },
+              {
+                "processed_row": 8898,
+                "original_row": 8898,
+                "original": "0.001",
+                "processed": "889.4"
+              },
+              {
+                "processed_row": 9740,
+                "original_row": 9740,
+                "original": "-99.0",
+                "processed": "889.633"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.7000000000000455,
+              989.058
+            ],
+            "finite_pair_changed_count": 261,
+            "original_minus99_changed_count": 138
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "original_column": "Wind direction at height of 10 meters (˚)",
+            "processed_column": "Wind direction at height of 10 meters (˚)",
+            "changed_count": 261,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 6762,
+                "original_row": 6762,
+                "original": "0.001",
+                "processed": "288.6"
+              },
+              {
+                "processed_row": 6768,
+                "original_row": 6768,
+                "original": "0.001",
+                "processed": "286.68"
+              },
+              {
+                "processed_row": 6893,
+                "original_row": 6893,
+                "original": "0.001",
+                "processed": "312.453"
+              },
+              {
+                "processed_row": 8898,
+                "original_row": 8898,
+                "original": "0.001",
+                "processed": "295.64"
+              },
+              {
+                "processed_row": 9740,
+                "original_row": 9740,
+                "original": "-99.0",
+                "processed": "275.733"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -7.873000000000019,
+              397.16
+            ],
+            "finite_pair_changed_count": 261,
+            "original_minus99_changed_count": 138
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "original_column": "Wind direction at height of 30 meters (˚)",
+            "processed_column": "Wind direction at height of 30 meters (˚)",
+            "changed_count": 261,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 6762,
+                "original_row": 6762,
+                "original": "0.001",
+                "processed": "286.19"
+              },
+              {
+                "processed_row": 6768,
+                "original_row": 6768,
+                "original": "0.001",
+                "processed": "284.822"
+              },
+              {
+                "processed_row": 6893,
+                "original_row": 6893,
+                "original": "0.001",
+                "processed": "308.71"
+              },
+              {
+                "processed_row": 8898,
+                "original_row": 8898,
+                "original": "0.001",
+                "processed": "285.438"
+              },
+              {
+                "processed_row": 9740,
+                "original_row": 9740,
+                "original": "-99.0",
+                "processed": "277.158"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -19.504999999999995,
+              390.711
+            ],
+            "finite_pair_changed_count": 261,
+            "original_minus99_changed_count": 138
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "original_column": "Wind direction at height of 50 meters (˚)",
+            "processed_column": "Wind direction at height of 50 meters (˚)",
+            "changed_count": 261,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 6762,
+                "original_row": 6762,
+                "original": "0.001",
+                "processed": "288.5"
+              },
+              {
+                "processed_row": 6768,
+                "original_row": 6768,
+                "original": "0.001",
+                "processed": "288.6"
+              },
+              {
+                "processed_row": 6893,
+                "original_row": 6893,
+                "original": "0.001",
+                "processed": "315.167"
+              },
+              {
+                "processed_row": 8898,
+                "original_row": 8898,
+                "original": "0.001",
+                "processed": "295.267"
+              },
+              {
+                "processed_row": 9740,
+                "original_row": 9740,
+                "original": "-99.0",
+                "processed": "280.933"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -38.00000000000003,
+              393.967
+            ],
+            "finite_pair_changed_count": 261,
+            "original_minus99_changed_count": 138
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "original_column": "Wind speed - at the height of wheel hub(m/s)",
+            "processed_column": "Wind speed - at the height of wheel hub (m/s)",
+            "changed_count": 260,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 6762,
+                "original_row": 6762,
+                "original": "0.001",
+                "processed": "5.563"
+              },
+              {
+                "processed_row": 6768,
+                "original_row": 6768,
+                "original": "0.001",
+                "processed": "8.266"
+              },
+              {
+                "processed_row": 6893,
+                "original_row": 6893,
+                "original": "0.001",
+                "processed": "5.789"
+              },
+              {
+                "processed_row": 8898,
+                "original_row": 8898,
+                "original": "0.001",
+                "processed": "8.641"
+              },
+              {
+                "processed_row": 9740,
+                "original_row": 9740,
+                "original": "-99.0",
+                "processed": "8.705"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.1200000000000001,
+              109.136
+            ],
+            "finite_pair_changed_count": 260,
+            "original_minus99_changed_count": 138
+          }
+        },
+        "changed_cell_count": 2901,
+        "power_unchanged_on_matched_rows": false
+      },
+      "historical_meta_match": {
+        "file": "experiment1/outputs/farm1_meta.json",
+        "n_samples": 70176,
+        "matches_processed_rows": true
+      }
+    },
+    {
+      "site": 2,
+      "nominal_capacity_mw": 200,
+      "original": {
+        "path": "data/wind_farm_data/data_original/wind_farms/Wind farm site 2 (Nominal capacity-200MW).xlsx",
+        "sha256": "cece173808429ee5aeed6dff367ebf9edbc8689822cabb4b5a343e6283e74b6f",
+        "shape": [
+          70176,
+          13
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub (m/s)",
+          "Wind speed - at the height of wheel hub  (˚)",
+          "Air temperature  (°C) ",
+          "Atmosphere (hpa)",
+          "Relative humidity (%)",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "object",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub (m/s)": "float64",
+          "Wind speed - at the height of wheel hub  (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Atmosphere (hpa)": "float64",
+          "Relative humidity (%)": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub  (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub  (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": -99.0,
+            "max": 23.3
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": -99.0,
+            "max": 359.916
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": -99.0,
+            "max": 27.125
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": -99.0,
+            "max": 360.0
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": -99.0,
+            "max": 28.196
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": -99.0,
+            "max": 359.889
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "min": -99.0,
+            "max": 28.808
+          },
+          "Wind speed - at the height of wheel hub  (˚)": {
+            "min": -99.0,
+            "max": 359.802
+          },
+          "Air temperature  (°C) ": {
+            "min": -99.0,
+            "max": 37.59
+          },
+          "Atmosphere (hpa)": {
+            "min": -99.0,
+            "max": 900.45
+          },
+          "Relative humidity (%)": {
+            "min": -99.0,
+            "max": 97.58
+          },
+          "Power (MW)": {
+            "min": 0.0,
+            "max": 201.24808
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 0,
+          "invalid_raw_timestamp_examples": [],
+          "hour24_count": 0,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 00:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": true,
+          "duplicate_timestamp_count_after_normalization": 0,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 70175
+          },
+          "irregular_interval_count": 0,
+          "irregular_examples": []
+        },
+        "power": {
+          "min": 0.0,
+          "max": 201.24808,
+          "negative_count": 0,
+          "above_nominal_capacity_count": 45,
+          "zero_count": 7723
+        },
+        "minus99_count_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 51,
+          "Wind direction at height of 10 meters (˚)": 51,
+          "Wind speed at height of 30 meters (m/s)": 51,
+          "Wind direction at height of 30 meters (˚)": 51,
+          "Wind speed at height of 50 meters (m/s)": 51,
+          "Wind direction at height of 50 meters (˚)": 51,
+          "Wind speed - at the height of wheel hub (m/s)": 51,
+          "Wind speed - at the height of wheel hub  (˚)": 51,
+          "Air temperature  (°C) ": 51,
+          "Atmosphere (hpa)": 51,
+          "Relative humidity (%)": 51
+        },
+        "nonnumeric_token_counts": {}
+      },
+      "processed": {
+        "path": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 2 (Nominal capacity-200MW).xlsx",
+        "sha256": "9586406e712a310b1e9f180318b93068334321eb39a0eff3b604d72b383dc3a7",
+        "shape": [
+          70176,
+          12
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub  (m/s)",
+          "Wind speed - at the height of wheel hub (˚)",
+          "Air temperature  (°C) ",
+          "Atmosphere (hpa)",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "object",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub  (m/s)": "float64",
+          "Wind speed - at the height of wheel hub (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Atmosphere (hpa)": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub  (m/s)": 0,
+          "Wind speed - at the height of wheel hub (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub  (m/s)": 0,
+          "Wind speed - at the height of wheel hub (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": 0.0,
+            "max": 23.3
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": 0.008,
+            "max": 359.916
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": 0.0,
+            "max": 27.125
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": 0.0,
+            "max": 360.0
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": 0.0,
+            "max": 28.196
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": 0.009,
+            "max": 359.889
+          },
+          "Wind speed - at the height of wheel hub  (m/s)": {
+            "min": 0.0,
+            "max": 28.808
+          },
+          "Wind speed - at the height of wheel hub (˚)": {
+            "min": 0.063,
+            "max": 359.802
+          },
+          "Air temperature  (°C) ": {
+            "min": -24.547,
+            "max": 37.59
+          },
+          "Atmosphere (hpa)": {
+            "min": 441.272,
+            "max": 900.45
+          },
+          "Power (MW)": {
+            "min": 0.0,
+            "max": 201.24808
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 0,
+          "invalid_raw_timestamp_examples": [],
+          "hour24_count": 0,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 00:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": true,
+          "duplicate_timestamp_count_after_normalization": 0,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 70175
+          },
+          "irregular_interval_count": 0,
+          "irregular_examples": []
+        },
+        "power": {
+          "min": 0.0,
+          "max": 201.24808,
+          "negative_count": 0,
+          "above_nominal_capacity_count": 45,
+          "zero_count": 7682
+        },
+        "minus99_count_by_column": {},
+        "nonnumeric_token_counts": {}
+      },
+      "original_vs_processed": {
+        "same_shape": false,
+        "same_columns": false,
+        "column_name_normalization": "Remove whitespace for matching only; input column names unchanged.",
+        "missing_in_processed_columns": [
+          "Relative humidity (%)"
+        ],
+        "added_in_processed_columns": [],
+        "row_alignment": "Original row index; same row count.",
+        "changed_columns": {
+          "Wind speed - at the height of wheel hub (˚)": {
+            "original_column": "Wind speed - at the height of wheel hub  (˚)",
+            "processed_column": "Wind speed - at the height of wheel hub (˚)",
+            "changed_count": 364,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 537,
+                "original_row": 537,
+                "original": "0.001",
+                "processed": "273.182"
+              },
+              {
+                "processed_row": 538,
+                "original_row": 538,
+                "original": "0.001",
+                "processed": "273.182"
+              },
+              {
+                "processed_row": 539,
+                "original_row": 539,
+                "original": "0.001",
+                "processed": "273.182"
+              },
+              {
+                "processed_row": 540,
+                "original_row": 540,
+                "original": "0.001",
+                "processed": "272.95"
+              },
+              {
+                "processed_row": 541,
+                "original_row": 541,
+                "original": "0.001",
+                "processed": "272.95"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -4.668000000000006,
+              396.87
+            ],
+            "finite_pair_changed_count": 364,
+            "original_minus99_changed_count": 51
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "original_column": "Wind speed at height of 30 meters (m/s)",
+            "processed_column": "Wind speed at height of 30 meters (m/s)",
+            "changed_count": 352,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 537,
+                "original_row": 537,
+                "original": "0.001",
+                "processed": "6.776"
+              },
+              {
+                "processed_row": 538,
+                "original_row": 538,
+                "original": "0.001",
+                "processed": "6.776"
+              },
+              {
+                "processed_row": 539,
+                "original_row": 539,
+                "original": "0.001",
+                "processed": "6.776"
+              },
+              {
+                "processed_row": 540,
+                "original_row": 540,
+                "original": "0.001",
+                "processed": "8.0"
+              },
+              {
+                "processed_row": 541,
+                "original_row": 541,
+                "original": "0.001",
+                "processed": "8.0"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.001,
+              110.28999999999999
+            ],
+            "finite_pair_changed_count": 352,
+            "original_minus99_changed_count": 51
+          },
+          "Power (MW)": {
+            "original_column": "Power (MW)",
+            "processed_column": "Power (MW)",
+            "changed_count": 336,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 537,
+                "original_row": 537,
+                "original": "75.80387",
+                "processed": "65.93167"
+              },
+              {
+                "processed_row": 538,
+                "original_row": 538,
+                "original": "78.610535",
+                "processed": "65.93167"
+              },
+              {
+                "processed_row": 539,
+                "original_row": 539,
+                "original": "106.46541",
+                "processed": "65.93167"
+              },
+              {
+                "processed_row": 540,
+                "original_row": 540,
+                "original": "115.27194",
+                "processed": "91.49541"
+              },
+              {
+                "processed_row": 541,
+                "original_row": 541,
+                "original": "123.12794",
+                "processed": "91.49541"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -126.605276,
+              173.75941
+            ],
+            "finite_pair_changed_count": 336,
+            "original_minus99_changed_count": 0
+          },
+          "Air temperature  (°C) ": {
+            "original_column": "Air temperature  (°C) ",
+            "processed_column": "Air temperature  (°C) ",
+            "changed_count": 364,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 537,
+                "original_row": 537,
+                "original": "0.001",
+                "processed": "-4.842"
+              },
+              {
+                "processed_row": 538,
+                "original_row": 538,
+                "original": "0.001",
+                "processed": "-4.842"
+              },
+              {
+                "processed_row": 539,
+                "original_row": 539,
+                "original": "0.001",
+                "processed": "-4.842"
+              },
+              {
+                "processed_row": 540,
+                "original_row": 540,
+                "original": "0.001",
+                "processed": "-4.753"
+              },
+              {
+                "processed_row": 541,
+                "original_row": 541,
+                "original": "0.001",
+                "processed": "-4.753"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -15.293,
+              117.221
+            ],
+            "finite_pair_changed_count": 364,
+            "original_minus99_changed_count": 51
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "original_column": "Wind speed at height of 50 meters (m/s)",
+            "processed_column": "Wind speed at height of 50 meters (m/s)",
+            "changed_count": 353,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 537,
+                "original_row": 537,
+                "original": "0.001",
+                "processed": "7.235"
+              },
+              {
+                "processed_row": 538,
+                "original_row": 538,
+                "original": "0.001",
+                "processed": "7.235"
+              },
+              {
+                "processed_row": 539,
+                "original_row": 539,
+                "original": "0.001",
+                "processed": "7.235"
+              },
+              {
+                "processed_row": 540,
+                "original_row": 540,
+                "original": "0.001",
+                "processed": "7.847"
+              },
+              {
+                "processed_row": 541,
+                "original_row": 541,
+                "original": "0.001",
+                "processed": "7.847"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.001,
+              110.44200000000001
+            ],
+            "finite_pair_changed_count": 353,
+            "original_minus99_changed_count": 51
+          },
+          "Wind speed at height of 10 meters (m/s)": {
+            "original_column": "Wind speed at height of 10 meters (m/s)",
+            "processed_column": "Wind speed at height of 10 meters (m/s)",
+            "changed_count": 342,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 537,
+                "original_row": 537,
+                "original": "0.001",
+                "processed": "5.705"
+              },
+              {
+                "processed_row": 538,
+                "original_row": 538,
+                "original": "0.001",
+                "processed": "5.705"
+              },
+              {
+                "processed_row": 539,
+                "original_row": 539,
+                "original": "0.001",
+                "processed": "5.705"
+              },
+              {
+                "processed_row": 540,
+                "original_row": 540,
+                "original": "0.001",
+                "processed": "7.388"
+              },
+              {
+                "processed_row": 541,
+                "original_row": 541,
+                "original": "0.001",
+                "processed": "7.388"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.001,
+              109.014
+            ],
+            "finite_pair_changed_count": 342,
+            "original_minus99_changed_count": 51
+          },
+          "Atmosphere (hpa)": {
+            "original_column": "Atmosphere (hpa)",
+            "processed_column": "Atmosphere (hpa)",
+            "changed_count": 460,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 537,
+                "original_row": 537,
+                "original": "0.001",
+                "processed": "893.384"
+              },
+              {
+                "processed_row": 538,
+                "original_row": 538,
+                "original": "0.001",
+                "processed": "893.384"
+              },
+              {
+                "processed_row": 539,
+                "original_row": 539,
+                "original": "0.001",
+                "processed": "893.384"
+              },
+              {
+                "processed_row": 540,
+                "original_row": 540,
+                "original": "0.001",
+                "processed": "892.587"
+              },
+              {
+                "processed_row": 541,
+                "original_row": 541,
+                "original": "0.001",
+                "processed": "892.587"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.17899999999997362,
+              991.906
+            ],
+            "finite_pair_changed_count": 460,
+            "original_minus99_changed_count": 51
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "original_column": "Wind direction at height of 10 meters (˚)",
+            "processed_column": "Wind direction at height of 10 meters (˚)",
+            "changed_count": 364,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 537,
+                "original_row": 537,
+                "original": "0.001",
+                "processed": "287.977"
+              },
+              {
+                "processed_row": 538,
+                "original_row": 538,
+                "original": "0.001",
+                "processed": "287.977"
+              },
+              {
+                "processed_row": 539,
+                "original_row": 539,
+                "original": "0.001",
+                "processed": "287.977"
+              },
+              {
+                "processed_row": 540,
+                "original_row": 540,
+                "original": "0.001",
+                "processed": "285.989"
+              },
+              {
+                "processed_row": 541,
+                "original_row": 541,
+                "original": "0.001",
+                "processed": "285.989"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              414.016
+            ],
+            "finite_pair_changed_count": 364,
+            "original_minus99_changed_count": 51
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "original_column": "Wind direction at height of 30 meters (˚)",
+            "processed_column": "Wind direction at height of 30 meters (˚)",
+            "changed_count": 364,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 537,
+                "original_row": 537,
+                "original": "0.001",
+                "processed": "279.291"
+              },
+              {
+                "processed_row": 538,
+                "original_row": 538,
+                "original": "0.001",
+                "processed": "279.291"
+              },
+              {
+                "processed_row": 539,
+                "original_row": 539,
+                "original": "0.001",
+                "processed": "279.291"
+              },
+              {
+                "processed_row": 540,
+                "original_row": 540,
+                "original": "0.001",
+                "processed": "281.905"
+              },
+              {
+                "processed_row": 541,
+                "original_row": 541,
+                "original": "0.001",
+                "processed": "281.905"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              408.014
+            ],
+            "finite_pair_changed_count": 364,
+            "original_minus99_changed_count": 51
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "original_column": "Wind direction at height of 50 meters (˚)",
+            "processed_column": "Wind direction at height of 50 meters (˚)",
+            "changed_count": 364,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 537,
+                "original_row": 537,
+                "original": "0.001",
+                "processed": "266.024"
+              },
+              {
+                "processed_row": 538,
+                "original_row": 538,
+                "original": "0.001",
+                "processed": "266.024"
+              },
+              {
+                "processed_row": 539,
+                "original_row": 539,
+                "original": "0.001",
+                "processed": "266.024"
+              },
+              {
+                "processed_row": 540,
+                "original_row": 540,
+                "original": "0.001",
+                "processed": "273.906"
+              },
+              {
+                "processed_row": 541,
+                "original_row": 541,
+                "original": "0.001",
+                "processed": "273.906"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -10.198000000000008,
+              397.051
+            ],
+            "finite_pair_changed_count": 364,
+            "original_minus99_changed_count": 51
+          },
+          "Wind speed - at the height of wheel hub  (m/s)": {
+            "original_column": "Wind speed - at the height of wheel hub (m/s)",
+            "processed_column": "Wind speed - at the height of wheel hub  (m/s)",
+            "changed_count": 359,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 537,
+                "original_row": 537,
+                "original": "0.001",
+                "processed": "7.541"
+              },
+              {
+                "processed_row": 538,
+                "original_row": 538,
+                "original": "0.001",
+                "processed": "7.541"
+              },
+              {
+                "processed_row": 539,
+                "original_row": 539,
+                "original": "0.001",
+                "processed": "7.541"
+              },
+              {
+                "processed_row": 540,
+                "original_row": 540,
+                "original": "0.001",
+                "processed": "8.0"
+              },
+              {
+                "processed_row": 541,
+                "original_row": 541,
+                "original": "0.001",
+                "processed": "8.0"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.001,
+              111.029
+            ],
+            "finite_pair_changed_count": 359,
+            "original_minus99_changed_count": 51
+          }
+        },
+        "changed_cell_count": 4022,
+        "power_unchanged_on_matched_rows": false
+      },
+      "historical_meta_match": {
+        "file": "experiment1/outputs/farm0_meta.json",
+        "n_samples": 70176,
+        "matches_processed_rows": true
+      }
+    },
+    {
+      "site": 3,
+      "nominal_capacity_mw": 99,
+      "original": {
+        "path": "data/wind_farm_data/data_original/wind_farms/Wind farm site 3 (Nominal capacity-99MW).xlsx",
+        "sha256": "e0ebf4f54bbc73aceaba96b1052e9b915ba5c0d5c80590ba83278a710753dcf6",
+        "shape": [
+          70176,
+          13
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub  (m/s)",
+          "Wind speed - at the height of wheel hub  (˚)",
+          "Air temperature  (°C) ",
+          "Atmosphere (hpa)",
+          "Relative humidity (%)",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "datetime64[ns]",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub  (m/s)": "float64",
+          "Wind speed - at the height of wheel hub  (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Atmosphere (hpa)": "float64",
+          "Relative humidity (%)": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub  (m/s)": 0,
+          "Wind speed - at the height of wheel hub  (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub  (m/s)": 0,
+          "Wind speed - at the height of wheel hub  (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": 0.0,
+            "max": 27.926
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": 0.0,
+            "max": 360.0
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": 0.0,
+            "max": 22.0917
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": 0.0,
+            "max": 360.0
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": 0.0,
+            "max": 21.836
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": 0.0,
+            "max": 360.0
+          },
+          "Wind speed - at the height of wheel hub  (m/s)": {
+            "min": 0.0,
+            "max": 36.9203
+          },
+          "Wind speed - at the height of wheel hub  (˚)": {
+            "min": 0.0,
+            "max": 360.0
+          },
+          "Air temperature  (°C) ": {
+            "min": -115.6,
+            "max": 36.32
+          },
+          "Atmosphere (hpa)": {
+            "min": -92.496,
+            "max": 990.731
+          },
+          "Relative humidity (%)": {
+            "min": 0.0,
+            "max": 356.915
+          },
+          "Power (MW)": {
+            "min": -0.668767,
+            "max": 94.2666
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 0,
+          "invalid_raw_timestamp_examples": [],
+          "hour24_count": 0,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 00:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": true,
+          "duplicate_timestamp_count_after_normalization": 0,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 70175
+          },
+          "irregular_interval_count": 0,
+          "irregular_examples": []
+        },
+        "power": {
+          "min": -0.668767,
+          "max": 94.2666,
+          "negative_count": 12944,
+          "above_nominal_capacity_count": 0,
+          "zero_count": 935
+        },
+        "minus99_count_by_column": {},
+        "nonnumeric_token_counts": {}
+      },
+      "processed": {
+        "path": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 3 (Nominal capacity-99MW).xlsx",
+        "sha256": "8064d57015c76c89c9ffccdf0944aeaf10df3733af5b8713f6f65200fd13a197",
+        "shape": [
+          70176,
+          13
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub (m/s)",
+          "Wind speed - at the height of wheel hub (˚)",
+          "Air temperature  (°C) ",
+          "Atmosphere (hpa)",
+          "Relative humidity (%)",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "datetime64[ns]",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub (m/s)": "float64",
+          "Wind speed - at the height of wheel hub (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Atmosphere (hpa)": "float64",
+          "Relative humidity (%)": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": 0.0,
+            "max": 27.926
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": 0.0,
+            "max": 360.0
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": 0.0,
+            "max": 22.0917
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": 0.00287437,
+            "max": 360.0
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": 0.0,
+            "max": 21.836
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": 0.0,
+            "max": 360.0
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "min": 0.0,
+            "max": 36.9203
+          },
+          "Wind speed - at the height of wheel hub (˚)": {
+            "min": 0.0,
+            "max": 360.0
+          },
+          "Air temperature  (°C) ": {
+            "min": -14.27,
+            "max": 36.32
+          },
+          "Atmosphere (hpa)": {
+            "min": 950.958,
+            "max": 990.731
+          },
+          "Relative humidity (%)": {
+            "min": 3.43656,
+            "max": 100.0
+          },
+          "Power (MW)": {
+            "min": -0.668767,
+            "max": 94.2666
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 0,
+          "invalid_raw_timestamp_examples": [],
+          "hour24_count": 0,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 00:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": true,
+          "duplicate_timestamp_count_after_normalization": 0,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 70175
+          },
+          "irregular_interval_count": 0,
+          "irregular_examples": []
+        },
+        "power": {
+          "min": -0.668767,
+          "max": 94.2666,
+          "negative_count": 12979,
+          "above_nominal_capacity_count": 0,
+          "zero_count": 788
+        },
+        "minus99_count_by_column": {},
+        "nonnumeric_token_counts": {}
+      },
+      "original_vs_processed": {
+        "same_shape": true,
+        "same_columns": false,
+        "column_name_normalization": "Remove whitespace for matching only; input column names unchanged.",
+        "missing_in_processed_columns": [],
+        "added_in_processed_columns": [],
+        "row_alignment": "Original row index; same row count.",
+        "changed_columns": {
+          "Wind speed - at the height of wheel hub (˚)": {
+            "original_column": "Wind speed - at the height of wheel hub  (˚)",
+            "processed_column": "Wind speed - at the height of wheel hub (˚)",
+            "changed_count": 315,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "195.513"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "195.513"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "209.179"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "209.179"
+              },
+              {
+                "processed_row": 8773,
+                "original_row": 8773,
+                "original": "0.0",
+                "processed": "302.182"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -2.632000000000005,
+              359.9
+            ],
+            "finite_pair_changed_count": 315,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "original_column": "Wind speed at height of 30 meters (m/s)",
+            "processed_column": "Wind speed at height of 30 meters (m/s)",
+            "changed_count": 304,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "10.0753"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "10.0753"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "5.47333"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "5.47333"
+              },
+              {
+                "processed_row": 8773,
+                "original_row": 8773,
+                "original": "0.0",
+                "processed": "4.70633"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -1.63833,
+              12.62
+            ],
+            "finite_pair_changed_count": 304,
+            "original_minus99_changed_count": 0
+          },
+          "Power (MW)": {
+            "original_column": "Power (MW)",
+            "processed_column": "Power (MW)",
+            "changed_count": 157,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "61.3788"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "61.3788"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "41.4007"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "41.4007"
+              },
+              {
+                "processed_row": 8773,
+                "original_row": 8773,
+                "original": "25.4131",
+                "processed": "25.3282"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.583786,
+              79.2211
+            ],
+            "finite_pair_changed_count": 157,
+            "original_minus99_changed_count": 0
+          },
+          "Air temperature  (°C) ": {
+            "original_column": "Air temperature  (°C) ",
+            "processed_column": "Air temperature  (°C) ",
+            "changed_count": 313,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "26.46"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "26.46"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "26.46"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "26.46"
+              },
+              {
+                "processed_row": 8773,
+                "original_row": 8773,
+                "original": "0.0",
+                "processed": "26.46"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -2.642,
+              133.44
+            ],
+            "finite_pair_changed_count": 313,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "original_column": "Wind speed at height of 50 meters (m/s)",
+            "processed_column": "Wind speed at height of 50 meters (m/s)",
+            "changed_count": 211,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "7.77433"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "7.77433"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "4.962"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "4.962"
+              },
+              {
+                "processed_row": 8773,
+                "original_row": 8773,
+                "original": "0.0",
+                "processed": "4.195"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -1.78967,
+              13.41
+            ],
+            "finite_pair_changed_count": 211,
+            "original_minus99_changed_count": 0
+          },
+          "Relative humidity (%)": {
+            "original_column": "Relative humidity (%)",
+            "processed_column": "Relative humidity (%)",
+            "changed_count": 323,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "20.7616"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "20.7616"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "20.8946"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "20.8946"
+              },
+              {
+                "processed_row": 7822,
+                "original_row": 7822,
+                "original": "352.869",
+                "processed": "19.7314"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -337.1836,
+              99.9488
+            ],
+            "finite_pair_changed_count": 323,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed at height of 10 meters (m/s)": {
+            "original_column": "Wind speed at height of 10 meters (m/s)",
+            "processed_column": "Wind speed at height of 10 meters (m/s)",
+            "changed_count": 169,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "6.22267"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "6.22267"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "2.13733"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "2.13733"
+              },
+              {
+                "processed_row": 24612,
+                "original_row": 24612,
+                "original": "0.0",
+                "processed": "5.96733"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -0.521333,
+              13.372
+            ],
+            "finite_pair_changed_count": 169,
+            "original_minus99_changed_count": 0
+          },
+          "Atmosphere (hpa)": {
+            "original_column": "Atmosphere (hpa)",
+            "processed_column": "Atmosphere (hpa)",
+            "changed_count": 324,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "979.012"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "979.012"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "979.529"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "979.529"
+              },
+              {
+                "processed_row": 7822,
+                "original_row": 7822,
+                "original": "4.962",
+                "processed": "979.667"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              1066.967
+            ],
+            "finite_pair_changed_count": 324,
+            "original_minus99_changed_count": 0
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "original_column": "Wind direction at height of 10 meters (˚)",
+            "processed_column": "Wind direction at height of 10 meters (˚)",
+            "changed_count": 315,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "29.2087"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "29.2087"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "23.7432"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "23.7432"
+              },
+              {
+                "processed_row": 8773,
+                "original_row": 8773,
+                "original": "0.0",
+                "processed": "126.847"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -8.287000000000006,
+              359.4
+            ],
+            "finite_pair_changed_count": 315,
+            "original_minus99_changed_count": 0
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "original_column": "Wind direction at height of 30 meters (˚)",
+            "processed_column": "Wind direction at height of 30 meters (˚)",
+            "changed_count": 315,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "84.5711"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "84.5711"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "98.6671"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "98.6671"
+              },
+              {
+                "processed_row": 8773,
+                "original_row": 8773,
+                "original": "0.0",
+                "processed": "196.708"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -24.958,
+              357.8
+            ],
+            "finite_pair_changed_count": 315,
+            "original_minus99_changed_count": 0
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "original_column": "Wind direction at height of 50 meters (˚)",
+            "processed_column": "Wind direction at height of 50 meters (˚)",
+            "changed_count": 315,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "24.5763"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "24.5763"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "38.54"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "38.54"
+              },
+              {
+                "processed_row": 8773,
+                "original_row": 8773,
+                "original": "0.0",
+                "processed": "153.26"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -33.51901,
+              354.114
+            ],
+            "finite_pair_changed_count": 315,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "original_column": "Wind speed - at the height of wheel hub  (m/s)",
+            "processed_column": "Wind speed - at the height of wheel hub (m/s)",
+            "changed_count": 200,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 7816,
+                "original_row": 7816,
+                "original": "0.0",
+                "processed": "4.70633"
+              },
+              {
+                "processed_row": 7817,
+                "original_row": 7817,
+                "original": "0.0",
+                "processed": "4.70633"
+              },
+              {
+                "processed_row": 7818,
+                "original_row": 7818,
+                "original": "0.0",
+                "processed": "1.26267"
+              },
+              {
+                "processed_row": 7819,
+                "original_row": 7819,
+                "original": "0.0",
+                "processed": "1.26267"
+              },
+              {
+                "processed_row": 8773,
+                "original_row": 8773,
+                "original": "0.0",
+                "processed": "3.56367"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              13.29
+            ],
+            "finite_pair_changed_count": 200,
+            "original_minus99_changed_count": 0
+          }
+        },
+        "changed_cell_count": 3261,
+        "power_unchanged_on_matched_rows": false
+      },
+      "historical_meta_match": {
+        "file": "experiment1/outputs/farm2_meta.json",
+        "n_samples": 70176,
+        "matches_processed_rows": true
+      }
+    },
+    {
+      "site": 4,
+      "nominal_capacity_mw": 66,
+      "original": {
+        "path": "data/wind_farm_data/data_original/wind_farms/Wind farm site 4 (Nominal capacity-66MW).xlsx",
+        "sha256": "35e02d85c1fba1d375c0006760b68c9d2c369885446d8132411cda83fd7aa1f4",
+        "shape": [
+          70176,
+          13
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub  (m/s)",
+          "Wind speed - at the height of wheel hub (˚)",
+          "Air temperature  (°C) ",
+          "Atmosphere (hpa)",
+          "Relative humidity (%)",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "datetime64[ns]",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub  (m/s)": "float64",
+          "Wind speed - at the height of wheel hub (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Atmosphere (hpa)": "float64",
+          "Relative humidity (%)": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 580,
+          "Wind direction at height of 10 meters (˚)": 580,
+          "Wind speed at height of 30 meters (m/s)": 580,
+          "Wind direction at height of 30 meters (˚)": 580,
+          "Wind speed at height of 50 meters (m/s)": 580,
+          "Wind direction at height of 50 meters (˚)": 580,
+          "Wind speed - at the height of wheel hub  (m/s)": 580,
+          "Wind speed - at the height of wheel hub (˚)": 580,
+          "Air temperature  (°C) ": 580,
+          "Atmosphere (hpa)": 584,
+          "Relative humidity (%)": 584,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 580,
+          "Wind direction at height of 10 meters (˚)": 580,
+          "Wind speed at height of 30 meters (m/s)": 580,
+          "Wind direction at height of 30 meters (˚)": 580,
+          "Wind speed at height of 50 meters (m/s)": 580,
+          "Wind direction at height of 50 meters (˚)": 580,
+          "Wind speed - at the height of wheel hub  (m/s)": 580,
+          "Wind speed - at the height of wheel hub (˚)": 580,
+          "Air temperature  (°C) ": 580,
+          "Atmosphere (hpa)": 584,
+          "Relative humidity (%)": 584,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": 0.0,
+            "max": 17.744
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": 0.0,
+            "max": 356.6
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": 0.0,
+            "max": 20.406667
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": 0.0,
+            "max": 357.0
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": 0.0,
+            "max": 30.819333
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": 0.0,
+            "max": 356.9
+          },
+          "Wind speed - at the height of wheel hub  (m/s)": {
+            "min": 0.0,
+            "max": 31.086
+          },
+          "Wind speed - at the height of wheel hub (˚)": {
+            "min": 0.0,
+            "max": 356.8
+          },
+          "Air temperature  (°C) ": {
+            "min": -3.82,
+            "max": 35.253333
+          },
+          "Atmosphere (hpa)": {
+            "min": 0.0,
+            "max": 902.0
+          },
+          "Relative humidity (%)": {
+            "min": 0.0,
+            "max": 100.0
+          },
+          "Power (MW)": {
+            "min": 0.0,
+            "max": 64.614
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 0,
+          "invalid_raw_timestamp_examples": [],
+          "hour24_count": 0,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 00:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": true,
+          "duplicate_timestamp_count_after_normalization": 0,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 70175
+          },
+          "irregular_interval_count": 0,
+          "irregular_examples": []
+        },
+        "power": {
+          "min": 0.0,
+          "max": 64.614,
+          "negative_count": 0,
+          "above_nominal_capacity_count": 0,
+          "zero_count": 13859
+        },
+        "minus99_count_by_column": {},
+        "nonnumeric_token_counts": {}
+      },
+      "processed": {
+        "path": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 4 (Nominal capacity-66MW).xlsx",
+        "sha256": "751a2dc5cef489519c03d0c080e8e7e71ed4d2a2e721cae81cca8055473fde7e",
+        "shape": [
+          70176,
+          13
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub (m/s)",
+          "Wind speed - at the height of wheel hub  (˚)",
+          "Air temperature  (°C) ",
+          "Atmosphere (hpa)",
+          "Relative humidity (%)",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "datetime64[ns]",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub (m/s)": "float64",
+          "Wind speed - at the height of wheel hub  (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Atmosphere (hpa)": "float64",
+          "Relative humidity (%)": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub  (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub  (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": 0.0,
+            "max": 17.744
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": 0.0,
+            "max": 356.6
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": 0.0,
+            "max": 20.406667
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": 0.0,
+            "max": 357.0
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": 0.0,
+            "max": 30.819333
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": 0.0,
+            "max": 356.9
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "min": 0.0,
+            "max": 31.086
+          },
+          "Wind speed - at the height of wheel hub  (˚)": {
+            "min": 0.0,
+            "max": 356.8
+          },
+          "Air temperature  (°C) ": {
+            "min": -3.82,
+            "max": 35.253333
+          },
+          "Atmosphere (hpa)": {
+            "min": 472.533333,
+            "max": 902.0
+          },
+          "Relative humidity (%)": {
+            "min": 8.219333,
+            "max": 100.0
+          },
+          "Power (MW)": {
+            "min": 0.0,
+            "max": 64.614
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 0,
+          "invalid_raw_timestamp_examples": [],
+          "hour24_count": 0,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 00:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": true,
+          "duplicate_timestamp_count_after_normalization": 0,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 70175
+          },
+          "irregular_interval_count": 0,
+          "irregular_examples": []
+        },
+        "power": {
+          "min": 0.0,
+          "max": 64.614,
+          "negative_count": 0,
+          "above_nominal_capacity_count": 0,
+          "zero_count": 13817
+        },
+        "minus99_count_by_column": {},
+        "nonnumeric_token_counts": {}
+      },
+      "original_vs_processed": {
+        "same_shape": true,
+        "same_columns": false,
+        "column_name_normalization": "Remove whitespace for matching only; input column names unchanged.",
+        "missing_in_processed_columns": [],
+        "added_in_processed_columns": [],
+        "row_alignment": "Original row index; same row count.",
+        "changed_columns": {
+          "Wind speed - at the height of wheel hub  (˚)": {
+            "original_column": "Wind speed - at the height of wheel hub (˚)",
+            "processed_column": "Wind speed - at the height of wheel hub  (˚)",
+            "changed_count": 581,
+            "original_missing_to_processed_present": 580,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "23.05"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "23.05"
+              },
+              {
+                "processed_row": 5324,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "76.233333"
+              },
+              {
+                "processed_row": 5325,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "76.233333"
+              },
+              {
+                "processed_row": 5336,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "213.0"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              8.193333
+            ],
+            "finite_pair_changed_count": 1,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "original_column": "Wind speed at height of 30 meters (m/s)",
+            "processed_column": "Wind speed at height of 30 meters (m/s)",
+            "changed_count": 581,
+            "original_missing_to_processed_present": 580,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "8.33"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "8.33"
+              },
+              {
+                "processed_row": 5324,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "1.146667"
+              },
+              {
+                "processed_row": 5325,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "1.146667"
+              },
+              {
+                "processed_row": 5336,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "2.52"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              4.65
+            ],
+            "finite_pair_changed_count": 1,
+            "original_minus99_changed_count": 0
+          },
+          "Power (MW)": {
+            "original_column": "Power (MW)",
+            "processed_column": "Power (MW)",
+            "changed_count": 271,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "43.992",
+                "processed": "44.156"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "41.364667",
+                "processed": "44.156"
+              },
+              {
+                "processed_row": 5341,
+                "original_row": 5341,
+                "original": "0.0",
+                "processed": "0.846"
+              },
+              {
+                "processed_row": 10178,
+                "original_row": 10178,
+                "original": "6.018",
+                "processed": "6.202308"
+              },
+              {
+                "processed_row": 10179,
+                "original_row": 10179,
+                "original": "6.018",
+                "processed": "6.202308"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -9.422666999999997,
+              50.656
+            ],
+            "finite_pair_changed_count": 271,
+            "original_minus99_changed_count": 0
+          },
+          "Air temperature  (°C) ": {
+            "original_column": "Air temperature  (°C) ",
+            "processed_column": "Air temperature  (°C) ",
+            "changed_count": 581,
+            "original_missing_to_processed_present": 580,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "7.67"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "7.67"
+              },
+              {
+                "processed_row": 5324,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "6.613333"
+              },
+              {
+                "processed_row": 5325,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "6.613333"
+              },
+              {
+                "processed_row": 5336,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "7.45"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              17.022667
+            ],
+            "finite_pair_changed_count": 1,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "original_column": "Wind speed at height of 50 meters (m/s)",
+            "processed_column": "Wind speed at height of 50 meters (m/s)",
+            "changed_count": 581,
+            "original_missing_to_processed_present": 580,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "13.08"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "13.08"
+              },
+              {
+                "processed_row": 5324,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "1.423333"
+              },
+              {
+                "processed_row": 5325,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "1.423333"
+              },
+              {
+                "processed_row": 5336,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "2.8"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              6.993333
+            ],
+            "finite_pair_changed_count": 1,
+            "original_minus99_changed_count": 0
+          },
+          "Relative humidity (%)": {
+            "original_column": "Relative humidity (%)",
+            "processed_column": "Relative humidity (%)",
+            "changed_count": 586,
+            "original_missing_to_processed_present": 584,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "60.1"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "60.1"
+              },
+              {
+                "processed_row": 5324,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "73.716667"
+              },
+              {
+                "processed_row": 5325,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "73.716667"
+              },
+              {
+                "processed_row": 5336,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "74.101"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              93.333333
+            ],
+            "finite_pair_changed_count": 2,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed at height of 10 meters (m/s)": {
+            "original_column": "Wind speed at height of 10 meters (m/s)",
+            "processed_column": "Wind speed at height of 10 meters (m/s)",
+            "changed_count": 581,
+            "original_missing_to_processed_present": 580,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "7.24"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "7.24"
+              },
+              {
+                "processed_row": 5324,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "0.993333"
+              },
+              {
+                "processed_row": 5325,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "0.993333"
+              },
+              {
+                "processed_row": 5336,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "2.18"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              4.033333
+            ],
+            "finite_pair_changed_count": 1,
+            "original_minus99_changed_count": 0
+          },
+          "Atmosphere (hpa)": {
+            "original_column": "Atmosphere (hpa)",
+            "processed_column": "Atmosphere (hpa)",
+            "changed_count": 586,
+            "original_missing_to_processed_present": 584,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "890.0"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "890.0"
+              },
+              {
+                "processed_row": 5324,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "889.0"
+              },
+              {
+                "processed_row": 5325,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "889.0"
+              },
+              {
+                "processed_row": 5336,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "887.0"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              824.133333
+            ],
+            "finite_pair_changed_count": 2,
+            "original_minus99_changed_count": 0
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "original_column": "Wind direction at height of 10 meters (˚)",
+            "processed_column": "Wind direction at height of 10 meters (˚)",
+            "changed_count": 581,
+            "original_missing_to_processed_present": 580,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "2.7"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "2.7"
+              },
+              {
+                "processed_row": 5324,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "52.016667"
+              },
+              {
+                "processed_row": 5325,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "52.016667"
+              },
+              {
+                "processed_row": 5336,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "153.89"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              160.62
+            ],
+            "finite_pair_changed_count": 1,
+            "original_minus99_changed_count": 0
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "original_column": "Wind direction at height of 30 meters (˚)",
+            "processed_column": "Wind direction at height of 30 meters (˚)",
+            "changed_count": 581,
+            "original_missing_to_processed_present": 580,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "2.97"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "2.97"
+              },
+              {
+                "processed_row": 5324,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "57.16"
+              },
+              {
+                "processed_row": 5325,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "57.16"
+              },
+              {
+                "processed_row": 5336,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "169.1"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              176.5
+            ],
+            "finite_pair_changed_count": 1,
+            "original_minus99_changed_count": 0
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "original_column": "Wind direction at height of 50 meters (˚)",
+            "processed_column": "Wind direction at height of 50 meters (˚)",
+            "changed_count": 581,
+            "original_missing_to_processed_present": 580,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "3.7"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "3.7"
+              },
+              {
+                "processed_row": 5324,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "67.76"
+              },
+              {
+                "processed_row": 5325,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "67.76"
+              },
+              {
+                "processed_row": 5336,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "211.2"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              25.086667
+            ],
+            "finite_pair_changed_count": 1,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "original_column": "Wind speed - at the height of wheel hub  (m/s)",
+            "processed_column": "Wind speed - at the height of wheel hub (m/s)",
+            "changed_count": 581,
+            "original_missing_to_processed_present": 580,
+            "examples": [
+              {
+                "processed_row": 4288,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "12.92"
+              },
+              {
+                "processed_row": 4289,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "12.92"
+              },
+              {
+                "processed_row": 5324,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "1.096667"
+              },
+              {
+                "processed_row": 5325,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "1.096667"
+              },
+              {
+                "processed_row": 5336,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "2.9"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              7.186667
+            ],
+            "finite_pair_changed_count": 1,
+            "original_minus99_changed_count": 0
+          }
+        },
+        "changed_cell_count": 6672,
+        "power_unchanged_on_matched_rows": false
+      },
+      "historical_meta_match": {
+        "file": "experiment1/outputs/farm4_meta.json",
+        "n_samples": 70176,
+        "matches_processed_rows": true
+      }
+    },
+    {
+      "site": 5,
+      "nominal_capacity_mw": 36,
+      "original": {
+        "path": "data/wind_farm_data/data_original/wind_farms/Wind farm site 5 (Nominal capacity-36MW).xlsx",
+        "sha256": "029c48cabee3ea5004390120522dbb65438b7840b1d390fa2e72bb793792bd90",
+        "shape": [
+          70176,
+          13
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub (m/s)",
+          "Wind speed - at the height of wheel hub  (˚)",
+          "Air temperature  (°C) ",
+          "Atmosphere (hpa)",
+          "Relative humidity (%)",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "datetime64[ns]",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub (m/s)": "float64",
+          "Wind speed - at the height of wheel hub  (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Atmosphere (hpa)": "float64",
+          "Relative humidity (%)": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 580,
+          "Wind direction at height of 10 meters (˚)": 580,
+          "Wind speed at height of 30 meters (m/s)": 580,
+          "Wind direction at height of 30 meters (˚)": 580,
+          "Wind speed at height of 50 meters (m/s)": 580,
+          "Wind direction at height of 50 meters (˚)": 580,
+          "Wind speed - at the height of wheel hub (m/s)": 580,
+          "Wind speed - at the height of wheel hub  (˚)": 580,
+          "Air temperature  (°C) ": 580,
+          "Atmosphere (hpa)": 584,
+          "Relative humidity (%)": 584,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 580,
+          "Wind direction at height of 10 meters (˚)": 580,
+          "Wind speed at height of 30 meters (m/s)": 580,
+          "Wind direction at height of 30 meters (˚)": 580,
+          "Wind speed at height of 50 meters (m/s)": 580,
+          "Wind direction at height of 50 meters (˚)": 580,
+          "Wind speed - at the height of wheel hub (m/s)": 580,
+          "Wind speed - at the height of wheel hub  (˚)": 580,
+          "Air temperature  (°C) ": 580,
+          "Atmosphere (hpa)": 584,
+          "Relative humidity (%)": 584,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": -272.64,
+            "max": 52.18
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": -0.9,
+            "max": 357.0
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": -0.9,
+            "max": 40.646667
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": -0.9,
+            "max": 356.933333
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": -0.9,
+            "max": 24.046667
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": -0.9,
+            "max": 356.9
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "min": 0.0,
+            "max": 26.166667
+          },
+          "Wind speed - at the height of wheel hub  (˚)": {
+            "min": 0.0,
+            "max": 358.6
+          },
+          "Air temperature  (°C) ": {
+            "min": -9.92,
+            "max": 35.753333
+          },
+          "Atmosphere (hpa)": {
+            "min": 0.0,
+            "max": 2110.486667
+          },
+          "Relative humidity (%)": {
+            "min": 0.0,
+            "max": 101.0
+          },
+          "Power (MW)": {
+            "min": 0.0,
+            "max": 35.350667
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 0,
+          "invalid_raw_timestamp_examples": [],
+          "hour24_count": 0,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 00:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": true,
+          "duplicate_timestamp_count_after_normalization": 0,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 70175
+          },
+          "irregular_interval_count": 0,
+          "irregular_examples": []
+        },
+        "power": {
+          "min": 0.0,
+          "max": 35.350667,
+          "negative_count": 0,
+          "above_nominal_capacity_count": 0,
+          "zero_count": 21759
+        },
+        "minus99_count_by_column": {},
+        "nonnumeric_token_counts": {}
+      },
+      "processed": {
+        "path": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 5 (Nominal capacity-36MW).xlsx",
+        "sha256": "34edf45ea08dd913e4afca208da21b7cb7594be494a449ed60ccbfbe04c690ee",
+        "shape": [
+          69999,
+          11
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub (m/s)",
+          "Wind speed - at the height of wheel hub  (˚)",
+          "Air temperature  (°C) ",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "datetime64[ns]",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub (m/s)": "float64",
+          "Wind speed - at the height of wheel hub  (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 580,
+          "Wind direction at height of 10 meters (˚)": 580,
+          "Wind speed at height of 30 meters (m/s)": 580,
+          "Wind direction at height of 30 meters (˚)": 580,
+          "Wind speed at height of 50 meters (m/s)": 580,
+          "Wind direction at height of 50 meters (˚)": 580,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub  (˚)": 0,
+          "Air temperature  (°C) ": 580,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 580,
+          "Wind direction at height of 10 meters (˚)": 580,
+          "Wind speed at height of 30 meters (m/s)": 580,
+          "Wind direction at height of 30 meters (˚)": 580,
+          "Wind speed at height of 50 meters (m/s)": 580,
+          "Wind direction at height of 50 meters (˚)": 580,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub  (˚)": 0,
+          "Air temperature  (°C) ": 580,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": -0.9,
+            "max": 31.873333
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": -0.9,
+            "max": 357.0
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": -0.9,
+            "max": 40.646667
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": -0.9,
+            "max": 356.933333
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": -0.9,
+            "max": 24.046667
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": -0.9,
+            "max": 356.9
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "min": 0.0,
+            "max": 26.166667
+          },
+          "Wind speed - at the height of wheel hub  (˚)": {
+            "min": 0.0,
+            "max": 358.6
+          },
+          "Air temperature  (°C) ": {
+            "min": -9.92,
+            "max": 35.753333
+          },
+          "Power (MW)": {
+            "min": 0.0,
+            "max": 35.350667
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 0,
+          "invalid_raw_timestamp_examples": [],
+          "hour24_count": 0,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 11:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": true,
+          "duplicate_timestamp_count_after_normalization": 0,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 69996,
+            "66600.0": 1,
+            "54900.0": 1
+          },
+          "irregular_interval_count": 2,
+          "irregular_examples": [
+            {
+              "row": 123,
+              "previous": "2019-01-02 17:30:00",
+              "current": "2019-01-03 12:00:00",
+              "delta_seconds": 66600.0
+            },
+            {
+              "row": 150,
+              "previous": "2019-01-03 18:30:00",
+              "current": "2019-01-04 09:45:00",
+              "delta_seconds": 54900.0
+            }
+          ]
+        },
+        "power": {
+          "min": 0.0,
+          "max": 35.350667,
+          "negative_count": 0,
+          "above_nominal_capacity_count": 0,
+          "zero_count": 21744
+        },
+        "minus99_count_by_column": {},
+        "nonnumeric_token_counts": {}
+      },
+      "original_vs_processed": {
+        "same_shape": false,
+        "same_columns": false,
+        "column_name_normalization": "Remove whitespace for matching only; input column names unchanged.",
+        "missing_in_processed_columns": [
+          "Relative humidity (%)",
+          "Atmosphere (hpa)"
+        ],
+        "added_in_processed_columns": [],
+        "row_alignment": "Exact time string lookup; original timestamps are unique.",
+        "original_rows_omitted_from_processed": 177,
+        "omitted_row_examples": [
+          {
+            "original_row": 0,
+            "time": "2019-01-01 00:00:00"
+          },
+          {
+            "original_row": 1,
+            "time": "2019-01-01 00:15:00"
+          },
+          {
+            "original_row": 2,
+            "time": "2019-01-01 00:30:00"
+          },
+          {
+            "original_row": 3,
+            "time": "2019-01-01 00:45:00"
+          },
+          {
+            "original_row": 4,
+            "time": "2019-01-01 01:00:00"
+          },
+          {
+            "original_row": 5,
+            "time": "2019-01-01 01:15:00"
+          },
+          {
+            "original_row": 6,
+            "time": "2019-01-01 01:30:00"
+          },
+          {
+            "original_row": 7,
+            "time": "2019-01-01 01:45:00"
+          },
+          {
+            "original_row": 8,
+            "time": "2019-01-01 02:00:00"
+          },
+          {
+            "original_row": 9,
+            "time": "2019-01-01 02:15:00"
+          },
+          {
+            "original_row": 10,
+            "time": "2019-01-01 02:30:00"
+          },
+          {
+            "original_row": 11,
+            "time": "2019-01-01 02:45:00"
+          }
+        ],
+        "changed_columns": {
+          "Wind speed - at the height of wheel hub  (˚)": {
+            "original_column": "Wind speed - at the height of wheel hub  (˚)",
+            "processed_column": "Wind speed - at the height of wheel hub  (˚)",
+            "changed_count": 581,
+            "original_missing_to_processed_present": 580,
+            "examples": [
+              {
+                "processed_row": 4111,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "287.833333"
+              },
+              {
+                "processed_row": 4112,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "287.833333"
+              },
+              {
+                "processed_row": 5147,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "317.4"
+              },
+              {
+                "processed_row": 5148,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "317.4"
+              },
+              {
+                "processed_row": 5159,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "210.9"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -4.199999999999989,
+              0.0
+            ],
+            "finite_pair_changed_count": 1,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed at height of 10 meters (m/s)": {
+            "original_column": "Wind speed at height of 10 meters (m/s)",
+            "processed_column": "Wind speed at height of 10 meters (m/s)",
+            "changed_count": 2,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 30305,
+                "original_row": 30482,
+                "original": "52.18",
+                "processed": "18.44"
+              },
+              {
+                "processed_row": 53291,
+                "original_row": 53468,
+                "original": "-272.64",
+                "processed": "0.0"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -33.739999999999995,
+              272.64
+            ],
+            "finite_pair_changed_count": 2,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "original_column": "Wind speed - at the height of wheel hub (m/s)",
+            "processed_column": "Wind speed - at the height of wheel hub (m/s)",
+            "changed_count": 581,
+            "original_missing_to_processed_present": 580,
+            "examples": [
+              {
+                "processed_row": 4111,
+                "original_row": 4288,
+                "original": "nan",
+                "processed": "7.05"
+              },
+              {
+                "processed_row": 4112,
+                "original_row": 4289,
+                "original": "nan",
+                "processed": "7.05"
+              },
+              {
+                "processed_row": 5147,
+                "original_row": 5324,
+                "original": "nan",
+                "processed": "0.486667"
+              },
+              {
+                "processed_row": 5148,
+                "original_row": 5325,
+                "original": "nan",
+                "processed": "0.486667"
+              },
+              {
+                "processed_row": 5159,
+                "original_row": 5336,
+                "original": "nan",
+                "processed": "1.7"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              0.0,
+              0.55
+            ],
+            "finite_pair_changed_count": 1,
+            "original_minus99_changed_count": 0
+          }
+        },
+        "changed_cell_count": 1164,
+        "power_unchanged_on_matched_rows": true
+      },
+      "historical_meta_match": {
+        "file": "experiment1/outputs/farm5_meta.json",
+        "n_samples": 69999,
+        "matches_processed_rows": true
+      }
+    },
+    {
+      "site": 6,
+      "nominal_capacity_mw": 96,
+      "original": {
+        "path": "data/wind_farm_data/data_original/wind_farms/Wind farm site 6 (Nominal capacity-96MW).xlsx",
+        "sha256": "c302125284bb50ad39c970ae31669b4153846be4cfe960af36b1a0fb2ed90f9c",
+        "shape": [
+          70176,
+          13
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub  (m/s)",
+          "Wind speed - at the height of wheel hub  (˚)",
+          "Air temperature  (°C) ",
+          "Atmosphere (hpa)",
+          "Relative humidity (%)",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "object",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub  (m/s)": "float64",
+          "Wind speed - at the height of wheel hub  (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Atmosphere (hpa)": "float64",
+          "Relative humidity (%)": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub  (m/s)": 0,
+          "Wind speed - at the height of wheel hub  (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub  (m/s)": 0,
+          "Wind speed - at the height of wheel hub  (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": -99.0,
+            "max": 15.28
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": -99.0,
+            "max": 359.95
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": -99.0,
+            "max": 19.71
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": -99.0,
+            "max": 359.99
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": -99.0,
+            "max": 21.81
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": -99.0,
+            "max": 360.0
+          },
+          "Wind speed - at the height of wheel hub  (m/s)": {
+            "min": -99.0,
+            "max": 23.82
+          },
+          "Wind speed - at the height of wheel hub  (˚)": {
+            "min": -99.0,
+            "max": 360.0
+          },
+          "Air temperature  (°C) ": {
+            "min": 0.0,
+            "max": 37.13
+          },
+          "Atmosphere (hpa)": {
+            "min": 0.0,
+            "max": 1090.24
+          },
+          "Relative humidity (%)": {
+            "min": 0.0,
+            "max": 99.38
+          },
+          "Power (MW)": {
+            "min": -99.0,
+            "max": 114.36
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 23,
+          "invalid_raw_timestamp_examples": [
+            "2020-10-14 24:00:00",
+            "2020-10-15 24:00:00",
+            "2020-10-16 24:00:00",
+            "2020-10-17 24:00:00",
+            "2020-10-18 24:00:00"
+          ],
+          "hour24_count": 23,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 00:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": false,
+          "duplicate_timestamp_count_after_normalization": 3,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 70122,
+            "840.0": 24,
+            "960.0": 24,
+            "1800.0": 3,
+            "0.0": 1,
+            "-900.0": 1
+          },
+          "irregular_interval_count": 53,
+          "irregular_examples": [
+            {
+              "row": 651,
+              "previous": "2019-01-07 18:30:00",
+              "current": "2019-01-07 19:00:00",
+              "delta_seconds": 1800.0
+            },
+            {
+              "row": 5540,
+              "previous": "2019-02-27 17:00:00",
+              "current": "2019-02-27 17:30:00",
+              "delta_seconds": 1800.0
+            },
+            {
+              "row": 13314,
+              "previous": "2019-05-19 16:45:00",
+              "current": "2019-05-19 17:15:00",
+              "delta_seconds": 1800.0
+            },
+            {
+              "row": 62685,
+              "previous": "2020-10-14 23:45:00",
+              "current": "2020-10-14 23:30:00",
+              "delta_seconds": -900.0
+            },
+            {
+              "row": 70081,
+              "previous": "2020-12-31 00:15:00",
+              "current": "2020-12-31 00:15:00",
+              "delta_seconds": 0.0
+            },
+            {
+              "row": 70082,
+              "previous": "2020-12-31 00:15:00",
+              "current": "2020-12-31 00:31:00",
+              "delta_seconds": 960.0
+            },
+            {
+              "row": 70083,
+              "previous": "2020-12-31 00:31:00",
+              "current": "2020-12-31 00:45:00",
+              "delta_seconds": 840.0
+            },
+            {
+              "row": 70086,
+              "previous": "2020-12-31 01:15:00",
+              "current": "2020-12-31 01:31:00",
+              "delta_seconds": 960.0
+            },
+            {
+              "row": 70087,
+              "previous": "2020-12-31 01:31:00",
+              "current": "2020-12-31 01:45:00",
+              "delta_seconds": 840.0
+            },
+            {
+              "row": 70090,
+              "previous": "2020-12-31 02:15:00",
+              "current": "2020-12-31 02:31:00",
+              "delta_seconds": 960.0
+            },
+            {
+              "row": 70091,
+              "previous": "2020-12-31 02:31:00",
+              "current": "2020-12-31 02:45:00",
+              "delta_seconds": 840.0
+            },
+            {
+              "row": 70094,
+              "previous": "2020-12-31 03:15:00",
+              "current": "2020-12-31 03:31:00",
+              "delta_seconds": 960.0
+            },
+            {
+              "row": 70095,
+              "previous": "2020-12-31 03:31:00",
+              "current": "2020-12-31 03:45:00",
+              "delta_seconds": 840.0
+            },
+            {
+              "row": 70098,
+              "previous": "2020-12-31 04:15:00",
+              "current": "2020-12-31 04:31:00",
+              "delta_seconds": 960.0
+            },
+            {
+              "row": 70099,
+              "previous": "2020-12-31 04:31:00",
+              "current": "2020-12-31 04:45:00",
+              "delta_seconds": 840.0
+            }
+          ]
+        },
+        "power": {
+          "min": -99.0,
+          "max": 114.36,
+          "negative_count": 7591,
+          "above_nominal_capacity_count": 3,
+          "zero_count": 2765
+        },
+        "minus99_count_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 131,
+          "Wind direction at height of 10 meters (˚)": 131,
+          "Wind speed at height of 30 meters (m/s)": 131,
+          "Wind direction at height of 30 meters (˚)": 131,
+          "Wind speed at height of 50 meters (m/s)": 131,
+          "Wind direction at height of 50 meters (˚)": 131,
+          "Wind speed - at the height of wheel hub  (m/s)": 131,
+          "Wind speed - at the height of wheel hub  (˚)": 131,
+          "Power (MW)": 25
+        },
+        "nonnumeric_token_counts": {}
+      },
+      "processed": {
+        "path": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 6 (Nominal capacity-96MW).xlsx",
+        "sha256": "8b898a49a215aa1cfdb27a5924685944fe97a2d828f86b398df6f8ed060e7767",
+        "shape": [
+          70176,
+          13
+        ],
+        "columns": [
+          "Time(year-month-day h:m:s)",
+          "Wind speed at height of 10 meters (m/s)",
+          "Wind direction at height of 10 meters (˚)",
+          "Wind speed at height of 30 meters (m/s)",
+          "Wind direction at height of 30 meters (˚)",
+          "Wind speed at height of 50 meters (m/s)",
+          "Wind direction at height of 50 meters (˚)",
+          "Wind speed - at the height of wheel hub (m/s)",
+          "Wind speed - at the height of wheel hub (˚)",
+          "Air temperature  (°C) ",
+          "Atmosphere (hpa)",
+          "Relative humidity (%)",
+          "Power (MW)"
+        ],
+        "dtypes": {
+          "Time(year-month-day h:m:s)": "object",
+          "Wind speed at height of 10 meters (m/s)": "float64",
+          "Wind direction at height of 10 meters (˚)": "float64",
+          "Wind speed at height of 30 meters (m/s)": "float64",
+          "Wind direction at height of 30 meters (˚)": "float64",
+          "Wind speed at height of 50 meters (m/s)": "float64",
+          "Wind direction at height of 50 meters (˚)": "float64",
+          "Wind speed - at the height of wheel hub (m/s)": "float64",
+          "Wind speed - at the height of wheel hub (˚)": "float64",
+          "Air temperature  (°C) ": "float64",
+          "Atmosphere (hpa)": "float64",
+          "Relative humidity (%)": "float64",
+          "Power (MW)": "float64"
+        },
+        "missing_by_column": {
+          "Time(year-month-day h:m:s)": 0,
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "nonfinite_numeric_by_column": {
+          "Wind speed at height of 10 meters (m/s)": 0,
+          "Wind direction at height of 10 meters (˚)": 0,
+          "Wind speed at height of 30 meters (m/s)": 0,
+          "Wind direction at height of 30 meters (˚)": 0,
+          "Wind speed at height of 50 meters (m/s)": 0,
+          "Wind direction at height of 50 meters (˚)": 0,
+          "Wind speed - at the height of wheel hub (m/s)": 0,
+          "Wind speed - at the height of wheel hub (˚)": 0,
+          "Air temperature  (°C) ": 0,
+          "Atmosphere (hpa)": 0,
+          "Relative humidity (%)": 0,
+          "Power (MW)": 0
+        },
+        "numeric_minmax": {
+          "Wind speed at height of 10 meters (m/s)": {
+            "min": 0.0,
+            "max": 15.28
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "min": 0.0,
+            "max": 359.95
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "min": 0.0,
+            "max": 19.71
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "min": 0.0,
+            "max": 359.99
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "min": 0.0,
+            "max": 21.81
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "min": 0.0,
+            "max": 360.0
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "min": 0.0,
+            "max": 23.82
+          },
+          "Wind speed - at the height of wheel hub (˚)": {
+            "min": 0.0,
+            "max": 360.0
+          },
+          "Air temperature  (°C) ": {
+            "min": 0.0,
+            "max": 37.13
+          },
+          "Atmosphere (hpa)": {
+            "min": 0.0,
+            "max": 1090.24
+          },
+          "Relative humidity (%)": {
+            "min": 0.0,
+            "max": 99.38
+          },
+          "Power (MW)": {
+            "min": -1.316,
+            "max": 114.36
+          }
+        },
+        "time": {
+          "invalid_raw_timestamp_count": 23,
+          "invalid_raw_timestamp_examples": [
+            "2020-10-14 24:00:00",
+            "2020-10-15 24:00:00",
+            "2020-10-16 24:00:00",
+            "2020-10-17 24:00:00",
+            "2020-10-18 24:00:00"
+          ],
+          "hour24_count": 23,
+          "normalization_audit_only": "24:00:00 interpreted as next-day 00:00:00; input data unchanged",
+          "invalid_after_hour24_normalization": 0,
+          "start": "2019-01-01 00:00:00",
+          "end": "2020-12-31 23:45:00",
+          "monotonic_after_normalization": false,
+          "duplicate_timestamp_count_after_normalization": 3,
+          "interval_seconds_counts_after_normalization": {
+            "900.0": 70122,
+            "840.0": 24,
+            "960.0": 24,
+            "1800.0": 3,
+            "0.0": 1,
+            "-900.0": 1
+          },
+          "irregular_interval_count": 53,
+          "irregular_examples": [
+            {
+              "row": 651,
+              "previous": "2019-01-07 18:30:00",
+              "current": "2019-01-07 19:00:00",
+              "delta_seconds": 1800.0
+            },
+            {
+              "row": 5540,
+              "previous": "2019-02-27 17:00:00",
+              "current": "2019-02-27 17:30:00",
+              "delta_seconds": 1800.0
+            },
+            {
+              "row": 13314,
+              "previous": "2019-05-19 16:45:00",
+              "current": "2019-05-19 17:15:00",
+              "delta_seconds": 1800.0
+            },
+            {
+              "row": 62685,
+              "previous": "2020-10-14 23:45:00",
+              "current": "2020-10-14 23:30:00",
+              "delta_seconds": -900.0
+            },
+            {
+              "row": 70081,
+              "previous": "2020-12-31 00:15:00",
+              "current": "2020-12-31 00:15:00",
+              "delta_seconds": 0.0
+            },
+            {
+              "row": 70082,
+              "previous": "2020-12-31 00:15:00",
+              "current": "2020-12-31 00:31:00",
+              "delta_seconds": 960.0
+            },
+            {
+              "row": 70083,
+              "previous": "2020-12-31 00:31:00",
+              "current": "2020-12-31 00:45:00",
+              "delta_seconds": 840.0
+            },
+            {
+              "row": 70086,
+              "previous": "2020-12-31 01:15:00",
+              "current": "2020-12-31 01:31:00",
+              "delta_seconds": 960.0
+            },
+            {
+              "row": 70087,
+              "previous": "2020-12-31 01:31:00",
+              "current": "2020-12-31 01:45:00",
+              "delta_seconds": 840.0
+            },
+            {
+              "row": 70090,
+              "previous": "2020-12-31 02:15:00",
+              "current": "2020-12-31 02:31:00",
+              "delta_seconds": 960.0
+            },
+            {
+              "row": 70091,
+              "previous": "2020-12-31 02:31:00",
+              "current": "2020-12-31 02:45:00",
+              "delta_seconds": 840.0
+            },
+            {
+              "row": 70094,
+              "previous": "2020-12-31 03:15:00",
+              "current": "2020-12-31 03:31:00",
+              "delta_seconds": 960.0
+            },
+            {
+              "row": 70095,
+              "previous": "2020-12-31 03:31:00",
+              "current": "2020-12-31 03:45:00",
+              "delta_seconds": 840.0
+            },
+            {
+              "row": 70098,
+              "previous": "2020-12-31 04:15:00",
+              "current": "2020-12-31 04:31:00",
+              "delta_seconds": 960.0
+            },
+            {
+              "row": 70099,
+              "previous": "2020-12-31 04:31:00",
+              "current": "2020-12-31 04:45:00",
+              "delta_seconds": 840.0
+            }
+          ]
+        },
+        "power": {
+          "min": -1.316,
+          "max": 114.36,
+          "negative_count": 7566,
+          "above_nominal_capacity_count": 3,
+          "zero_count": 2777
+        },
+        "minus99_count_by_column": {},
+        "nonnumeric_token_counts": {}
+      },
+      "original_vs_processed": {
+        "same_shape": true,
+        "same_columns": false,
+        "column_name_normalization": "Remove whitespace for matching only; input column names unchanged.",
+        "missing_in_processed_columns": [],
+        "added_in_processed_columns": [],
+        "row_alignment": "Original row index; same row count.",
+        "changed_columns": {
+          "Wind speed - at the height of wheel hub (˚)": {
+            "original_column": "Wind speed - at the height of wheel hub  (˚)",
+            "processed_column": "Wind speed - at the height of wheel hub (˚)",
+            "changed_count": 157,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "-99.0",
+                "processed": "26.96"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "-99.0",
+                "processed": "28.31"
+              },
+              {
+                "processed_row": 11948,
+                "original_row": 11948,
+                "original": "-99.0",
+                "processed": "33.28"
+              },
+              {
+                "processed_row": 12226,
+                "original_row": 12226,
+                "original": "-99.0",
+                "processed": "21.84"
+              },
+              {
+                "processed_row": 12240,
+                "original_row": 12240,
+                "original": "-99.0",
+                "processed": "27.72"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -11.920000000000002,
+              459.0
+            ],
+            "finite_pair_changed_count": 157,
+            "original_minus99_changed_count": 131
+          },
+          "Wind speed at height of 30 meters (m/s)": {
+            "original_column": "Wind speed at height of 30 meters (m/s)",
+            "processed_column": "Wind speed at height of 30 meters (m/s)",
+            "changed_count": 157,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "-99.0",
+                "processed": "8.9"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "-99.0",
+                "processed": "8.21"
+              },
+              {
+                "processed_row": 11948,
+                "original_row": 11948,
+                "original": "-99.0",
+                "processed": "7.92"
+              },
+              {
+                "processed_row": 12226,
+                "original_row": 12226,
+                "original": "-99.0",
+                "processed": "5.99"
+              },
+              {
+                "processed_row": 12240,
+                "original_row": 12240,
+                "original": "-99.0",
+                "processed": "7.68"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -1.1499999999999995,
+              108.42
+            ],
+            "finite_pair_changed_count": 157,
+            "original_minus99_changed_count": 131
+          },
+          "Power (MW)": {
+            "original_column": "Power (MW)",
+            "processed_column": "Power (MW)",
+            "changed_count": 167,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 650,
+                "original_row": 650,
+                "original": "-99.0",
+                "processed": "18.621"
+              },
+              {
+                "processed_row": 5540,
+                "original_row": 5540,
+                "original": "-99.0",
+                "processed": "0.56"
+              },
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "56.807",
+                "processed": "59.138"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "32.14",
+                "processed": "34.788"
+              },
+              {
+                "processed_row": 11948,
+                "original_row": 11948,
+                "original": "30.1",
+                "processed": "34.51"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -10.184000000000001,
+              144.977
+            ],
+            "finite_pair_changed_count": 167,
+            "original_minus99_changed_count": 25
+          },
+          "Air temperature  (°C) ": {
+            "original_column": "Air temperature  (°C) ",
+            "processed_column": "Air temperature  (°C) ",
+            "changed_count": 157,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "19.6",
+                "processed": "19.32"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "21.48",
+                "processed": "21.6"
+              },
+              {
+                "processed_row": 11948,
+                "original_row": 11948,
+                "original": "21.59",
+                "processed": "21.54"
+              },
+              {
+                "processed_row": 12226,
+                "original_row": 12226,
+                "original": "16.51",
+                "processed": "16.03"
+              },
+              {
+                "processed_row": 12240,
+                "original_row": 12240,
+                "original": "18.12",
+                "processed": "18.1"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -1.0700000000000003,
+              28.8
+            ],
+            "finite_pair_changed_count": 157,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed at height of 50 meters (m/s)": {
+            "original_column": "Wind speed at height of 50 meters (m/s)",
+            "processed_column": "Wind speed at height of 50 meters (m/s)",
+            "changed_count": 157,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "-99.0",
+                "processed": "9.35"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "-99.0",
+                "processed": "9.33"
+              },
+              {
+                "processed_row": 11948,
+                "original_row": 11948,
+                "original": "-99.0",
+                "processed": "8.42"
+              },
+              {
+                "processed_row": 12226,
+                "original_row": 12226,
+                "original": "-99.0",
+                "processed": "6.56"
+              },
+              {
+                "processed_row": 12240,
+                "original_row": 12240,
+                "original": "-99.0",
+                "processed": "8.24"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -1.21,
+              110.53999999999999
+            ],
+            "finite_pair_changed_count": 157,
+            "original_minus99_changed_count": 131
+          },
+          "Relative humidity (%)": {
+            "original_column": "Relative humidity (%)",
+            "processed_column": "Relative humidity (%)",
+            "changed_count": 156,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "57.9",
+                "processed": "46.55"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "54.3",
+                "processed": "52.89"
+              },
+              {
+                "processed_row": 11948,
+                "original_row": 11948,
+                "original": "61.9",
+                "processed": "61.7"
+              },
+              {
+                "processed_row": 12226,
+                "original_row": 12226,
+                "original": "69.73",
+                "processed": "71.34"
+              },
+              {
+                "processed_row": 12240,
+                "original_row": 12240,
+                "original": "66.89",
+                "processed": "66.12"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -11.350000000000001,
+              86.58
+            ],
+            "finite_pair_changed_count": 156,
+            "original_minus99_changed_count": 0
+          },
+          "Wind speed at height of 10 meters (m/s)": {
+            "original_column": "Wind speed at height of 10 meters (m/s)",
+            "processed_column": "Wind speed at height of 10 meters (m/s)",
+            "changed_count": 157,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "-99.0",
+                "processed": "7.45"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "-99.0",
+                "processed": "6.29"
+              },
+              {
+                "processed_row": 11948,
+                "original_row": 11948,
+                "original": "-99.0",
+                "processed": "6.01"
+              },
+              {
+                "processed_row": 12226,
+                "original_row": 12226,
+                "original": "-99.0",
+                "processed": "4.93"
+              },
+              {
+                "processed_row": 12240,
+                "original_row": 12240,
+                "original": "-99.0",
+                "processed": "6.01"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -1.4799999999999998,
+              106.45
+            ],
+            "finite_pair_changed_count": 157,
+            "original_minus99_changed_count": 131
+          },
+          "Atmosphere (hpa)": {
+            "original_column": "Atmosphere (hpa)",
+            "processed_column": "Atmosphere (hpa)",
+            "changed_count": 66,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "1088.25",
+                "processed": "1087.58"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "1087.58",
+                "processed": "1088.25"
+              },
+              {
+                "processed_row": 12226,
+                "original_row": 12226,
+                "original": "1087.58",
+                "processed": "1088.25"
+              },
+              {
+                "processed_row": 12525,
+                "original_row": 12525,
+                "original": "1088.25",
+                "processed": "1087.58"
+              },
+              {
+                "processed_row": 13185,
+                "original_row": 13185,
+                "original": "1087.58",
+                "processed": "1086.92"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -1.3400000000001455,
+              1088.92
+            ],
+            "finite_pair_changed_count": 66,
+            "original_minus99_changed_count": 0
+          },
+          "Wind direction at height of 10 meters (˚)": {
+            "original_column": "Wind direction at height of 10 meters (˚)",
+            "processed_column": "Wind direction at height of 10 meters (˚)",
+            "changed_count": 157,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "-99.0",
+                "processed": "32.4"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "-99.0",
+                "processed": "35.59"
+              },
+              {
+                "processed_row": 11948,
+                "original_row": 11948,
+                "original": "-99.0",
+                "processed": "40.45"
+              },
+              {
+                "processed_row": 12226,
+                "original_row": 12226,
+                "original": "-99.0",
+                "processed": "27.89"
+              },
+              {
+                "processed_row": 12240,
+                "original_row": 12240,
+                "original": "-99.0",
+                "processed": "37.74"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -16.17,
+              389.54
+            ],
+            "finite_pair_changed_count": 157,
+            "original_minus99_changed_count": 131
+          },
+          "Wind direction at height of 30 meters (˚)": {
+            "original_column": "Wind direction at height of 30 meters (˚)",
+            "processed_column": "Wind direction at height of 30 meters (˚)",
+            "changed_count": 157,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "-99.0",
+                "processed": "29.27"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "-99.0",
+                "processed": "28.55"
+              },
+              {
+                "processed_row": 11948,
+                "original_row": 11948,
+                "original": "-99.0",
+                "processed": "31.01"
+              },
+              {
+                "processed_row": 12226,
+                "original_row": 12226,
+                "original": "-99.0",
+                "processed": "21.75"
+              },
+              {
+                "processed_row": 12240,
+                "original_row": 12240,
+                "original": "-99.0",
+                "processed": "30.08"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -3.710000000000001,
+              360.41
+            ],
+            "finite_pair_changed_count": 157,
+            "original_minus99_changed_count": 131
+          },
+          "Wind direction at height of 50 meters (˚)": {
+            "original_column": "Wind direction at height of 50 meters (˚)",
+            "processed_column": "Wind direction at height of 50 meters (˚)",
+            "changed_count": 157,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "-99.0",
+                "processed": "23.87"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "-99.0",
+                "processed": "24.97"
+              },
+              {
+                "processed_row": 11948,
+                "original_row": 11948,
+                "original": "-99.0",
+                "processed": "29.73"
+              },
+              {
+                "processed_row": 12226,
+                "original_row": 12226,
+                "original": "-99.0",
+                "processed": "17.44"
+              },
+              {
+                "processed_row": 12240,
+                "original_row": 12240,
+                "original": "-99.0",
+                "processed": "24.48"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -10.989999999999995,
+              368.29
+            ],
+            "finite_pair_changed_count": 157,
+            "original_minus99_changed_count": 131
+          },
+          "Wind speed - at the height of wheel hub (m/s)": {
+            "original_column": "Wind speed - at the height of wheel hub  (m/s)",
+            "processed_column": "Wind speed - at the height of wheel hub (m/s)",
+            "changed_count": 156,
+            "original_missing_to_processed_present": 0,
+            "examples": [
+              {
+                "processed_row": 11752,
+                "original_row": 11752,
+                "original": "-99.0",
+                "processed": "10.19"
+              },
+              {
+                "processed_row": 11937,
+                "original_row": 11937,
+                "original": "-99.0",
+                "processed": "10.3"
+              },
+              {
+                "processed_row": 11948,
+                "original_row": 11948,
+                "original": "-99.0",
+                "processed": "8.52"
+              },
+              {
+                "processed_row": 12226,
+                "original_row": 12226,
+                "original": "-99.0",
+                "processed": "6.94"
+              },
+              {
+                "processed_row": 12240,
+                "original_row": 12240,
+                "original": "-99.0",
+                "processed": "8.67"
+              }
+            ],
+            "finite_pair_delta_minmax": [
+              -1.3399999999999999,
+              111.97
+            ],
+            "finite_pair_changed_count": 156,
+            "original_minus99_changed_count": 131
+          }
+        },
+        "changed_cell_count": 1801,
+        "power_unchanged_on_matched_rows": false
+      },
+      "historical_events_match": {
+        "event_file": "experiment1/outputs/farm3_events.csv",
+        "row_count": 70176,
+        "all_time_strings_equal": true,
+        "all_power_values_equal": true,
+        "all_hub_wind_values_equal": true,
+        "all_extreme_flags_equal": true,
+        "extreme_rows_raw": 4144,
+        "window": 24,
+        "source_windows": 66009,
+        "target_windows": 4143
+      },
+      "historical_meta_match": {
+        "file": "experiment1/outputs/farm3_meta.json",
+        "n_samples": 70176,
+        "matches_processed_rows": true
+      },
+      "historical_split_modified_power_labels": {
+        "window": 24,
+        "split_seed": 0,
+        "target_train_count": 3728,
+        "target_test_count": 415,
+        "modified_target_train_label_count": 9,
+        "modified_target_test_label_count": 0,
+        "original_minus99_target_train_label_count": 0,
+        "original_minus99_target_test_label_count": 0,
+        "modified_target_test_rows": [],
+        "total_modified_finite_nonsentinel_power_labels": 142
+      },
+      "upstream_processing_evidence": {
+        "changed_numeric_row_count": 167,
+        "changed_numeric_cell_count": 1801,
+        "changed_rows_all_numeric_match_next_original_row_count": 11,
+        "changed_rows_all_numeric_match_previous_original_row_count": 83,
+        "future_row_exact_match_examples": [
+          {
+            "processed_row_zero_based": 47818,
+            "original_row_zero_based": 47819,
+            "time_at_row": "2020-05-13 03:15:00",
+            "time_at_next_original_row": "2020-05-13 03:30:00",
+            "all_12_numeric_columns_exactly_match_next_original_row": true,
+            "all_11_meteorological_columns_exactly_match_next_original_row": true,
+            "original_power_at_row": 24.95,
+            "processed_power_at_row": 27.357,
+            "original_power_at_next_row": 27.357,
+            "columns_changed": [
+              "Wind speed at height of 10 meters (m/s)",
+              "Wind direction at height of 10 meters (˚)",
+              "Wind speed at height of 30 meters (m/s)",
+              "Wind direction at height of 30 meters (˚)",
+              "Wind speed at height of 50 meters (m/s)",
+              "Wind direction at height of 50 meters (˚)",
+              "Wind speed - at the height of wheel hub (m/s)",
+              "Wind speed - at the height of wheel hub (˚)",
+              "Air temperature  (°C) ",
+              "Atmosphere (hpa)",
+              "Relative humidity (%)",
+              "Power (MW)"
+            ],
+            "seed0_test_window_overlap": {
+              "window_size": 24,
+              "test_window_start_rows_zero_based": [],
+              "test_prediction_raw_rows_zero_based": [],
+              "test_window_count": 0,
+              "next_original_row_precedes_all_affected_prediction_times": true,
+              "next_row_would_be_test_prediction_label": false
+            }
+          },
+          {
+            "processed_row_zero_based": 53002,
+            "original_row_zero_based": 53003,
+            "time_at_row": "2020-07-06 03:15:00",
+            "time_at_next_original_row": "2020-07-06 03:30:00",
+            "all_12_numeric_columns_exactly_match_next_original_row": true,
+            "all_11_meteorological_columns_exactly_match_next_original_row": true,
+            "original_power_at_row": 27.04,
+            "processed_power_at_row": 28.939,
+            "original_power_at_next_row": 28.939,
+            "columns_changed": [
+              "Wind speed at height of 10 meters (m/s)",
+              "Wind direction at height of 10 meters (˚)",
+              "Wind speed at height of 30 meters (m/s)",
+              "Wind direction at height of 30 meters (˚)",
+              "Wind speed at height of 50 meters (m/s)",
+              "Wind direction at height of 50 meters (˚)",
+              "Wind speed - at the height of wheel hub (m/s)",
+              "Wind speed - at the height of wheel hub (˚)",
+              "Air temperature  (°C) ",
+              "Relative humidity (%)",
+              "Power (MW)"
+            ],
+            "seed0_test_window_overlap": {
+              "window_size": 24,
+              "test_window_start_rows_zero_based": [
+                52986,
+                52990,
+                52993
+              ],
+              "test_prediction_raw_rows_zero_based": [
+                53010,
+                53014,
+                53017
+              ],
+              "test_window_count": 3,
+              "next_original_row_precedes_all_affected_prediction_times": true,
+              "next_row_would_be_test_prediction_label": false
+            }
+          }
+        ],
+        "all_11_meteorological_columns_zero": {
+          "row_count": 9,
+          "rows_zero_based": [
+            59360,
+            59361,
+            59362,
+            59363,
+            59364,
+            59365,
+            59366,
+            59367,
+            59368
+          ],
+          "examples": [
+            {
+              "row_zero_based": 59360,
+              "time": "2020-09-10 08:45:00",
+              "original_11_meteorological_values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "processed_power": -0.453,
+              "original_power": -0.453
+            },
+            {
+              "row_zero_based": 59361,
+              "time": "2020-09-10 09:00:00",
+              "original_11_meteorological_values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "processed_power": -0.856,
+              "original_power": -0.856
+            },
+            {
+              "row_zero_based": 59362,
+              "time": "2020-09-10 09:15:00",
+              "original_11_meteorological_values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "processed_power": -1.158,
+              "original_power": -1.158
+            }
+          ]
+        },
+        "interpretation": "The supplied processed workbook contains changed rows whose complete numeric vectors match the following original record exactly. This is direct evidence of future-row matching in the supplied values, consistent with backward filling; the upstream generation code and precise procedure remain unknown. Training-only downstream scaling/imputation cannot establish a future-free preprocessing pipeline.",
+        "split_specific_interpretation": "The two shown future-row matches do not demonstrate direct use of any of the 415 test labels: row 47818 is absent from test inputs; row 53002 appears in three test input windows, whose prediction times are later than row 53003. All 415 processed test power labels equal the original power labels. These facts do not establish a generally causal upstream pipeline or rule out other sources of evaluation dependence."
+      }
+    }
+  ],
+  "runner_compatibility": {
+    "existing_runner": "review/run_corrected_validation.py",
+    "farm6_processed_available": true,
+    "row_order_protocol": "Runner preserves workbook row order, stores timestamps as strings, and does not repair/deduplicate/resample timestamps.",
+    "feature_imputation": "Runner uses model-training rows only to impute nonfinite covariates; nonfinite labels are rejected.",
+    "preprocessing_limitations": [
+      "The upstream processing that produced the supplied processed Excel files is not established by this audit. Original-versus-processed comparison must be reviewed before describing those files as untouched raw observations.",
+      "The current historical-protocol runner does not resolve timestamp defects; 24-row windows represent 24 workbook rows and are not proven to be uninterrupted six-hour periods.",
+      "Nominal-capacity exceedances and negative power values are retained without clipping.",
+      "Historical random window splits and full-record extreme thresholds are diagnostic protocols, not strict chronological untouched-test validation.",
+      "The original workbooks encode some missing observations as -99; this is a finite sentinel and the current runner does not identify or replace it. Raw-original training needs an explicit sentinel policy.",
+      "Farm 5 processed data retain 580 NaN temperature values. The inherited event detector uses np.percentile before feature imputation, so its temperature quantile thresholds become NaN and all temperature-event comparisons return false. Cross-farm analysis needs an explicit missing-data event-definition policy.",
+      "Processed power labels differ from original labels at sites 1, 2, 3, 4, and 6; the runner itself does not impute labels, but the supplied processed labels cannot be described as unmodified raw measurements."
+    ]
+  },
+  "local_provenance_evidence": {
+    "file": "data/wind_farm_data/variables_correlation_analysis.ipynb",
+    "fact": "Notebook cells explicitly count -99 hub wind observations as missing for farms 1, 2, and 6; no local cell was found exporting the processed wind workbooks or documenting their complete imputation algorithm."
+  }
+}

@@ -1,0 +1,701 @@
+{
+  "title": "Static and rolling calibration of Full",
+  "description": "Full-model cross-farm coverage and capacity-normalized interval width, using all three seeds. Bars show seed ranges; the dashed line marks nominal 0.95 coverage. Rolling calibration uses previously revealed outcomes.",
+  "style": {
+    "font.family": "serif",
+    "font.serif": [
+      "STIXGeneral",
+      "Times New Roman",
+      "DejaVu Serif"
+    ],
+    "mathtext.fontset": "stix",
+    "font.size": 9,
+    "axes.labelsize": 9,
+    "axes.titlesize": 9,
+    "legend.fontsize": 8,
+    "xtick.labelsize": 8,
+    "ytick.labelsize": 8,
+    "axes.linewidth": 0.65,
+    "axes.spines.top": false,
+    "axes.spines.right": false,
+    "axes.axisbelow": true,
+    "axes.formatter.use_mathtext": true,
+    "xtick.direction": "out",
+    "ytick.direction": "out",
+    "xtick.major.width": 0.65,
+    "ytick.major.width": 0.65,
+    "xtick.major.size": 3,
+    "ytick.major.size": 3,
+    "lines.linewidth": 1.15,
+    "lines.markersize": 4,
+    "lines.markeredgewidth": 0.6,
+    "errorbar.capsize": 2.5,
+    "legend.frameon": false,
+    "legend.handlelength": 2.4,
+    "legend.borderaxespad": 0.3,
+    "legend.labelspacing": 0.35,
+    "savefig.dpi": 300,
+    "savefig.facecolor": "white",
+    "figure.facecolor": "white",
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42,
+    "svg.fonttype": "path",
+    "svg.hashsalt": "tlqldmr-selection-study"
+  },
+  "outputs": {
+    "pdf": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/TLQLDMR_R1/figures/selection_calibration.pdf",
+    "svg": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/TLQLDMR_R1/figures/selection_calibration.svg"
+  },
+  "complete": true,
+  "evaluations": 112,
+  "sources": {
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/manifest.json": "0611a755b591261afead38495bc0915cfd3eb1761ffc67f2940812e7070c2934",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/results.json": "6eca6df8cfd88d7393582ab814fc7c9db69db0d45c4d1b7b2082d9f2d13c1453",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/protocol.json": "915607c2460619203c618f0b976b80509db0aca47a54e3b994566e12822feffd",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/selection_lock.json": "7973e6675f9d0bf5493bf3da95dc99d924b76f0bd96be10d22a77d74f37c65c9",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/run_selection_study.py": "1b0e6096989e2cc09f98a57a3135fb0a2f2ce55cf06da51c8721632d36c26e89",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/Full/final_seed0/result.json": "56bfd302847566ea59d885d66b639f3d0e7ee3eaf9807fc6d02ab1b66adee494",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/Full/final_seed0/predictions.csv": "42e1e275fb2bf597123514496da91878e1ba3fb8f95052a106958f5c25148410",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/Full/final_seed1/result.json": "1b1da3317c7f7ddcea99d7618e2a89a378de4d2c1dc4300035c7f2cde3243d14",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/Full/final_seed1/predictions.csv": "140e8a119963dfbd74e1e131126235b704adeb7a6c60527b0a153988c7f58eb4",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/Full/final_seed2/result.json": "6240713211e143df35ec8dbd525f7b2bf490320ac155b3b78493cc09f0d8cfaf",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/Full/final_seed2/predictions.csv": "77df6d921325c6864183bcea96c7fa47a82b634854d74a6110b6e6c3c412e484",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoVariance/final_seed0/result.json": "7fa1a858c2abebb40e6b054160df1f6d24013efd97700cb8b754bc36ad9dde4e",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoVariance/final_seed0/predictions.csv": "74ac5f6a036ba39bf36a12f715610d49b88b31369c4386a6e18feeb61fc89046",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoVariance/final_seed1/result.json": "9a34f1a03bb9b491b54d68afe0f3180611a1897c663b001d92e3ce0ef33646ab",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoVariance/final_seed1/predictions.csv": "7b8ee314a91d6271a375e4569f9228db344724b11d1cf21c6d066b049314342f",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoVariance/final_seed2/result.json": "c8cc31470eb2d53cdf0ef8a81c5f30f1a97ac4299e6eccc5b71397f786e91fb5",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoVariance/final_seed2/predictions.csv": "c66fbf33799c09368ef3af5cd0569726c9ce2179b3240cd10f106c445c2eb09b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoDiscrepancy/final_seed0/result.json": "dbef3bbaa92de6544d0c5801900a7672358854955196f92a2a60fef685480171",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoDiscrepancy/final_seed0/predictions.csv": "b5cd067dfdbcf9419f8ddd2422fdbb8920cef584af9fc3418e73d42aa930f1ec",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoDiscrepancy/final_seed1/result.json": "2bbb7cf7fe7ffd44b655b95d137a161143da4effaf74eb078ce552097f876876",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoDiscrepancy/final_seed1/predictions.csv": "15b0de869c9e7e5b9433ef244cf47b7320c0223d89c619f8d6bb6578b93133c7",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoDiscrepancy/final_seed2/result.json": "25778c323a7a5e2333da58aa7c53808f838f6eb3ae85ccbe0b1a72970e50a352",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/NoDiscrepancy/final_seed2/predictions.csv": "52eeb55a4b481402a250306052c620bfabe75651f14cb6355c918e5145d2156b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/WeightedSVQR/final_seed0/result.json": "5a5eab078a551e00bf987a7a6c0558967b40404b10bf4eb864a0887c527ada51",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/WeightedSVQR/final_seed0/predictions.csv": "0c5e6a890ce39d09e6f54a7cea16e7eed46cf419bddb7e3964de2035686756b2",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/WeightedSVQR/final_seed1/result.json": "89eeaf98bc93a560c36d10cc8abb77857bde30b60982e8a8da0f13a7a47d59ed",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/WeightedSVQR/final_seed1/predictions.csv": "34648e431148da3cc3404eeac0a9032d05660355a542c6a59a89278d36779cb5",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/WeightedSVQR/final_seed2/result.json": "b658eb597247975c8884a9820670f035cd15e766a4df0cb9046a9194a3aa7de3",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/WeightedSVQR/final_seed2/predictions.csv": "fe09d2cd8991a5e39cb054300657d5f38b16891b54ac2c82f49a2c081ec77cfc",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/TargetSVQR/final_seed0/result.json": "61e9a953ab475df2049a5c470dd29013d098457052c4b26fae6b5b5b3e8e9a54",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/TargetSVQR/final_seed0/predictions.csv": "bede195e90b8cfe3dbb3c717e348255c891d2c021ec18e64b4db87cced1fb10d",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/TargetSVQR/final_seed1/result.json": "d59c5077cb6f39fcbaacbff9d401bc812be1f69cdb7f93b60bd9cb093b7d338e",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/TargetSVQR/final_seed1/predictions.csv": "91bc9f1a2a6b39f577e7467cbb090abaf141e4b4b87f78bc45dbddc5d7a06704",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/TargetSVQR/final_seed2/result.json": "50d0bc02ba12b13d64865b7705baeb04af04e2463ac357432c297b92f5690b9d",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/TargetSVQR/final_seed2/predictions.csv": "caa0badd6b48ca73b7fada3d7e1cf74b3cdf365aa0444f73696262cf83a355fa",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/HistGBR/final_seed0/result.json": "dbcf0e0eacdff673a065c1512a9f0f9184ecab0bae6647253f8a7f7cc6511d19",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/within_site6/HistGBR/final_seed0/predictions.csv": "c74245dcaa2c4bff38bf4998374ea8ac9a20458f9bd573e68077a7a2dbc53322",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/Full/final_seed0/result.json": "31417154871a348f82380177f8c43c464bbe0dde7cfda8ac563935a9a126e57f",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/Full/final_seed0/predictions.csv": "2e811e385611bfabfc904d21f25a3b5f3144076760e435228c13c58bc057aa42",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/Full/final_seed1/result.json": "a410022289d4ddd7ec88fcb560b2cfb26cff8557a666a184ddb745a55fe5b5db",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/Full/final_seed1/predictions.csv": "d04cd1086ae087b292aeca6cf9fb9b532f4772749268733ae194d938b8970177",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/Full/final_seed2/result.json": "09aa53be6f30225633bb3983123c85390053f995d5e2b67b03ab4016b69b8d54",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/Full/final_seed2/predictions.csv": "e26d6df6e10063ca25b17b5b50c11208352c8611508605cdee6a53194330a74d",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoVariance/final_seed0/result.json": "ac9c49fb716a3fdb202b1a54ba5ffe440212fe7d82b4212cf91344df8051c6a3",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoVariance/final_seed0/predictions.csv": "2408488840c88734da9a415991e777b9639ffad69faf540f04b7b2c24bac9dfb",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoVariance/final_seed1/result.json": "b11f1bf1f905e78446267efddf27ee0ecfcfffe09197a96ca0e613c6086bd8d1",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoVariance/final_seed1/predictions.csv": "caec868eb314a9432130de1d9f559bf152d5cb4e602bf5468409ef0b0f12fcae",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoVariance/final_seed2/result.json": "226745d789b3014a85ff9e41380f0c39b903f6cdc4ece3f59b1d50c5e93501dc",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoVariance/final_seed2/predictions.csv": "daedeb2c8c2b9215ff3ca73ac572c500281905ac7c7af304b7e316a6fd37129e",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoDiscrepancy/final_seed0/result.json": "5e17a3f1adda7276ed71f23bafdc5d25cd6c98dcb697dc6c527eee3711eca16f",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoDiscrepancy/final_seed0/predictions.csv": "46cdaf7cd36c8dccaffe727f8793be3104729eb21d18393eca1a0e50bc0c6ea1",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoDiscrepancy/final_seed1/result.json": "721d186473bda0ef49824bf2c2375c1e2bd98c9b4cf390babc5ad07c1ac43229",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoDiscrepancy/final_seed1/predictions.csv": "e205f841f450dc2e97545b8ec6166573b3046d588e72557656a871959c8d258b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoDiscrepancy/final_seed2/result.json": "a8a06ad3ae0a5226878349656f1918cf480a228743c209b9d0c73426f510c9a0",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/NoDiscrepancy/final_seed2/predictions.csv": "8d1ed5f4f91006c0bd788e40aa3c3919b275036157664a4f35a465ac3f54e909",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/WeightedSVQR/final_seed0/result.json": "8f4cfb009a4751c742ded72d851b658ace181f7a9184a4de735bcebbc16d2a69",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/WeightedSVQR/final_seed0/predictions.csv": "91bfa30ca575ad2d495a8d08e4b48397d1173e8742ead445703bfd7b72e6e87b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/WeightedSVQR/final_seed1/result.json": "81dc50f16fbeb715f51e27b523bb74a56dc38b7d08cbc4e1e0132ee52af1cfb6",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/WeightedSVQR/final_seed1/predictions.csv": "031cbeac4d4194261e0ce21cb6af3d5f405cf13d8dd0397204d2d20602951156",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/WeightedSVQR/final_seed2/result.json": "9134ae8bdd6f1c210a400663e4030cd111a4f2c05e602a8574f7dbd1ac9d558b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/WeightedSVQR/final_seed2/predictions.csv": "a117154efe51f4ab404e35212cb69d666ba2665fc60589d7bcbf8e715d4efead",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/TargetSVQR/final_seed0/result.json": "75ceb214443159081e86dc388c7a57d91ac35defd0b12140708063a3d78cb206",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/TargetSVQR/final_seed0/predictions.csv": "7d83ea179b363e7ef607b5cbde67d9888baf400cb8c70e968e2fd32a7797f755",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/TargetSVQR/final_seed1/result.json": "74872b03539778e4caa414b43a71cc49ff22b67188f304da3982f593dcfca7d0",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/TargetSVQR/final_seed1/predictions.csv": "d46f31cdaf93faffee98191ffb58830cf45457962e90f715b16da3173e57f937",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/TargetSVQR/final_seed2/result.json": "1cf2b21e59cfc8209a74f2632a4cd4729a82227e7af39335834b5bdc4be0d737",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/TargetSVQR/final_seed2/predictions.csv": "74fd4bf86a6ebed061f65062d26663480b4cc20974d766944b71938bb6ef0119",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/HistGBR/final_seed0/result.json": "e3d7f783b3adaca71af3554779def0e5e70a6f0c3a361f68d87b91dbe4ead78a",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site1/HistGBR/final_seed0/predictions.csv": "9a0316f275ce9d271dc134afc31c269192e624c30f61ab9897f0022252594f6e",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/Full/final_seed0/result.json": "740aaad46fea6c7e4194267969feeb5159a4c597beddf09391b26ce51034e1d0",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/Full/final_seed0/predictions.csv": "3e8654f1fd7441f00a4b9f379ff2f4b339e6e035a752569579c5c247422fa044",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/Full/final_seed1/result.json": "d18f0984b6815f3178fe7b5f806d4df258cae58b0a1a4e3239f8e36928da57dd",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/Full/final_seed1/predictions.csv": "f746bbc84f41283dec7e9bdb1b048f68b81d58c492bbbb908de5cad8cbf0fa23",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/Full/final_seed2/result.json": "eb7eeacfa688e79233abe3a9ee184e075fe73a7edac4298f444ae75ce8ec16db",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/Full/final_seed2/predictions.csv": "9906c6d7600a783dc6b4b9a3fd47bd47fd96d07f8bd2cb1654156d5504094a0a",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoVariance/final_seed0/result.json": "724675abb4199b9f8102b3b3aed66052f1aeb4df9c29311382757da4dc92cee0",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoVariance/final_seed0/predictions.csv": "85881e16ec682ed83c94ea750cce86a8da3f689d42c6065f9e652901402c8742",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoVariance/final_seed1/result.json": "cbaca1203367ec77020b20953d0aa62992c27cbab17d570106ed33b82d9fd8a7",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoVariance/final_seed1/predictions.csv": "6b2df12da2cfe9d319246ff246544fda033630ef9ad8d1d69766b84c0718e52d",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoVariance/final_seed2/result.json": "3842dc947ee171e7033983e58af5ff5282bbccdfc82986d50a77d9c71d41a5fb",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoVariance/final_seed2/predictions.csv": "4703b8ddcac250adb921990a0a05f02f157f02a12ce7ce94e69d3d037e5d78c8",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoDiscrepancy/final_seed0/result.json": "676a1744132306119d21821f3859c3a8cbe5fc54a607cff6f7296f3dc7b94a79",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoDiscrepancy/final_seed0/predictions.csv": "4b5f3c1a825170b9e54292435823948f7dc9761970af04bd56c95a8e3d3f8ace",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoDiscrepancy/final_seed1/result.json": "0afe81a381dae19d5e7dfdaf6dc9e3905dce3460991880ab76f0744180a631ec",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoDiscrepancy/final_seed1/predictions.csv": "2583e1ad6730b677ea7e105329ff9d881db5ede98e53b1a3b0b888d8007da16b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoDiscrepancy/final_seed2/result.json": "2fcaac5d64c7b357199e617b5d97501cbc6bea46c7894c111d7649a3dc07181f",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/NoDiscrepancy/final_seed2/predictions.csv": "6562987d3e47384fb05451ed09df9f421f923280fd80618f10d3fdf6ec010187",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/WeightedSVQR/final_seed0/result.json": "91c70282e2c56087136e3dc737a1de8aa5508f9ee1d72375d377b59d9851b0cf",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/WeightedSVQR/final_seed0/predictions.csv": "d1006d442c177a7de7002a957c2fca5bdd4bb5fde13851246ebe269f43abda52",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/WeightedSVQR/final_seed1/result.json": "e2036ac3960f6b0e8fdc9dad5b8108190e747b29325d9c0a32819535c7e1d7d2",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/WeightedSVQR/final_seed1/predictions.csv": "9848155b88032d1d150728ce6e5fe5c3216ef3a8761e6699dc64b2c833e01db5",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/WeightedSVQR/final_seed2/result.json": "8a964e1dedaa60f715f491f5b062861040adb61afc95bc6d639a3d1235dbaa62",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/WeightedSVQR/final_seed2/predictions.csv": "f86e15b44c67298d05e61bda6832822d4bda5cf0bb0bd31f00deb10e588fab3c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/TargetSVQR/final_seed0/result.json": "40418b849eb562a0af1d4483e0d2f4693e7b1d28d86933f6707f53f0ecc6634d",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/TargetSVQR/final_seed0/predictions.csv": "8ef8ccc5af31904b38ba2508b48ce83c607bb43354942d3292b67b0b5f063507",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/TargetSVQR/final_seed1/result.json": "1c64eb4a0480dc221d3707a2acd287b4b5c14dfb88abd99d7e9ff643af0271cd",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/TargetSVQR/final_seed1/predictions.csv": "1aa583b6b69819d24af6960acd05fcd0df5c798fe3f9e52fc4582ca5a7f07cd0",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/TargetSVQR/final_seed2/result.json": "7d98dfaf7e146e507256421cd962a1f095234cdf6ebef7ec7bd7ce788b58bd77",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/TargetSVQR/final_seed2/predictions.csv": "b369c9d5041f86a86b54077d5db61f755d69b6a21c46e5939e44d6cf056158aa",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/HistGBR/final_seed0/result.json": "7571c82d9bdeb97d8ae41f636060a9494ac7b9ad284c704fd823d0bac42fe5cb",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site2/HistGBR/final_seed0/predictions.csv": "93ccc1de8a7a2e8f48bd2782ea18b7d512ceae10f29e796552dbc0741e532e8f",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/Full/final_seed0/result.json": "9546594785724b7620c8260423c095e7bc9cd10713545bdfd6167d0fa236dcdc",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/Full/final_seed0/predictions.csv": "6fa5e5e13ebf41c592a46623865c42631bc7d5f20e5c8263b21a3ce636855009",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/Full/final_seed1/result.json": "b55674dcff5b55edab2e599703bddea98b03a06f1e4ef0d1b4b0cc1d3def8fb7",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/Full/final_seed1/predictions.csv": "44accb6b0b953186c1ea071c5112e92377376cd3895b4895402ca2da51d41e3e",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/Full/final_seed2/result.json": "bf4fda9ca00b344c7b5efbe511d3693a3446ddccca280bffd9af609b945ae3af",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/Full/final_seed2/predictions.csv": "b75990b6353c14721994e973736eb84bdcbefbaab5b30144526909448848d12f",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoVariance/final_seed0/result.json": "c182dde93563e4183736b50608dda2999c356652b7137d74ee50841a10cc04cc",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoVariance/final_seed0/predictions.csv": "b9595d9bddecc9cb1f544f0c5785080300993b411668c74c3e9eda2a5cb05812",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoVariance/final_seed1/result.json": "d59156d83b462a45c7d53ee5d80094d1d840d0f85b3ed50b632f14ca246ca10c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoVariance/final_seed1/predictions.csv": "6b7a7f6e98e2369dfbd9e9f824cab098432f5dadde99f7a0ed5006e3cc30308c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoVariance/final_seed2/result.json": "7ea864d6750387129f46c839a0dcd5820eea60929ad0fd429f042d99838c7590",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoVariance/final_seed2/predictions.csv": "1a0ae6cfdaf5bd4918ccf79cd58fb45e3522709be9e6bfbe4c132d121f0ae7b6",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoDiscrepancy/final_seed0/result.json": "edaddfab35cafe5415791462dcdd47773fde5b6d453ba8cb288202f39be86efc",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoDiscrepancy/final_seed0/predictions.csv": "67c47554d17a2cc6dca11870726005d68a6879a0d8b824c28ad25f21202f1502",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoDiscrepancy/final_seed1/result.json": "3acedaffe891048120fc40b9c0744f847e903d4feff4f631651c40f0dbe481df",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoDiscrepancy/final_seed1/predictions.csv": "6a15390ed53f0b4df45f0513c3aed86444c607bb6672554ae80b75a9a90455df",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoDiscrepancy/final_seed2/result.json": "3c9fb85081bcaf1bef0ccaea4b90296b42890a9005058148dd4052a85035848f",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/NoDiscrepancy/final_seed2/predictions.csv": "c759d3da48d818cfe0ecb50ba13be280f11a21cd2507f099c3055dac55d3b75d",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/WeightedSVQR/final_seed0/result.json": "ab638e0944986e6afbbdfab7015a16ae704a029562e771c6a5376bbe76755c80",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/WeightedSVQR/final_seed0/predictions.csv": "a872baa588199167bf2975cf57c547dcc8f856b356014330910dbadc73a3b1f0",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/WeightedSVQR/final_seed1/result.json": "f3ff2b7c2611a7e08332f7dcad2c1c020ddaac38fff9d895ba4ddf195bdb768b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/WeightedSVQR/final_seed1/predictions.csv": "ccbba1a05d20923f53c20389676d8ba76c92fb4d87fd1e44f67b50d9ca90f2ce",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/WeightedSVQR/final_seed2/result.json": "e34b5dbc9b8a3aa5851cd3f749f7580732eb63835a7567c1b249c3f9e58e731e",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/WeightedSVQR/final_seed2/predictions.csv": "819c1c07d26f7adee0858f9bc4f820fe7aa7a5baae77de04b53d0bed91e0b318",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/TargetSVQR/final_seed0/result.json": "926dccb88697bb813da0adf6131097140bee77652b56555f80e77ec9cfb9172c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/TargetSVQR/final_seed0/predictions.csv": "d9b109d8f877ad22fea0a7478c355cc86ec984a877511a69c5f54fe5dbbc9a0c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/TargetSVQR/final_seed1/result.json": "de9030c216750d89689532e8e6cad1e3f008b886fb56bb266c49bc4c92ba26c6",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/TargetSVQR/final_seed1/predictions.csv": "3a6b710e489f4b47b69025a60048728638eba55739a3ebb9fc03805f75496462",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/TargetSVQR/final_seed2/result.json": "ad2818e1c880af39291aeaef555fad3ce76d6723b778939c581fb032e0e6e69c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/TargetSVQR/final_seed2/predictions.csv": "c3e0c6c44351f7282bd91c527cd3d653a96cc36c9277b01495013ed42abf44c9",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/HistGBR/final_seed0/result.json": "204e7e8314a7237bb8ac658ff1ed7968ffa110dea9f67817e93b3a640969854a",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site3/HistGBR/final_seed0/predictions.csv": "1f294a74316ab1368b519ceeaa86e45cf5121ca85b8871c34c4c7c7e45e9dc19",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/Full/final_seed0/result.json": "5adb8db14277cbeca31b0a196183ff17500d5a9f0a8cfb9370d7830f923f3d1d",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/Full/final_seed0/predictions.csv": "9a6f291725375d92bb97f68fada7ccb67da3ec7338a29baf4ab774aed443d8db",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/Full/final_seed1/result.json": "fa6d0a4df6ed0c9b8775bb46172b04444a9020c3145bb598cdb5dc9f8f9fa4b4",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/Full/final_seed1/predictions.csv": "06f987959fd97ab83e4d3e057411ca0d90b18b213dea6d93fea31e5058bbaf6d",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/Full/final_seed2/result.json": "375d6d9df6436fd591705cbde639f0af2030ebd3bb33eb67a438019edaf1f6c5",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/Full/final_seed2/predictions.csv": "c1e3b14abb3d3084c0fd9063a99ff4c2d4ae45565a919a88dd9ff57db48b4513",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoVariance/final_seed0/result.json": "ea3ba1de20c0e11b623e577d999ee2745d657c0a6cabc289402a4d147b007f08",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoVariance/final_seed0/predictions.csv": "7aadd4336d3ced09acf9c0075b60f3845500033e9e5741215e2ea26c3fa48859",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoVariance/final_seed1/result.json": "b588357bce15c56a7bc9ac099fcf8cedb2208adbefd7637b11658920ff09efc1",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoVariance/final_seed1/predictions.csv": "27f861a46f09c236a87f204028599a1ffeb429b53683ed16d49d563cdcfadb3a",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoVariance/final_seed2/result.json": "499869a7a8b0407b5a53804023f54b6fbc93680c6cc5a636e95a5e2ddec472e6",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoVariance/final_seed2/predictions.csv": "ead24cc6325eca86e2bb5cc0e1162151239fa15fd980c4adb6522e64272fca94",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoDiscrepancy/final_seed0/result.json": "9f38f65471dc9a0852bd567d0cec915d00490e3ef1da19a725570f8966ba364b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoDiscrepancy/final_seed0/predictions.csv": "2e870ac26b187aa64a99b50911d00c58d41a12de39df1c5db02e4d6a5f57ac15",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoDiscrepancy/final_seed1/result.json": "05eec1b93168c393de4eaacf79dbbf46c8f57d1c16c953be7721a7bb4be421b0",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoDiscrepancy/final_seed1/predictions.csv": "ba62c05dbe65e0cfe828f4012d0ab8eed7d09cf8deb956555f48f1267b3195e8",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoDiscrepancy/final_seed2/result.json": "705ee2a4fc96723731b6b4aac94a50a0b1ea6280b2067ae3dc96b0082820dc51",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/NoDiscrepancy/final_seed2/predictions.csv": "e06cb2097374b2aab01b46c1782fc775cc8924564beeafa10495697950bd270b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/WeightedSVQR/final_seed0/result.json": "e6ab7973d9481b7f567298b054c8ba984f77fa1fd9414b46ede61b0efdd0e920",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/WeightedSVQR/final_seed0/predictions.csv": "5540569872c22bd77a46ae82764c4e5a87eee4f3063be260eb6446a68ae83112",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/WeightedSVQR/final_seed1/result.json": "2430f90b0be9e19c439725e7570dc807d6a554b518e1b44c01586ffcd163dddb",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/WeightedSVQR/final_seed1/predictions.csv": "07626d9af9090ed1e708a50b800f24efdce98fc6402d39275035c4b7ad9f67ed",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/WeightedSVQR/final_seed2/result.json": "52c78b0e58d90d44cb31954c84e0a61ca37032dae07903779713f54bb973a825",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/WeightedSVQR/final_seed2/predictions.csv": "79122c0c6cb79652c27c9fce9fdc55f0d0c4c2611b870b0eb0050a82c50077cd",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/TargetSVQR/final_seed0/result.json": "8972843d33a4f4535bbbc3ffb7a0b657be6849d3c6c92bc396671538b99fb505",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/TargetSVQR/final_seed0/predictions.csv": "6a26da0a5ed14df5cacb92ce10566be0a3b992d92258b5f44f7765b2eeb658f0",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/TargetSVQR/final_seed1/result.json": "01d55dc1e21e143ea4df33a2f05beb182cc7a5bd584d845b036c6987f24b50bd",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/TargetSVQR/final_seed1/predictions.csv": "3ad23b390cad785f22ce52c104192b0240cb0ab721207dcacb183f6998452564",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/TargetSVQR/final_seed2/result.json": "91c3e24bfa3b2ce12d2b223e8d3b0d851c59b76b126295819a9dc6981f5c13ad",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/TargetSVQR/final_seed2/predictions.csv": "1433e3c0fb6aa573e91a777f2f1cfa3e70215c1a20a08c5f2377c1665f6ebcc8",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/HistGBR/final_seed0/result.json": "854560133f1eeebce79db1c5ea9e9476818d09b65453ce4f54f7a0a9cabf9f69",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site4/HistGBR/final_seed0/predictions.csv": "ad5e56628accadbcd47f1b2644cf6a2039218acaf98066afe03b913f9cab0378",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/Full/final_seed0/result.json": "69df1962bb81d81dc82092bf02cee3e1660b338af8e5618a860a52d9895214d7",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/Full/final_seed0/predictions.csv": "7ac1c3fedcb53eb9fa53b69c305ab2fd0223996d41666c1348801ff3bee08cce",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/Full/final_seed1/result.json": "18cb78b3a95cc2a6830f1ad94591fac3233f516b66b8fe02fe4172c68f303e56",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/Full/final_seed1/predictions.csv": "47bf45e0d91a3266aff86c69b9a1d0af67f26a0700060c0277f7e1e274b300a6",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/Full/final_seed2/result.json": "477e9e7b7b50e5e676c830b322877e7dca294c0c181c6a9af3b9af6dbfa72fa3",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/Full/final_seed2/predictions.csv": "6bde39f0733e8e86a16bfa9c7f17fdf886b659acd4ef470b74d62aef48f1a7aa",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoVariance/final_seed0/result.json": "a5dd740375f6840cfc4fd7fd50a32d10562112d9dcee61b1f64421e3c78fa515",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoVariance/final_seed0/predictions.csv": "ee333b891742df201577e8451a0cb71a15542cede060155d714beeb5ecee7b42",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoVariance/final_seed1/result.json": "e49270fc49249bf1ea79ff1e654a9825df5c523912ddc4655b48e4a6e15d1131",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoVariance/final_seed1/predictions.csv": "1141ce9e210e4a686a5178e9efddf87f70e56a3b2e89cd239ab281b486816226",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoVariance/final_seed2/result.json": "037dee5a5783fb9e8352e286376601b090cdca74fb286dfcc0334a0c3e155fea",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoVariance/final_seed2/predictions.csv": "7d607964df7de70adb69b81e5dda1a6a9ddbda7696489e659994867ae84ced5c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoDiscrepancy/final_seed0/result.json": "3b3e324bc3a6f5011d6419b5bf1197a43687fbad3d474bcd1e8b03751f858916",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoDiscrepancy/final_seed0/predictions.csv": "11cfa8ad005077cdb0d8e966a140cb58394929ec584bb53fb783376c52dbd1d6",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoDiscrepancy/final_seed1/result.json": "8638ac1fc25d92eeef1fdbb4c70ad4cde82cbb850295f17c787207fdcea4ca2c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoDiscrepancy/final_seed1/predictions.csv": "e9ec8ca389a67172b9cb865ff28535e8cd2b45d4f82ec60c5d10daccf3fd7161",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoDiscrepancy/final_seed2/result.json": "986275aaac6b88a5075ea266efa491e224363015f1a045058f2b896ed46c25c0",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/NoDiscrepancy/final_seed2/predictions.csv": "6fed707dd76d61781acb32f1217132b0d6c9f2fc6705d6747ede4437d48f0cbf",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/WeightedSVQR/final_seed0/result.json": "c597dc95c993b0a6410ec3aa6d011644efed6449e9c6e6092d31a385f61b2612",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/WeightedSVQR/final_seed0/predictions.csv": "7be63332acfc584a3612915824f911916a94a5a8d658e8077ad002bc91797fc2",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/WeightedSVQR/final_seed1/result.json": "6df6b561946a06d4e7a6ce6e14197b1940d8291ba064b4d860478b4e7a251884",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/WeightedSVQR/final_seed1/predictions.csv": "d4a1d4368a0e5354942b3507de09053f87258de72719c6b6fce1646b1c98c157",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/WeightedSVQR/final_seed2/result.json": "e6e559b177aa6b1ffd75ce41e95d04ee160bf8afe78255b7c7493dad382fe5fd",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/WeightedSVQR/final_seed2/predictions.csv": "a6b92401d03407a3a182e0080f4045e992569d24ff1eb8f50024f44aa8e997cd",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/TargetSVQR/final_seed0/result.json": "d522281cb928e6afe3db88dfa4c29f89060fa24da82ee427852a2e1ea3dc2dab",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/TargetSVQR/final_seed0/predictions.csv": "b23457ee3575c4a7afd3cdd2df286cd4d6cbe3a573e220347991f286517bd62d",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/TargetSVQR/final_seed1/result.json": "75e9f281c3d3cf72cf6a2b5edf6e44937f64263d3c5038aa0bb18d52225fd3ce",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/TargetSVQR/final_seed1/predictions.csv": "64b0f6ca5ffc15816f18ac96e5ce09c2bb759f92527256853e5cc930662e0458",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/TargetSVQR/final_seed2/result.json": "48e33d395e56c073d34db8efe55ebebd9bdc5f58c945213a51b8992a33908887",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/TargetSVQR/final_seed2/predictions.csv": "e10739ccb46fd05a342f89ca4900f1a5547d626d96b55854b970960d8f8877c9",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/HistGBR/final_seed0/result.json": "4d3d5e57728a8bda8e43b872c496203fcbe87f54066e2192d60267ab117ebf97",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site5/HistGBR/final_seed0/predictions.csv": "151f4c5a843c78c483b610ab75ccc44e5c9caf380f313e0ea0d1592912bd55e9",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/Full/final_seed0/result.json": "e4c61e8e82dc238c725719f38fb1314c6bc3a1867fbfbb56e35cf5bfebf88a7c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/Full/final_seed0/predictions.csv": "af274e920a42ca24846167288d102f8235196c352d4d401dfa71d3aa4e955cfb",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/Full/final_seed1/result.json": "5708c03f9fe359a913ee8ba7a326185aadc085ebaca276941dae401022d78236",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/Full/final_seed1/predictions.csv": "2ea4253f82c1f288211f29392ddd8b9338e13c7d968a345ae8c3cd9b57407fbf",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/Full/final_seed2/result.json": "d00df314d97102cfb69095266c13ad7c7a5c1240fe52655cfda260734c013b1c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/Full/final_seed2/predictions.csv": "423691688aceed486e43d436f9b30182d71580d9873ff92b99107cba521bd2e6",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoVariance/final_seed0/result.json": "97d6b6bcf7b4abdca86a92a51c05b143b6baa91ec56612b2e250718341b8df6c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoVariance/final_seed0/predictions.csv": "c8fd3e6c67c9f331671fee879ed91894c3e10917ba788bdaf77d7dd8aadf4901",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoVariance/final_seed1/result.json": "dc336d98279f18c4d13ab396e09885470865ade7c07b03f92a4028883e1f0961",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoVariance/final_seed1/predictions.csv": "1e264d28a6033bf6bea8975f3a11583f44a8dadd68bf637a8b0a3fa097eb7e79",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoVariance/final_seed2/result.json": "786b66f502a316e8f32ffb6e29929184d0b3ce35206765b2b73cc6f57cb59209",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoVariance/final_seed2/predictions.csv": "24d5e025d83589aefe1c2639a1aafbcc076e6f0cecfb933ec4845716c5796816",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoDiscrepancy/final_seed0/result.json": "a26033db4bd2e24e69bd7de9cffba468cc88a43d44f45d2d2b07748cd55b1053",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoDiscrepancy/final_seed0/predictions.csv": "f3c931d5d9cb35abfa319da7ce9da865d70c218fa67e7de222885f37f8e97195",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoDiscrepancy/final_seed1/result.json": "98d577bea0410ad57847b1379161759f005d74a33c1bbbabab27a864cf4415e4",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoDiscrepancy/final_seed1/predictions.csv": "c6003a2687bb14c4b760140202e2d571d255fade18fac02a035c8b5c7fb9144c",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoDiscrepancy/final_seed2/result.json": "cf6ee157520bdfe02ad45da70a2f1f8b1aaa78432bdc02d61239de9152d7fc8b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/NoDiscrepancy/final_seed2/predictions.csv": "84b1c3821435527c3279ba1f1498ecf179ceecb275317c77395f1b57034d6198",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/WeightedSVQR/final_seed0/result.json": "596aa5881061764ddf6de1015211053bdba0f6b2307f0d4641e5ce0a166ed451",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/WeightedSVQR/final_seed0/predictions.csv": "3c59206e05786372a7209f23983c2899c21cff767a438ffb204ae1a227d0e15f",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/WeightedSVQR/final_seed1/result.json": "a1ad64d4c756a9ccff1ba2af17d39a9ca080ccf88f9edb1fbcadb9bbca077aed",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/WeightedSVQR/final_seed1/predictions.csv": "e2dacf993105f14b0d301c4c14def65449b9fdb1b68fae5a7d88098b9213b885",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/WeightedSVQR/final_seed2/result.json": "31d874cb81f920067d73888125af29dfadfbf4365c4a2970b3b01a7e22b7d226",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/WeightedSVQR/final_seed2/predictions.csv": "b7f7b72f863c947da9db7cc12b578a73e0709bf37e130da2365228ae83dd00a1",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/TargetSVQR/final_seed0/result.json": "05104e1b79784e3c407ebd3879addcf93928554b0617415fb338277a330345ed",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/TargetSVQR/final_seed0/predictions.csv": "43e902e955982321c2e6c98ace18c6abed2c37db03f3ee1945d8e08a1ff2b8de",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/TargetSVQR/final_seed1/result.json": "c741d75edd0bb7262c8e9da71e8b67647367eefa1d07a7d1636394119452dd63",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/TargetSVQR/final_seed1/predictions.csv": "e56b0a23961cc283f113073d5934bcd2fff1c16f6b266d0afde109facd4c32c5",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/TargetSVQR/final_seed2/result.json": "52a9619b4ae0becc99a5d52aa6f0b1243bc92e96ca3e7cf3826779bbaf8c702d",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/TargetSVQR/final_seed2/predictions.csv": "308ccdd27e53861930846fa0bfb8722da49cbcb198d418f0d035f476c450c81f",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/HistGBR/final_seed0/result.json": "3c7d32dbf2d7a3d541d3858d03fc2d2ac5ab32c9855462f7dfd87250eca69e73",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v1/cross_site6/HistGBR/final_seed0/predictions.csv": "4139a26c5edc9c6e8c5d24791ae8bc05459a90b4d0b0cc579dce30c8dcab4b56"
+  },
+  "capacity_mw": {
+    "1": 99.0,
+    "2": 200.0,
+    "3": 99.0,
+    "4": 66.0,
+    "5": 36.0,
+    "6": 96.0
+  },
+  "test_population_sha256": {
+    "within_site6": "9d020729e2ba2ce8d1362335087fc3541a58735172ccc8ef885a7c1b66140006",
+    "cross_site1": "bd36101ed29a34c464e64ca18826593080f3dd95fe221b53bfc3990804783bc0",
+    "cross_site2": "bc5d2e527f4df4d97e5e383567669bdc4333b08057f6518174d56d7eaf2e3649",
+    "cross_site3": "75c76c2998874615bce09ea050473dba93c0c385eee5c13fee39aaebceedce3c",
+    "cross_site4": "b2d2fc94fe39902060909c10d2b192ca899dbd87c8317f0b13606991b6ac9aef",
+    "cross_site5": "f0b7296aab54e94eea3e2dc92fbf1166bebd1590205c83ebb7c971dfc9fb04f7",
+    "cross_site6": "9d020729e2ba2ce8d1362335087fc3541a58735172ccc8ef885a7c1b66140006"
+  },
+  "metric_verification": "all point/raw/static/rolling metrics recomputed from saved CSVs",
+  "seed_summary": "kernel methods: seeds 0,1,2 mean and minimum/maximum; HistGBR: seed 0",
+  "test_status": "2020 Q3-Q4 was inspected in chronological_v1; reused-test follow-up",
+  "online_protocol": "after each extreme-target forecast, reveal its outcome before the next evaluated target forecast; no model refitting",
+  "method_order": [
+    "Full",
+    "NoVariance",
+    "NoDiscrepancy",
+    "WeightedSVQR",
+    "TargetSVQR",
+    "HistGBR"
+  ],
+  "plotted_values": {
+    "static": [
+      {
+        "metric": "picp",
+        "normalized_percent_capacity": false,
+        "site_summaries": [
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.935251798561151,
+              0.9640287769784173,
+              0.9609455292908531
+            ],
+            "mean": 0.9534087016101406,
+            "min": 0.935251798561151,
+            "max": 0.9640287769784173
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.9145394006659268,
+              0.9289678135405105,
+              0.9189789123196448
+            ],
+            "mean": 0.9208287088420274,
+            "min": 0.9145394006659268,
+            "max": 0.9289678135405105
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.9543436905516804,
+              0.9454660748256183,
+              0.9530754597336716
+            ],
+            "mean": 0.9509617417036568,
+            "min": 0.9454660748256183,
+            "max": 0.9543436905516804
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.935361216730038,
+              0.967680608365019,
+              0.8897338403041825
+            ],
+            "mean": 0.9309252217997465,
+            "min": 0.8897338403041825,
+            "max": 0.967680608365019
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.6347222222222222,
+              0.6541666666666667,
+              0.6319444444444444
+            ],
+            "mean": 0.6402777777777777,
+            "min": 0.6319444444444444,
+            "max": 0.6541666666666667
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.9843260188087775,
+              0.9901477832512315,
+              0.9896999552171966
+            ],
+            "mean": 0.9880579190924018,
+            "min": 0.9843260188087775,
+            "max": 0.9901477832512315
+          }
+        ]
+      },
+      {
+        "metric": "mpiw",
+        "normalized_percent_capacity": true,
+        "site_summaries": [
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              72.8122104030834,
+              71.98360815893663,
+              71.78078339890735
+            ],
+            "mean": 72.19220065364246,
+            "min": 71.78078339890735,
+            "max": 72.8122104030834
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              57.424986074560906,
+              57.48369166021701,
+              57.04468053223452
+            ],
+            "mean": 57.31778608900415,
+            "min": 57.04468053223452,
+            "max": 57.48369166021701
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              58.300096964085604,
+              57.188357865564576,
+              58.02402570723256
+            ],
+            "mean": 57.83749351229425,
+            "min": 57.188357865564576,
+            "max": 58.300096964085604
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              67.26417208906503,
+              67.92502617954779,
+              66.15286909397449
+            ],
+            "mean": 67.11402245419576,
+            "min": 66.15286909397449,
+            "max": 67.92502617954779
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              84.57934382221134,
+              86.1570567322662,
+              85.59981336795457
+            ],
+            "mean": 85.4454046408107,
+            "min": 84.57934382221134,
+            "max": 86.1570567322662
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              87.87507694538938,
+              88.35560268462271,
+              88.37391544924064
+            ],
+            "mean": 88.20153169308425,
+            "min": 87.87507694538938,
+            "max": 88.37391544924064
+          }
+        ]
+      }
+    ],
+    "rolling": [
+      {
+        "metric": "picp",
+        "normalized_percent_capacity": false,
+        "site_summaries": [
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.9445015416238438,
+              0.9547790339157246,
+              0.9445015416238438
+            ],
+            "mean": 0.9479273723878041,
+            "min": 0.9445015416238438,
+            "max": 0.9547790339157246
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.9589345172031076,
+              0.9600443951165372,
+              0.9556048834628191
+            ],
+            "mean": 0.9581945985941546,
+            "min": 0.9556048834628191,
+            "max": 0.9600443951165372
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.963855421686747,
+              0.958148383005707,
+              0.9625871908687381
+            ],
+            "mean": 0.9615303318537308,
+            "min": 0.958148383005707,
+            "max": 0.963855421686747
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.9638783269961977,
+              0.967680608365019,
+              0.9372623574144486
+            ],
+            "mean": 0.9562737642585551,
+            "min": 0.9372623574144486,
+            "max": 0.967680608365019
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.9152777777777777,
+              0.9152777777777777,
+              0.9208333333333333
+            ],
+            "mean": 0.9171296296296295,
+            "min": 0.9152777777777777,
+            "max": 0.9208333333333333
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              0.9561128526645768,
+              0.9596954769368562,
+              0.961038961038961
+            ],
+            "mean": 0.9589490968801314,
+            "min": 0.9561128526645768,
+            "max": 0.961038961038961
+          }
+        ]
+      },
+      {
+        "metric": "mpiw",
+        "normalized_percent_capacity": true,
+        "site_summaries": [
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              73.23400178181217,
+              68.50666570160067,
+              68.56238414284039
+            ],
+            "mean": 70.10101720875107,
+            "min": 68.50666570160067,
+            "max": 73.23400178181217
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              57.95599307496906,
+              57.98837228047796,
+              57.48491562528223
+            ],
+            "mean": 57.809760326909746,
+            "min": 57.48491562528223,
+            "max": 57.98837228047796
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              60.659612978765814,
+              60.95476732517552,
+              61.01933705835967
+            ],
+            "mean": 60.87790578743367,
+            "min": 60.659612978765814,
+            "max": 61.01933705835967
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              67.79852576814623,
+              67.67018202592419,
+              66.87110648001926
+            ],
+            "mean": 67.44660475802989,
+            "min": 66.87110648001926,
+            "max": 67.79852576814623
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              91.57861336961182,
+              93.61113700457273,
+              92.46776726225119
+            ],
+            "mean": 92.55250587881191,
+            "min": 91.57861336961182,
+            "max": 93.61113700457273
+          },
+          {
+            "seeds": [
+              0,
+              1,
+              2
+            ],
+            "values": [
+              86.48929873499598,
+              86.76304312965621,
+              86.84952276358082
+            ],
+            "mean": 86.70062154274433,
+            "min": 86.48929873499598,
+            "max": 86.84952276358082
+          }
+        ]
+      }
+    ]
+  }
+}

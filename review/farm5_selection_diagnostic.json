@@ -1,0 +1,1390 @@
+{
+  "audit_utc": "2026-10-22T06:09:12.409207+00:00",
+  "site": 5,
+  "nominal_capacity_mw": 36,
+  "scope": "Read-only diagnostic calculations from original training/validation/calibration observations and archived calibration predictions. No forecasts are fitted and test outcomes do not determine any selection.",
+  "provenance": {
+    "data_file": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/data/wind_farm_data/data_original/wind_farms/Wind farm site 5 (Nominal capacity-36MW).xlsx",
+    "data_sha256": "029c48cabee3ea5004390120522dbb65438b7840b1d390fa2e72bb793792bd90",
+    "input_kind": "caller-supplied original workbook; never overwritten",
+    "input_track": "meteorology_only",
+    "selection_cache": {
+      "directory": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_cache/farm5_759f6e1e9e57a48c468ea3387ede2a795e86a91d08f54b4c4d878f11afb082c2",
+      "specification": {
+        "cache_version": 1,
+        "site": 5,
+        "original_file": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/data/wind_farm_data/data_original/wind_farms/Wind farm site 5 (Nominal capacity-36MW).xlsx",
+        "original_sha256": "029c48cabee3ea5004390120522dbb65438b7840b1d390fa2e72bb793792bd90",
+        "temporal_loader_sha256": "683e93cb1ba6dd48aaf6233bc38514d896427db5d8604b7f0da96278aaecf5a6",
+        "selection_helper_sha256": "5f8e1bdba8f0c883d1580cfb47f3cbd891a21b4ccca70201a53f31f19e88dc49",
+        "protocol": {
+          "train_start": "2019-01-01",
+          "train_end": "2020-01-01",
+          "validation_end": "2020-04-01",
+          "calibration_end": "2020-07-01",
+          "test_end": "2021-01-01",
+          "window_size": 24,
+          "frequency_minutes": 15,
+          "wind_quantile": 98.0,
+          "temperature_low_quantile": 2.0,
+          "temperature_high_quantile": 98.0,
+          "cutout_ms": 25.0,
+          "use_wind": true,
+          "use_temperature": true,
+          "use_cutout": true
+        },
+        "include_past_power": false
+      }
+    }
+  },
+  "thresholds": {
+    "wind_ms": 13.005466939999998,
+    "temperature_low_c": 0.0,
+    "temperature_high_c": 29.82,
+    "cutout_ms": 25.0,
+    "training_valid_wind_count": 34360,
+    "training_valid_temperature_count": 34360,
+    "fit_scope": "valid original meteorological observations in the training time interval only"
+  },
+  "train_temperature_zero_count": 3110,
+  "sections": {
+    "train": {
+      "n": 1395,
+      "events_overlapping": {
+        "wind": 688,
+        "cold": 23,
+        "hot": 684,
+        "cutout": 3
+      },
+      "months": {
+        "2019-01": 9,
+        "2019-02": 25,
+        "2019-03": 39,
+        "2019-04": 111,
+        "2019-05": 136,
+        "2019-06": 65,
+        "2019-07": 103,
+        "2019-08": 573,
+        "2019-09": 111,
+        "2019-10": 114,
+        "2019-11": 85,
+        "2019-12": 24
+      },
+      "power_quantile_levels": [
+        0,
+        0.05,
+        0.25,
+        0.5,
+        0.75,
+        0.95,
+        1
+      ],
+      "power_quantiles_mw": [
+        0.0,
+        0.0,
+        0.0,
+        7.465333,
+        33.9606665,
+        35.073933,
+        35.350667
+      ],
+      "power_below_1mw_count": 518,
+      "near_zero_power_count": 400,
+      "wind_quantile_levels": [
+        0,
+        0.05,
+        0.5,
+        0.95,
+        1
+      ],
+      "wind_quantiles": [
+        0.0,
+        1.5826668000000002,
+        5.58,
+        18.2220001,
+        26.166667
+      ],
+      "temperature_quantiles": [
+        -0.333333,
+        0.0,
+        22.686667,
+        33.0953331,
+        34.18
+      ],
+      "input_missing_windows": 19
+    },
+    "validation": {
+      "n": 134,
+      "events_overlapping": {
+        "wind": 134,
+        "cold": 0,
+        "hot": 0,
+        "cutout": 0
+      },
+      "months": {
+        "2020-02": 46,
+        "2020-03": 88
+      },
+      "power_quantile_levels": [
+        0,
+        0.05,
+        0.25,
+        0.5,
+        0.75,
+        0.95,
+        1
+      ],
+      "power_quantiles_mw": [
+        0.868667,
+        24.477333,
+        25.504666999999998,
+        34.9066665,
+        35.20389275,
+        35.2563001,
+        35.304
+      ],
+      "power_below_1mw_count": 1,
+      "near_zero_power_count": 0,
+      "wind_quantile_levels": [
+        0,
+        0.05,
+        0.5,
+        0.95,
+        1
+      ],
+      "wind_quantiles": [
+        13.02,
+        13.1420001,
+        15.08,
+        18.937666449999995,
+        24.26
+      ],
+      "temperature_quantiles": [
+        2.293333,
+        3.283667,
+        7.18,
+        14.870999899999997,
+        17.766667
+      ],
+      "input_missing_windows": 39
+    },
+    "calibration": {
+      "n": 362,
+      "events_overlapping": {
+        "wind": 212,
+        "cold": 0,
+        "hot": 150,
+        "cutout": 0
+      },
+      "months": {
+        "2020-04": 9,
+        "2020-05": 134,
+        "2020-06": 219
+      },
+      "power_quantile_levels": [
+        0,
+        0.05,
+        0.25,
+        0.5,
+        0.75,
+        0.95,
+        1
+      ],
+      "power_quantiles_mw": [
+        0.0,
+        0.0,
+        1.7635,
+        33.257000000000005,
+        34.83483325,
+        35.22193335,
+        35.312
+      ],
+      "power_below_1mw_count": 72,
+      "near_zero_power_count": 40,
+      "wind_quantile_levels": [
+        0,
+        0.05,
+        0.5,
+        0.95,
+        1
+      ],
+      "wind_quantiles": [
+        0.59,
+        1.8646666500000002,
+        13.28,
+        16.174333349999998,
+        18.393333
+      ],
+      "temperature_quantiles": [
+        0.0,
+        0.0,
+        10.1233335,
+        33.61,
+        35.753333
+      ],
+      "input_missing_windows": 9
+    }
+  },
+  "v1_random_128_training_labels": {
+    "n": 128,
+    "events_overlapping": {
+      "wind": 61,
+      "cold": 0,
+      "hot": 67,
+      "cutout": 0
+    },
+    "months": {
+      "2019-02": 1,
+      "2019-04": 10,
+      "2019-05": 9,
+      "2019-06": 4,
+      "2019-07": 14,
+      "2019-08": 52,
+      "2019-09": 11,
+      "2019-10": 13,
+      "2019-11": 9,
+      "2019-12": 5
+    },
+    "power_quantile_levels": [
+      0,
+      0.05,
+      0.25,
+      0.5,
+      0.75,
+      0.95,
+      1
+    ],
+    "power_quantiles_mw": [
+      0.0,
+      0.0,
+      0.0,
+      4.867,
+      33.61116675,
+      34.7846999,
+      35.178
+    ],
+    "power_below_1mw_count": 53,
+    "near_zero_power_count": 40,
+    "wind_quantile_levels": [
+      0,
+      0.05,
+      0.5,
+      0.95,
+      1
+    ],
+    "wind_quantiles": [
+      0.88,
+      1.596,
+      4.646667000000001,
+      18.203,
+      19.913333
+    ],
+    "temperature_quantiles": [
+      0.0,
+      0.0,
+      30.066666499999997,
+      33.345333,
+      33.913333
+    ],
+    "input_missing_windows": 2
+  },
+  "proposed_stratified_128_training_labels": {
+    "description": {
+      "n": 128,
+      "events_overlapping": {
+        "wind": 66,
+        "cold": 4,
+        "hot": 58,
+        "cutout": 0
+      },
+      "months": {
+        "2019-01": 2,
+        "2019-02": 4,
+        "2019-03": 4,
+        "2019-04": 10,
+        "2019-05": 13,
+        "2019-06": 7,
+        "2019-07": 10,
+        "2019-08": 47,
+        "2019-09": 10,
+        "2019-10": 10,
+        "2019-11": 8,
+        "2019-12": 3
+      },
+      "power_quantile_levels": [
+        0,
+        0.05,
+        0.25,
+        0.5,
+        0.75,
+        0.95,
+        1
+      ],
+      "power_quantiles_mw": [
+        0.0,
+        0.0,
+        0.0,
+        29.92,
+        34.0571665,
+        35.048267,
+        35.249333
+      ],
+      "power_below_1mw_count": 46,
+      "near_zero_power_count": 40,
+      "wind_quantile_levels": [
+        0,
+        0.05,
+        0.5,
+        0.95,
+        1
+      ],
+      "wind_quantiles": [
+        0.0,
+        1.2363330000000001,
+        13.030000000000001,
+        16.246,
+        19.113333
+      ],
+      "temperature_quantiles": [
+        -0.053333,
+        0.0,
+        22.53,
+        30.7099999,
+        33.666667
+      ],
+      "input_missing_windows": 0
+    },
+    "selection_audit": {
+      "policy": "month_by_exclusive_weather_event_largest_remainder_time_uniform_v1",
+      "event_priority": [
+        "cold",
+        "hot",
+        "wind"
+      ],
+      "wind_includes_cutout": true,
+      "requested_budget": 128,
+      "effective_budget": 128,
+      "available_training_target_count": 1395,
+      "nonempty_cells": 18,
+      "initial_allocation_per_nonempty_cell": 1,
+      "remaining_budget": 110,
+      "largest_remainder_denominator": 1377,
+      "tie_breaking": "month ascending, then cold/hot/wind; within time targets choose the earlier equally close observation",
+      "within_cell_rule": "nearest distinct observations to equally spaced actual-clock-time targets; single label nearest the temporal midpoint",
+      "uses_power_label_values": false,
+      "uses_heldout_rows_or_outcomes": false,
+      "train_start": "2019-01-01",
+      "train_end": "2020-01-01",
+      "thresholds": {
+        "wind_ms": 13.005466939999998,
+        "temperature_low_c": 0.0,
+        "temperature_high_c": 29.82,
+        "cutout_ms": 25.0
+      },
+      "selected_window_indices": [
+        20,
+        110,
+        3459,
+        3469,
+        4605,
+        4618,
+        6848,
+        7548,
+        7586,
+        8443,
+        9373,
+        9503,
+        9855,
+        10434,
+        10435,
+        10462,
+        10960,
+        11155,
+        11156,
+        11393,
+        12060,
+        12076,
+        12595,
+        12645,
+        13223,
+        13224,
+        13242,
+        13915,
+        13927,
+        13940,
+        13983,
+        13986,
+        14081,
+        14600,
+        14832,
+        14856,
+        15274,
+        16916,
+        17073,
+        17074,
+        17251,
+        17273,
+        18406,
+        18411,
+        18417,
+        19092,
+        19250,
+        19473,
+        19848,
+        19930,
+        20234,
+        20244,
+        20523,
+        20524,
+        20525,
+        20526,
+        20642,
+        20689,
+        20808,
+        20812,
+        20813,
+        20825,
+        21016,
+        21080,
+        21082,
+        21090,
+        21182,
+        21222,
+        21288,
+        21370,
+        21405,
+        21479,
+        21559,
+        21587,
+        21676,
+        21745,
+        21801,
+        22043,
+        22044,
+        22045,
+        22062,
+        22077,
+        22102,
+        22140,
+        22236,
+        22256,
+        22335,
+        22426,
+        22448,
+        22529,
+        22611,
+        22638,
+        22658,
+        22911,
+        22912,
+        22913,
+        22928,
+        24038,
+        24039,
+        24291,
+        24292,
+        24293,
+        24294,
+        24300,
+        24343,
+        24387,
+        24431,
+        26005,
+        26040,
+        27878,
+        27879,
+        27880,
+        27881,
+        27882,
+        27883,
+        27884,
+        28042,
+        30127,
+        30148,
+        30757,
+        30759,
+        30760,
+        30761,
+        30762,
+        30827,
+        33749,
+        33770,
+        33791
+      ],
+      "selected_original_rows": [
+        44,
+        134,
+        3483,
+        3493,
+        4631,
+        4644,
+        6886,
+        7587,
+        7625,
+        8482,
+        9412,
+        9542,
+        9894,
+        10485,
+        10486,
+        10513,
+        11011,
+        11206,
+        11207,
+        11444,
+        12115,
+        12131,
+        12650,
+        12700,
+        13278,
+        13279,
+        13297,
+        13970,
+        13982,
+        13995,
+        14038,
+        14041,
+        14136,
+        14655,
+        14887,
+        14911,
+        15329,
+        17095,
+        17252,
+        17253,
+        17430,
+        17452,
+        18585,
+        18590,
+        18596,
+        19271,
+        19429,
+        19652,
+        20027,
+        20109,
+        20413,
+        20423,
+        20702,
+        20703,
+        20704,
+        20705,
+        20821,
+        20868,
+        20987,
+        20991,
+        20992,
+        21004,
+        21195,
+        21259,
+        21261,
+        21269,
+        21361,
+        21401,
+        21467,
+        21549,
+        21584,
+        21665,
+        21745,
+        21773,
+        21862,
+        21931,
+        21987,
+        22229,
+        22230,
+        22231,
+        22248,
+        22263,
+        22288,
+        22326,
+        22422,
+        22442,
+        22521,
+        22612,
+        22634,
+        22715,
+        22797,
+        22824,
+        22844,
+        23097,
+        23098,
+        23099,
+        23114,
+        24224,
+        24225,
+        24478,
+        24479,
+        24480,
+        24481,
+        24487,
+        24530,
+        24574,
+        24618,
+        26548,
+        26583,
+        28457,
+        28458,
+        28459,
+        28460,
+        28461,
+        28462,
+        28463,
+        28621,
+        30773,
+        30794,
+        31411,
+        31413,
+        31414,
+        31415,
+        31416,
+        31481,
+        34445,
+        34466,
+        34487
+      ],
+      "cells": [
+        {
+          "month": "2019-01",
+          "exclusive_event": "cold",
+          "available": 9,
+          "selected": 2,
+          "remaining_capacity": 8,
+          "largest_remainder_numerator": 880,
+          "selected_window_indices": [
+            20,
+            110
+          ],
+          "selected_original_rows": [
+            44,
+            134
+          ],
+          "selected_times": [
+            "2019-01-01T11:00:00",
+            "2019-01-02T09:30:00"
+          ]
+        },
+        {
+          "month": "2019-02",
+          "exclusive_event": "cold",
+          "available": 14,
+          "selected": 2,
+          "remaining_capacity": 13,
+          "largest_remainder_numerator": 53,
+          "selected_window_indices": [
+            4605,
+            4618
+          ],
+          "selected_original_rows": [
+            4631,
+            4644
+          ],
+          "selected_times": [
+            "2019-02-18T05:45:00",
+            "2019-02-18T09:00:00"
+          ]
+        },
+        {
+          "month": "2019-02",
+          "exclusive_event": "wind",
+          "available": 11,
+          "selected": 2,
+          "remaining_capacity": 10,
+          "largest_remainder_numerator": 1100,
+          "selected_window_indices": [
+            3459,
+            3469
+          ],
+          "selected_original_rows": [
+            3483,
+            3493
+          ],
+          "selected_times": [
+            "2019-02-06T06:45:00",
+            "2019-02-06T09:15:00"
+          ]
+        },
+        {
+          "month": "2019-03",
+          "exclusive_event": "wind",
+          "available": 39,
+          "selected": 4,
+          "remaining_capacity": 38,
+          "largest_remainder_numerator": 49,
+          "selected_window_indices": [
+            6848,
+            7548,
+            7586,
+            8443
+          ],
+          "selected_original_rows": [
+            6886,
+            7587,
+            7625,
+            8482
+          ],
+          "selected_times": [
+            "2019-03-13T17:30:00",
+            "2019-03-21T00:45:00",
+            "2019-03-21T10:15:00",
+            "2019-03-30T08:30:00"
+          ]
+        },
+        {
+          "month": "2019-04",
+          "exclusive_event": "hot",
+          "available": 9,
+          "selected": 1,
+          "remaining_capacity": 8,
+          "largest_remainder_numerator": 880,
+          "selected_window_indices": [
+            10960
+          ],
+          "selected_original_rows": [
+            11011
+          ],
+          "selected_times": [
+            "2019-04-25T16:45:00"
+          ]
+        },
+        {
+          "month": "2019-04",
+          "exclusive_event": "wind",
+          "available": 102,
+          "selected": 9,
+          "remaining_capacity": 101,
+          "largest_remainder_numerator": 94,
+          "selected_window_indices": [
+            9373,
+            9503,
+            9855,
+            10434,
+            10435,
+            10462,
+            11155,
+            11156,
+            11393
+          ],
+          "selected_original_rows": [
+            9412,
+            9542,
+            9894,
+            10485,
+            10486,
+            10513,
+            11206,
+            11207,
+            11444
+          ],
+          "selected_times": [
+            "2019-04-09T01:00:00",
+            "2019-04-10T09:30:00",
+            "2019-04-14T01:30:00",
+            "2019-04-20T05:15:00",
+            "2019-04-20T05:30:00",
+            "2019-04-20T12:15:00",
+            "2019-04-27T17:30:00",
+            "2019-04-27T17:45:00",
+            "2019-04-30T05:00:00"
+          ]
+        },
+        {
+          "month": "2019-05",
+          "exclusive_event": "hot",
+          "available": 26,
+          "selected": 3,
+          "remaining_capacity": 25,
+          "largest_remainder_numerator": 1373,
+          "selected_window_indices": [
+            13915,
+            13927,
+            13940
+          ],
+          "selected_original_rows": [
+            13970,
+            13982,
+            13995
+          ],
+          "selected_times": [
+            "2019-05-26T12:30:00",
+            "2019-05-26T15:30:00",
+            "2019-05-26T18:45:00"
+          ]
+        },
+        {
+          "month": "2019-05",
+          "exclusive_event": "wind",
+          "available": 110,
+          "selected": 10,
+          "remaining_capacity": 109,
+          "largest_remainder_numerator": 974,
+          "selected_window_indices": [
+            12060,
+            12076,
+            12595,
+            12645,
+            13223,
+            13224,
+            13242,
+            13983,
+            13986,
+            14081
+          ],
+          "selected_original_rows": [
+            12115,
+            12131,
+            12650,
+            12700,
+            13278,
+            13279,
+            13297,
+            14038,
+            14041,
+            14136
+          ],
+          "selected_times": [
+            "2019-05-07T04:45:00",
+            "2019-05-07T08:45:00",
+            "2019-05-12T18:30:00",
+            "2019-05-13T07:00:00",
+            "2019-05-19T07:30:00",
+            "2019-05-19T07:45:00",
+            "2019-05-19T12:15:00",
+            "2019-05-27T05:30:00",
+            "2019-05-27T06:15:00",
+            "2019-05-28T06:00:00"
+          ]
+        },
+        {
+          "month": "2019-06",
+          "exclusive_event": "hot",
+          "available": 43,
+          "selected": 4,
+          "remaining_capacity": 42,
+          "largest_remainder_numerator": 489,
+          "selected_window_indices": [
+            14600,
+            15274,
+            17073,
+            17074
+          ],
+          "selected_original_rows": [
+            14655,
+            15329,
+            17252,
+            17253
+          ],
+          "selected_times": [
+            "2019-06-02T15:45:00",
+            "2019-06-09T16:15:00",
+            "2019-06-29T17:00:00",
+            "2019-06-29T17:15:00"
+          ]
+        },
+        {
+          "month": "2019-06",
+          "exclusive_event": "wind",
+          "available": 22,
+          "selected": 3,
+          "remaining_capacity": 21,
+          "largest_remainder_numerator": 933,
+          "selected_window_indices": [
+            14832,
+            14856,
+            16916
+          ],
+          "selected_original_rows": [
+            14887,
+            14911,
+            17095
+          ],
+          "selected_times": [
+            "2019-06-05T01:45:00",
+            "2019-06-05T07:45:00",
+            "2019-06-28T01:45:00"
+          ]
+        },
+        {
+          "month": "2019-07",
+          "exclusive_event": "hot",
+          "available": 86,
+          "selected": 8,
+          "remaining_capacity": 85,
+          "largest_remainder_numerator": 1088,
+          "selected_window_indices": [
+            17251,
+            17273,
+            18406,
+            18411,
+            18417,
+            19092,
+            19473,
+            19848
+          ],
+          "selected_original_rows": [
+            17430,
+            17452,
+            18585,
+            18590,
+            18596,
+            19271,
+            19652,
+            20027
+          ],
+          "selected_times": [
+            "2019-07-01T13:30:00",
+            "2019-07-01T19:00:00",
+            "2019-07-13T14:15:00",
+            "2019-07-13T15:30:00",
+            "2019-07-13T17:00:00",
+            "2019-07-20T17:45:00",
+            "2019-07-24T17:00:00",
+            "2019-07-28T14:45:00"
+          ]
+        },
+        {
+          "month": "2019-07",
+          "exclusive_event": "wind",
+          "available": 17,
+          "selected": 2,
+          "remaining_capacity": 16,
+          "largest_remainder_numerator": 383,
+          "selected_window_indices": [
+            19250,
+            19930
+          ],
+          "selected_original_rows": [
+            19429,
+            20109
+          ],
+          "selected_times": [
+            "2019-07-22T09:15:00",
+            "2019-07-29T11:15:00"
+          ]
+        },
+        {
+          "month": "2019-08",
+          "exclusive_event": "hot",
+          "available": 520,
+          "selected": 42,
+          "remaining_capacity": 519,
+          "largest_remainder_numerator": 633,
+          "selected_window_indices": [
+            20234,
+            20244,
+            20523,
+            20524,
+            20525,
+            20526,
+            20808,
+            20812,
+            20813,
+            20825,
+            21016,
+            21080,
+            21082,
+            21090,
+            21182,
+            21222,
+            21288,
+            21370,
+            21405,
+            21479,
+            21559,
+            21587,
+            21676,
+            21745,
+            21801,
+            22043,
+            22044,
+            22045,
+            22062,
+            22140,
+            22236,
+            22256,
+            22335,
+            22426,
+            22448,
+            22529,
+            22611,
+            22638,
+            22911,
+            22912,
+            22913,
+            22928
+          ],
+          "selected_original_rows": [
+            20413,
+            20423,
+            20702,
+            20703,
+            20704,
+            20705,
+            20987,
+            20991,
+            20992,
+            21004,
+            21195,
+            21259,
+            21261,
+            21269,
+            21361,
+            21401,
+            21467,
+            21549,
+            21584,
+            21665,
+            21745,
+            21773,
+            21862,
+            21931,
+            21987,
+            22229,
+            22230,
+            22231,
+            22248,
+            22326,
+            22422,
+            22442,
+            22521,
+            22612,
+            22634,
+            22715,
+            22797,
+            22824,
+            23097,
+            23098,
+            23099,
+            23114
+          ],
+          "selected_times": [
+            "2019-08-01T15:15:00",
+            "2019-08-01T17:45:00",
+            "2019-08-04T15:30:00",
+            "2019-08-04T15:45:00",
+            "2019-08-04T16:00:00",
+            "2019-08-04T16:15:00",
+            "2019-08-07T14:45:00",
+            "2019-08-07T15:45:00",
+            "2019-08-07T16:00:00",
+            "2019-08-07T19:00:00",
+            "2019-08-09T18:45:00",
+            "2019-08-10T10:45:00",
+            "2019-08-10T11:15:00",
+            "2019-08-10T13:15:00",
+            "2019-08-11T12:15:00",
+            "2019-08-11T22:15:00",
+            "2019-08-12T14:45:00",
+            "2019-08-13T11:15:00",
+            "2019-08-13T20:00:00",
+            "2019-08-14T16:15:00",
+            "2019-08-15T12:15:00",
+            "2019-08-15T19:15:00",
+            "2019-08-16T17:30:00",
+            "2019-08-17T10:45:00",
+            "2019-08-18T00:45:00",
+            "2019-08-20T13:15:00",
+            "2019-08-20T13:30:00",
+            "2019-08-20T13:45:00",
+            "2019-08-20T18:00:00",
+            "2019-08-21T13:30:00",
+            "2019-08-22T13:30:00",
+            "2019-08-22T18:30:00",
+            "2019-08-23T14:15:00",
+            "2019-08-24T13:00:00",
+            "2019-08-24T18:30:00",
+            "2019-08-25T14:45:00",
+            "2019-08-26T11:15:00",
+            "2019-08-26T18:00:00",
+            "2019-08-29T14:15:00",
+            "2019-08-29T14:30:00",
+            "2019-08-29T14:45:00",
+            "2019-08-29T18:30:00"
+          ]
+        },
+        {
+          "month": "2019-08",
+          "exclusive_event": "wind",
+          "available": 53,
+          "selected": 5,
+          "remaining_capacity": 52,
+          "largest_remainder_numerator": 212,
+          "selected_window_indices": [
+            20642,
+            20689,
+            22077,
+            22102,
+            22658
+          ],
+          "selected_original_rows": [
+            20821,
+            20868,
+            22263,
+            22288,
+            22844
+          ],
+          "selected_times": [
+            "2019-08-05T21:15:00",
+            "2019-08-06T09:00:00",
+            "2019-08-20T21:45:00",
+            "2019-08-21T04:00:00",
+            "2019-08-26T23:00:00"
+          ]
+        },
+        {
+          "month": "2019-09",
+          "exclusive_event": "wind",
+          "available": 111,
+          "selected": 10,
+          "remaining_capacity": 110,
+          "largest_remainder_numerator": 1084,
+          "selected_window_indices": [
+            24038,
+            24039,
+            24291,
+            24292,
+            24293,
+            24294,
+            24300,
+            24343,
+            24387,
+            24431
+          ],
+          "selected_original_rows": [
+            24224,
+            24225,
+            24478,
+            24479,
+            24480,
+            24481,
+            24487,
+            24530,
+            24574,
+            24618
+          ],
+          "selected_times": [
+            "2019-09-10T08:00:00",
+            "2019-09-10T08:15:00",
+            "2019-09-12T23:30:00",
+            "2019-09-12T23:45:00",
+            "2019-09-13T00:00:00",
+            "2019-09-13T00:15:00",
+            "2019-09-13T01:45:00",
+            "2019-09-13T12:30:00",
+            "2019-09-13T23:30:00",
+            "2019-09-14T10:30:00"
+          ]
+        },
+        {
+          "month": "2019-10",
+          "exclusive_event": "wind",
+          "available": 114,
+          "selected": 10,
+          "remaining_capacity": 113,
+          "largest_remainder_numerator": 37,
+          "selected_window_indices": [
+            26005,
+            26040,
+            27878,
+            27879,
+            27880,
+            27881,
+            27882,
+            27883,
+            27884,
+            28042
+          ],
+          "selected_original_rows": [
+            26548,
+            26583,
+            28457,
+            28458,
+            28459,
+            28460,
+            28461,
+            28462,
+            28463,
+            28621
+          ],
+          "selected_times": [
+            "2019-10-04T13:00:00",
+            "2019-10-04T21:45:00",
+            "2019-10-24T10:15:00",
+            "2019-10-24T10:30:00",
+            "2019-10-24T10:45:00",
+            "2019-10-24T11:00:00",
+            "2019-10-24T11:15:00",
+            "2019-10-24T11:30:00",
+            "2019-10-24T11:45:00",
+            "2019-10-26T03:15:00"
+          ]
+        },
+        {
+          "month": "2019-11",
+          "exclusive_event": "wind",
+          "available": 85,
+          "selected": 8,
+          "remaining_capacity": 84,
+          "largest_remainder_numerator": 978,
+          "selected_window_indices": [
+            30127,
+            30148,
+            30757,
+            30759,
+            30760,
+            30761,
+            30762,
+            30827
+          ],
+          "selected_original_rows": [
+            30773,
+            30794,
+            31411,
+            31413,
+            31414,
+            31415,
+            31416,
+            31481
+          ],
+          "selected_times": [
+            "2019-11-17T13:15:00",
+            "2019-11-17T18:30:00",
+            "2019-11-24T04:45:00",
+            "2019-11-24T05:15:00",
+            "2019-11-24T05:30:00",
+            "2019-11-24T05:45:00",
+            "2019-11-24T06:00:00",
+            "2019-11-24T22:15:00"
+          ]
+        },
+        {
+          "month": "2019-12",
+          "exclusive_event": "wind",
+          "available": 24,
+          "selected": 3,
+          "remaining_capacity": 23,
+          "largest_remainder_numerator": 1153,
+          "selected_window_indices": [
+            33749,
+            33770,
+            33791
+          ],
+          "selected_original_rows": [
+            34445,
+            34466,
+            34487
+          ],
+          "selected_times": [
+            "2019-12-25T19:15:00",
+            "2019-12-26T00:30:00",
+            "2019-12-26T05:45:00"
+          ]
+        }
+      ]
+    },
+    "note": "The policy was specified from training time/weather coverage, shared across all models, and never uses power-label values or held-out outcomes to choose IDs."
+  },
+  "v1_Full_calibration": {
+    "n": 362,
+    "rank": 345,
+    "q_hat_recalculated": 0.0,
+    "zero_score_count": 355,
+    "raw_coverage": 0.9806629834254144,
+    "score_quantiles": [
+      0.0,
+      0.0,
+      0.0,
+      2.908904520927805
+    ],
+    "event_subsets": {
+      "wind": {
+        "n": 212,
+        "raw_coverage": 0.9764150943396226,
+        "score_quantiles": [
+          0.0,
+          0.0,
+          0.0,
+          2.908904520927805
+        ]
+      },
+      "cold": {
+        "n": 0,
+        "raw_coverage": null,
+        "score_quantiles": null
+      },
+      "hot": {
+        "n": 150,
+        "raw_coverage": 0.9866666666666667,
+        "score_quantiles": [
+          0.0,
+          0.0,
+          0.0,
+          0.1270711605245094
+        ]
+      },
+      "cutout": {
+        "n": 0,
+        "raw_coverage": null,
+        "score_quantiles": null
+      }
+    }
+  },
+  "v1_TargetOnly_calibration": {
+    "n": 362,
+    "rank": 345,
+    "q_hat_recalculated": 4.952657470584301,
+    "zero_score_count": 98,
+    "raw_coverage": 0.27071823204419887,
+    "score_quantiles": [
+      0.0,
+      0.8413968927634912,
+      4.847532091447944,
+      15.798518130192733
+    ],
+    "event_subsets": {
+      "wind": {
+        "n": 212,
+        "raw_coverage": 0.32075471698113206,
+        "score_quantiles": [
+          0.0,
+          0.5273094393580422,
+          2.80742466319251,
+          15.798518130192733
+        ]
+      },
+      "cold": {
+        "n": 0,
+        "raw_coverage": null,
+        "score_quantiles": null
+      },
+      "hot": {
+        "n": 150,
+        "raw_coverage": 0.2,
+        "score_quantiles": [
+          0.0,
+          2.0486115430408978,
+          5.249412181229549,
+          8.413309329690223
+        ]
+      },
+      "cutout": {
+        "n": 0,
+        "raw_coverage": null,
+        "score_quantiles": null
+      }
+    }
+  },
+  "source_hashes": {
+    "review/replied_comment_runs/chronological_v1/crossfarm_site5_Full_interval/fit_ids.npz": "dd3ab556cd2cbe16d2762ac36a77cd777a0a405cbf16406cfb2d1d14d33cc593",
+    "review/selection_sampling.py": "3c889b4fb4a6fc98666ba57e86e8cc02bdf3936389f6b0f23e4b7a647a9b91f2",
+    "review/replied_comment_runs/chronological_v1/crossfarm_site5_Full_interval/calibration.csv": "3ec56dc4854e0a67f32ca8a8bd4227006c7040bcde05473a3da795b5afaa8196",
+    "review/replied_comment_runs/chronological_v1/crossfarm_site5_TargetOnly_interval/calibration.csv": "75fbc6e400b6cd784a09baca53a758173afac7e7e7896e0031ecb1deb3d09b29"
+  },
+  "interpretation": [
+    "The v1 random 128-label draw includes no cold or cut-out examples and omits January and March training months.",
+    "There are 3110 exact-zero temperatures among 34360 valid training temperature observations; the lower training quantile is 0°C and the strict-below rule produces only 23 cold target rows. The audit does not determine whether any individual zero temperature is a sensor code or a physical measurement, and no such rows are removed post hoc.",
+    "All 134 Q1 validation target rows are wind events, so their validation objective cannot directly assess hot/cold performance. All models must receive the same declared validation labels and search budget.",
+    "The Q2 calibration target set has 212 wind and 150 hot examples, with no cold or cut-out examples. Its global conformal radius provides no empirical group-specific cold calibration evidence.",
+    "The v1 Full calibration radius is exactly zero because at least the finite-sample rank has score zero; this is not a quantile-rank calculation error.",
+    "The new month/event acquisition policy, validation selection, and any other method changes are multiple simultaneous changes. A difference from v1 must not be attributed to one component.",
+    "The v1 Q3-Q4 outcomes have already been inspected. A new evaluation on them is a reused-test follow-up, not a new untouched test."
+  ]
+}

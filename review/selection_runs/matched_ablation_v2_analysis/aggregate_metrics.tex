@@ -1,0 +1,18 @@
+\begin{table}
+\caption{Site-equal matched-ablation aggregates.}
+\label{tab:matched_ablation_aggregate}
+\begin{tabular}{llrrr}
+\toprule
+scope & variant & sites & macro\_normalized\_rmse & mean\_rank \\
+\midrule
+within & Full & 6 & 0.1809 & 2.0000 \\
+within & NoVariance & 6 & 0.1787 & 2.1667 \\
+within & NoDiscrepancy & 6 & 0.1996 & 2.6667 \\
+within & WeightedSVQR & 6 & 0.1981 & 3.1667 \\
+cross & Full & 6 & 0.1769 & 2.1667 \\
+cross & NoVariance & 6 & 0.1767 & 2.5000 \\
+cross & NoDiscrepancy & 6 & 0.1771 & 2.3333 \\
+cross & WeightedSVQR & 6 & 0.1770 & 3.0000 \\
+\bottomrule
+\end{tabular}
+\end{table}

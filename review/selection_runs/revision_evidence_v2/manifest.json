@@ -1,0 +1,31 @@
+{
+  "version": "revision_evidence_manifest_v2_1",
+  "status": "complete",
+  "created_utc": "2026-10-24T03:02:54.604803+00:00",
+  "source": "review/summarize_v2_revision_evidence.py",
+  "source_sha256": "45a596bc9e9379909e6d791cc441af407a067114499661596ed92270341afcaf",
+  "input_policy": "completed analysis artifacts only; no held-out result or prediction files read",
+  "inputs": {
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v2_analysis/analysis_manifest.json": "c4bb853f5da1e9666188457780ac7119901a28b4b199e1e58e191bd4f82d4b1b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v2_analysis/selection_v2_analysis.json": "0c96915b44f6af85c40d83a8967e61d7564bc438e621867ba93c3d0da12c608b",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v2_analysis/task_method_seed_mean_rmse.csv": "8d9d29f574b194686a5b9345e63703500e3a6d90ebd5c2eb77493a25c4ab5423",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v2_analysis/scope_summary.csv": "8613d1dade24d20787fc590e8b3c110e0d256ba884544fecf38892c60fae91c6",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v2_analysis/full_pairwise_inference.csv": "1060ba395f43ffc0e6ccc686da85c617a8facf2fea3dbfb179c27da9edd0eb0d",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v2_analysis/first_tier_all_pair_tests.csv": "66cf28427a6d2ab2f22a64851927d5a6790942b9aa8e5a9847f2f10b749e952f",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/selection_v2_analysis/conservative_first_tier.csv": "700732104949446b28f62d2180ee2aea87acfb693605835eb2cc3df8dcde0c82",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/matched_ablation_v2_analysis/manifest.json": "dbba72e745707b59cf3c2df965d966938a17610ab34caa2c40cac1c1f508096e",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/matched_ablation_v2_analysis/summary.json": "e017570a19e52eaf01a7ab165c692d4dc7cfe770f58619e0936b1a913903fdce",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/matched_ablation_v2_analysis/task_metrics.csv": "a441ec13a204b553cdd154c933a349cab734f839431c27aafa550ec1a816fd6f",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/matched_ablation_v2_analysis/aggregate_metrics.csv": "6d68d10a7a5d0d3c7de8918901ea4ea442156abf0fe5f14ee6f432c9a2e71be1",
+    "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/matched_ablation_v2_analysis/paired_inference.csv": "bfc654f6734f3a1d9f8ef9577dd92e45320ba98ceb87c6eafc6c7f2247bde59f"
+  },
+  "outputs": {
+    "revision_evidence.json": "d2e63d4f51a452f4a8d36679f804064b1d5e0ee4532d8deda61f829ba5cb850b",
+    "revision_evidence.md": "14a333cd9a2b86069d7c3b6c8247faf09e458c0d9f15302178303b22c04860f5"
+  },
+  "environment": {
+    "python": "3.10.9",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3"
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "audited_utc": "2026-10-22T04:56:41.774473+00:00",
+  "scope": "18 presently generated independent replies; read-only substantive review, no manuscript/script/data/model changes",
+  "response_file_sha256": "d08fb1021084417275ef54bd7adae3c36f2f77f5dcf5ba7494132b4fc113b3bf",
+  "definitions_file_sha256": "1488361f402b5889f8155534d765a40cfabc9dde088f6675aaa4385a72001826",
+  "entries": [
+    {
+      "title": "Reviewer 1, Concern 1",
+      "response_line": 97,
+      "reviewer_comment": "The manuscript's novelty is promising, but the methodological contribution is not yet isolated clearly enough from existing SVQR, LDMR, and transfer-learning frameworks. The paper should provide a sharper theoretical comparison showing exactly what is new in TL-QLDMR beyond combining known components, and why the proposed combination is not simply an engineering integration of established ideas.",
+      "current_author_response": "Thank you for asking us to distinguish the contribution from its established components. We now describe a specified supervised-transfer formulation rather than a new asymmetric variance: normalized centered source-residual variance controls dispersion, weighted pinball loss supplies quantile-dependent underprediction/overprediction costs, and a projected mean-discrepancy term constrains the predictive direction. The revision gives a consistent kernel derivation and explicit-feature counterpart, including the label-dependent linear term. It does not claim that this combination is uniquely optimal or that variance minimization forces a symmetric residual distribution. The earlier empirical records are distinguished from validation of this corrected objective.",
+      "status": "partially_answered",
+      "assessment": "已澄清已知组成与原错误，但没有提供要求的SVQR/LDMR/transfer目标函数逐项理论比较；当前贡献仍是特定组合与一致推导，不能凭纠错宣称新的方差原理。",
+      "minimum_change": "添加精确特殊情形/关系比较：lambda1=lambda2=0给出域加权pooled kernel quantile regression；lambda2=0保留源残差方差；说明相对LDMR改的是损失、域结构和投影均值约束。承认集成贡献范围，不宣称独一无二或由几乎无差异消融证实各组件创新。",
+      "experiment_or_artifact_needs": [
+        "objective_relationship_table"
+      ]
+    },
+    {
+      "title": "Reviewer 1, Concern 3",
+      "response_line": 283,
+      "reviewer_comment": "The study evaluates the final model mainly on a single selected target farm, which limits the generality of the conclusions. A stronger experimental design would test the method through leave-one-farm-out or cross-farm transfer validation to demonstrate that the reported gains are not specific to Farm 6 alone.",
+      "current_author_response": "We agree that six-farm screening does not establish cross-farm predictive generalization. The Abstract and contributions now distinguish domain screening on six farms from selection of Farm~6 as the stress-test case. The archived predictions are also identified as earlier implementation results, rather than evidence for the corrected objective. No leave-one-farm-out or cross-farm validation of the corrected model is claimed; such validation remains outstanding.",
+      "status": "empirical_request_unanswered",
+      "assessment": "缩小单场结论并未满足此条明示的leave-one-farm-out或cross-farm transfer验证。六场筛选不等于跨场预测。",
+      "minimum_change": "至少做多个held-out farms的监督式跨场迁移：其他场数据为源，留出场少量目标训练标签用于适配、独立时段用于测试；若仅在三场分别做正常到极端迁移，应明确它是多场重复而非跨场迁移。",
+      "experiment_or_artifact_needs": [
+        "cross_farm_validation"
+      ]
+    },
+    {
+      "title": "Reviewer 1, Concern 4",
+      "response_line": 350,
+      "reviewer_comment": "The transfer-learning setting appears to rely on a very large source domain and a much smaller target domain, but the impact of target-label scarcity is not studied systematically. The authors should vary the number of target labels and report how performance degrades under stricter few-shot conditions, since this is central to the claimed extreme-event scenario.",
+      "current_author_response": "The requested target-label scarcity analysis remains necessary. We have withdrawn the earlier few-shot performance claim because the solver version underlying those scores has not been established and those scores cannot be assigned to the corrected residual-variance objective. The manuscript now specifies a fixed-test, explicit-count, test-independent protocol instead of presenting unverified results as a completed sensitivity study. The supplied Farm~6 inputs now support a fixed-configuration four-variant diagnostic, but that run does not vary the target-label budget; corrected-model scarcity results therefore remain outstanding. We therefore do not claim that this empirical request has been completed.",
+      "status": "empirical_request_unanswered",
+      "assessment": "撤回不可追溯few-shot分数是必要修正，但没有新的label-budget曲线。",
+      "minimum_change": "在同一测试集、固定源集与预先定义标签预算下比较Full/TargetOnly，重复预先固定子样本种子；报告实际nT、误差和不确定性，控制权重总尺度，区间校准标签另计不能隐藏。",
+      "experiment_or_artifact_needs": [
+        "label_budget_sensitivity"
+      ]
+    },
+    {
+      "title": "Reviewer 1, Concern 5",
+      "response_line": 401,
+      "reviewer_comment": "The asymmetric variance regularizer is an interesting idea, but its mathematical justification remains incomplete. The manuscript should provide a more rigorous derivation explaining why the proposed asymmetric form is the most appropriate quantile-compatible modification of LDMR, and whether the stated positive-definiteness and convexity claims always hold under all kernel and hyperparameter settings.",
+      "current_author_response": "Thank you for identifying the need to justify the regularizer and state the limits of the theory. The variance penalty is symmetric and contains no $\\tau$; we have removed the claim that it is a new asymmetric variance or the most appropriate quantile-specific form. Its motivation is the translation invariance $\\|H_S(u+a\\mathbf1)\\|^2=\\|H_Su\\|^2$, which permits nonzero residual means while penalizing dispersion. Quantile dependence enters through weighted pinball loss, not a prescribed residual skewness. We also remove the claim that variance minimization forces symmetry or Gaussian errors. With a positive-semidefinite kernel, nonnegative regularization/loss weights, and $\\tau\\in(0,1)$, the objective is jointly convex. The proof uses $S\\succeq0$, $M=aa^T\\succeq0$, and the quadratic form of $\\Omega$. If $K\\succ0$, $\\Omega\\succ0$ and strong convexity holds in $\\beta$ for fixed $b$; the unregularized intercept prevents a joint strong-convexity claim. Singular kernels use the Moore--Penrose inverse and need not have unique coefficients, although null-space coefficients represent the same predictor. The Nystr\\\"{o}m matrix similarly satisfies $R\\succeq I$ only for the stated nonnegative penalties. We make no Adam convergence-rate or exact-kernel approximation-error claim. The former SymVar comparison is excluded because it neither represents a distinct symmetric residual-variance ablation of this model nor has consistent, reproducible component results. The new four-variant fixed-configuration run gives full-model RMSE 7.531988 MW and no-variance RMSE 7.531987 MW; the difference is below $10^{-6}$ MW and does not demonstrate a variance benefit. Full-model calibrated PICP is 0.971084 and MPIW is 27.698317 MW. All variants and their saved predictions are reported. This historical random-split diagnostic does not establish chronological generalization or statistical significance.",
+      "status": "substantively_answered",
+      "assessment": "对称性、量纲归一化、label-linear项、PSD/条件强凸、奇异核及无Adam速率均正面回应；诚实承认no-variance几乎相同。",
+      "minimum_change": "保留现有数学回答；将实测消融表述限制在当前权重/特征/优化设置，不把微小差异当组件增益。",
+      "experiment_or_artifact_needs": []
+    },
+    {
+      "title": "Reviewer 1, Concern 10",
+      "response_line": 1088,
+      "reviewer_comment": "The conclusions would be stronger if the manuscript tested robustness beyond injected noise on one farm. The paper should include ablations under multiple meteorological seasons, different extreme-event types, and possibly additional datasets, to show that the observed robustness is general rather than dataset-specific.",
+      "current_author_response": "We agree that one farm and injected perturbations do not establish robustness across seasons, event types, or datasets. The revised Abstract, experimental scope, and Conclusion now limit the evidence accordingly. They also state that archived prediction and runtime records concern earlier implementations and cannot establish the behavior of the corrected objective. No new seasonal, cross-farm, or external-dataset result is claimed.",
+      "status": "empirical_request_unanswered",
+      "assessment": "撤回跨季节/事件/数据泛化宣称没有提供请求的分组消融。额外外部数据是可选，不必为此阻塞全部工作。",
+      "minimum_change": "先对预先划定、无数据泄漏的测试预测按季节和风速/低温/高温/混合状态做四组件分组评估，报告组样本数和空/小组；再利用现有多场数据做重复验证。不得将单场0个cut-out伪称该事件鲁棒性。",
+      "experiment_or_artifact_needs": [
+        "season_event_ablation",
+        "cross_farm_validation"
+      ]
+    },
+    {
+      "title": "Reviewer 2, Major Comment 1",
+      "response_line": 1198,
+      "reviewer_comment": "The experimental scope is narrower than the claims. The manuscript uses six wind farms to define and rank domain shift, but the main deterministic prediction comparison, probabilistic interval evaluation, noise robustness test, ablation study, residual-density analysis, and scalability study are all reported on Farm 6. Since Farm 6 is selected as the farm with the largest composite shift, this is better described as a selected stress-test case, not as full six-farm validation. The authors should either report the main comparisons across all six farms, or at least representative high-, medium-, and low-shift farms, or clearly narrow the claims to a Farm 6 evaluation after six-farm screening.",
+      "current_author_response": "The distinction between screening and predictive evaluation is now explicit. Six farms support domain screening, while Farm~6 is the selected stress-test case. We have additionally separated archived implementation scores from validation of the corrected residual-variance objective; a new fixed-configuration Farm~6 diagnostic now evaluates the corrected model, while chronological and cross-farm predictive validation remain outstanding. The Abstract and Conclusion no longer assert six-farm predictive validation or deployment readiness.",
+      "status": "answered_by_explicit_scope_narrowing",
+      "assessment": "此评论明确允许将结论缩小为六场筛选后Farm6 stress test；当前修订采用了这一合法选项，不能仅因未完成六场预测就判此条未答。",
+      "minimum_change": "在全文/Abstract/Highlights中同步单场范围；回复直接说明选择收窄结论这一路径，避免把它写成已满足R1C3的跨场请求。",
+      "experiment_or_artifact_needs": []
+    },
+    {
+      "title": "Reviewer 2, Major Comment 2",
+      "response_line": 1278,
+      "reviewer_comment": "The data split and target-domain partition are insufficiently described. For Farm 6, the paper reports 66,009 source-domain normal samples and 4,144 target-domain extreme-event samples, but it does not state how many target samples are used for training, validation, calibration, and testing. This is critical because the proposed method uses target-domain labels through weighted pinball loss. The authors should report the exact chronological span, forecasting horizon, source/target train-validation-test counts, split strategy, and whether thresholds, normalization, calibration, and hyperparameter tuning are based only on training data.",
+      "current_author_response": "The archived Farm~6 window dataset contains 66,009 source samples and 4,143 target samples; the seed-0 random 90/10 target split gives 3,728 training and 415 test windows. We have removed the unsupported statement that all historical thresholds and preprocessing used training data only: the historical meteorological thresholds used the full record, and random windows are not a chronological holdout. The corrected validation protocol reserves calibration labels from target training and fits preprocessing only on model-training data. The available archive does not establish every historical validation/calibration assignment or the full requested chronological protocol, so the supplied data do not recover those historical choices. We now report the actual diagnostic counts: point fitting uses 3,728 target labels; interval fitting uses 2,983 and reserves 745 for calibration; testing uses the same 415 windows. The processed Farm~6 file matches the archived screening records, but has modified entries and irregular timestamps. All 415 test labels agree with the original workbook; this does not prove that all upstream feature processing is causal. These limits are stated explicitly.",
+      "status": "partially_answered",
+      "assessment": "已有source/target/train/cal/test计数和非训练专属阈值披露，但Author response缺确切起止日期、实际预测步长说明、validation=0和source val/test=0的明确分配；历史调参不可追溯需与新协议区分。",
+      "minimum_change": "补完整分配表，注明无独立validation/无本次调参、固定旧参数；写明起止日期、按24行历史到下一行的实际构造及名义15分钟（不规则时间戳意味着并非一律15分钟）。严格时间协议另列，不需伪称历史随机协议为因果。",
+      "experiment_or_artifact_needs": [
+        "complete_split_accounting"
+      ]
+    },
+    {
+      "title": "Reviewer 2, Major Comment 5",
+      "response_line": 1380,
+      "reviewer_comment": "The method derivation needs clarification. The asymmetric variance regularizer is central to the paper, but the current derivation is difficult to verify. The authors should explain what quantities are treated as constants, why this is mathematically valid when residuals depend on the prediction function, and whether the variance term is computed on the source domain, target domain, or combined domain. The relation between the exact kernel formulation, the Nystrom approximation, and the SGD optimizer should also be separated more clearly.",
+      "current_author_response": "The corrected derivation now treats the source residual mean as a function of the predictor, not a frozen scalar. Data, kernel hyperparameters, centering matrices, and landmarks are fixed within an optimization run. Since $H_S\\mathbf1=0$, centering eliminates $b$ exactly and the variance is computed only on source samples. We use $\\lambda_1\\|H_S(y_S-\\Phi_S^Tw)\\|^2/(2n_S)$ throughout, define $S=\\operatorname{diag}(H_S/n_S,0)$, and retain both its quadratic and label-dependent linear terms. Only $\\lambda_1y_S^TH_Sy_S/(2n_S)$ is constant and may be dropped. The domain term is $(w^T(\\bar\\phi_S-\\bar\\phi_T))^2=\\beta^TKaa^TK\\beta$, a prediction-direction mean constraint rather than full feature alignment. The exact kernel QP, fixed Nystr\\\"{o}m feature approximation, and Adam optimizer are distinguished explicitly. In the explicit formulation both $R$ and $c$ carry $1/n_S$; the code now includes $-c$ and uses batch loss sums plus $(B/N)(Rw-c)$, consistently with the summed-loss objective. Landmark selection uses a seeded source-training subset of at most 2,000 inputs, with a stabilized fixed feature map. The revised code passes small deterministic objective, gradient, batch-scaling, and independent primal--dual checks, including singular Gram matrices. Those algebraic checks are supplemented by a separately recorded Farm~6 fixed-configuration evaluation of the full, no-variance, no-discrepancy, and target-only models. All four share the same 415 test windows, and intervals use 745 reserved target-training labels for calibration. Downstream scaling uses fitting data only, while the supplied workbook has upstream processing and timestamp limitations. Earlier fast-solver scores are not reassigned to this corrected objective, and no Adam convergence rate or approximation-error bound is asserted.",
+      "status": "substantively_answered",
+      "assessment": "已解释动态残差均值、何者固定、source-only方差、保留cross term、exact/Nystrom/Adam三层及实现检验。",
+      "minimum_change": "保持；正文Related Work仍有无条件MMD对齐确保泛化/鲁棒性的文字，应同步降低，避免与固定映射仅投影均值约束相矛盾。",
+      "experiment_or_artifact_needs": []
+    },
+    {
+      "title": "Reviewer 2, Major Comment 6",
+      "response_line": 2146,
+      "reviewer_comment": "The theoretical claims are overstated. The manuscript refers to positive definiteness, convergence, and theoretical guarantees, but the proof conditions are only sketched. For a nonsmooth weighted pinball-loss objective with Nystrom approximation and SGD, the authors should specify assumptions on kernel definiteness, landmark selection, step-size schedule, regularization, bounded gradients, and approximation error. Otherwise, the claims should be softened.",
+      "current_author_response": "We have replaced the broad guarantee claims with a direct convexity argument and explicit scope. The assumptions are a positive-semidefinite kernel, $\\lambda_1,\\lambda_2,C_S,C_T\\ge0$, positive total loss weight, and $0<\\tau<1$. An RBF kernel has strictly positive bandwidth, with strict positive definiteness requiring distinct inputs. $\\Omega$ is positive definite only in the positive-definite-kernel case; a Moore--Penrose inverse handles singular kernels. $R\\succeq I$ gives strong convexity in the explicit weight vector for fixed intercept, not joint strong convexity. Landmarks are fixed before optimization, selected from a documented source-training subset, and the feature map uses $10^{-6}$ stabilization. Adam uses a fixed learning rate and finite epochs. A bounded scalar pinball subgradient alone does not bound the full parameter direction, and we no longer assert an $O(1/T)$ rate or a bound between the approximate and exact solutions. The computational discussion also includes dense feature and regularizer costs that the earlier $O(TNm)$ expression omitted.",
+      "status": "substantively_answered",
+      "assessment": "评论明确允许软化无法给出的理论保证；当前条件与撤回速率/误差界已经正面回应。",
+      "minimum_change": "保持条件凸性及有限步Adam描述，不把finite numerical tests当收敛定理。",
+      "experiment_or_artifact_needs": []
+    },
+    {
+      "title": "Reviewer 2, Minor Comment 1",
+      "response_line": 2546,
+      "reviewer_comment": "The abstract is dense and overstates the current evidence. It should distinguish the proposed method, the Farm 6 stress-test results, and the additional validation needed for broader deployment.",
+      "current_author_response": "The Abstract has been shortened and now separates the model construction, conditional convexity statement, six-farm screening scope, and empirical evidence limits. It identifies the variance as symmetric and the optimizer as Adam on fixed Nystr\\\"{o}m features. It no longer asserts verified predictive superiority, a convergence rate, or readiness for deployment of the corrected model.",
+      "status": "partially_answered_text_only",
+      "assessment": "摘要已缩短并收窄六场表述，但尚未给出目前已完成Farm6修正模型的实际结果；大量否定性理论措辞挤占结果内容。",
+      "minimum_change": "用一条实测结果和适用范围替换冗长无保证清单，例如RMSE约7.532MW、移除方差几乎不变，以及历史随机划分诊断性质。保留最必要条件凸性语句。",
+      "experiment_or_artifact_needs": []
+    },
+    {
+      "title": "Reviewer 2, Minor Comment 12",
+      "response_line": 2774,
+      "reviewer_comment": "The conclusion should include limitations, including the single-farm main evaluation, sample-level extreme-event definition, need for chronological validation, and lack of deployment-latency evidence.",
+      "current_author_response": "The Conclusion now states the single-farm scope of the archived comparisons, the sample-level extreme-event definition, the lack of chronological/event-separated validation, and the absence of deployment-latency evidence. It distinguishes the corrected objective, its implementation checks, and the new fixed-configuration Farm~6 diagnostic from earlier predictive and timing records. The new run shows essentially unchanged point RMSE when the variance penalty is removed and cannot establish chronological generalization.",
+      "status": "substantively_answered",
+      "assessment": "Conclusion明确单场主评价、样本级状态定义、随机重叠窗口/未做时间验证、无部署延迟证据，直接满足该条。",
+      "minimum_change": "每次新增实验后更新限制状态，不保留已经完成项目为未验证。",
+      "experiment_or_artifact_needs": []
+    },
+    {
+      "title": "Reviewer 3, Concern 2",
+      "response_line": 2845,
+      "reviewer_comment": "Please clarify how the source-domain mean residual in Eq.\\ (4) is handled. According to its definition, this quantity is calculated from the model residuals and therefore appears to depend on the model parameters being optimized. However, the manuscript states that it is treated as a scalar constant during optimization. Meanwhile, the centered residual representation in Eq.\\ (7) appears to imply that the mean residual is calculated from the current model. Please clarify whether it is calculated before optimization and then fixed, or updated during training as the model parameters change. If it is fixed, its calculation and initialization procedure should be explained. If it is updated dynamically, the expression ``scalar constant'' should be revised, and consistency among Eqs.\\ (4), (6)--(7), and the subsequent kernelized derivation should be ensured.",
+      "current_author_response": "Your interpretation is correct: the source residual mean changes with $(w,b)$ and must not be held fixed. Substitution gives $H_S(y_S-\\Phi_S^Tw-b\\mathbf1)=H_S(y_S-\\Phi_S^Tw)$ because $H_S\\mathbf1=0$. We now use the normalized centered variance throughout, with $S=\\operatorname{diag}(H_S/n_S,0)$. Expanding it retains the cross term involving labels; only the term $\\lambda_1y_S^TH_Sy_S/(2n_S)$ is independent of the optimization variables. The explicit-feature counterpart therefore has $c=\\lambda_1\\Psi_S^TH_Sy_S/n_S$, which is retained in the corrected optimizer. There is no fixed residual-mean initialization or fix-then-freeze step.",
+      "status": "substantively_answered",
+      "assessment": "均值依赖参数、H消去b、仅YSHY常数项可丢弃、c保留均解释清楚。",
+      "minimum_change": "保留现有回复和一致式子。",
+      "experiment_or_artifact_needs": []
+    },
+    {
+      "title": "Reviewer 3, Concern 3",
+      "response_line": 3034,
+      "reviewer_comment": "Please clarify the definition and derivation of the MMD-based domain adaptation term. In Eq.\\ (4), it is presented as the standard distance between the source- and target-domain mean embeddings under a fixed RKHS mapping. When the kernel mapping is fixed, this formulation appears to be independent of the model parameters being optimized. However, Eq.\\ (10) expresses it as a kernelized quadratic term involving the model coefficients, which appears to measure the difference between the mean predictions or projected means of the two domains. The authors should explain how Eq.\\ (4) is transformed into Eq.\\ (10) and clarify whether this term aligns the complete feature-space distributions or only constrains the difference between the two domains along the prediction direction.",
+      "current_author_response": "We agree that the original fixed-RKHS mean-embedding norm was independent of the prediction coefficients and could not yield the subsequent quadratic penalty. The objective now explicitly uses $(w^T(\\bar\\phi_S-\\bar\\phi_T))^2$. With $a=[\\mathbf1_{n_S}^T/n_S,-\\mathbf1_{n_T}^T/n_T]^T$ and $w=\\Phi\\beta$, this becomes $(\\beta^TKa)^2=\\beta^TKM K\\beta$, where $M=aa^T$. It is a constraint on the difference between predictive means; it is not full marginal feature alignment and is not asserted to be sufficient for transfer accuracy. The factor $1/2$ is included consistently from the initial objective onward.",
+      "status": "substantively_answered",
+      "assessment": "固定RKHS标准MMD不依赖参数的问题被承认，改为投影均值差并给出aaT推导，明确只约束预测方向。",
+      "minimum_change": "正文Related Work对完整feature alignment与保证泛化的绝对语句仍须同步纠正。",
+      "experiment_or_artifact_needs": []
+    },
+    {
+      "title": "Reviewer 3, Concern 4",
+      "response_line": 3170,
+      "reviewer_comment": "The mathematical basis of the proposed ``asymmetric variance regularization term'' should be clarified. The variance term in Eq.\\ (4) is essentially based on squared centered residuals. Such a term penalizes positive and negative residuals in the same manner and does not explicitly depend on the quantile level. Therefore, its asymmetry and its essential difference from conventional symmetric variance regularization are not evident from the current formulation. The quantile-dependent asymmetry of the model appears to arise mainly from the pinball loss. If this is the case, the corresponding claims and descriptions of the variance regularization term should be revised accordingly.",
+      "current_author_response": "We accept the correction and now describe the term as symmetric centered residual-variance regularization. It has no explicit $\\tau$ dependence, and quantile-dependent asymmetry comes from weighted pinball loss. Its translation invariance permits nonzero residual means, but does not imply preservation of skewness, residual symmetry, Gaussianity, or guaranteed calibration. We have removed the contradictory symmetry-conflict argument throughout the Abstract, Introduction, Related Work, method discussion, and ablation interpretation. The earlier SymVar scores are excluded: the current full residual-variance objective is already symmetric, and the archived component records contain inconsistent point metrics and test-dependent interval post-processing. A new fixed-configuration comparison is now reported for the full, no-variance, no-discrepancy, and target-only variants. The full and no-variance point RMSE values are 7.531988 and 7.531987 MW, respectively, so these data do not demonstrate a benefit from residual-variance regularization at the inherited weight. The full-model calibrated interval has PICP 0.971084 and mean width 27.698317 MW; every interval variant is reported. The evaluation retains the historical split and supplied processed data, and no significant or general component advantage is claimed.",
+      "status": "substantively_answered",
+      "assessment": "明确方差对称、tau依赖来自pinball并删除原冲突解释，回应了要求；新消融无收益也如实报告。",
+      "minimum_change": "保留，删除任何仍暗示对称正则迫使残差对称或MMD自动确保鲁棒性的残留措辞。",
+      "experiment_or_artifact_needs": []
+    },
+    {
+      "title": "Reviewer 3, Concern 5",
+      "response_line": 3409,
+      "reviewer_comment": "The manuscript assigns a substantially larger penalty weight to the target domain than to the source domain in order to prevent the large number of source-domain samples from dominating joint training. However, the current objective function directly sums the losses from the two domains. Their relative contributions therefore depend not only on the selected penalty weights but also on the corresponding sample sizes. For example, for Farm 6, the source domain contains 66,009 samples, whereas the target domain contains 4,144 samples, resulting in an approximate sample-size ratio of 16 to 1. At the same time, the candidate target-domain penalty weights are much larger than the candidate source-domain weights, resulting in a per-sample weight ratio ranging from 250 to 20,000. Therefore, this setting may not merely compensate for sample imbalance but may cause the optimization to be dominated by the target-domain loss. The existing ``w/o Transfer'' and ``w/o MMD'' ablation studies cannot independently identify the contribution of this weighting mechanism. The authors are encouraged to report the final source- and target-domain penalty weights used in each experiment and conduct a sensitivity analysis of the weighting strategy. Possible comparisons could include equal weighting, domain-size-normalized weighting, sample-imbalance-based weighting, and the current strategy.",
+      "current_author_response": "The loss-sum formulation means that the aggregate coefficient ratio is $n_TC_T/(n_SC_S)$, so a large $C_T/C_S$ can indeed do more than compensate sample-count imbalance. We have removed the claim that the earlier few-shot comparison established otherwise. The revised method makes this dependence explicit and does not claim an optimal weight ratio. A fixed-test comparison of equal, domain-normalized, imbalance-based, and current weights under the corrected objective remains necessary; the prior few-shot scores cannot answer it because their solver provenance is unresolved. No completed corrected-model weighting sensitivity is claimed.",
+      "status": "empirical_request_unanswered",
+      "assessment": "数学上承认nTCT/(nSCS)正确，但回复没有列出实际point/interval CS、CT、聚合比，也未完成所要求权重敏感性。",
+      "minimum_change": "回复列出point CS=.05 CT=150、interval CS=.1 CT=800与各任务实际nT；固定总loss权重后比较相等逐样本权重、相等域总权重和当前目标偏重。域均值归一化与nS/nT补偿仅差共同尺度，不能冒充两个独立方向。",
+      "experiment_or_artifact_needs": [
+        "weighting_sensitivity"
+      ]
+    },
+    {
+      "title": "Reviewer 2, Minor Comment 2",
+      "response_line": 2599,
+      "reviewer_comment": "The Highlights should be revised. The statement that ``Six-farm experiments show better accuracy, interval quality, and scalability'' is misleading because the main predictive comparisons are not reported across all six farms.",
+      "current_author_response": "The six-farm superiority wording is not supported. The revised Abstract and contributions now distinguish six-farm screening from the Farm~6 stress-test scope and distinguish archived values from corrected-model validation. We have synchronized those passages and the Conclusion. A separate Highlights source has not been located in the available manuscript files, so we do not claim that an external Highlights document has already been updated.",
+      "status": "not_answered_artifact_missing",
+      "assessment": "未找到原Highlights并不能回答修改Highlights的要求；当前没有实际新Highlights文件。全文检索未在TLQLDMR_manuscript/TLQLDMR.tex中发现隐藏Highlights。",
+      "minimum_change": "创建独立Highlights文件，3–5条且每条含空格不超过85字符，明确六场筛选/单场预测；Author action给出实际新bullet并说明原独立文件缺失，仅审稿意见引述一句可核验，不制造原稿引文。",
+      "experiment_or_artifact_needs": [
+        "create_highlights_artifact"
+      ]
+    },
+    {
+      "title": "Reviewer 1, Concern 2",
+      "response_line": 229,
+      "reviewer_comment": "The definition of ``extreme events'' is somewhat heuristic and may bias the target-domain construction. The use of 98th-percentile thresholds, temperature cutoffs, and a fixed 25 m/s cut-out rule should be justified more rigorously, and the authors should include a sensitivity analysis showing how results change under alternative extreme-event definitions.",
+      "current_author_response": "The adopted threshold definition and the distinction between meteorological extremes and ramp events are stated explicitly. Recalculation from the supplied processed data reproduces all six screening counts and distance statistics. We have also removed the unsupported interpretation of low-power observations as turbine cut-out: Farm~6 has maximum recorded hub wind speed 23.82 m/s and zero samples above the adopted 25 m/s threshold. We agree that changing the thresholds changes the selected target population and can affect both sample size and predictive metrics. No retraining-based threshold sensitivity or event-type breakdown has been completed for the corrected objective; the new fixed-configuration Farm~6 evaluation does not vary those thresholds or separate event types. The Conclusion now explicitly states this limitation, and we do not regard the existing definition alone as empirical validation of threshold robustness.",
+      "status": "empirical_request_unanswered",
+      "assessment": "六场原阈值重算和cut-out纠错没有回答替代阈值下结果如何变化。回复明确写未完成，属诚信披露而非完成。",
+      "minimum_change": "预先固定风速/温度百分位与规则组合网格，在同一时间划分上重新分域并训练；同时报告各定义的训练/测试目标样本数和预测结果。不得仅比较筛选计数作为预测敏感性。",
+      "experiment_or_artifact_needs": [
+        "threshold_sensitivity"
+      ]
+    },
+    {
+      "title": "Reviewer 1, Concern 9",
+      "response_line": 943,
+      "reviewer_comment": "The scalability claim is positive, but the computational analysis is incomplete. The Nystr\\\"om-SGD solver should be evaluated more thoroughly across a wider range of landmark sizes and data scales, with an explicit accuracy-runtime trade-off curve, because the current runtime advantage alone does not show whether approximation error becomes significant.",
+      "current_author_response": "The earlier training-time table does not establish approximation accuracy or the runtime of the corrected objective. We now account for $O(Nm^2)$ dense transformations and regularizer construction and $O(m^2)$ regularizer multiplication per batch, in addition to kernel evaluation and factorization. We retain the old timings only as archived implementation records and remove the claim that they validate an equal-objective solver comparison. No approximation-error bound is asserted. The requested landmark-size accuracy--runtime experiment remains outstanding and requires new reproducible runs.",
+      "status": "empirical_request_unanswered",
+      "assessment": "修正大O与撤回旧5.021秒归属没有提供m/N准确率-耗时曲线。",
+      "minimum_change": "使用相同修正目标做landmark/data-size网格，报告有效m、RMSE/pinball、端到端fit、映射/regularizer/优化分项、预测耗时及内存；小N加exact-QP参照并区分优化误差和特征近似误差。",
+      "experiment_or_artifact_needs": [
+        "accuracy_runtime_tradeoff"
+      ]
+    }
+  ],
+  "experiment_design_notes": {
+    "objective_relationship_table": "无需新训练；用目标函数special cases准确定位组合贡献，不杜撰新理论。",
+    "complete_split_accounting": "无需训练；从保存split IDs/data timestamps提取exact spans、nominal/actual horizon和每域fit/val/cal/test counts。",
+    "create_highlights_artifact": "无需训练；单独文件，原Highlights未知不可伪造，引用来源须标注。",
+    "causal_evaluation_prerequisite": "正式新实验采用原始测量、显式-99/非有限标签排除、气象缺失仅利用训练数据处理、时间戳24:00修复/重复政策、连续24步窗口和purged chronological splits；阈值仅train估计。已有processed文件有未来行填补，不足以支撑leakage-safe宣称。",
+    "label_budget_sensitivity": "至少4–5个预先固定目标标签预算，Full与TargetOnly共享测试与预算；多固定种子。源集固定，区间校准集独立并计入标签预算。与权重试验共用划分。",
+    "weighting_sensitivity": "建议参数化 C_total[(1-pi)/nS sum lossS + pi/nT sum lossT]。固定C_total，比较pi=nT/(nS+nT)（equal per-sample）、pi=.5（equal domains；与imbalance compensation等价）及current pi，并可加中间值。源/目标ratio与overallC分开，避免混淆正则强度。",
+    "cross_farm_validation": "多场分别做within-farm transfer不是cross-farm。至少高/中/低shift代表场作为held-out target，其他场训练部分作为source；目标适配/val/cal/test严格分开，共同可用特征及装机容量归一化预先固定。若只补within-farm重复，必须明确不能完全满足R1C3。",
+    "season_event_ablation": "季节、wind-only/cold-only/hot-only/overlap按固定规则预先定义；在同一独立测试集上分组统计Full/NoVariance/NoMMD/TargetOnly并给n。复用模型预测即可，不需要按组再挑参数；当前旧随机split的分组结果只能作描述性诊断。",
+    "threshold_sensitivity": "例如风速q=95/98/99，温度q=1/99、2/98、5/95，以及wind-only/temp-only/union；具体网格预先冻结。各方案重算分域、train/test counts并重训，报告不同测试人群不可机械比较原始RMSE。Farm6 25m/s及更高阈值相同是实际零变化，不足以证明整体阈值鲁棒。",
+    "accuracy_runtime_tradeoff": "预设有效m=100/300/600/1200/2000与至少3个N规模；固定测试集、种子和目标函数，统计端到端训练及预测/内存，输出RMSE或pinball随time曲线。小N exact-QP和fixed-feature convex参照可分离近似误差与Adam未优化误差。无需宣称理论误差界。"
+  },
+  "highlights_search": {
+    "original_found": false,
+    "searched": "Workspace filenames including ignored/hidden paths and textual LaTeX/Markdown/txt; explicitly inspected TLQLDMR_manuscript/TLQLDMR.tex (738 lines), no Highlights environment or bullets. Only decision_letter quotes the six-farm claim.",
+    "editor_requirements": "Separate file with Highlights in filename; 3–5 bullets, <=85 characters including spaces, per provided decision letter.",
+    "possible_current_evidence_bullets": [
+      {
+        "text": "Centered residual variance and quantile loss serve distinct roles.",
+        "characters": 66
+      },
+      {
+        "text": "Projected mean adaptation combines source data with labeled target samples.",
+        "characters": 75
+      },
+      {
+        "text": "Six wind farms are screened; predictive validation focuses on one farm.",
+        "characters": 71
+      },
+      {
+        "text": "Fixed-configuration ablations do not show a gain from the variance penalty.",
+        "characters": 75
+      }
+    ]
+  },
+  "weighting_current": {
+    "point": {
+      "nS": 66009,
+      "nT": 3728,
+      "CS": 0.05,
+      "CT": 150,
+      "aggregate_target_source_ratio": 169.43144116711355
+    },
+    "interval": {
+      "nS": 66009,
+      "nT": 2983,
+      "CS": 0.1,
+      "CT": 800,
+      "aggregate_target_source_ratio": 361.526458513233
+    }
+  },
+  "conclusion": "Math corrections substantially answer six method/theory comments; R2 Major1 permits scope narrowing and Minor12 is directly met. Six explicit empirical requests remain unanswered, plus the absent Highlights artifact. R1C1, R2Major2, R2Minor1 need substantive text improvements. Matching quotations and successful compilation alone do not close reviewer concerns."
+}

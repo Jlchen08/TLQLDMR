@@ -1,0 +1,435 @@
+{
+  "audited_utc": "2026-10-22T05:38:17.226174+00:00",
+  "scope": "Final substantive audit of the 18 already-replied reviewer comments only. New artifact; initial audit, manuscript, and response records were not modified. Results use final study_summary.json. Rendering/quote synchronization is owned by the root agent and is not certified here.",
+  "study_completion": {
+    "manifest_status": "complete",
+    "completed_unique_branches": 94,
+    "completed_unique_quantile_fits": 123,
+    "missing_expected_branches": [],
+    "errors": []
+  },
+  "status_meaning": "Addressed means the current response accurately supplies corrections/evidence or an explicitly permitted narrowing, not that the original strong scientific claims are proven or acceptance is guaranteed.",
+  "entries": [
+    {
+      "title": "Reviewer 1, Concern 1",
+      "reviewer_comment": "The manuscript's novelty is promising, but the methodological contribution is not yet isolated clearly enough from existing SVQR, LDMR, and transfer-learning frameworks. The paper should provide a sharper theoretical comparison showing exactly what is new in TL-QLDMR beyond combining known components, and why the proposed combination is not simply an engineering integration of established ideas.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "The revised comparison identifies exactly how the objective relates to established methods. SVR uses norm regularization and an $\\epsilon$-insensitive loss; SVQR replaces the latter with pinball loss. The cited LDM-inspired regression model combines $\\epsilon$-insensitive and quadratic losses, and is no longer represented by our unsupported signed-residual-mean formula. For fixed features, our source-residual term contributes both a covariance-dependent quadratic term and a label-dependent linear term, while the projected discrepancy contributes a positive-semidefinite term of rank at most one. Setting $\\lambda_1=\\lambda_2=0$ yields domain-weighted SVQR. More generally, completing the square with $w_0=R^{-1}c$ transforms the objective exactly into weighted SVQR on $R^{-1/2}\\psi$ with labels shifted by $\\psi^Tw_0$. This supplies a precise structural comparison, but it also limits the novelty claim: we present a specified supervised-transfer formulation and consistent exact/approximate derivations, not a new asymmetric variance, optimizer class, or theorem proving that the combination must outperform its components. We cannot substantiate the stronger original claim of a fundamentally new quantile-variance principle.",
+      "status": "partially_addressed_original_novelty_ambition",
+      "assessment": "已补 SVR/SVQR/LDM 目标结构比较、lambda1=lambda2=0 特例，以及完成平方后等价于数据相关特征变换和标签平移的加权 SVQR；准确回答了模型究竟改变什么。不能由此证明超出组合/集成的基础新颖性，回复已明确收缩该主张。",
+      "evidence": [
+        "TLQLDMR_R1/TLQLDMR_energy.tex: Relation to weighted SVQR; objective comparison"
+      ],
+      "boundaries": [
+        "当前可支持的是特定监督迁移目标、一致推导和可复现评价。",
+        "方差对称、投影均值项秩至多为一、变换后为加权 SVQR；不能再声称新分位数方差原理或新优化器类别。",
+        "方法新颖性是否达到期刊门槛仍由审稿人判断；增加同一目标的性能实验不能消除其代数等价性。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "需实质不同的理论或方法贡献；不能靠措辞或挑选优胜实验构造基础新颖性。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 1, Concern 3",
+      "reviewer_comment": "The study evaluates the final model mainly on a single selected target farm, which limits the generality of the conclusions. A stronger experimental design would test the method through leave-one-farm-out or cross-farm transfer validation to demonstrate that the reported gains are not specific to Farm 6 alone.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "We have added six chronological cross-farm evaluations, using each site as the target in turn. Sources are normal-domain 2019 observations from the other five farms, capped deterministically at 6,000 per source farm; 128 randomly selected extreme-condition labels from the target site's 2019 training period support supervised adaptation. The shared feature schema and capacity-normalized labels permit cross-site fitting. A paired target-only model uses the same target fitting labels and at least the full model's update count. Target calibration labels are additional and explicitly counted; test labels come from 2020 Q3--Q4. Full/target-only RMSE pairs for sites 1--6 are 19.880752/23.218175, 27.819462/24.956039, 11.485825/14.297631, 5.302804/6.559925, 10.702967/17.443978, and 13.775753/13.097317 MW. Transfer improves RMSE on four sites and worsens it on two; full-model interval PICP ranges from 0.563889 to 1.000000. Every site is reported, including failures. Thus the new evidence goes beyond the selected Farm~6 case but does not support uniform cross-farm gains, successful calibration everywhere, or unlabeled leave-one-site-out transfer. The former composite-shift ranking is now identified as a unit-dependent historical selection heuristic, not proof that Farm~6 is intrinsically the hardest site. Effective feature dimensions are 256 for the full model and 128 for target-only fitting, with 7,552 updates each; the comparison concerns complete fitting procedures, not an isolated causal effect of adding source labels.",
+      "status": "addressed_with_bounded_empirical_evidence",
+      "assessment": "已实际完成六个目标场的跨场评价，并报告全部 Full/TargetOnly 结果和两场负迁移，正面回应跨场验证请求。",
+      "evidence": [
+        "study_summary.json: cross_farm (24 point/interval rows)",
+        "chronological_study.tex: chronological_crossfarm"
+      ],
+      "boundaries": [
+        "每场使用 128 个目标训练标签，另有区间校准标签；是监督适配，不是无标签 leave-one-farm-out。",
+        "仅 seed 0；其余五场正常样本总计 30000。",
+        "Full 在场 1/3/4/5 上 RMSE 更低，在场 2/6 更高；不能声称普遍优越。",
+        "TargetOnly 使用独立预处理/landmarks 且实际特征数可较低，属完整方法比较而非纯粹隔离单个迁移项。",
+        "未对所有原外部基线进行六场重跑，也没有新的独立数据集。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "若要主张稳定跨场优势，需要多种子、更多独立场站/时段和同协议竞争基线；若要主张无标签迁移，需要另设零目标标签协议。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 1, Concern 4",
+      "reviewer_comment": "The transfer-learning setting appears to rely on a very large source domain and a much smaller target domain, but the impact of target-label scarcity is not studied systematically. The authors should vary the number of target labels and report how performance degrades under stricter few-shot conditions, since this is central to the claimed extreme-event scenario.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "We have added a chronological target-label scarcity experiment using 16, 32, 64, 128, 256, 512, and all 2,076 target fitting labels. For each of seeds 0, 1, and 2, budgets are nested subsets of a single random ordering; the 32,832 source windows and 2,233 test windows are fixed. Imputation and label/feature scaling use only the actual fitting samples, and unused target labels do not select parameters. Total source and target loss coefficient masses remain 500 each as the target count changes, avoiding a confounding change in domain weighting. Mean RMSE values in budget order are 13.714772, 13.557232, 13.335648, 12.438363, 12.661963, 12.700270, and 12.383799 MW. All seed ranges are shown: for 16 labels, RMSE ranges from 12.466359 to 15.781608 MW. Scarcity increases error and seed sensitivity at the smallest budgets, but the curve is not strictly monotonic and does not establish statistical significance. This is a point-prediction scarcity study; calibrated intervals are not claimed to require only these fitting labels. The unverifiable earlier few-shot scores remain excluded.",
+      "status": "addressed_with_bounded_empirical_evidence",
+      "assessment": "7 个目标标签预算、每个 3 个种子、固定源集和测试集、固定域权重质量，已真正补齐少标签敏感性分析。较小预算平均误差/变异较大，但结果非单调，回复如实描述。",
+      "evidence": [
+        "study_summary.json: scarcity (7 budgets)",
+        "chronological_study.tex: chronological_scarcity",
+        "figures/scarcity.pdf"
+      ],
+      "boundaries": [
+        "预算为 16/32/64/128/256/512/2076，仅 Farm6 点预测。",
+        "三个种子的范围不是置信区间或独立天气事件重复。",
+        "未评价包含校准标签总成本的区间少样本性能；未验证唯一最优预算。",
+        "64 个固定训练轮次下各预算的更新数略变，因此这是固定训练规则下的实际标签预算敏感性。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "区间标签效率需将拟合及校准标签共同计数；普遍少样本优势需其他场站和更多独立时段。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 1, Concern 5",
+      "reviewer_comment": "The asymmetric variance regularizer is an interesting idea, but its mathematical justification remains incomplete. The manuscript should provide a more rigorous derivation explaining why the proposed asymmetric form is the most appropriate quantile-compatible modification of LDMR, and whether the stated positive-definiteness and convexity claims always hold under all kernel and hyperparameter settings.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "The original description was incorrect: the centered source-residual variance is symmetric and has no explicit $\\tau$ dependence. Quantile-dependent costs arise from pinball loss. Centering gives translation invariance, but this does not ensure preservation of a target conditional quantile after additional penalties and source weighting; we have removed the suggestion that it is a uniquely appropriate ``quantile-compatible'' construction. The revised proof assumes a positive-semidefinite kernel, nonnegative penalties/loss weights, positive total loss weight, and $0<\\tau<1$. It establishes joint convexity. A positive-definite Gram matrix makes $\\Omega$ positive definite, giving strong convexity in the kernel coefficients for fixed intercept; singular kernels require a Moore--Penrose inverse. The explicit matrix satisfies $R\\succeq I$, again for fixed intercept. No joint strong convexity, Adam rate, or approximation-error bound is asserted. The completed chronological Farm~6 comparison reports all three seeds and all four variants: mean RMSE is 12.383799 MW for the full model, 12.352255 MW without variance, 12.389858 MW without projected discrepancy, and 12.878027 MW for target-only fitting. Full-model mean PICP is 0.978952 and mean width is 49.831044 MW. Removing variance does not degrade mean RMSE here; there is no consistent component-superiority claim. The separate historical random-split diagnostic is also retained with its limitations, and the invalid SymVar comparison remains excluded.",
+      "status": "addressed_by_mathematical_correction_and_claim_retraction",
+      "assessment": "通过撤回不存在的非对称方差和最合适量化形式主张、给出中心化残差推导及核/参数条件，已准确解决问题。真实消融未显示稳定方差收益，未再作为优势证明。",
+      "evidence": [
+        "TLQLDMR_energy.tex: objective, convexity, beta recovery, explicit R/c",
+        "study_summary.json: components"
+      ],
+      "boundaries": [
+        "平移不变性不保证保留条件分位数、偏态或区间覆盖。",
+        "PSD 核和非负权重给凸性；严格正定及唯一系数有额外条件。",
+        "固定截距的强凸性不等于对权重和截距联合强凸。",
+        "Full 平均 RMSE 12.383799 MW，NoVariance 12.352255 MW，不能宣称方差必然有益。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "保留最优/独特量化正则主张需新的理论支持；当前修订不保留这些主张。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 1, Concern 10",
+      "reviewer_comment": "The conclusions would be stronger if the manuscript tested robustness beyond injected noise on one farm. The paper should include ablations under multiple meteorological seasons, different extreme-event types, and possibly additional datasets, to show that the observed robustness is general rather than dataset-specific.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "We added component evaluations by both test quarter and meteorological subset, together with supervised cross-farm transfer to each of the six sites. On Farm~6, Q3 and Q4 contain 1,035 and 1,198 target windows; full-model mean RMSE is 5.545065 and 16.099590 MW. High-wind, cold, and hot subsets contain 955, 288, and 1,035 windows, with mean RMSE 14.658582, 20.778654, and 5.545065 MW and mean interval PICP 0.981501, 0.908565, and 0.995491. The hot subset coincides with the Q3 target subset here; overlapping categories are not treated as independent evidence. All four components and three seeds are tabulated, including an empty cut-out category with no performance estimate. Across six target sites, transfer improves point RMSE on four and worsens it on two; interval coverage fails markedly on site 5. These results expose limits to the robustness claim rather than confirm uniform robustness. Only Q3--Q4 are tested, not all four seasons; no new external dataset, independent-storm validation, or corrected-model noise-perturbation claim is added.",
+      "status": "partially_addressed_broader_robustness_request",
+      "assessment": "已补四组件三种子在两个季度和高风/冷/热天气子集的结果，并有六场监督适配；比单场加噪实验充分得多，但没有完成四季或独立风暴/新数据集的普遍稳健性验证。回复如实保留不足。",
+      "evidence": [
+        "study_summary.json: subgroups, cross_farm",
+        "chronological_study.tex: chronological_subgroups"
+      ],
+      "boundaries": [
+        "测试为 2020 Q3/Q4；季度不是完整四个气象季节。",
+        "hot 与 Q3 目标组在此恰好重合；天气组可重叠，不能视为独立重复。",
+        "cutout 组 n=0，没有切出状态性能证据。",
+        "冷组 PICP 约 0.908565；Farm5 跨场 PICP 约 0.563889，不能宣称普遍稳健或可靠覆盖。",
+        "无独立外部数据集、事件隔离重采样或修正模型的新噪声扰动结果。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "若保留全季节稳健性需至少独立完整年度滚动测试；若主张事件稳健性需明确事件分组及事件级评价。额外数据集在审稿原文中为可选增强项，而非已完成事项。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 2, Major Comment 1",
+      "reviewer_comment": "The experimental scope is narrower than the claims. The manuscript uses six wind farms to define and rank domain shift, but the main deterministic prediction comparison, probabilistic interval evaluation, noise robustness test, ablation study, residual-density analysis, and scalability study are all reported on Farm 6. Since Farm 6 is selected as the farm with the largest composite shift, this is better described as a selected stress-test case, not as full six-farm validation. The authors should either report the main comparisons across all six farms, or at least representative high-, medium-, and low-shift farms, or clearly narrow the claims to a Farm 6 evaluation after six-farm screening.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "We have both narrowed the original claims and added a broader corrected-model evaluation. The earlier multi-method accuracy, perturbation, and timing tables remain clearly labeled archived Farm~6 records, not six-farm validation of the revised objective. The new detailed chronological component/sensitivity study is still a Farm~6 analysis. Separately, each of six sites is evaluated as a supervised transfer target using 128 target fitting labels and normal observations from the other five sites, with an explicit target-only comparator and separate interval calibration labels. Transfer reduces RMSE on sites 1, 3, 4, and 5 but increases it on sites 2 and 6. Full-model interval PICP ranges from 0.563889 to 1.000000, so six-site predictive evaluation does not establish reliable 95\\% coverage or universal superiority. The Abstract, contributions, and Conclusion now report this mixed evidence. We do not imply that the full set of archived external baselines or noise tests was repeated on all six farms.",
+      "status": "addressed_by_scope_correction_and_additional_cross_farm_evidence",
+      "assessment": "审稿允许收缩结论或扩充多场比较；当前两者均已做。历史多基线/噪声/耗时不再当作修正模型六场证据，新的六场 Full/TargetOnly 比较显示混合结果。",
+      "evidence": [
+        "TLQLDMR_energy.tex: abstract, experiment scope, conclusion",
+        "study_summary.json: cross_farm"
+      ],
+      "boundaries": [
+        "详细消融、权重、阈值、规模分析仍集中 Farm6。",
+        "六场范围仅指明确的监督适配比较，不能外推所有历史基线或所有实验均六场复验。",
+        "历史复合距离含单位依赖，不证明 Farm6 本质最难。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "若宣称在六场优于原全部竞争方法，应重跑那些方法的共同协议。当前收缩后的主张不要求假定这些未做实验已完成。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 2, Major Comment 2",
+      "reviewer_comment": "The data split and target-domain partition are insufficiently described. For Farm 6, the paper reports 66,009 source-domain normal samples and 4,144 target-domain extreme-event samples, but it does not state how many target samples are used for training, validation, calibration, and testing. This is critical because the proposed method uses target-domain labels through weighted pinball loss. The authors should report the exact chronological span, forecasting horizon, source/target train-validation-test counts, split strategy, and whether thresholds, normalization, calibration, and hyperparameter tuning are based only on training data.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "The new primary chronological protocol is fully specified: fitting is 2019, reserved validation is 2020 Q1, interval calibration is Q2, and testing is Q3--Q4. The forecast horizon is 15 minutes using 24 strictly earlier, consecutive 15-minute observations. Farm~6 source/target counts are 32,832/2,076 for fitting, 8,559/177 for reserved validation, 8,430/225 for calibration, and 15,250/2,233 for testing. Only the target calibration and test windows enter predictive evaluation. The manuscript also lists every other farm's counts. Domain thresholds use valid 2019 meteorology; fitting means/scales use only samples actually fitted, including the reduced label budget in scarcity experiments. The numerical settings were fixed before fitting; no hyperparameter selection uses the reserved validation, calibration, or test labels. Calibration uses only the 225 Q2 target labels and rank 215. The original workbooks are processed with explicit missing-value, duplicate-timestamp, and contiguous-window rules; inputs may cross split boundaries as past observations, while target labels cannot. This corrects the earlier protocol description without rewriting its history: archived screening counted 4,144 extreme rows, of which 4,143 yielded historical windows; the old random split contains 3,728 target training and 415 test windows, with 745 training-pool labels reserved for the separate diagnostic's intervals. Neither the chronological split nor unchanged historical test labels proves the upstream original measurements were unprocessed.",
+      "status": "addressed_by_explicit_chronological_protocol_and_counts",
+      "assessment": "已给出完整日期、15 分钟预测步长、24 个严格过去观测、六场各分区 S/T 数、阈值/标准化拟合范围和校准标签；并明确区分历史随机窗口诊断与新协议。",
+      "evidence": [
+        "study_summary.json: data_audits, protocol",
+        "chronological_study.tex: chronological_protocol, chronological_counts, chronological_settings"
+      ],
+      "boundaries": [
+        "Q1 2020 为预留但未用于选择的验证区；不能称做过验证调参或参数最优。",
+        "输入历史可跨分区边界，但预测目标标签不重叠；这不是全窗口互不相交。",
+        "原始工作簿不等于已证明上游完全无处理或从未使用过的数据。",
+        "事件定义使用目标时刻天气的回顾性分类，不是事件发生前识别实验。",
+        "时间切分不提供交换性或条件覆盖保证。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "无隐藏历史校准选择可凭空恢复；若需前瞻独立验证，应使用此前未接触的数据和冻结的实时流程。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 2, Major Comment 5",
+      "reviewer_comment": "The method derivation needs clarification. The asymmetric variance regularizer is central to the paper, but the current derivation is difficult to verify. The authors should explain what quantities are treated as constants, why this is mathematically valid when residuals depend on the prediction function, and whether the variance term is computed on the source domain, target domain, or combined domain. The relation between the exact kernel formulation, the Nystrom approximation, and the SGD optimizer should also be separated more clearly.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "The residual mean is recomputed implicitly from the current predictor and is not frozen. Because $H_S\\mathbf1=0$, the normalized source term is $\\lambda_1\\|H_S(y_S-\\Phi_S^Tw)\\|^2/(2n_S)$ and its intercept cancels exactly. Only $\\lambda_1y_S^TH_Sy_S/(2n_S)$ is independent of the optimized parameters; its label-dependent linear term is retained. The explicit counterpart is $c=\\lambda_1\\Psi_S^TH_Sy_S/n_S$, and the optimizer includes $-c$. The domain term is now explicitly $(w^T(\\bar\\phi_S-\\bar\\phi_T))^2=\\beta^TKaa^TK\\beta$, a projected predictive-mean constraint. The exact kernel QP, fixed Nystr\\\"{o}m approximation, and mini-batch Adam optimization are distinguished, including the batch-loss sums and $(B/N)(Rw-c)$ scaling. Small deterministic objective, gradient, mini-batch, and independent primal--dual checks include singular Gram matrices. A chronological evaluation additionally uses 2019 fitting data, 2020 Q2 calibration, and Q3--Q4 test labels, with saved models and per-sample predictions. Target-only fitting is explicitly a separate model with target residual variance, target-fitted preprocessing/landmarks, and no domain discrepancy. Archived scores and the separately identified historical-split diagnostic are not used to claim validation of a different objective or an Adam convergence theorem.",
+      "status": "addressed_by_consistent_derivation_and_implementation_checks",
+      "assessment": "残差均值随模型改变、中心矩阵消去截距、保留标签线性项且仅删除真正常数，源域方差/精确核/Nyström/Adam 区分已明确。现有代数检查及新实际模型结果与此一致。",
+      "evidence": [
+        "TLQLDMR_energy.tex: variance expansion, kernel constant, nystrom R/c, batch gradients",
+        "review/run_replied_comment_study.py",
+        "study_summary.json: components"
+      ],
+      "boundaries": [
+        "TargetOnly 独立基线用目标残差方差，不能把它解释为只移除源样本而其他表示完全相同。",
+        "固定 Nyström 映射是近似特征模型；Adam 有限步结果不等于精确核 QP 最优解。",
+        "代数检查支持实现一致性，不证明预测优势或优化收敛速率。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "若主张两个求解层同最优解/精确近似误差，需要匹配目标和优化精度的精确 QP 比较。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 2, Major Comment 6",
+      "reviewer_comment": "The theoretical claims are overstated. The manuscript refers to positive definiteness, convergence, and theoretical guarantees, but the proof conditions are only sketched. For a nonsmooth weighted pinball-loss objective with Nystrom approximation and SGD, the authors should specify assumptions on kernel definiteness, landmark selection, step-size schedule, regularization, bounded gradients, and approximation error. Otherwise, the claims should be softened.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "The guarantees are now limited to what the derivation establishes. A positive-semidefinite kernel, $\\lambda_1,\\lambda_2,C_S,C_T\\ge0$, positive total loss weight, and $0<\\tau<1$ give a convex objective. The RBF bandwidth parameter is positive, and strict positive definiteness of its Gram matrix additionally requires distinct inputs. Singular Gram matrices are handled with a Moore--Penrose inverse. Strong convexity holds only in the coefficient/weight block for a fixed intercept under the stated conditions. Landmarks are fixed before optimization, selected from a seeded source-training pool of at most 2,000 inputs (target inputs in target-only fitting), with $10^{-6}$ stabilization. Adam uses a fixed learning rate and finite epochs. We make no rate claim, bounded-full-gradient inference from scalar pinball slopes, or guarantee between the approximate and exact solutions. The complexity discussion includes landmark selection, dense feature and regularizer construction, per-batch matrix--vector costs, and the iteration count of the illustrative dense interior-point QP route. Empirical accuracy--runtime curves are now provided for the corrected solver, without treating their scores as certified approximation errors.",
+      "status": "addressed_by_explicit_assumptions_and_softened_guarantees",
+      "assessment": "已明确 PSD、非负权重、正总损失权重、tau 在 (0,1)、RBF 带宽与不同输入条件，并撤回 Adam 速率和未经证明的核近似保证；满足审稿给出的 soften claims 路径。",
+      "evidence": [
+        "TLQLDMR_energy.tex: convexity, feature map, algorithm, convergence",
+        "review/replied_study_protocol.json"
+      ],
+      "boundaries": [
+        "固定 landmark/1e-6 稳定化和常数学习率并不证明 Adam 收敛。",
+        "标量 pinball 次梯度有界不推出整个参数梯度有界。",
+        "经验准确率–时间曲线不是近似解误差界或硬件无关保证。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "若恢复收敛速率/误差界需额外严格假设及证明，当前回复没有声称获得。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 2, Minor Comment 1",
+      "reviewer_comment": "The abstract is dense and overstates the current evidence. It should distinguish the proposed method, the Farm 6 stress-test results, and the additional validation needed for broader deployment.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "The Abstract now states the corrected formulation and conditional convexity result concisely, followed by concrete evidence and its limits. It identifies the 2019/2020 chronological protocol; gives Farm~6 mean RMSE 12.384 MW and no-variance RMSE 12.352 MW; and reports that supervised transfer improves RMSE on four of six sites but worsens it on two. It also reports the observed cross-farm interval coverage range of 0.564--1.000, despite nominal 0.95. The final sentence limits the contribution to a reproducible formulation and empirical assessment, without asserting universal transfer gains or deployment-ready coverage.",
+      "status": "addressed_by_balanced_abstract",
+      "assessment": "摘要区分方法、条件凸性、Chronological Farm6 组件结果、六场监督适配及失败；具体数值与 summary 一致，已撤回普遍优越和部署覆盖主张。",
+      "evidence": [
+        "TLQLDMR_energy.tex: abstract",
+        "study_summary.json: components, cross_farm"
+      ],
+      "boundaries": [
+        "12.384 vs 12.352 MW 是三种子均值而不是显著性检验。",
+        "六场 4 胜/2 负和覆盖 0.564–1.000 不支持可靠名义覆盖或普适优势。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 2, Minor Comment 12",
+      "reviewer_comment": "The conclusion should include limitations, including the single-farm main evaluation, sample-level extreme-event definition, need for chronological validation, and lack of deployment-latency evidence.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "The Conclusion now separates the completed chronological evaluation from the historical random-window diagnostic and archived earlier-model scores. It explicitly reports the lack of a consistent variance benefit, the four-positive/two-negative cross-farm RMSE comparison, and substantial interval undercoverage on Farm~5. Remaining limits are stated directly: detailed sensitivity is centered on Farm~6; cross-farm fitting uses target labels and additional calibration labels; tests cover Q3--Q4 rather than all seasons; sample-level retrospective weather categories are not independent events; time ordering does not establish exchangeability or coverage guarantees; upstream data provenance is incomplete; fixed parameters and seed ranges do not establish optimality or significance; and exact-QP approximation gaps, new-dataset validation, and deployment latency remain unestablished.",
+      "status": "addressed_by_updated_limitations",
+      "assessment": "结论不再错误地把已完成的时间验证列为未做；明确详细分析范围、监督标签/校准成本、两季度、回顾性事件定义、上游溯源、固定参数与未测部署延迟等剩余限制。",
+      "evidence": [
+        "TLQLDMR_energy.tex: conclusion/limitations"
+      ],
+      "boundaries": [
+        "新时间验证不补齐独立风暴、全四季、新数据集、精确 QP 差距或部署延迟证据。",
+        "历史随机诊断和旧模型评分仍只能按其历史身份使用。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 3, Concern 2",
+      "reviewer_comment": "Please clarify how the source-domain mean residual in Eq.\\ (4) is handled. According to its definition, this quantity is calculated from the model residuals and therefore appears to depend on the model parameters being optimized. However, the manuscript states that it is treated as a scalar constant during optimization. Meanwhile, the centered residual representation in Eq.\\ (7) appears to imply that the mean residual is calculated from the current model. Please clarify whether it is calculated before optimization and then fixed, or updated during training as the model parameters change. If it is fixed, its calculation and initialization procedure should be explained. If it is updated dynamically, the expression ``scalar constant'' should be revised, and consistency among Eqs.\\ (4), (6)--(7), and the subsequent kernelized derivation should be ensured.",
+      "response_source": "review/sync_method_responses.py",
+      "current_author_response": "Your interpretation is correct: the source residual mean changes with $(w,b)$ and must not be held fixed. Substitution gives $H_S(y_S-\\Phi_S^Tw-b\\mathbf1)=H_S(y_S-\\Phi_S^Tw)$ because $H_S\\mathbf1=0$. We now use the normalized centered variance throughout, with $S=\\operatorname{diag}(H_S/n_S,0)$. Expanding it retains the cross term involving labels; only the term $\\lambda_1y_S^TH_Sy_S/(2n_S)$ is independent of the optimization variables. The explicit-feature counterpart therefore has $c=\\lambda_1\\Psi_S^TH_Sy_S/n_S$, which is retained in the corrected optimizer. There is no fixed residual-mean initialization or fix-then-freeze step.",
+      "status": "addressed_by_residual_mean_correction",
+      "assessment": "已正面确认残差均值依赖 w,b，不初始化冻结；中心化后截距消去，显式 c 标签项和归一化在后续推导中保留。",
+      "evidence": [
+        "TLQLDMR_energy.tex: centered variance, variance expansion, nystrom c"
+      ],
+      "boundaries": [
+        "只有 y_S^T H_S y_S 对优化变量为常数；残差均值及标签交叉项均不能当常数删除。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 3, Concern 3",
+      "reviewer_comment": "Please clarify the definition and derivation of the MMD-based domain adaptation term. In Eq.\\ (4), it is presented as the standard distance between the source- and target-domain mean embeddings under a fixed RKHS mapping. When the kernel mapping is fixed, this formulation appears to be independent of the model parameters being optimized. However, Eq.\\ (10) expresses it as a kernelized quadratic term involving the model coefficients, which appears to measure the difference between the mean predictions or projected means of the two domains. The authors should explain how Eq.\\ (4) is transformed into Eq.\\ (10) and clarify whether this term aligns the complete feature-space distributions or only constrains the difference between the two domains along the prediction direction.",
+      "response_source": "review/sync_method_responses.py",
+      "current_author_response": "We agree that the original fixed-RKHS mean-embedding norm was independent of the prediction coefficients and could not yield the subsequent quadratic penalty. The objective now explicitly uses $(w^T(\\bar\\phi_S-\\bar\\phi_T))^2$. With $a=[\\mathbf1_{n_S}^T/n_S,-\\mathbf1_{n_T}^T/n_T]^T$ and $w=\\Phi\\beta$, this becomes $(\\beta^TKa)^2=\\beta^TKM K\\beta$, where $M=aa^T$. It is a constraint on the difference between predictive means; it is not full marginal feature alignment and is not asserted to be sufficient for transfer accuracy. The factor $1/2$ is included consistently from the initial objective onward.",
+      "status": "addressed_by_redefining_projected_mean_term",
+      "assessment": "明确原固定 RKHS 均值距离不能产生 beta 二次项；目标改为预测方向均值差平方，并给 a、M=aa^T 与 beta^T K M K beta 推导和 1/2 一致性。",
+      "evidence": [
+        "TLQLDMR_energy.tex: objective, domain roles, mmd matrix"
+      ],
+      "boundaries": [
+        "这是预测均值约束，而非完整特征分布对齐、条件分布相等或迁移成功保证。",
+        "常规命名 NoMMD 属组件标签，不应被解释为该项等于完整标准 MMD。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 3, Concern 4",
+      "reviewer_comment": "The mathematical basis of the proposed ``asymmetric variance regularization term'' should be clarified. The variance term in Eq.\\ (4) is essentially based on squared centered residuals. Such a term penalizes positive and negative residuals in the same manner and does not explicitly depend on the quantile level. Therefore, its asymmetry and its essential difference from conventional symmetric variance regularization are not evident from the current formulation. The quantile-dependent asymmetry of the model appears to arise mainly from the pinball loss. If this is the case, the corresponding claims and descriptions of the variance regularization term should be revised accordingly.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "We agree. Squared centered residuals penalize either sign equally, and the variance term contains no quantile level. We now consistently call it symmetric source-residual variance regularization and attribute asymmetric underprediction/overprediction costs to weighted pinball loss. Translation invariance neither forces symmetry nor guarantees preservation of conditional quantiles; additional regularization and domain weighting can change the population minimizer. We removed the contradictory motivation and the unsupported SymVar comparison. The new chronological component experiment uses a fixed future test period and three seeds: full-model mean RMSE is 12.383799 MW, compared with 12.352255 MW when the variance penalty is removed. Their mean calibrated widths are 49.831044 and 47.906977 MW, respectively. All configurations are reported; these observations do not establish that residual-variance regularization improves prediction. The earlier random-window diagnostic is explicitly separated from this chronological evidence.",
+      "status": "addressed_by_symmetric_variance_correction",
+      "assessment": "已承认方差对称且不依赖 tau，非对称性来自 pinball；原错误 SymVar 比较不再支持组件优势，新的四组件三种子结果如实报告。",
+      "evidence": [
+        "TLQLDMR_energy.tex: abstract/variance roles/ablation",
+        "study_summary.json: components"
+      ],
+      "boundaries": [
+        "方差平移不变性不保持偏态或条件分位数，也不保证区间覆盖。",
+        "本配置删除方差平均 RMSE 反而略低，不能据此宣称该项普遍改善准确率。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "若要证明方差项在某些条件下有利，应明确条件并用独立协议检验，而非重命名原对称项。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 3, Concern 5",
+      "reviewer_comment": "The manuscript assigns a substantially larger penalty weight to the target domain than to the source domain in order to prevent the large number of source-domain samples from dominating joint training. However, the current objective function directly sums the losses from the two domains. Their relative contributions therefore depend not only on the selected penalty weights but also on the corresponding sample sizes. For example, for Farm 6, the source domain contains 66,009 samples, whereas the target domain contains 4,144 samples, resulting in an approximate sample-size ratio of 16 to 1. At the same time, the candidate target-domain penalty weights are much larger than the candidate source-domain weights, resulting in a per-sample weight ratio ranging from 250 to 20,000. Therefore, this setting may not merely compensate for sample imbalance but may cause the optimization to be dominated by the target-domain loss. The existing ``w/o Transfer'' and ``w/o MMD'' ablation studies cannot independently identify the contribution of this weighting mechanism. The authors are encouraged to report the final source- and target-domain penalty weights used in each experiment and conduct a sensitivity analysis of the weighting strategy. Possible comparisons could include equal weighting, domain-size-normalized weighting, sample-imbalance-based weighting, and the current strategy.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "Your concern is correct: with summed losses the target/source coefficient-mass ratio is $n_TC_T/(n_SC_S)$, not $C_T/C_S$. The historical point settings $(C_S,C_T)=(0.05,150)$ and actual fitting counts give a ratio of 169.431; interval settings $(0.1,800)$ with 2,983 target fitting labels give 361.526. These greatly exceed simple count compensation. We now report exact coefficients and a controlled sensitivity experiment with 32,832 source and 2,076 target fitting windows, fixing $n_SC_S+n_TC_T=1000$. It compares equal per-sample weights, equal domain masses, target mass ten times source mass, and the historical per-sample ratios (3,000 for point and 8,000 for intervals) rescaled to that common total. Domain normalization and inverse-count compensation are algebraically identical at this scale and are evaluated once. Seed-0 point RMSE is 12.102063, 12.336268, 12.660232, and 12.662003 MW in the stated order. Interval PICP/mean width are 0.986117/56.701425 MW, 0.976265/48.988181 MW, 0.974474/42.757565 MW, and 0.965069/39.768748 MW. This demonstrates a weighting-dependent accuracy/width trade-off, not an optimal target-heavy strategy. The comparison changes only the coefficient allocation within its fixed protocol; it does not claim to rerun the historical absolute-parameter configuration.",
+      "status": "addressed_with_controlled_weighting_experiment",
+      "assessment": "已给真实系数与 n_T C_T/(n_S C_S) 总系数质量，比较总质量固定 1000 的每样本等权/每域等质量/目标 10 倍/历史比例，并如实报告精度–覆盖–宽度依赖。",
+      "evidence": [
+        "study_summary.json: weighting",
+        "chronological_study.tex: chronological_weighting"
+      ],
+      "boundaries": [
+        "域归一化和逆计数补偿在相同总尺度下代数等价，仅运行一次是正确处理。",
+        "历史比例保留的是 C_T/C_S=3000 或 8000，不是重跑历史绝对超参数配置。",
+        "仅 seed 0、Farm6 固定协议；不支持目标大权重最优或普遍有效。",
+        "总系数质量是损失前的权重尺度，不代表实际损失/梯度贡献必然等比例。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "若主张最优权重，应在独立验证区选择并在独立测试评价；当前测试敏感性不承担调参作用。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 2, Minor Comment 2",
+      "reviewer_comment": "The Highlights should be revised. The statement that ``Six-farm experiments show better accuracy, interval quality, and scalability'' is misleading because the main predictive comparisons are not reported across all six farms.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "We have prepared a separate Highlights file with four short statements (80, 80, 78, and 79 visible characters, including spaces and punctuation). They state that the variance is symmetric, the pinball loss sets asymmetric costs, supervised transfer uses target losses and a projected discrepancy, and the objective is convex under the stated conditions. They identify Adam on fixed Nystr\\\"{o}m features without asserting a convergence rate. The original separate Highlights file was not available among the supplied sources, so the action presents the new file explicitly rather than reconstructing an unverifiable original.",
+      "status": "addressed_with_new_highlights_artifact",
+      "assessment": "已建立可独立提交的 4 条 Highlights，只写对称残差方差、pinball、监督适配、条件凸性和固定特征 Adam；无六场普遍性能/速度优势。",
+      "evidence": [
+        "TLQLDMR_R1/Highlights.tex"
+      ],
+      "boundaries": [
+        "原单独 Highlights 未找到，不能捏造 Original 或声称逐字重现旧文件。",
+        "新文档是重新准备的 Highlights，其四条可见长度为 80/80/78/79。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 1, Concern 2",
+      "reviewer_comment": "The definition of ``extreme events'' is somewhat heuristic and may bias the target-domain construction. The use of 98th-percentile thresholds, temperature cutoffs, and a fixed 25 m/s cut-out rule should be justified more rigorously, and the authors should include a sensitivity analysis showing how results change under alternative extreme-event definitions.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "We now treat the thresholds as operational tail definitions, not proof of a particular physical failure mechanism or an optimal event boundary. In a new chronological study, wind and temperature cutoffs are estimated from 2019 observations only. The 95th/5th, 98th/2nd, and 99th/1st-percentile definitions produce 5,004, 2,076, and 1,049 target fitting windows, and 4,600, 2,233, and 1,159 test windows. Their own-population point RMSE values are 13.632241, 12.336268, and 12.882176 MW. Because those populations differ, we also evaluate every fit on the shared 1,159-window 99th-percentile core: RMSE is 12.263317, 12.179039, and 12.882176 MW; calibrated PICP is 0.985332, 0.971527, and 0.965487. All definitions and their interval widths are reported, without selecting a preferred threshold from these test results. Replacing the nominal cut-out rule by 20, 25, or 30 m/s leaves every union mask unchanged on Farm~6 because all tested wind-percentile cutoffs are below 20 m/s; these are identical partitions, not three independent demonstrations of physical cut-out robustness. Meteorological subgroup results retain overlapping and zero-count categories. Thus the added sensitivity evidence documents the effect and limits of the chosen definition, while withdrawing the unsupported claim that 99th-percentile selection was too small for stable modeling.",
+      "status": "addressed_with_bounded_threshold_sensitivity",
+      "assessment": "已测试 95/98/99 联合风温分位定义，报告各自测试集和共同 q99 核心，消除更换目标群体直接比较的主要歧义。切出阈值冗余和无物理切出样本已明确，未将空检验包装为鲁棒性。",
+      "evidence": [
+        "study_summary.json: thresholds, threshold_definitions",
+        "chronological_study.tex: chronological_thresholds"
+      ],
+      "boundaries": [
+        "风速与温度阈值联合改变，不隔离各因素的独立效应。",
+        "全部基于 Farm6 seed 0；未证明 98 分位最优或有因果物理依据。",
+        "20/25/30 m/s 在并集定义下给同一 mask，不是三种有效独立切出敏感性实验。",
+        "共用 q99 核心评价消除部分测试集变化，但训练/校准样本仍随定义变化，这是定义整体敏感性。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "若需物理停机鲁棒性，须获取实际停机/机组状态与足够切出样本；若需分离阈值因素需额外因子设计。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    },
+    {
+      "title": "Reviewer 1, Concern 9",
+      "reviewer_comment": "The scalability claim is positive, but the computational analysis is incomplete. The Nystr\\\"om-SGD solver should be evaluated more thoroughly across a wider range of landmark sizes and data scales, with an explicit accuracy-runtime trade-off curve, because the current runtime advantage alone does not show whether approximation error becomes significant.",
+      "response_source": "review/replied_response_updates.json",
+      "current_author_response": "The corrected solver now has an explicit accuracy--runtime curve with 32, 64, 128, 256, 512, and 1,024 landmarks, retaining all three seeds on the same chronological training/test sets. Mean RMSE values are 12.859364, 12.495129, 12.552243, 12.383799, 12.343112, and 12.284720 MW; mean fitting times are 1.22, 1.95, 3.55, 7.72, 15.61, and 33.45 seconds. The figure and tables show the full seed ranges, not the best run. A second curve uses 10\\%, 25\\%, 50\\%, and 100\\% of the source fitting data while retaining all target fitting labels and the same test set. Timing includes landmark selection, feature/regularizer construction, and Adam, but excludes loading, preprocessing, and prediction; it is measured on a shared host with one computational thread. The cost analysis now includes dense $Nm^2$ work, per-batch $m^2$ multiplication, landmark selection, and the iteration count for a dense QP solve. These empirical curves quantify predictive accuracy and computational cost; without matched-optimum exact-QP comparisons, they are not a certified Nystr\\\"{o}m approximation error or a deployment-latency guarantee. Earlier timings remain explicitly archived.",
+      "status": "requested_empirical_curves_addressed_exact_approximation_gap_unresolved",
+      "assessment": "已完成 m=32 到 1024 的 6 点三种子准确率–拟合时间曲线及 4 个源数据规模点，全部结果展示；符合要求的实际 trade-off 实验已补齐。尚不能将经验预测误差变化解释为精确 Nyström 近似误差。",
+      "evidence": [
+        "study_summary.json: landmarks, source_scale",
+        "chronological_study.tex: chronological_scalability",
+        "figures/chronological_accuracy_runtime.pdf"
+      ],
+      "boundaries": [
+        "不同 m 下变化同时包含近似表示和有限步优化影响，缺匹配最优精确 QP 参照。",
+        "源规模实验仅 seed 0，固定轮次导致更新次数随样本数变化；不隔离纯数据规模或同优化精度效应。",
+        "拟合时间包括选择 landmark/特征和正则矩阵/Adam，但不含读取、预处理或预测；共享主机结果非部署延迟。",
+        "无已证明近似误差界，也未证明该求解器较相同目标精确最优求解 universally faster。"
+      ],
+      "further_evidence_if_stronger_claims_retained": [
+        "若必须回答精确近似误差显著与否，需要可承受子集上相同目标、相同优化精度的精确核 QP 与近似模型比较；当前稿已明确不作该保证。"
+      ],
+      "required_correction_for_current_narrow_claim": null
+    }
+  ],
+  "substantive_discrepancies_found": [],
+  "residual_high_priority_boundaries": [
+    {
+      "title": "Reviewer 1, Concern 1",
+      "remaining": "Structural comparison is now precise; foundational novelty beyond integration remains unsupported and cannot be inferred from the new experiments."
+    },
+    {
+      "title": "Reviewer 1, Concern 10",
+      "remaining": "Two test quarters, overlapping retrospective weather categories, and six supervised adaptation targets do not establish all-season, independent-event, or external-dataset robustness."
+    },
+    {
+      "title": "Reviewer 1, Concern 9",
+      "remaining": "Requested empirical curves exist; exact-kernel approximation error at matched optimization accuracy remains unmeasured."
+    }
+  ],
+  "global_evidence_limits": [
+    "Cross-farm fits use 128 target fitting labels and separate calibration labels; no unlabeled transfer claim.",
+    "Four of six point wins, two losses, and marked Farm5 undercoverage prevent universal transfer/coverage claims.",
+    "Raw/original workbook filenames do not prove upstream measurements were unprocessed; prior dataset exposure prevents claiming a genuinely unseen external dataset.",
+    "Three-seed ranges reflect algorithmic variability; no confidence intervals, event-level independence, or significance tests are established.",
+    "Fixed common numerical settings are not claimed optimal; some sensitivity groups and all cross-farm fits use only seed 0.",
+    "Detailed sensitivity/ablations remain centered on Farm6; historical external-baseline/noise records are not retroactively attributed to the corrected model."
+  ],
+  "conclusion": "18 条已有回复现在均有准确的纠正、实质新证据或明示收缩。未发现与最终 study_summary 冲突的实质数值。R1C1 的超集成新颖性、R1C10 的完整广泛稳健性以及 R1C9 的精确近似差距不能被标记为已获证明；当前回复承认这些边界。其余请求已按现有明确范围得到实质回应，但不意味着论文接收或普遍性能优越。",
+  "validation_checks": {
+    "unique_reviewer_entries": 18,
+    "six_decimal_numeric_claims_cross_checked_against_summary": 70,
+    "unmatched_six_decimal_values": [],
+    "source_summary_missing_branches": [],
+    "source_summary_errors": [],
+    "note": "Numeric matching is supplementary to the substantive, metric-specific reading; it is not by itself a proof that every claim is justified."
+  },
+  "input_sha256_at_independent_audit": {
+    "review/replied_response_audit.json": "e5785d08076c3346158d079c8cef348699b0c0c17a20b0f7d9cd479c4a69569d",
+    "review/replied_response_updates.json": "9ae0de24af1386f1e6ce1b13af055f442b0194e0da3e122d1a15a5fb24138926",
+    "review/sync_method_responses.py": "3db6a51d3f0412c35fe7430f687cc97bb6b970cc8178fbdcbe80da54c21c7e20",
+    "review/replied_comment_runs/chronological_v1/study_summary.json": "f74bce486850916ca221f7bf17e66589672b847e026459bfa259710b64711018",
+    "TLQLDMR_R1/TLQLDMR_energy.tex": "76ab428eaf8363f425261203c6dd424747f3f72986d6bc74d1f9a43921085a3c",
+    "TLQLDMR_R1/chronological_study.tex": "25a33d4c4bb2dc07631c925a37191f0ddc47683788e1b1dd13d77f6c9e50ba63",
+    "TLQLDMR_R1/Highlights.tex": "3a47566019823acd9e9856eebdfb88af1b10233e28e37d079315711ea9519c93"
+  },
+  "final_input_sha256": {
+    "review/replied_response_audit.json": "e5785d08076c3346158d079c8cef348699b0c0c17a20b0f7d9cd479c4a69569d",
+    "review/replied_response_updates.json": "aef3936e9375191d255379bce3bd5299b11296df56cdb68a35dc689d80d1a660",
+    "review/sync_method_responses.py": "3db6a51d3f0412c35fe7430f687cc97bb6b970cc8178fbdcbe80da54c21c7e20",
+    "review/replied_comment_runs/chronological_v1/study_summary.json": "f74bce486850916ca221f7bf17e66589672b847e026459bfa259710b64711018",
+    "TLQLDMR_R1/TLQLDMR_energy.tex": "76ab428eaf8363f425261203c6dd424747f3f72986d6bc74d1f9a43921085a3c",
+    "TLQLDMR_R1/chronological_study.tex": "78755ad7dbb92f89874e2100a25b81b600fc3f8a4023b5e3d2c03631b7c1a298",
+    "TLQLDMR_R1/Highlights.tex": "3a47566019823acd9e9856eebdfb88af1b10233e28e37d079315711ea9519c93"
+  },
+  "final_snapshot_note": "After independent audit, the recommended distribution-shift wording and effective cross-farm dimensions (256 versus 128; 7552 updates each) were made explicit. Mathematical claims and empirical results are unchanged. Final quotation and compilation checks are recorded separately."
+}

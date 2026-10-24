@@ -1,0 +1,56 @@
+{
+  "version": "selection_v2_analysis_2",
+  "required_selection_lock_version": "selection_v2_lock_2",
+  "reporting_rule": "retain all 12 tasks x 6 methods and every predeclared method-specific evaluation seed; kernel methods use 0,1,2 and deterministic HistGBR uses 0",
+  "primary_scope": {
+    "name": "within",
+    "tasks": [
+      "within_site1",
+      "within_site2",
+      "within_site3",
+      "within_site4",
+      "within_site5",
+      "within_site6"
+    ],
+    "role": "six within-farm normal-to-extreme breadth tasks"
+  },
+  "secondary_scope": {
+    "name": "cross",
+    "tasks": [
+      "cross_site1",
+      "cross_site2",
+      "cross_site3",
+      "cross_site4",
+      "cross_site5",
+      "cross_site6"
+    ],
+    "role": "six leave-one-farm-out transfer-stress tasks"
+  },
+  "primary_endpoint": "For each task and method, calculate RMSE separately for each locked evaluation seed, average the seed RMSEs, divide by the target-farm capacity, and then average the six task values with equal site weight.",
+  "rank_endpoint": "Average of within-task ranks of seed-mean RMSE; lower is better and exact ties receive their average rank.",
+  "full_comparisons": {
+    "comparators": [
+      "NoVariance",
+      "NoDiscrepancy",
+      "WeightedSVQR",
+      "TargetSVQR",
+      "HistGBR"
+    ],
+    "observation_loss": "squared error in MW^2 averaged over each method's predeclared algorithmic evaluation seeds within each forecast timestamp",
+    "effect": "Full minus comparator; negative values favor Full",
+    "block": "non-overlapping Monday--Sunday seven-calendar-day blocks, using a fixed 1970-01-05 Monday origin",
+    "bootstrap": "10,000 equal-probability block resamples within a task; each draw is a ratio of sampled block loss sums to sampled block counts; percentile 95% interval",
+    "sign_flip": "99,999 Monte Carlo two-sided paired block sign flips with the plus-one correction",
+    "multiplicity": "Holm adjustment in two separate 30-test families: 6 tasks x 5 comparators for within and for cross"
+  },
+  "first_tier": {
+    "name": "conservative all-pairs non-rejection set",
+    "procedure": "Within each scope, compare all 15 method pairs by a two-sided seven-day block-swap randomization test of the site-equal macro capacity-normalized seed-mean RMSE difference. Apply Holm to all 15 comparisons. The set contains the empirical endpoint winner and every method not shown worse than that winner at adjusted alpha 0.05.",
+    "interpretation": "Membership means that inferiority to the empirical winner was not established under this block assumption; it is not evidence of equivalence and is not a formal Hansen model-confidence set."
+  },
+  "bootstrap_replicates": 10000,
+  "sign_flip_replicates": 99999,
+  "random_seed": 20261025,
+  "alpha": 0.05,
+  "heldout_guard": "Do not read results.json, result.json, calibration predictions, or test predictions before selection_lock.json passes validation, including 18 effective unique queries in each stage and 54 across stages for every one of the 72 task-method selections."
+}

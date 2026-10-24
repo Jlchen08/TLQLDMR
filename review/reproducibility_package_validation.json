@@ -1,0 +1,138 @@
+{
+  "validation_version": "s1_final_validation_2",
+  "checked_utc": "2026-10-24T04:14:49.527009+00:00",
+  "package_directory": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/TLQLDMR_R1/Supplementary_Reproducibility_S1",
+  "package_zip": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/TLQLDMR_R1/Supplementary_Reproducibility_S1.zip",
+  "package_verifier_report": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/s1_package_verifier_final.json",
+  "package_verifier_report_sha256": "6d0c106f814c0f6d533329362cfd75a1d20b4af3735ba03442856914443e2c5f",
+  "package_verifier_script": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/verify_s1_package.py",
+  "package_verifier_script_sha256": "a605a47badfe049f09b608cbea68373d6f82e4894c9b7d4b115bcb3ac44ba013",
+  "trusted_package_verifier_sha256": "a605a47badfe049f09b608cbea68373d6f82e4894c9b7d4b115bcb3ac44ba013",
+  "package_verifier": {
+    "status": "passed",
+    "package_root": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/TLQLDMR_R1/Supplementary_Reproducibility_S1",
+    "manifest_entries": 2262,
+    "payload_files": 2262,
+    "errors": []
+  },
+  "manifest_status": "passed",
+  "manifest_errors": [],
+  "manifest_entries": 2262,
+  "payload_files": 2262,
+  "package_manifest_sha256": "7253e999ded4e7b4b162c874c91a5ff478689cfc886a77c81927e7b96cb6cc99",
+  "zip_bytes": 381020391,
+  "zip_sha256": "262efbf7da9740206f3a840e4adc00240d41609c55689873afe831a2814d2b59",
+  "zip_members": 2263,
+  "zip_crc_status": "passed",
+  "zip_crc_first_error": null,
+  "directory_zip_member_parity": true,
+  "directory_zip_content_hash_mismatches": [],
+  "package_contract": {
+    "package_index_version": "selection_v2_matched_2",
+    "v2_design": {
+      "selection_lock_version": "selection_v2_lock_2",
+      "tasks": 12,
+      "methods": 6,
+      "queries_per_task_method": 54,
+      "total_configuration_queries": 3888,
+      "selection_fits": 10368,
+      "evaluation_records": 192,
+      "evaluation_tau_fits": 576,
+      "matched_lock_version": "matched_ablation_v2_lock_1",
+      "matched_evaluation_records": 144
+    },
+    "workflow_order": [
+      "selection-v2 freeze",
+      "base selection started",
+      "selection-analysis freeze",
+      "base selection completed",
+      "regularizer selection",
+      "joint selection",
+      "selection lock",
+      "matched-ablation freeze",
+      "matched-analysis freeze",
+      "selection evaluation",
+      "matched evaluation",
+      "selection analysis",
+      "matched analysis",
+      "publication rendering"
+    ],
+    "evidence_inventory_version": "s1_evidence_inventory_1",
+    "packaging_provenance_version": "s1_v2_exact_bytes_2",
+    "formal_selection": {
+      "protocol_version": "selection_v2",
+      "lock_version": "selection_v2_lock_2",
+      "evaluation_records": 192,
+      "analysis_protocol_version": "selection_v2_analysis_2",
+      "analysis_status": "complete"
+    },
+    "matched_ablation": {
+      "protocol_version": "matched_ablation_v2",
+      "lock_version": "matched_ablation_v2_lock_1",
+      "evaluation_records": 144,
+      "analysis_protocol_version": "matched_ablation_v2_analysis_1",
+      "analysis_lock_version": "matched_ablation_v2_analysis_lock_1",
+      "analysis_status": "complete"
+    },
+    "publication_render": {
+      "manifest_version": "selection_v2_render_manifest_1",
+      "status": "complete"
+    },
+    "fit_record_inventory": {
+      "path": "review/selection_runs/selection_v2/fit_record_inventory.json",
+      "sha256": "66d607c7c2f484321e68755f35d35352dfd6ef579259bfeb35e36b85fb76df32",
+      "version": "selection_v2_fit_record_inventory_2",
+      "hash_authority": "package-time source-record checksum inventory; not an original experiment lock or preregistration",
+      "selection_fit_records": 10368,
+      "selection_validation_metric_records": 10368,
+      "evaluation_fit_records": 576
+    },
+    "provenance_layers": {
+      "formal_selection_and_matched": "pre-evaluation locks and frozen analyses",
+      "chronological": "package-time snapshot; not an original experiment lock or preregistration",
+      "probability": "legacy/posthoc",
+      "probability_limitation": "The probability study has post-completion integrity hashes, but its original manifest did not freeze every transitive loader/sampling dependency or bind the chronological reference manifest; those historical hashes cannot be reconstructed."
+    },
+    "required_script_sha256": {
+      "review/run_selection_study_v2.py": "88ac997f9aecdc56e89d64def49ec033963032c7078df6fc7eff53fe54ca140a",
+      "review/analyze_selection_study_v2.py": "fc1798dc6a1ca99450139cf6a4de886c1f9a29c7b56283f6882f87d26ec8f26d",
+      "review/run_matched_ablation_v2.py": "3c66f768b7b1675fb3023ffcbd0b8e3a55eaa33fa77ae2ddc517f8e0cd67f05b",
+      "review/analyze_matched_ablation_v2.py": "a7ea3f5648801a285a6d983067d4c28abb1960ac52ba51e71c680cd7ca7d39d1",
+      "review/render_selection_study_v2.py": "9fcc8b6b08fd3478f09aa4ad19d8abb9dbae08597e4a718a978db4d36e355c82",
+      "review/render_manuscript_v2_appendix.py": "5bd3d737d0bc4bad6e8605c243cd1b3bb382150307076aae057f6a187af9d8b2",
+      "review/summarize_v2_revision_evidence.py": "45a596bc9e9379909e6d791cc441af407a067114499661596ed92270341afcaf",
+      "review/resume_solver_certificate_v2.py": "064d2f41a5f49deb97000b7b7560bf59bd70ef82503e6953f4dba8fcb0825795",
+      "review/build_reproducibility_supplement.py": "b8abde84868ec097675c6255a53fb1ae4a9b256e922765b98e12829394f5baca",
+      "review/verify_s1_package.py": "a605a47badfe049f09b608cbea68373d6f82e4894c9b7d4b115bcb3ac44ba013"
+    },
+    "required_readme_commands": [
+      "python review/render_selection_study_v2.py --selection-analysis review/selection_runs/reproduced_selection_v2_analysis --matched-analysis review/selection_runs/reproduced_matched_ablation_v2_analysis --output review/selection_runs/reproduced_selection_v2_render",
+      "python review/render_manuscript_v2_appendix.py --selection-root review/selection_runs/reproduced_selection_v2 --analysis-root review/selection_runs/reproduced_selection_v2_analysis --output review/selection_runs/reproduced_selection_v2_manuscript_appendix",
+      "python review/summarize_v2_revision_evidence.py --selection-analysis review/selection_runs/reproduced_selection_v2_analysis --matched-analysis review/selection_runs/reproduced_matched_ablation_v2_analysis --output review/selection_runs/reproduced_revision_evidence_v2"
+    ],
+    "metadata_sha256": {
+      "PACKAGE_INDEX.json": "9fcaf0a845b90b3b8e9dbfd5750cc70975002ec6876f2193e8d476ce59d479a0",
+      "PACKAGE_EVIDENCE_INVENTORY.json": "e6e7c835160bf1e24d55e49579dd3cf98a5ff9e665d2a84690c3a285a2230b93",
+      "PACKAGING_PROVENANCE.json": "51a762c4b063bdcd9949d09da6c815de23974aa74fbffe81918e30356c6302ea",
+      "README.md": "b1a710d82267a32020abdd7deb3ef1b117224ca247a9e85b563b4cb34b7e7f27",
+      "review/selection_runs/selection_v2/protocol.json": "f947379d97664a0a4f5a9bad9dda018d4d221b594c3f0975088ff8ccbb0b450d",
+      "review/selection_runs/selection_v2/selection_lock.json": "c227c03e019e54950095fd7e7c44849f64adb8aff730ea438a85df935ede2184",
+      "review/selection_runs/selection_v2/manifest.json": "4d513c0b1bb402b95b6b63b5a6f05518c2e5b2cdd53e9b353daceab6ff50c1e1",
+      "review/selection_runs/selection_v2/results.json": "ad6d216f8d94ad0349391c1bd27d4974bbfb5f4ab743b351a1e44ce1a40e3800",
+      "review/selection_runs/selection_v2/fit_record_inventory.json": "66d607c7c2f484321e68755f35d35352dfd6ef579259bfeb35e36b85fb76df32",
+      "review/selection_runs/selection_v2_analysis/analysis_protocol.json": "08a8334174da20c2a4432e9258ae5b42a50524972785077560644c8e559f6f62",
+      "review/selection_runs/selection_v2_analysis/analysis_manifest.json": "c4bb853f5da1e9666188457780ac7119901a28b4b199e1e58e191bd4f82d4b1b",
+      "review/selection_runs/matched_ablation_v2/protocol.json": "6c4ff8c176a29d8f7fdbbcf8eb1f89ccdc32b4e9e344c3f721c9f15f3cfea5e7",
+      "review/selection_runs/matched_ablation_v2/configurations.json": "85e5802764a1ad422a6ac5e0c127499036659b87c703848911db6737d9eb9de3",
+      "review/selection_runs/matched_ablation_v2/matched_lock.json": "c9dd7b7c46f64cd2638c78d23c26c20dd983cead4369a5582fedc88f84ebed4f",
+      "review/selection_runs/matched_ablation_v2/manifest.json": "d1c08ef27e67c4842d5da80c5434f46f1e15cd893650cdf5ad7864799d7e51cf",
+      "review/selection_runs/matched_ablation_v2/results.json": "6770340697e54e1fb23d72f4250b8a6d5debcb0f7e6e812b7c96e58dadd26ab0",
+      "review/selection_runs/matched_ablation_v2_analysis/analysis_protocol.json": "2fb829250cf097205fce2cda99cc7e52a55fbe03bd749a685748d981e54fa181",
+      "review/selection_runs/matched_ablation_v2_analysis/analysis_lock.json": "89db03f68b39e19641e090d40bfe56f97cce00f6d1a5fa2e7e12ba1b07288336",
+      "review/selection_runs/matched_ablation_v2_analysis/manifest.json": "dbba72e745707b59cf3c2df965d966938a17610ab34caa2c40cac1c1f508096e",
+      "review/selection_runs/selection_v2_render/manifest.json": "0155902123ad02a0d359049f47e84a4a61fcb687824e0058e3caf51f0b61bac8",
+      "review/selection_runs/solver_certificate_amendment_v2.json": "e4bbca1cdcc8f51d927b9a485022f4a14437969efb89d6503b1d32964ba50b2a"
+    }
+  },
+  "finalization_rule": "This external validation report is bound to the final S1 directory manifest and ZIP digest; rebuilding either artifact requires regenerating this report."
+}

@@ -1,0 +1,49 @@
+Validation-selected follow-up experiment
+
+Protocol and complete candidate list:
+  review/selection_runs/selection_v1/protocol.json
+Frozen source/data hashes and execution status:
+  review/selection_runs/selection_v1/manifest.json
+All selections are locked before evaluating any new test prediction:
+  review/selection_runs/selection_v1/selection_lock.json
+
+This is a follow-up on the same 2020 Q3-Q4 test period inspected in the earlier
+chronological_v1 study. It is not a previously unseen confirmation dataset.
+No historical output is overwritten. All 16 candidates per method/task and
+all prescribed final fits are kept, including optimization-limit outcomes.
+
+Reproduce in a NEW output directory (the command refuses an existing directory):
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python review/run_selection_study.py --output review/selection_runs/selection_reproduction
+
+Resume only an interrupted run with identical code, protocol and original data:
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python review/run_selection_study.py --output review/selection_runs/selection_reproduction --resume
+
+Verify the completed study independently:
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python review/verify_selection_study.py review/selection_runs/selection_v1 --sample-models 15
+Use --sample-models -1 for reconstruction of every saved kernel fit. All CSV
+metrics, selected candidates, IDs, calibration ranks and rolling expansions
+are checked even when a finite kernel-reconstruction sample is requested.
+
+Build complete tables:
+  python review/summarize_selection_study.py review/selection_runs/selection_v1
+
+Relevant implementation tests:
+  python -m pytest -q tests/test_convex_refinement.py tests/test_selection_sampling.py tests/test_selection_study.py
+
+Numerical scope:
+  7 tasks: within-site Farm 6 and six supervised cross-site targets.
+  6 methods per task; 16 candidates per method; 672 candidate fits.
+  5 kernel methods with 3 landmark seeds and 1 deterministic tree method.
+  112 final result records; 966 distinct fitted quantile models in total.
+  128 cross-site fitting labels are additional to Q1 validation and Q2
+  calibration labels. Rolling calibration also uses earlier test outcomes.
+  Kernel hyperparameters are chosen by Q1 median-model RMSE and reused for
+  both interval quantiles; they are not separately interval-optimal.
+  Shared feature caching means method-level recorded access timings are not
+  independent cold-start timing comparisons.
+
+The old complete fixed-setting study remains available at:
+  review/replied_comment_runs/chronological_v1
+The old implementation manuscript tables remain a research archive in:
+  TLQLDMR_R1/legacy_experiments.tex
+That archive is excluded from the submitted manuscript.

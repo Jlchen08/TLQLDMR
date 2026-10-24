@@ -1,0 +1,82 @@
+{
+  "version": "integrate_v2_manuscript_prose_1",
+  "status": "written",
+  "mode": "write",
+  "input_policy": "Only the supplied completed prose JSON, the supplied template, and the four manuscript target files were read; no raw or held-out result artifact was opened.",
+  "inputs": {
+    "results": {
+      "path": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/selection_runs/downstream_v2/v2_result_prose.json",
+      "sha256": "d5418ccfc7b1ccb38bc8900124e01a85f3e847771aa99781edb94f9878f4f788"
+    },
+    "template": {
+      "path": "/tmp/final_selection_study_template.tex",
+      "sha256": "1e1150bb36e50330d6a7c830202034af2ae63521c48b2b1cd54dcdd2332531be"
+    },
+    "manuscript_root": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/TLQLDMR_R1"
+  },
+  "validation": {
+    "result_version": "v2_result_prose_1",
+    "result_placeholders_replaced": 5,
+    "remaining_result_placeholders": 0,
+    "scope_order_kept_separate": [
+      "primary_within",
+      "secondary_cross"
+    ],
+    "first_tier_non_equivalence_caveat_present": true,
+    "matched_conditional_caveat_present": true,
+    "reused_test_limitation_present": true,
+    "appendix_groups": [
+      "formal_heldout",
+      "formal_audit",
+      "legacy_probability"
+    ],
+    "highlight_visible_characters": [
+      85,
+      77,
+      74,
+      82
+    ]
+  },
+  "generated_frontmatter": {
+    "abstract": "Wind-power forecasting during meteorological extremes combines limited target labels with source--target distribution differences. We formulate the Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR) using symmetric centered source-residual variance, a projected predictive-mean discrepancy, and weighted pinball loss. A frozen chronological comparison uses 128 target fitting labels and separates six primary within-site tasks from six secondary leave-one-farm-out stress tasks. In the primary within-site scope, histogram gradient boosting was the empirical winner for site-equal capacity-normalized root mean squared error at 13.913\\%; TL-QLDMR achieved 18.090\\%, ranked 3rd of six, and was outside the conservative first tier. In the secondary cross-site scope, histogram gradient boosting was the empirical winner for site-equal capacity-normalized root mean squared error at 14.923\\%; TL-QLDMR achieved 17.694\\%, ranked 5th of six, and remained in the conservative first tier. First-tier membership is non-rejection of inferiority rather than equivalence or superiority. Of 60 Holm-adjusted task comparisons, 1 favored TL-QLDMR and 4 favored a comparator. With its settings held fixed, TL-QLDMR ranked 2nd of four in the primary matched scope and 2nd of four in the secondary matched scope; 2 Holm-adjusted removal effects favored TL-QLDMR and 0 favored a removal variant. TL-QLDMR had the lowest mean task rank in both matched scopes. The matched effects are conditional because the variants were not independently retuned. The public Q3--Q4 period had been examined previously, so these results are test-locked evidence on a reused period rather than independent external confirmation and do not establish universal model superiority.",
+    "contribution": "A frozen chronological comparison retains six primary within-site tasks, six secondary leave-one-farm-out stress tasks, all prescribed methods and seeds, and 54 distinct Q1 configuration queries per task--method pair. TL-QLDMR records site-equal capacity-normalized root mean squared errors of 18.090\\% (rank 3rd of six) in the primary scope and 17.694\\% (rank 5th of six) in the secondary scope; it was excluded from the conservative first tier in the primary scope and was retained in the conservative first tier in the secondary scope. First-tier membership is a non-rejection result rather than equivalence. The matched primary analysis places TL-QLDMR 2nd of four under its selected configuration by macro RMSE and 1st of four by mean task rank, so the component-removal evidence is conditional rather than an independently retuned comparison. The formal test period is reused and therefore does not provide independent external confirmation.",
+    "conclusion": "The implementation passes deterministic objective, gradient, and primal--dual consistency checks. In the primary within-site scope, histogram gradient boosting had the lowest observed site-equal capacity-normalized root mean squared error at 13.913\\%. TL-QLDMR recorded 18.090\\%, an average task rank of 3.50, and 1 task win including ties; it ranked 3rd of six and was excluded from the conservative first tier. In the secondary cross-site stress scope, histogram gradient boosting had the lowest observed site-equal capacity-normalized root mean squared error at 14.923\\%. TL-QLDMR recorded 17.694\\%, an average task rank of 3.67, and 1 task win including ties; it ranked 5th of six and was retained in the conservative first tier. The first-tier statements are non-rejections of inferiority to each empirical endpoint winner and do not establish equivalence, equal performance, or superiority. Among 60 predeclared task-level comparisons, 1 Holm-adjusted finding favored TL-QLDMR and 4 favored a comparator; non-rejection for the remaining comparisons does not establish equal performance. In the conditional matched-removal analysis for the primary within-site scope, TL-QLDMR recorded 18.090\\% and ranked 2nd of four by macro RMSE, with the lowest mean task rank (2.00); the lowest observed matched endpoint was the no-variance variant at 17.870\\%. In the conditional matched-removal analysis for the secondary cross-site stress scope, TL-QLDMR recorded 17.694\\% and ranked 2nd of four by macro RMSE, with the lowest mean task rank (2.17); the lowest observed matched endpoint was the no-variance variant at 17.671\\%. Across 36 matched task-level contrasts, 2 Holm-adjusted effects favored TL-QLDMR and 0 favored a removal variant. These effects are conditional on the TL-QLDMR-selected settings; the variants were not independently retuned, and non-rejection does not establish equivalence. The separate Farm~6 nine-quantile and earlier calibration studies remain legacy exploratory sensitivity analyses and are not part of the formal evidence chain. Taken together, the formal results provide a scope- and task-dependent assessment of TL-QLDMR rather than evidence of universal superiority. Because the public Q3--Q4 test period had been examined before the frozen protocol was designed, the comparison is test-locked evidence on a reused period and does not provide independent external confirmation.",
+    "highlights": [
+      "TL-QLDMR: Transfer Learning Quantile Large-margin Distribution Machine for Regression",
+      "Primary TL-QLDMR rank: 3rd of six; it is outside the conservative first tier.",
+      "Secondary TL-QLDMR rank: 5th of six; first-tier status is not equivalence.",
+      "Matched mean rank: lowest in both scopes; conditional on settings and reused test."
+    ]
+  },
+  "targets": [
+    {
+      "path": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/TLQLDMR_R1/selection_study.tex",
+      "before_sha256": "fc20f438589adee4b7a6998d423fb7d3ec9b0cc710bd7333a0f75b7bb3296ed1",
+      "after_sha256": "84bca00c2f95ebfdc97be1ba66a7d13845f131403176c94ed38b13e511078a58",
+      "changed": true,
+      "after_bytes": 30294
+    },
+    {
+      "path": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/TLQLDMR_R1/TLQLDMR_energy.tex",
+      "before_sha256": "ac6682f1972225c1150087777a2be5b6d38bd992379849dbe23a0da7c80eac7a",
+      "after_sha256": "2852b1577db5fd7fab9cc9ef27784f1ee1f81c76e2bbd3587a023cd9ac7a371d",
+      "changed": true,
+      "after_bytes": 73033
+    },
+    {
+      "path": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/TLQLDMR_R1/Highlights.tex",
+      "before_sha256": "dec7b51e33707f966fe1bd76a3989db8f962a62b247e99cbe9390edb33704336",
+      "after_sha256": "9dea645c25e14308d8d8f2dbe83980d3208afacf266bd1ee5178d0ab9caa80b6",
+      "changed": true,
+      "after_bytes": 894
+    },
+    {
+      "path": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/TLQLDMR_R1/selection_appendix.tex",
+      "before_sha256": "061f8f6a730d85e63146797365aa2c251374b52404211fa1a948a1acede2c685",
+      "after_sha256": "511aa64f40eca8c3d55f0cce774f6451ae6ce379f6540920dcb389bfae635856",
+      "changed": true,
+      "after_bytes": 1087
+    }
+  ],
+  "changed_count": 4
+}

@@ -1,0 +1,8 @@
+{
+  "version": "solver_certificate_amendment_supersession_1",
+  "created_utc": "2026-10-23T17:58:23.860913+00:00",
+  "superseded_lock": "review/selection_runs/archive/solver_certificate_amendment_v2_draft_e0e1371d29ad.json",
+  "superseded_lock_sha256": "e0e1371d29ad7799655f9d56537d3c2b75adac1f1c5225cedfac549bdc0afaa7",
+  "executed_fit_count": 0,
+  "reason": "Independent pre-execution audit required stricter locked-fit identity checks, complete dependency hashes, analysis-freeze hashes, and precise wording about predictions."
+}

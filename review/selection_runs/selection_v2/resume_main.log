@@ -1,0 +1,256 @@
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.2.6 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/resume_solver_certificate_v2.py", line 36, in <module>
+    from review import run_matched_ablation_v2 as matched
+  File "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/run_matched_ablation_v2.py", line 30, in <module>
+    import pandas as pd
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/__init__.py", line 49, in <module>
+    from pandas.core.api import (
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/api.py", line 28, in <module>
+    from pandas.core.arrays import Categorical
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/__init__.py", line 1, in <module>
+    from pandas.core.arrays.arrow import ArrowExtensionArray
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/arrow/__init__.py", line 5, in <module>
+    from pandas.core.arrays.arrow.array import ArrowExtensionArray
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/arrow/array.py", line 53, in <module>
+    from pandas.core import (
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/ops/__init__.py", line 8, in <module>
+    from pandas.core.ops.array_ops import (
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/ops/array_ops.py", line 56, in <module>
+    from pandas.core.computation import expressions
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/computation/expressions.py", line 21, in <module>
+    from pandas.core.computation.check import NUMEXPR_INSTALLED
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/computation/check.py", line 5, in <module>
+    ne = import_optional_dependency("numexpr", errors="warn")
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/compat/_optional.py", line 135, in import_optional_dependency
+    module = importlib.import_module(name)
+  File "/mnt/mydisk/zhangxiaohan/anaconda3/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/mnt/mydisk/zhangxiaohan/anaconda3/lib/python3.10/site-packages/numexpr/__init__.py", line 24, in <module>
+    from numexpr.interpreter import MAX_THREADS, use_vml, __BLOCK_SIZE1__
+AttributeError: _ARRAY_API not found
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.2.6 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/resume_solver_certificate_v2.py", line 36, in <module>
+    from review import run_matched_ablation_v2 as matched
+  File "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/run_matched_ablation_v2.py", line 30, in <module>
+    import pandas as pd
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/__init__.py", line 49, in <module>
+    from pandas.core.api import (
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/api.py", line 28, in <module>
+    from pandas.core.arrays import Categorical
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/__init__.py", line 1, in <module>
+    from pandas.core.arrays.arrow import ArrowExtensionArray
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/arrow/__init__.py", line 5, in <module>
+    from pandas.core.arrays.arrow.array import ArrowExtensionArray
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/arrow/array.py", line 67, in <module>
+    from pandas.core.arrays.masked import BaseMaskedArray
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/masked.py", line 61, in <module>
+    from pandas.core import (
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/nanops.py", line 52, in <module>
+    bn = import_optional_dependency("bottleneck", errors="warn")
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/compat/_optional.py", line 135, in import_optional_dependency
+    module = importlib.import_module(name)
+  File "/mnt/mydisk/zhangxiaohan/anaconda3/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/mnt/mydisk/zhangxiaohan/anaconda3/lib/python3.10/site-packages/bottleneck/__init__.py", line 7, in <module>
+    from .move import (move_argmax, move_argmin, move_max, move_mean, move_median,
+AttributeError: _ARRAY_API not found
+{"phase": "evaluation", "task": "within_site1", "method": "WeightedSVQR", "seed": 1, "rmse": 22.13630434564908, "static_picp": 0.9578622816032888}
+{"phase": "evaluation", "task": "within_site1", "method": "WeightedSVQR", "seed": 2, "rmse": 21.791404057680694, "static_picp": 0.9681397738951696}
+{"phase": "evaluation", "task": "within_site1", "method": "TargetSVQR", "seed": 0, "rmse": 21.094739629263, "static_picp": 0.9229188078108942}
+{"phase": "evaluation", "task": "within_site1", "method": "TargetSVQR", "seed": 1, "rmse": 21.223569263176742, "static_picp": 0.9054470709146968}
+{"phase": "evaluation", "task": "within_site1", "method": "TargetSVQR", "seed": 2, "rmse": 20.588588627866333, "static_picp": 0.9146968139773896}
+{"phase": "evaluation", "task": "within_site1", "method": "HistGBR", "seed": 0, "rmse": 16.72285842989564, "static_picp": 0.9393627954779034}
+{"phase": "evaluation", "task": "within_site2", "method": "Full", "seed": 0, "rmse": 22.97289984449563, "static_picp": 0.9988901220865705}
+{"phase": "evaluation", "task": "within_site2", "method": "Full", "seed": 1, "rmse": 23.3196633845189, "static_picp": 1.0}
+{"phase": "evaluation", "task": "within_site2", "method": "Full", "seed": 2, "rmse": 22.715037541556715, "static_picp": 0.9966703662597114}
+{"phase": "evaluation", "task": "within_site2", "method": "NoVariance", "seed": 0, "rmse": 23.670623476258214, "static_picp": 1.0}
+{"phase": "evaluation", "task": "within_site2", "method": "NoVariance", "seed": 1, "rmse": 23.593788745361742, "static_picp": 1.0}
+{"phase": "evaluation", "task": "within_site2", "method": "NoVariance", "seed": 2, "rmse": 23.75667303625533, "static_picp": 1.0}
+{"phase": "evaluation", "task": "within_site2", "method": "NoDiscrepancy", "seed": 0, "rmse": 24.420194669374194, "static_picp": 1.0}
+{"phase": "evaluation", "task": "within_site2", "method": "NoDiscrepancy", "seed": 1, "rmse": 24.376102156375993, "static_picp": 1.0}
+{"phase": "evaluation", "task": "within_site2", "method": "NoDiscrepancy", "seed": 2, "rmse": 23.634228250923005, "static_picp": 1.0}
+{"phase": "evaluation", "task": "within_site2", "method": "WeightedSVQR", "seed": 0, "rmse": 22.97289987151366, "static_picp": 0.9988901220865705}
+{"phase": "evaluation", "task": "within_site2", "method": "WeightedSVQR", "seed": 1, "rmse": 23.319663375946025, "static_picp": 1.0}
+{"phase": "evaluation", "task": "within_site2", "method": "WeightedSVQR", "seed": 2, "rmse": 22.71503762993007, "static_picp": 0.9966703662597114}
+{"phase": "evaluation", "task": "within_site2", "method": "TargetSVQR", "seed": 0, "rmse": 25.99628831987063, "static_picp": 0.9600443951165372}
+{"phase": "evaluation", "task": "within_site2", "method": "TargetSVQR", "seed": 1, "rmse": 25.996288319870665, "static_picp": 0.9600443951165372}
+{"phase": "evaluation", "task": "within_site2", "method": "TargetSVQR", "seed": 2, "rmse": 25.996288319870636, "static_picp": 0.9600443951165372}
+{"phase": "evaluation", "task": "within_site2", "method": "HistGBR", "seed": 0, "rmse": 26.930437418907406, "static_picp": 0.9988901220865705}
+{"phase": "evaluation", "task": "within_site3", "method": "Full", "seed": 0, "rmse": 13.150885906132682, "static_picp": 0.8782498414711477}
+{"phase": "evaluation", "task": "within_site3", "method": "Full", "seed": 1, "rmse": 13.48417021692337, "static_picp": 0.8852251109701966}
+{"phase": "evaluation", "task": "within_site3", "method": "Full", "seed": 2, "rmse": 14.18707190251833, "static_picp": 0.8864933417882055}
+{"phase": "evaluation", "task": "within_site3", "method": "NoVariance", "seed": 0, "rmse": 11.746516945463963, "static_picp": 0.9486366518706405}
+{"phase": "evaluation", "task": "within_site3", "method": "NoVariance", "seed": 1, "rmse": 11.847887611530405, "static_picp": 0.948002536461636}
+{"phase": "evaluation", "task": "within_site3", "method": "NoVariance", "seed": 2, "rmse": 12.041501242731668, "static_picp": 0.9499048826886494}
+{"phase": "evaluation", "task": "within_site3", "method": "NoDiscrepancy", "seed": 0, "rmse": 12.93875629463182, "static_picp": 0.896005072923272}
+{"phase": "evaluation", "task": "within_site3", "method": "NoDiscrepancy", "seed": 1, "rmse": 12.445172264746152, "static_picp": 0.8941027266962587}
+{"phase": "evaluation", "task": "within_site3", "method": "NoDiscrepancy", "seed": 2, "rmse": 12.289102588752922, "static_picp": 0.8839568801521877}
+{"phase": "evaluation", "task": "within_site3", "method": "WeightedSVQR", "seed": 0, "rmse": 11.498428821640037, "static_picp": 0.9435637285986049}
+{"phase": "evaluation", "task": "within_site3", "method": "WeightedSVQR", "seed": 1, "rmse": 11.504891923570465, "static_picp": 0.9429296131896006}
+{"phase": "evaluation", "task": "within_site3", "method": "WeightedSVQR", "seed": 2, "rmse": 11.655822945871952, "static_picp": 0.9416613823715916}
+{"phase": "evaluation", "task": "within_site3", "method": "TargetSVQR", "seed": 0, "rmse": 15.762063303035497, "static_picp": 0.9885859226379201}
+{"phase": "evaluation", "task": "within_site3", "method": "TargetSVQR", "seed": 1, "rmse": 15.762063303035468, "static_picp": 0.9885859226379201}
+{"phase": "evaluation", "task": "within_site3", "method": "TargetSVQR", "seed": 2, "rmse": 15.762063303035452, "static_picp": 0.9885859226379201}
+{"phase": "evaluation", "task": "within_site3", "method": "HistGBR", "seed": 0, "rmse": 10.664139441442135, "static_picp": 0.9911223842739378}
+{"phase": "evaluation", "task": "within_site4", "method": "Full", "seed": 0, "rmse": 6.4350025540227325, "static_picp": 0.9429657794676806}
+{"phase": "evaluation", "task": "within_site4", "method": "Full", "seed": 1, "rmse": 6.462347290555185, "static_picp": 0.9695817490494296}
+{"phase": "evaluation", "task": "within_site4", "method": "Full", "seed": 2, "rmse": 6.391410783028054, "static_picp": 0.9600760456273765}
+{"phase": "evaluation", "task": "within_site4", "method": "NoVariance", "seed": 0, "rmse": 6.435140736482319, "static_picp": 0.9448669201520913}
+{"phase": "evaluation", "task": "within_site4", "method": "NoVariance", "seed": 1, "rmse": 6.455227736168699, "static_picp": 0.9752851711026616}
+{"phase": "evaluation", "task": "within_site4", "method": "NoVariance", "seed": 2, "rmse": 6.389201120501942, "static_picp": 0.9600760456273765}
+{"phase": "evaluation", "task": "within_site4", "method": "NoDiscrepancy", "seed": 0, "rmse": 6.3981023176131675, "static_picp": 0.9448669201520913}
+{"phase": "evaluation", "task": "within_site4", "method": "NoDiscrepancy", "seed": 1, "rmse": 6.440174214148837, "static_picp": 0.9752851711026616}
+{"phase": "evaluation", "task": "within_site4", "method": "NoDiscrepancy", "seed": 2, "rmse": 6.364672977293063, "static_picp": 0.967680608365019}
+{"phase": "evaluation", "task": "within_site4", "method": "WeightedSVQR", "seed": 0, "rmse": 6.433479579835197, "static_picp": 0.9467680608365019}
+{"phase": "evaluation", "task": "within_site4", "method": "WeightedSVQR", "seed": 1, "rmse": 6.447515766987019, "static_picp": 0.9771863117870723}
+{"phase": "evaluation", "task": "within_site4", "method": "WeightedSVQR", "seed": 2, "rmse": 6.386710234349124, "static_picp": 0.9619771863117871}
+{"phase": "evaluation", "task": "within_site4", "method": "TargetSVQR", "seed": 0, "rmse": 12.538925261985646, "static_picp": 0.8897338403041825}
+{"phase": "evaluation", "task": "within_site4", "method": "TargetSVQR", "seed": 1, "rmse": 9.692666326422188, "static_picp": 0.8935361216730038}
+{"phase": "evaluation", "task": "within_site4", "method": "TargetSVQR", "seed": 2, "rmse": 7.792551892681341, "static_picp": 0.8688212927756654}
+{"phase": "evaluation", "task": "within_site4", "method": "HistGBR", "seed": 0, "rmse": 2.9816157213311625, "static_picp": 0.9904942965779467}
+{"phase": "evaluation", "task": "within_site5", "method": "Full", "seed": 0, "rmse": 13.500233039274832, "static_picp": 0.5694444444444444}
+{"phase": "evaluation", "task": "within_site5", "method": "Full", "seed": 1, "rmse": 13.58212622213059, "static_picp": 0.5597222222222222}
+{"phase": "evaluation", "task": "within_site5", "method": "Full", "seed": 2, "rmse": 13.381096367322485, "static_picp": 0.5611111111111111}
+{"phase": "evaluation", "task": "within_site5", "method": "NoVariance", "seed": 0, "rmse": 12.653431723675595, "static_picp": 0.5569444444444445}
+{"phase": "evaluation", "task": "within_site5", "method": "NoVariance", "seed": 1, "rmse": 12.658379639954802, "static_picp": 0.5569444444444445}
+{"phase": "evaluation", "task": "within_site5", "method": "NoVariance", "seed": 2, "rmse": 12.567688349705543, "static_picp": 0.5569444444444445}
+{"phase": "evaluation", "task": "within_site5", "method": "NoDiscrepancy", "seed": 0, "rmse": 16.065246578971937, "static_picp": 0.5777777777777777}
+{"phase": "evaluation", "task": "within_site5", "method": "NoDiscrepancy", "seed": 1, "rmse": 16.066866191499603, "static_picp": 0.5652777777777778}
+{"phase": "evaluation", "task": "within_site5", "method": "NoDiscrepancy", "seed": 2, "rmse": 16.064408210191914, "static_picp": 0.5708333333333333}
+{"phase": "evaluation", "task": "within_site5", "method": "WeightedSVQR", "seed": 0, "rmse": 14.341908863698874, "static_picp": 0.6388888888888888}
+{"phase": "evaluation", "task": "within_site5", "method": "WeightedSVQR", "seed": 1, "rmse": 14.350591318291942, "static_picp": 0.6416666666666667}
+{"phase": "evaluation", "task": "within_site5", "method": "WeightedSVQR", "seed": 2, "rmse": 14.335046318644622, "static_picp": 0.65}
+{"phase": "evaluation", "task": "within_site5", "method": "TargetSVQR", "seed": 0, "rmse": 14.919108484746461, "static_picp": 0.5055555555555555}
+{"phase": "evaluation", "task": "within_site5", "method": "TargetSVQR", "seed": 1, "rmse": 14.839592744460948, "static_picp": 0.48333333333333334}
+{"phase": "evaluation", "task": "within_site5", "method": "TargetSVQR", "seed": 2, "rmse": 14.972014886587065, "static_picp": 0.5041666666666667}
+{"phase": "evaluation", "task": "within_site5", "method": "HistGBR", "seed": 0, "rmse": 8.760584324524498, "static_picp": 0.9027777777777778}
+{"phase": "evaluation", "task": "within_site6", "method": "Full", "seed": 0, "rmse": 13.30265557481997, "static_picp": 0.9780564263322884}
+{"phase": "evaluation", "task": "within_site6", "method": "Full", "seed": 1, "rmse": 13.301377191496208, "static_picp": 0.9780564263322884}
+{"phase": "evaluation", "task": "within_site6", "method": "Full", "seed": 2, "rmse": 13.296426506505792, "static_picp": 0.9780564263322884}
+{"phase": "evaluation", "task": "within_site6", "method": "NoVariance", "seed": 0, "rmse": 12.685206462441295, "static_picp": 0.9847738468428123}
+{"phase": "evaluation", "task": "within_site6", "method": "NoVariance", "seed": 1, "rmse": 12.655540286359578, "static_picp": 0.9847738468428123}
+{"phase": "evaluation", "task": "within_site6", "method": "NoVariance", "seed": 2, "rmse": 12.666586483065354, "static_picp": 0.9843260188087775}
+{"phase": "evaluation", "task": "within_site6", "method": "NoDiscrepancy", "seed": 0, "rmse": 14.085054973092422, "static_picp": 0.9847738468428123}
+{"phase": "evaluation", "task": "within_site6", "method": "NoDiscrepancy", "seed": 1, "rmse": 14.089429333627642, "static_picp": 0.9847738468428123}
+{"phase": "evaluation", "task": "within_site6", "method": "NoDiscrepancy", "seed": 2, "rmse": 14.102624796217073, "static_picp": 0.9847738468428123}
+{"phase": "evaluation", "task": "within_site6", "method": "WeightedSVQR", "seed": 0, "rmse": 16.1890660099095, "static_picp": 0.9731303179579042}
+{"phase": "evaluation", "task": "within_site6", "method": "WeightedSVQR", "seed": 1, "rmse": 16.22469504977013, "static_picp": 0.9731303179579042}
+{"phase": "evaluation", "task": "within_site6", "method": "WeightedSVQR", "seed": 2, "rmse": 16.23886639816831, "static_picp": 0.974473802060009}
+{"phase": "evaluation", "task": "within_site6", "method": "TargetSVQR", "seed": 0, "rmse": 13.562291716785921, "static_picp": 0.9655172413793104}
+{"phase": "evaluation", "task": "within_site6", "method": "TargetSVQR", "seed": 1, "rmse": 12.83093390889249, "static_picp": 0.9511867442901926}
+{"phase": "evaluation", "task": "within_site6", "method": "TargetSVQR", "seed": 2, "rmse": 12.844932841745525, "static_picp": 0.9587998208687863}
+{"phase": "evaluation", "task": "within_site6", "method": "HistGBR", "seed": 0, "rmse": 12.9548115996902, "static_picp": 0.9843260188087775}
+{"phase": "evaluation", "task": "cross_site1", "method": "Full", "seed": 0, "rmse": 22.50467094856362, "static_picp": 0.920863309352518}
+{"phase": "evaluation", "task": "cross_site1", "method": "Full", "seed": 1, "rmse": 22.68775350281869, "static_picp": 0.9270298047276464}
+{"phase": "evaluation", "task": "cross_site1", "method": "Full", "seed": 2, "rmse": 22.472480851760167, "static_picp": 0.9414182939362795}
+{"phase": "evaluation", "task": "cross_site1", "method": "NoVariance", "seed": 0, "rmse": 22.504670949492194, "static_picp": 0.920863309352518}
+{"phase": "evaluation", "task": "cross_site1", "method": "NoVariance", "seed": 1, "rmse": 22.687753505682878, "static_picp": 0.9270298047276464}
+{"phase": "evaluation", "task": "cross_site1", "method": "NoVariance", "seed": 2, "rmse": 22.472480852995908, "static_picp": 0.9414182939362795}
+{"phase": "evaluation", "task": "cross_site1", "method": "NoDiscrepancy", "seed": 0, "rmse": 22.50467094845765, "static_picp": 0.920863309352518}
+{"phase": "evaluation", "task": "cross_site1", "method": "NoDiscrepancy", "seed": 1, "rmse": 22.68775351128879, "static_picp": 0.9270298047276464}
+{"phase": "evaluation", "task": "cross_site1", "method": "NoDiscrepancy", "seed": 2, "rmse": 22.47248085851922, "static_picp": 0.9414182939362795}
+{"phase": "evaluation", "task": "cross_site1", "method": "WeightedSVQR", "seed": 0, "rmse": 22.504670949386337, "static_picp": 0.920863309352518}
+{"phase": "evaluation", "task": "cross_site1", "method": "WeightedSVQR", "seed": 1, "rmse": 22.68775351415302, "static_picp": 0.9270298047276464}
+{"phase": "evaluation", "task": "cross_site1", "method": "WeightedSVQR", "seed": 2, "rmse": 22.472480859754913, "static_picp": 0.9414182939362795}
+{"phase": "evaluation", "task": "cross_site1", "method": "TargetSVQR", "seed": 0, "rmse": 21.094739629263, "static_picp": 0.9229188078108942}
+{"phase": "evaluation", "task": "cross_site1", "method": "TargetSVQR", "seed": 1, "rmse": 21.223569263176742, "static_picp": 0.9054470709146968}
+{"phase": "evaluation", "task": "cross_site1", "method": "TargetSVQR", "seed": 2, "rmse": 20.588588627866333, "static_picp": 0.9146968139773896}
+{"phase": "evaluation", "task": "cross_site1", "method": "HistGBR", "seed": 0, "rmse": 17.151674133395833, "static_picp": 0.9794450154162384}
+{"phase": "evaluation", "task": "cross_site2", "method": "Full", "seed": 0, "rmse": 24.13095634225224, "static_picp": 0.8124306326304107}
+{"phase": "evaluation", "task": "cross_site2", "method": "Full", "seed": 1, "rmse": 24.1265054382663, "static_picp": 0.8091009988901221}
+{"phase": "evaluation", "task": "cross_site2", "method": "Full", "seed": 2, "rmse": 24.12470654851288, "static_picp": 0.8102108768035516}
+{"phase": "evaluation", "task": "cross_site2", "method": "NoVariance", "seed": 0, "rmse": 25.109174922877834, "static_picp": 0.5849056603773585}
+{"phase": "evaluation", "task": "cross_site2", "method": "NoVariance", "seed": 1, "rmse": 25.152795329689525, "static_picp": 0.6692563817980022}
+{"phase": "evaluation", "task": "cross_site2", "method": "NoVariance", "seed": 2, "rmse": 25.17307720551011, "static_picp": 0.6492785793562708}
+{"phase": "evaluation", "task": "cross_site2", "method": "NoDiscrepancy", "seed": 0, "rmse": 24.32177683257491, "static_picp": 0.9722530521642619}
+{"phase": "evaluation", "task": "cross_site2", "method": "NoDiscrepancy", "seed": 1, "rmse": 24.704458384046692, "static_picp": 0.9711431742508324}
+{"phase": "evaluation", "task": "cross_site2", "method": "NoDiscrepancy", "seed": 2, "rmse": 24.386163184572737, "static_picp": 0.9700332963374029}
+{"phase": "evaluation", "task": "cross_site2", "method": "WeightedSVQR", "seed": 0, "rmse": 26.135484664633182, "static_picp": 0.611542730299667}
+{"phase": "evaluation", "task": "cross_site2", "method": "WeightedSVQR", "seed": 1, "rmse": 26.105512315693623, "static_picp": 0.6448390677025527}
+{"phase": "evaluation", "task": "cross_site2", "method": "WeightedSVQR", "seed": 2, "rmse": 26.08229335077406, "static_picp": 0.6403995560488346}
+{"phase": "evaluation", "task": "cross_site2", "method": "TargetSVQR", "seed": 0, "rmse": 25.99628831987063, "static_picp": 0.9600443951165372}
+{"phase": "evaluation", "task": "cross_site2", "method": "TargetSVQR", "seed": 1, "rmse": 25.996288319870665, "static_picp": 0.9600443951165372}
+{"phase": "evaluation", "task": "cross_site2", "method": "TargetSVQR", "seed": 2, "rmse": 25.996288319870636, "static_picp": 0.9600443951165372}
+{"phase": "evaluation", "task": "cross_site2", "method": "HistGBR", "seed": 0, "rmse": 27.898428941561875, "static_picp": 0.9877913429522752}
+{"phase": "evaluation", "task": "cross_site3", "method": "Full", "seed": 0, "rmse": 12.700392797641499, "static_picp": 0.9327837666455295}
+{"phase": "evaluation", "task": "cross_site3", "method": "Full", "seed": 1, "rmse": 12.621939751207531, "static_picp": 0.9391249207355739}
+{"phase": "evaluation", "task": "cross_site3", "method": "Full", "seed": 2, "rmse": 12.60453885095375, "static_picp": 0.9226379201014585}
+{"phase": "evaluation", "task": "cross_site3", "method": "NoVariance", "seed": 0, "rmse": 12.51350876472638, "static_picp": 0.9689283449587826}
+{"phase": "evaluation", "task": "cross_site3", "method": "NoVariance", "seed": 1, "rmse": 12.519569346156736, "static_picp": 0.9663918833227647}
+{"phase": "evaluation", "task": "cross_site3", "method": "NoVariance", "seed": 2, "rmse": 12.467094094975957, "static_picp": 0.9701965757767914}
+{"phase": "evaluation", "task": "cross_site3", "method": "NoDiscrepancy", "seed": 0, "rmse": 12.414860213977999, "static_picp": 0.9416613823715916}
+{"phase": "evaluation", "task": "cross_site3", "method": "NoDiscrepancy", "seed": 1, "rmse": 12.31673635427821, "static_picp": 0.9435637285986049}
+{"phase": "evaluation", "task": "cross_site3", "method": "NoDiscrepancy", "seed": 2, "rmse": 12.376483207089818, "static_picp": 0.9448319594166138}
+{"phase": "evaluation", "task": "cross_site3", "method": "WeightedSVQR", "seed": 0, "rmse": 12.616668167859185, "static_picp": 0.9505389980976537}
+{"phase": "evaluation", "task": "cross_site3", "method": "WeightedSVQR", "seed": 1, "rmse": 12.610296882590594, "static_picp": 0.9543436905516804}
+{"phase": "evaluation", "task": "cross_site3", "method": "WeightedSVQR", "seed": 2, "rmse": 12.561439682601742, "static_picp": 0.9549778059606848}
+{"phase": "evaluation", "task": "cross_site3", "method": "TargetSVQR", "seed": 0, "rmse": 15.762063303035497, "static_picp": 0.9885859226379201}
+{"phase": "evaluation", "task": "cross_site3", "method": "TargetSVQR", "seed": 1, "rmse": 15.762063303035468, "static_picp": 0.9885859226379201}
+{"phase": "evaluation", "task": "cross_site3", "method": "TargetSVQR", "seed": 2, "rmse": 15.762063303035452, "static_picp": 0.9885859226379201}
+{"phase": "evaluation", "task": "cross_site3", "method": "HistGBR", "seed": 0, "rmse": 11.062840316863745, "static_picp": 0.9632213062777425}
+{"phase": "evaluation", "task": "cross_site4", "method": "Full", "seed": 0, "rmse": 5.3528305887405265, "static_picp": 0.9657794676806084}
+{"phase": "evaluation", "task": "cross_site4", "method": "Full", "seed": 1, "rmse": 5.232252258369834, "static_picp": 0.9809885931558935}
+{"phase": "evaluation", "task": "cross_site4", "method": "Full", "seed": 2, "rmse": 4.617810620975951, "static_picp": 0.9505703422053232}
+{"phase": "evaluation", "task": "cross_site4", "method": "NoVariance", "seed": 0, "rmse": 4.019982129891527, "static_picp": 0.967680608365019}
+{"phase": "evaluation", "task": "cross_site4", "method": "NoVariance", "seed": 1, "rmse": 4.3409792489411, "static_picp": 0.94106463878327}
+{"phase": "evaluation", "task": "cross_site4", "method": "NoVariance", "seed": 2, "rmse": 4.7638154299393705, "static_picp": 0.9923954372623575}
+{"phase": "evaluation", "task": "cross_site4", "method": "NoDiscrepancy", "seed": 0, "rmse": 3.996899225420561, "static_picp": 0.9885931558935361}
+{"phase": "evaluation", "task": "cross_site4", "method": "NoDiscrepancy", "seed": 1, "rmse": 4.326017683631829, "static_picp": 0.9448669201520913}
+{"phase": "evaluation", "task": "cross_site4", "method": "NoDiscrepancy", "seed": 2, "rmse": 4.768520791343245, "static_picp": 0.9866920152091255}
+{"phase": "evaluation", "task": "cross_site4", "method": "WeightedSVQR", "seed": 0, "rmse": 4.019666168783896, "static_picp": 0.967680608365019}
+{"phase": "evaluation", "task": "cross_site4", "method": "WeightedSVQR", "seed": 1, "rmse": 4.340925655650773, "static_picp": 0.94106463878327}
+{"phase": "evaluation", "task": "cross_site4", "method": "WeightedSVQR", "seed": 2, "rmse": 4.7637660190574405, "static_picp": 0.9923954372623575}
+{"phase": "evaluation", "task": "cross_site4", "method": "TargetSVQR", "seed": 0, "rmse": 12.538925261985646, "static_picp": 0.8897338403041825}
+{"phase": "evaluation", "task": "cross_site4", "method": "TargetSVQR", "seed": 1, "rmse": 9.692666326422188, "static_picp": 0.8935361216730038}
+{"phase": "evaluation", "task": "cross_site4", "method": "TargetSVQR", "seed": 2, "rmse": 7.792551892681341, "static_picp": 0.8688212927756654}
+{"phase": "evaluation", "task": "cross_site4", "method": "HistGBR", "seed": 0, "rmse": 4.896329496815681, "static_picp": 0.9942965779467681}
+{"phase": "evaluation", "task": "cross_site5", "method": "Full", "seed": 0, "rmse": 13.577882114140252, "static_picp": 0.5416666666666666}
+{"phase": "evaluation", "task": "cross_site5", "method": "Full", "seed": 1, "rmse": 13.568881587573314, "static_picp": 0.5541666666666667}
+{"phase": "evaluation", "task": "cross_site5", "method": "Full", "seed": 2, "rmse": 13.63533901048342, "static_picp": 0.5416666666666666}
+{"phase": "evaluation", "task": "cross_site5", "method": "NoVariance", "seed": 0, "rmse": 12.99744449663332, "static_picp": 0.5611111111111111}
+{"phase": "evaluation", "task": "cross_site5", "method": "NoVariance", "seed": 1, "rmse": 12.99053340780338, "static_picp": 0.5708333333333333}
+{"phase": "evaluation", "task": "cross_site5", "method": "NoVariance", "seed": 2, "rmse": 12.999444821872883, "static_picp": 0.5597222222222222}
+{"phase": "evaluation", "task": "cross_site5", "method": "NoDiscrepancy", "seed": 0, "rmse": 12.308042305182415, "static_picp": 0.6055555555555555}
+{"phase": "evaluation", "task": "cross_site5", "method": "NoDiscrepancy", "seed": 1, "rmse": 12.322213143228506, "static_picp": 0.6}
+{"phase": "evaluation", "task": "cross_site5", "method": "NoDiscrepancy", "seed": 2, "rmse": 12.295602360466328, "static_picp": 0.6041666666666666}
+{"phase": "evaluation", "task": "cross_site5", "method": "WeightedSVQR", "seed": 0, "rmse": 12.225364928578609, "static_picp": 0.7277777777777777}
+{"phase": "evaluation", "task": "cross_site5", "method": "WeightedSVQR", "seed": 1, "rmse": 12.228239095134112, "static_picp": 0.7277777777777777}
+{"phase": "evaluation", "task": "cross_site5", "method": "WeightedSVQR", "seed": 2, "rmse": 12.20549329969216, "static_picp": 0.7277777777777777}
+{"phase": "evaluation", "task": "cross_site5", "method": "TargetSVQR", "seed": 0, "rmse": 14.919108484746461, "static_picp": 0.5055555555555555}
+{"phase": "evaluation", "task": "cross_site5", "method": "TargetSVQR", "seed": 1, "rmse": 14.839592744460948, "static_picp": 0.48333333333333334}
+{"phase": "evaluation", "task": "cross_site5", "method": "TargetSVQR", "seed": 2, "rmse": 14.972014886587065, "static_picp": 0.5041666666666667}
+{"phase": "evaluation", "task": "cross_site5", "method": "HistGBR", "seed": 0, "rmse": 9.475460598585682, "static_picp": 0.8888888888888888}
+{"phase": "evaluation", "task": "cross_site6", "method": "Full", "seed": 0, "rmse": 12.500394534705405, "static_picp": 0.9798477384684281}
+{"phase": "evaluation", "task": "cross_site6", "method": "Full", "seed": 1, "rmse": 12.733039206874297, "static_picp": 0.9811912225705329}
+{"phase": "evaluation", "task": "cross_site6", "method": "Full", "seed": 2, "rmse": 12.523933200753168, "static_picp": 0.980743394536498}
+{"phase": "evaluation", "task": "cross_site6", "method": "NoVariance", "seed": 0, "rmse": 11.74743794544395, "static_picp": 0.9838781907747425}
+{"phase": "evaluation", "task": "cross_site6", "method": "NoVariance", "seed": 1, "rmse": 11.969407871854715, "static_picp": 0.987460815047022}
+{"phase": "evaluation", "task": "cross_site6", "method": "NoVariance", "seed": 2, "rmse": 11.967475147830699, "static_picp": 0.9861173309449172}
+{"phase": "evaluation", "task": "cross_site6", "method": "NoDiscrepancy", "seed": 0, "rmse": 11.900652953146762, "static_picp": 0.9834303627407076}
+{"phase": "evaluation", "task": "cross_site6", "method": "NoDiscrepancy", "seed": 1, "rmse": 12.427023048035956, "static_picp": 0.9861173309449172}
+{"phase": "evaluation", "task": "cross_site6", "method": "NoDiscrepancy", "seed": 2, "rmse": 12.043743307090681, "static_picp": 0.986565158978952}
+{"phase": "evaluation", "task": "cross_site6", "method": "WeightedSVQR", "seed": 0, "rmse": 15.564039456768668, "static_picp": 0.9843260188087775}
+{"phase": "evaluation", "task": "cross_site6", "method": "WeightedSVQR", "seed": 1, "rmse": 15.587630194714556, "static_picp": 0.9820868786386028}
+{"phase": "evaluation", "task": "cross_site6", "method": "WeightedSVQR", "seed": 2, "rmse": 15.628259397518926, "static_picp": 0.9825347066726378}
+{"phase": "evaluation", "task": "cross_site6", "method": "TargetSVQR", "seed": 0, "rmse": 13.562291716785921, "static_picp": 0.9655172413793104}
+{"phase": "evaluation", "task": "cross_site6", "method": "TargetSVQR", "seed": 1, "rmse": 12.83093390889249, "static_picp": 0.9511867442901926}
+{"phase": "evaluation", "task": "cross_site6", "method": "TargetSVQR", "seed": 2, "rmse": 12.844932841745525, "static_picp": 0.9587998208687863}
+{"phase": "evaluation", "task": "cross_site6", "method": "HistGBR", "seed": 0, "rmse": 12.81313956725595, "static_picp": 0.9637259292431706}

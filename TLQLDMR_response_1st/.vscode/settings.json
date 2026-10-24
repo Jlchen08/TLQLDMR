@@ -4,13 +4,32 @@
   "latex-workshop.latex.autoBuild.interval": 500,
   "latex-workshop.latex.tools": [
     {
-      "name": "latexmk",
-      "command": "latexmk",
+      "name": "latexmk-pdf",
+      "command": "bash",
       "args": [
+        "-lc",
+        "exec latexmk \"$@\"",
+        "latexmk",
+        "-cd",
+        "-pdf",
         "-synctex=1",
         "-interaction=nonstopmode",
         "-file-line-error",
+        "-halt-on-error",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ]
+    },
+    {
+      "name": "latexmk-system",
+      "command": "latexmk",
+      "args": [
+        "-cd",
         "-pdf",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-halt-on-error",
         "-outdir=%OUTDIR%",
         "%DOC%"
       ]
@@ -18,14 +37,19 @@
   ],
   "latex-workshop.latex.recipes": [
     {
-      "name": "latexmk (pdf)",
+      "name": "latexmk (pdfLaTeX)",
       "tools": [
-        "latexmk"
+        "latexmk-pdf"
+      ]
+    },
+    {
+      "name": "latexmk (system PATH)",
+      "tools": [
+        "latexmk-system"
       ]
     }
   ],
   "latex-workshop.latex.recipe.default": "first",
-  "latex-workshop.latex.build.forceRecipeUsage": true,
   "latex-workshop.view.pdf.viewer": "tab",
   "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
   "latex-workshop.view.pdf.tab.editorGroup": "right",
@@ -60,5 +84,7 @@
     "*.abs"
   ],
   "kiroAgent.configureMCP": "Disabled",
-  "latex-workshop.view.pdf.internal.keyboardEvent": "force"
+  "latex-workshop.view.pdf.internal.keyboardEvent": "force",
+  "latex-workshop.latex.build.fromFolder": "",
+  "latex-workshop.latex.build.enableMagicComments": true
 }

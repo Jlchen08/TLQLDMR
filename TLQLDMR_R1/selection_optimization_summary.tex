@@ -1,0 +1,26 @@
+\begin{table*}[pos=t,width=\FullWidth]
+\centering
+\color{blue}
+\caption{Audited Q1 optimization totals by scope and method. B, M, and J are newly queried candidates in the base, middle, and joint stages. Eligibility and certificate failures refer only to newly queried candidates. Iterations sum the reported iterations over all solver attempts; fit time sums recorded per-fit wall time and is descriptive because tasks ran in parallel.}
+\label{tab:selection-v2-optimization-summary}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llrrrrrrrr}
+\toprule
+Scope & Method & B & M & J & Eligible & Failed seed fits & Attempts & Iterations & Fit h \\
+\midrule
+Within & TL-QLDMR & 108 & 108 & 108 & 280 & 123 & 1287 & 4025325 & 7.07 \\
+Within & No variance & 108 & 108 & 108 & 276 & 135 & 1270 & 3941850 & 6.43 \\
+Within & No discrepancy & 108 & 108 & 108 & 273 & 146 & 1297 & 4217100 & 6.42 \\
+Within & Weighted SVQR & 108 & 108 & 108 & 249 & 215 & 1296 & 4594600 & 5.22 \\
+Within & Target SVQR & 108 & 108 & 108 & 324 & 0 & 973 & 137300 & 0.02 \\
+Within & HistGBR & 108 & 108 & 108 & 324 & 0 & 324 & 97200 & 2.67 \\
+Cross & TL-QLDMR & 108 & 108 & 108 & 275 & 132 & 1230 & 3563825 & 6.14 \\
+Cross & No variance & 108 & 108 & 108 & 277 & 132 & 1227 & 3497425 & 4.95 \\
+Cross & No discrepancy & 108 & 108 & 108 & 276 & 133 & 1220 & 3514200 & 4.69 \\
+Cross & Weighted SVQR & 108 & 108 & 108 & 253 & 198 & 1270 & 4384550 & 4.69 \\
+Cross & Target SVQR & 108 & 108 & 108 & 324 & 0 & 973 & 137300 & 0.02 \\
+Cross & HistGBR & 108 & 108 & 108 & 324 & 0 & 324 & 97200 & 2.36 \\
+\bottomrule
+\end{tabular}
+\end{table*}

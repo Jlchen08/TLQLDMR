@@ -1,0 +1,16 @@
+{
+  "version": "matched_ablation_v2_manifest_1",
+  "status": "complete",
+  "created_utc": "2026-10-23T17:06:16.401757+00:00",
+  "protocol_sha256": "6c4ff8c176a29d8f7fdbbcf8eb1f89ccdc32b4e9e344c3f721c9f15f3cfea5e7",
+  "configurations_sha256": "85e5802764a1ad422a6ac5e0c127499036659b87c703848911db6737d9eb9de3",
+  "matched_lock_sha256": "c9dd7b7c46f64cd2638c78d23c26c20dd983cead4369a5582fedc88f84ebed4f",
+  "base_selection_lock_sha256": "c227c03e019e54950095fd7e7c44849f64adb8aff730ea438a85df935ede2184",
+  "heldout_unlocked": true,
+  "evaluation_started_utc": "2026-10-23T17:07:44.880692+00:00",
+  "solver_certificate_amendment": "review/selection_runs/solver_certificate_amendment_v2.json",
+  "solver_certificate_amendment_sha256": "e4bbca1cdcc8f51d927b9a485022f4a14437969efb89d6503b1d32964ba50b2a",
+  "completed_utc": "2026-10-24T02:58:56.545104+00:00",
+  "results_sha256": "6770340697e54e1fb23d72f4250b8a6d5debcb0f7e6e812b7c96e58dadd26ab0",
+  "completed_evaluation_keys": 144
+}

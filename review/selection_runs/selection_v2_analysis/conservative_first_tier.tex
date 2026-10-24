@@ -1,0 +1,22 @@
+\begin{table}
+\caption{Conservative all-pairs non-rejection set. Membership does not establish equivalence or constitute a formal model-confidence set.}
+\label{tab:selection-v2-first-tier}
+\begin{tabular}{lllrrr}
+\toprule
+scope & method & empirical\_endpoint\_winner & difference\_from\_winner & holm\_p\_vs\_winner & in\_conservative\_nonrejection\_set \\
+\midrule
+within & Full & HistGBR & 0.04178 & 0.03564 & False \\
+within & NoVariance & HistGBR & 0.03435 & 0.2847 & True \\
+within & NoDiscrepancy & HistGBR & 0.0542 & 0.2083 & True \\
+within & WeightedSVQR & HistGBR & 0.04734 & 0.00182 & False \\
+within & TargetSVQR & HistGBR & 0.06138 & 0.00015 & False \\
+within & HistGBR & HistGBR & 0 & 1 & True \\
+cross & Full & HistGBR & 0.02772 & 0.3364 & True \\
+cross & NoVariance & HistGBR & 0.02261 & 0.502 & True \\
+cross & NoDiscrepancy & HistGBR & 0.01901 & 0.502 & True \\
+cross & WeightedSVQR & HistGBR & 0.0264 & 0.2996 & True \\
+cross & TargetSVQR & HistGBR & 0.05128 & 0.00015 & False \\
+cross & HistGBR & HistGBR & 0 & 1 & True \\
+\bottomrule
+\end{tabular}
+\end{table}

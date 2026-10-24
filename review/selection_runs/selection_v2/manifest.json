@@ -1,0 +1,985 @@
+{
+  "status": "complete",
+  "created_utc": "2026-10-23T07:14:10.439520+00:00",
+  "protocol": {
+    "version": "selection_v2",
+    "design_seed": 20261023,
+    "feature_loader_version": "selection_v2_common_pressure_humidity_1",
+    "feature_track": "common meteorology: wind, direction, temperature, pressure, humidity; 360 lagged inputs",
+    "test_status": "2020 Q3-Q4 has been inspected previously; this remains a reused-test follow-up",
+    "fit_period": "2019",
+    "selection_period": "2020 Q1",
+    "calibration_period": "2020 Q2",
+    "test_period": "2020 Q3-Q4",
+    "default_execution": "validation selection and lock only; no calibration/test prediction",
+    "parallel_rule": "optional workers may partition base/regularizer/joint phases by disjoint task names; only an unfiltered coordinator may create the full lock",
+    "methods": [
+      "Full",
+      "NoVariance",
+      "NoDiscrepancy",
+      "WeightedSVQR",
+      "TargetSVQR",
+      "HistGBR"
+    ],
+    "pooled_kernel_methods": [
+      "Full",
+      "NoVariance",
+      "NoDiscrepancy",
+      "WeightedSVQR"
+    ],
+    "kernel_base_candidates": [
+      {
+        "gamma": 0.003,
+        "total_loss": 1000.0,
+        "target_fraction": 0.5,
+        "rank": 128,
+        "origin": "selection_v1_anchor"
+      },
+      {
+        "gamma": 0.003,
+        "total_loss": 1000.0,
+        "target_fraction": 0.5,
+        "rank": 256,
+        "origin": "selection_v1_anchor"
+      },
+      {
+        "gamma": 0.003,
+        "total_loss": 1000.0,
+        "target_fraction": 0.5,
+        "rank": 512,
+        "origin": "selection_v1_anchor"
+      },
+      {
+        "gamma": 0.002,
+        "total_loss": 562500.0,
+        "target_fraction": 0.99413,
+        "rank": 128,
+        "origin": "historical_point_anchor"
+      },
+      {
+        "gamma": 0.002,
+        "total_loss": 562500.0,
+        "target_fraction": 0.99413,
+        "rank": 256,
+        "origin": "historical_point_anchor"
+      },
+      {
+        "gamma": 0.002,
+        "total_loss": 562500.0,
+        "target_fraction": 0.99413,
+        "rank": 512,
+        "origin": "historical_point_anchor"
+      },
+      {
+        "gamma": 0.002,
+        "total_loss": 562500.0,
+        "target_fraction": 0.9808,
+        "rank": 256,
+        "origin": "historical_cross_ratio_anchor"
+      },
+      {
+        "gamma": 0.002,
+        "total_loss": 2393000.0,
+        "target_fraction": 0.99273,
+        "rank": 256,
+        "origin": "historical_interval_ratio_anchor"
+      },
+      {
+        "gamma": 0.0001,
+        "total_loss": 100.0,
+        "target_fraction": 0.05,
+        "rank": 128,
+        "origin": "lower_boundary_anchor"
+      },
+      {
+        "gamma": 0.08,
+        "total_loss": 2400000.0,
+        "target_fraction": 0.995,
+        "rank": 512,
+        "origin": "upper_boundary_anchor"
+      },
+      {
+        "gamma": 0.07615982004979044,
+        "total_loss": 320664.1013655609,
+        "rank": 128,
+        "origin": "deterministic_space_fill",
+        "target_fraction": 0.05589502664596269
+      },
+      {
+        "gamma": 0.00018044964752463453,
+        "total_loss": 4718.996170221455,
+        "rank": 256,
+        "origin": "deterministic_space_fill",
+        "target_fraction": 0.9640706271742423
+      },
+      {
+        "gamma": 0.006473202912219461,
+        "total_loss": 818274.8130886481,
+        "rank": 512,
+        "origin": "deterministic_space_fill",
+        "target_fraction": 0.7658694059537791
+      },
+      {
+        "gamma": 0.0027052469912905537,
+        "total_loss": 1697.026463853638,
+        "rank": 128,
+        "origin": "deterministic_space_fill",
+        "target_fraction": 0.25530820256824704
+      },
+      {
+        "gamma": 0.007980756100465815,
+        "total_loss": 16522.392734457266,
+        "rank": 256,
+        "origin": "deterministic_space_fill",
+        "target_fraction": 0.6965473514923953
+      },
+      {
+        "gamma": 0.0002736402056475676,
+        "total_loss": 388.0102175995595,
+        "rank": 512,
+        "origin": "deterministic_space_fill",
+        "target_fraction": 0.4790935685079871
+      },
+      {
+        "gamma": 0.0011239717649534214,
+        "total_loss": 128.4063881475744,
+        "rank": 128,
+        "origin": "deterministic_space_fill",
+        "target_fraction": 0.37902791581382633
+      },
+      {
+        "gamma": 0.02108921170053256,
+        "total_loss": 60309.60543998318,
+        "rank": 256,
+        "origin": "deterministic_space_fill",
+        "target_fraction": 0.5889837877643899
+      }
+    ],
+    "target_kernel_base_candidates": [
+      {
+        "gamma": 0.003,
+        "total_loss": 1000.0,
+        "rank": 32,
+        "origin": "selection_v1_anchor"
+      },
+      {
+        "gamma": 0.003,
+        "total_loss": 1000.0,
+        "rank": 64,
+        "origin": "selection_v1_anchor"
+      },
+      {
+        "gamma": 0.003,
+        "total_loss": 1000.0,
+        "rank": 128,
+        "origin": "selection_v1_anchor"
+      },
+      {
+        "gamma": 0.002,
+        "total_loss": 562500.0,
+        "rank": 32,
+        "origin": "historical_point_anchor"
+      },
+      {
+        "gamma": 0.002,
+        "total_loss": 562500.0,
+        "rank": 64,
+        "origin": "historical_point_anchor"
+      },
+      {
+        "gamma": 0.002,
+        "total_loss": 562500.0,
+        "rank": 128,
+        "origin": "historical_point_anchor"
+      },
+      {
+        "gamma": 0.002,
+        "total_loss": 2393000.0,
+        "rank": 64,
+        "origin": "historical_interval_ratio_anchor"
+      },
+      {
+        "gamma": 0.0001,
+        "total_loss": 100.0,
+        "rank": 32,
+        "origin": "lower_boundary_anchor"
+      },
+      {
+        "gamma": 0.08,
+        "total_loss": 2400000.0,
+        "rank": 128,
+        "origin": "upper_boundary_anchor"
+      },
+      {
+        "gamma": 0.0003643628928911235,
+        "total_loss": 401032.28033358336,
+        "rank": 32,
+        "origin": "deterministic_space_fill"
+      },
+      {
+        "gamma": 0.0022385578862189615,
+        "total_loss": 215.1340805560668,
+        "rank": 64,
+        "origin": "deterministic_space_fill"
+      },
+      {
+        "gamma": 0.00048495791229776945,
+        "total_loss": 20231.016772392766,
+        "rank": 128,
+        "origin": "deterministic_space_fill"
+      },
+      {
+        "gamma": 0.08774393058349994,
+        "total_loss": 3399.1635084022496,
+        "rank": 32,
+        "origin": "deterministic_space_fill"
+      },
+      {
+        "gamma": 0.0001047345652819273,
+        "total_loss": 67944.8016921916,
+        "rank": 64,
+        "origin": "deterministic_space_fill"
+      },
+      {
+        "gamma": 0.0056057375610584215,
+        "total_loss": 701.2875118094211,
+        "rank": 128,
+        "origin": "deterministic_space_fill"
+      },
+      {
+        "gamma": 0.010569127703630865,
+        "total_loss": 828668.71658074,
+        "rank": 32,
+        "origin": "deterministic_space_fill"
+      },
+      {
+        "gamma": 0.030984101789849887,
+        "total_loss": 100193.70182891708,
+        "rank": 64,
+        "origin": "deterministic_space_fill"
+      },
+      {
+        "gamma": 0.0010596283901194048,
+        "total_loss": 1910.866529872105,
+        "rank": 128,
+        "origin": "deterministic_space_fill"
+      }
+    ],
+    "environment_versions": {
+      "python": "3.10.9",
+      "numpy": "2.2.6",
+      "scipy": "1.15.3",
+      "pandas": "2.3.3",
+      "scikit-learn": "1.7.2",
+      "joblib": "1.5.3",
+      "threadpoolctl": "3.6.0",
+      "openpyxl": "3.1.5"
+    },
+    "tree_candidates": [
+      {
+        "learning_rate": 0.03,
+        "max_leaf_nodes": 7,
+        "min_samples_leaf": 10,
+        "l2_regularization": 0.0,
+        "max_iter": 200,
+        "target_fraction": 0.5,
+        "origin": "conservative_tree_anchor"
+      },
+      {
+        "learning_rate": 0.03,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 20,
+        "l2_regularization": 1.0,
+        "max_iter": 400,
+        "target_fraction": 0.995,
+        "origin": "high_target_tree_anchor"
+      },
+      {
+        "learning_rate": 0.03,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 20,
+        "l2_regularization": 10.0,
+        "max_iter": 100,
+        "target_fraction": 0.5,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 7,
+        "min_samples_leaf": 10,
+        "l2_regularization": 10.0,
+        "max_iter": 100,
+        "target_fraction": 0.1,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.03,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 40,
+        "l2_regularization": 1.0,
+        "max_iter": 400,
+        "target_fraction": 0.5,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 7,
+        "min_samples_leaf": 20,
+        "l2_regularization": 1.0,
+        "max_iter": 400,
+        "target_fraction": 0.5,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 10,
+        "l2_regularization": 1.0,
+        "max_iter": 200,
+        "target_fraction": 0.1,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 10.0,
+        "max_iter": 200,
+        "target_fraction": 0.98,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 40,
+        "l2_regularization": 1.0,
+        "max_iter": 400,
+        "target_fraction": 0.5,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.03,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 10,
+        "l2_regularization": 0.0,
+        "max_iter": 100,
+        "target_fraction": 0.9,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.03,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 10,
+        "l2_regularization": 10.0,
+        "max_iter": 400,
+        "target_fraction": 0.1,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 10,
+        "l2_regularization": 1.0,
+        "max_iter": 100,
+        "target_fraction": 0.5,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 1.0,
+        "max_iter": 400,
+        "target_fraction": 0.1,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.03,
+        "max_leaf_nodes": 15,
+        "min_samples_leaf": 40,
+        "l2_regularization": 1.0,
+        "max_iter": 400,
+        "target_fraction": 0.98,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.03,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 1.0,
+        "max_iter": 400,
+        "target_fraction": 0.1,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 40,
+        "l2_regularization": 0.0,
+        "max_iter": 200,
+        "target_fraction": 0.995,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 7,
+        "min_samples_leaf": 10,
+        "l2_regularization": 10.0,
+        "max_iter": 100,
+        "target_fraction": 0.9,
+        "origin": "deterministic_tree_grid"
+      },
+      {
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "l2_regularization": 10.0,
+        "max_iter": 400,
+        "target_fraction": 0.1,
+        "origin": "deterministic_tree_grid"
+      }
+    ],
+    "regularizer_candidates": {
+      "Full": [
+        {
+          "lambda1": 1e-05,
+          "lambda2": 1e-05
+        },
+        {
+          "lambda1": 0.0005,
+          "lambda2": 0.0001
+        },
+        {
+          "lambda1": 1.0,
+          "lambda2": 1.0
+        },
+        {
+          "lambda1": 1000.0,
+          "lambda2": 1000.0
+        },
+        {
+          "lambda1": 0.0001,
+          "lambda2": 100.0
+        },
+        {
+          "lambda1": 100.0,
+          "lambda2": 0.0001
+        },
+        {
+          "lambda1": 0.006725769065579297,
+          "lambda2": 0.00047052545418005724
+        },
+        {
+          "lambda1": 0.2766741454317763,
+          "lambda2": 0.03509408321675797
+        },
+        {
+          "lambda1": 17.21734050057997,
+          "lambda2": 43.69160356592553
+        },
+        {
+          "lambda1": 1.4281688953414003e-05,
+          "lambda2": 1.173293566350295
+        },
+        {
+          "lambda1": 618.4156352463982,
+          "lambda2": 101.44945331864766
+        },
+        {
+          "lambda1": 0.021994690280449695,
+          "lambda2": 470.1437317452694
+        },
+        {
+          "lambda1": 0.00019009972258276126,
+          "lambda2": 2.523172577612038e-05
+        },
+        {
+          "lambda1": 92.86573495767007,
+          "lambda2": 0.1546242022670043
+        },
+        {
+          "lambda1": 0.6397360101270043,
+          "lambda2": 0.0017948315358721348
+        },
+        {
+          "lambda1": 3.4813442434005863,
+          "lambda2": 6.487987353495383
+        },
+        {
+          "lambda1": 0.0012368009917877994,
+          "lambda2": 0.00019160196312211687
+        },
+        {
+          "lambda1": 0.00036555488308396834,
+          "lambda2": 0.0050171782728720676
+        }
+      ],
+      "NoVariance": [
+        {
+          "lambda1": 0.0,
+          "lambda2": 1e-05
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 3e-05
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 0.0001
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 0.0003
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 0.0005
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 0.001
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 0.003
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 0.01
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 0.03
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 0.1
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 0.3
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 1.0
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 3.0
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 10.0
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 30.0
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 100.0
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 300.0
+        },
+        {
+          "lambda1": 0.0,
+          "lambda2": 1000.0
+        }
+      ],
+      "NoDiscrepancy": [
+        {
+          "lambda1": 1e-05,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 3e-05,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 0.0001,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 0.0003,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 0.0005,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 0.001,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 0.003,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 0.01,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 0.03,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 0.1,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 0.3,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 1.0,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 3.0,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 10.0,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 30.0,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 100.0,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 300.0,
+          "lambda2": 0.0
+        },
+        {
+          "lambda1": 1000.0,
+          "lambda2": 0.0
+        }
+      ],
+      "WeightedSVQR": [],
+      "TargetSVQR": []
+    },
+    "base_regularizer_anchors": {
+      "Full": {
+        "lambda1": 1.0,
+        "lambda2": 1.0
+      },
+      "NoVariance": {
+        "lambda1": 0.0,
+        "lambda2": 1.0
+      },
+      "NoDiscrepancy": {
+        "lambda1": 1.0,
+        "lambda2": 0.0
+      },
+      "WeightedSVQR": {
+        "lambda1": 0.0,
+        "lambda2": 0.0
+      },
+      "TargetSVQR": {
+        "lambda1": 0.0,
+        "lambda2": 0.0
+      }
+    },
+    "selection_stages": [
+      "select gamma, total loss mass, target loss fraction, and requested Nystrom rank from a shared kernel design with pool-valid method-specific ranks",
+      "use 18 Q1 queries for active raw-lambda tuning or a deterministic regularizer-equivalent base refinement",
+      "perform one predeclared 18-candidate local joint refinement for every method; kernel variants also refine active lambdas"
+    ],
+    "candidate_uniqueness": "each stage contains 18 newly queried effective unique models, disjoint from all earlier stages, after ignoring origin and inactive coordinates; deterministic Latin-hypercube reserves replenish collisions caused by anchors or clipping; reserves span the global search region except active-lambda middle searches, whose reserves keep the selected base coordinates fixed; TargetSVQR omits p and uses a two-dimensional continuous design with p=1 at fitting",
+    "validation_query_budget": {
+      "base": 18,
+      "middle": 18,
+      "joint": 18,
+      "total_per_task_method": 54,
+      "cross_stage_rule": "18 effective unique new configurations per stage, excluding every earlier-stage signature, for 54 unique queried configurations per task and method; the previous eligible incumbent is compared using its cached validation score and fit folders, without refitting or counting it as a new query",
+      "rule": "every method receives exactly the same number of Q1 configuration queries; kernel queries average seeds 0,1,2; deterministic HistGBR uses seed 0 once"
+    },
+    "selection_rule": "minimum mean target-Q1 RMSE across method-specific seeds (kernel 0,1,2; deterministic HistGBR 0) among candidates meeting the common solver certificate; ties retain a carried incumbent, then use new candidate index",
+    "nonconvergence_rule": "retry once from the first incumbent with 12000 ADMM iterations; retain diagnostics but mark a candidate ineligible if any selection seed still misses the stated duality-gap tolerance",
+    "refit_rule": "locked configuration is refitted using 2019 fitting rows only; Q1 selection labels are not added to fitting",
+    "source_cap_per_other_site": 1500,
+    "within_site_source_cap": 7500,
+    "within_target_fit_budget": 128,
+    "cross_target_fit_budget": 128,
+    "target_sampling": "month x disjoint event stratum; deterministic time-even allocation using training covariates only",
+    "landmark_ranks": [
+      128,
+      256,
+      512
+    ],
+    "landmark_ranks_by_method": {
+      "Full": [
+        128,
+        256,
+        512
+      ],
+      "NoVariance": [
+        128,
+        256,
+        512
+      ],
+      "NoDiscrepancy": [
+        128,
+        256,
+        512
+      ],
+      "WeightedSVQR": [
+        128,
+        256,
+        512
+      ],
+      "TargetSVQR": [
+        32,
+        64,
+        128
+      ]
+    },
+    "landmark_pool_source_cap": 2000,
+    "landmark_pool_target_cap": 2000,
+    "landmark_rule": "fit-only, label-free KMeans; pooled source and target each receive total sample weight 0.5; target-only uses target rows only; effective rank is transparently capped by landmark-pool size",
+    "selection_seeds": [
+      0,
+      1,
+      2
+    ],
+    "evaluation_seeds": [
+      0,
+      1,
+      2
+    ],
+    "selection_seeds_by_method": {
+      "Full": [
+        0,
+        1,
+        2
+      ],
+      "NoVariance": [
+        0,
+        1,
+        2
+      ],
+      "NoDiscrepancy": [
+        0,
+        1,
+        2
+      ],
+      "WeightedSVQR": [
+        0,
+        1,
+        2
+      ],
+      "TargetSVQR": [
+        0,
+        1,
+        2
+      ],
+      "HistGBR": [
+        0
+      ]
+    },
+    "evaluation_seeds_by_method": {
+      "Full": [
+        0,
+        1,
+        2
+      ],
+      "NoVariance": [
+        0,
+        1,
+        2
+      ],
+      "NoDiscrepancy": [
+        0,
+        1,
+        2
+      ],
+      "WeightedSVQR": [
+        0,
+        1,
+        2
+      ],
+      "TargetSVQR": [
+        0,
+        1,
+        2
+      ],
+      "HistGBR": [
+        0
+      ]
+    },
+    "taus": [
+      0.5,
+      0.025,
+      0.975
+    ],
+    "solver_attempts": [
+      {
+        "max_iter": 3000,
+        "gap_rtol": 0.001,
+        "gap_atol": 1e-07,
+        "check_every": 25
+      },
+      {
+        "max_iter": 12000,
+        "gap_rtol": 0.001,
+        "gap_atol": 1e-07,
+        "check_every": 25
+      }
+    ],
+    "regularizer_normalization": "none; preserve the manuscript's raw covariance, cross, and projected discrepancy terms; record raw traces for audit",
+    "alpha": 0.05,
+    "rolling_window": 256,
+    "threads": 1,
+    "label_accounting": "every task uses 128 target fitting labels plus all Q1 selection and Q2 calibration labels; 128 is the fit budget, not the total supervised-label count",
+    "analysis_plan": {
+      "status": "declared before selection-v2 fitting; Q3-Q4 is a reused test period",
+      "primary_scope": "six within-site normal-to-extreme tasks, all six sites",
+      "secondary_scope": "six leave-one-farm-out cross-site transfer-stress tasks",
+      "primary_estimands": [
+        "site-equal macro normalized RMSE: mean across six sites of mean-seed RMSE divided by site capacity",
+        "site-equal mean method rank: rank each site's mean-seed RMSE with average ranks for ties, then average across six sites"
+      ],
+      "primary_reference": "Full",
+      "comparators": [
+        "NoVariance",
+        "NoDiscrepancy",
+        "WeightedSVQR",
+        "TargetSVQR",
+        "HistGBR"
+      ],
+      "complete_reporting": "report every predeclared task, site and method; no outcome-based exclusion or best-seed selection",
+      "test_use": "one locked-setting Q3-Q4 evaluation after the full selection lock; failed executions may resume unchanged; no test-guided retuning",
+      "seed_aggregation": "site RMSE averages separate seed RMSEs; inference averages squared errors across each method's declared seeds at each timestamp; no seed ensembling",
+      "paired_inference": {
+        "loss": "paired squared-error difference Full minus comparator at matching timestamps",
+        "blocks": "non-overlapping Monday-Sunday seven-calendar-day blocks within each site; fixed 1970-01-05 Monday origin",
+        "bootstrap_rule": "equal-probability resampling of whole blocks; each replicate divides sampled block loss sums by sampled observation counts",
+        "sign_flip_rule": "two-sided Monte Carlo paired block sign flips with plus-one correction",
+        "random_seed": 20261025,
+        "bootstrap_replicates": 10000,
+        "confidence_level": 0.95,
+        "sign_flip_replicates": 99999,
+        "holm_families": "separate within and cross families, each containing all 6 sites x 5 Full comparisons = 30 tests",
+        "interpretation": "exploratory paired block inference on reused test data; non-rejection is not equivalence"
+      },
+      "exploratory_comparison_set": {
+        "rule": "within each scope compare all 15 method pairs using two-sided paired seven-day block swaps of site-equal macro capacity-normalized seed-mean RMSE with Holm correction; retain the empirical winner and methods not shown worse than that winner at adjusted alpha 0.05",
+        "interpretation": "not a formal model confidence set; retention means not eliminated by this comparison procedure, not equivalence or established superiority"
+      }
+    },
+    "tasks": [
+      {
+        "name": "within_site1",
+        "site": 1,
+        "mode": "within",
+        "role": "primary_breadth"
+      },
+      {
+        "name": "within_site2",
+        "site": 2,
+        "mode": "within",
+        "role": "primary_breadth"
+      },
+      {
+        "name": "within_site3",
+        "site": 3,
+        "mode": "within",
+        "role": "primary_breadth"
+      },
+      {
+        "name": "within_site4",
+        "site": 4,
+        "mode": "within",
+        "role": "primary_breadth"
+      },
+      {
+        "name": "within_site5",
+        "site": 5,
+        "mode": "within",
+        "role": "primary_breadth"
+      },
+      {
+        "name": "within_site6",
+        "site": 6,
+        "mode": "within",
+        "role": "primary_breadth"
+      },
+      {
+        "name": "cross_site1",
+        "site": 1,
+        "mode": "cross",
+        "role": "leave_one_farm_out_stress"
+      },
+      {
+        "name": "cross_site2",
+        "site": 2,
+        "mode": "cross",
+        "role": "leave_one_farm_out_stress"
+      },
+      {
+        "name": "cross_site3",
+        "site": 3,
+        "mode": "cross",
+        "role": "leave_one_farm_out_stress"
+      },
+      {
+        "name": "cross_site4",
+        "site": 4,
+        "mode": "cross",
+        "role": "leave_one_farm_out_stress"
+      },
+      {
+        "name": "cross_site5",
+        "site": 5,
+        "mode": "cross",
+        "role": "leave_one_farm_out_stress"
+      },
+      {
+        "name": "cross_site6",
+        "site": 6,
+        "mode": "cross",
+        "role": "leave_one_farm_out_stress"
+      }
+    ]
+  },
+  "protocol_sha256": "f947379d97664a0a4f5a9bad9dda018d4d221b594c3f0975088ff8ccbb0b450d",
+  "source_hashes": {
+    "review/run_selection_study_v2.py": "88ac997f9aecdc56e89d64def49ec033963032c7078df6fc7eff53fe54ca140a",
+    "review/selection_data_v2.py": "9262afa61169670e0baf6512455e255a6e3222d4d9efd97844ae674921e41e21",
+    "review/selection_data.py": "5f8e1bdba8f0c883d1580cfb47f3cbd891a21b4ccca70201a53f31f19e88dc49",
+    "review/selection_sampling.py": "3c889b4fb4a6fc98666ba57e86e8cc02bdf3936389f6b0f23e4b7a647a9b91f2",
+    "review/temporal_data.py": "683e93cb1ba6dd48aaf6233bc38514d896427db5d8604b7f0da96278aaecf5a6",
+    "review/convex_refinement.py": "6e196411e3c2837b46ed0beb92b554e54de9b3c004326925fe24834dc5c523b6"
+  },
+  "data_hashes": {
+    "data/wind_farm_data/data_original/wind_farms/Wind farm site 1 (Nominal capacity-99MW).xlsx": "c7b6c86e80fa1f36c7547bcbb17205dc063c554981f07620fa3a2e7ec463fddc",
+    "data/wind_farm_data/data_original/wind_farms/Wind farm site 2 (Nominal capacity-200MW).xlsx": "cece173808429ee5aeed6dff367ebf9edbc8689822cabb4b5a343e6283e74b6f",
+    "data/wind_farm_data/data_original/wind_farms/Wind farm site 3 (Nominal capacity-99MW).xlsx": "e0ebf4f54bbc73aceaba96b1052e9b915ba5c0d5c80590ba83278a710753dcf6",
+    "data/wind_farm_data/data_original/wind_farms/Wind farm site 4 (Nominal capacity-66MW).xlsx": "35e02d85c1fba1d375c0006760b68c9d2c369885446d8132411cda83fd7aa1f4",
+    "data/wind_farm_data/data_original/wind_farms/Wind farm site 5 (Nominal capacity-36MW).xlsx": "029c48cabee3ea5004390120522dbb65438b7840b1d390fa2e72bb793792bd90",
+    "data/wind_farm_data/data_original/wind_farms/Wind farm site 6 (Nominal capacity-96MW).xlsx": "c302125284bb50ad39c970ae31669b4153846be4cfe960af36b1a0fb2ed90f9c"
+  },
+  "reference_manifest_sha256": "3e2124769636ea9c723e856d450f3dd84627838a40e2961cc36f1ab98933e821",
+  "environment_versions": {
+    "python": "3.10.9",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "joblib": "1.5.3",
+    "threadpoolctl": "3.6.0",
+    "openpyxl": "3.1.5"
+  },
+  "active_phase": "evaluate",
+  "last_stable_status": "complete",
+  "updated_utc": "2026-10-23T18:51:37.939161+00:00",
+  "solver_certificate_amendment": "review/selection_runs/solver_certificate_amendment_v2.json",
+  "solver_certificate_amendment_sha256": "e4bbca1cdcc8f51d927b9a485022f4a14437969efb89d6503b1d32964ba50b2a"
+}

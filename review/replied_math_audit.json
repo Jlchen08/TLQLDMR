@@ -1,0 +1,212 @@
+{
+  "scope": "Read-only independent mathematical review of current Section3, selected responses and Train_TL_QLDMR.py; no training or parameter selection.",
+  "snapshots": {
+    "TLQLDMR_R1/TLQLDMR_energy.tex": "988ff80598f6de7f31a2d6687dae90d5e15040c738ff3e27d9e40f8dda7733e7",
+    "TLQLDMR_response_1st/main.tex": "d08fb1021084417275ef54bd7adae3c36f2f77f5dcf5ba7494132b4fc113b3bf",
+    "Train_TL_QLDMR.py": "28ba0c0780f9f2c19105ca0fd2e21f829d790b4e7d2245583aa09b15371a1cb6"
+  },
+  "findings": [
+    {
+      "id": "M1",
+      "severity": "high",
+      "lines": [
+        294,
+        320,
+        321,
+        323,
+        326,
+        381
+      ],
+      "reviewers": [
+        "R1C1",
+        "R1C5",
+        "R3C4"
+      ],
+      "finding": "Classification minimum-margin language and an unsupported generic LDMR objective remain in introduction/related work. Hazarika2023 concerns mode decomposition, not mode-seeking.",
+      "evidence": "The stated +lambda2 Mean(Residuals) formula is not supported by cited original LDMR; with one sample, y=0, w=0, free b>0, L=absolute error, C=1 and lambda2=2, J=-b tends to minus infinity. This counterexample concerns the generic displayed formula, not the corrected Section 3 objective.",
+      "sources": [
+        "svr",
+        "ldm",
+        "ldmr",
+        "lsldmr",
+        "mode"
+      ]
+    },
+    {
+      "id": "M2",
+      "severity": "high",
+      "lines": [
+        335,
+        339,
+        406,
+        415,
+        437
+      ],
+      "reviewers": [
+        "R1C1",
+        "R2Major5",
+        "R3C3"
+      ],
+      "finding": "Related Work still claims fixed MMD learns a representation and ensures target robustness. Section3 and reply correctly restrict the trainable term to prediction means, creating an internal inconsistency.",
+      "evidence": "For fixed data and phi, empirical RKHS MMD is constant in w. Dproj=(w^T Delta)^2 equals linear-kernel MMD on scalar outputs, and can vanish with Delta nonzero. It is not full-feature distribution alignment.",
+      "sources": [
+        "mmd"
+      ]
+    },
+    {
+      "id": "M3",
+      "severity": "medium",
+      "lines": [
+        382
+      ],
+      "response_line": 103,
+      "reviewers": [
+        "R1C1",
+        "R1C5",
+        "R3C4"
+      ],
+      "finding": "Quantile-compatible spread is still motivated only by translation invariance. It should not suggest conditional-quantile preservation, and R1C1 still lacks a precise theoretical comparison.",
+      "evidence": "An explicit population counterexample changes conditional coverages from tau=.75 to (.8,.7). A fixed-feature complete-square transformation proves exact equivalence to weighted SVQR on transformed features/shifted labels, clarifying the limited methodological change.",
+      "sources": [
+        "svqr"
+      ]
+    },
+    {
+      "id": "M4",
+      "severity": "medium",
+      "lines": [
+        555,
+        600,
+        601,
+        602,
+        604
+      ],
+      "reviewers": [
+        "R2Major6"
+      ],
+      "finding": "Complexity table gives unqualified O(N^3) for whole QP optimization and omits landmark-selection cost.",
+      "evidence": "For a dense interior-point implementation one dense factorization costs O(N^3); total optimization contains the iteration count I_QP and requested numerical accuracy. Explicit feature costs also contain the pool/KMeans selection cost C_Z. Suggested replacement states these conditions and separates costs.",
+      "sources": []
+    },
+    {
+      "id": "M5",
+      "severity": "low",
+      "lines": [
+        436
+      ],
+      "reviewers": [
+        "R2Major5"
+      ],
+      "finding": "Prediction vector switches from row notation beta^T K+b1^T to column K beta+b1 in subsequent equations.",
+      "evidence": "No algebraic consequence because elementwise predictions are consistent, but use one convention for readability.",
+      "sources": []
+    }
+  ],
+  "resolved": [
+    "Section3 correctly treats residual mean as parameter dependent and uses H1=0 to cancel the intercept.",
+    "The full kernel expansion keeps -lambda1 K S Y and the fixed-feature linear c with consistent 1/nS factors.",
+    "The exact dual Q=K Omega^dagger K and p=lambda1 K Omega^dagger K S Y-Y have correct signs and ranges.",
+    "For PSD K and nonnegative weights, ker(Omega)=ker(K); PSD/PD conditions and minimum-norm recovery are stated correctly. Null(K) coefficients represent the same RKHS weight; this does not imply unique intercept.",
+    "R>=I establishes strong convexity in w at fixed b; joint convexity holds; no unwarranted joint strong convexity, Adam convergence rate, or Nystrom approximation-error bound remains in the reviewed Section3.",
+    "Train_TL_QLDMR centered_residual regularizer and batch directions match the displayed R,c and summed loss; source pool<=2000, fixed map and declared jitter match the run description.",
+    "Legacy symmetric/asymmetric modes are explicitly named prediction-variance models; exact-kernel route rejects unsupported legacy modes; repaired numerical checks are not claimed as large-sample benchmark evidence."
+  ],
+  "reviewer_status": {
+    "R1C1": "Partly answered: corrected formulation is specified, but exact relation/nesting with established SVQR and accurate original LDMR comparison still needed; no proof of novel statistical advantage can be manufactured.",
+    "R1C5": "Core symmetry and convexity corrections are sound; tighten conditional-quantile interpretation and remove conflicting background.",
+    "R2Major5": "Core algebra and code consistency addressed; clean residual MMD terminology.",
+    "R2Major6": "Core convexity and guarantee scope addressed; complexity qualifications remain.",
+    "R3C2": "Mathematical concern addressed.",
+    "R3C3": "Core equation addressed; Related Work still contradicts the corrected interpretation.",
+    "R3C4": "Symmetric term and pinball asymmetry addressed; theoretical-property wording needs the indicated restriction."
+  },
+  "counterexample": {
+    "tau": 0.75,
+    "distribution": "P(X=0)=P(X=1)=.5; Y|0~U[0,1], Y|1~U[0,2]",
+    "risk": "E rho_tau(Y-f(X)) + .5 Var(Y-f(X))",
+    "true_conditional_quantiles": [
+      0.75,
+      1.5
+    ],
+    "penalized_minimizer": [
+      0.8,
+      1.4
+    ],
+    "conditional_coverages": [
+      0.8,
+      0.7
+    ],
+    "gradient_at_true_quantiles": [
+      -0.0625,
+      0.0625
+    ],
+    "risk_at_quantiles": 0.2526041666666667,
+    "risk_at_minimizer": 0.24791666666666667,
+    "scope": "Nonvanishing population penalty; no assertion that inherited finite-sample tiny lambda causes a large effect."
+  },
+  "numerical_verification": {
+    "completed_square_absolute_error": 5.329070518200751e-15,
+    "true_quantile_gradient_finite_difference": [
+      -0.06249999998098055,
+      0.0625000000364917
+    ],
+    "minimizer_gradient_finite_difference": [
+      -1.3877787807814457e-11,
+      -4.163336342344337e-11
+    ],
+    "replacement_old_blocks_match_current_snapshot": true
+  },
+  "implementation_limits": [
+    "No code or real-data model was modified or rerun. Existing model numerical tests were inspected; this audit ran only analytical counterexample and completing-square checks.",
+    "The PSD solver is a numerical pseudoinverse with an eigenvalue tolerance. qpth adds a disclosed 1e-8 dual ridge; torch_gd and Adam are approximate iterative optimizers. A mathematical exact-kernel objective must not be confused with exact arithmetic or guaranteed finite-iteration solver accuracy.",
+    "Code observations concern the current file only, not an assumed historical result-generation version."
+  ],
+  "sources": [
+    {
+      "id": "svr",
+      "title": "A tutorial on support vector regression",
+      "url": "https://alex.smola.org/papers/2004/SmoSch04.pdf",
+      "support": "Original authors, Section 1.2: norm/flatness and epsilon-insensitive loss, not classification minimum margin."
+    },
+    {
+      "id": "ldm",
+      "title": "Large Margin Distribution Machine",
+      "url": "https://arxiv.org/pdf/1311.0989",
+      "support": "Original authors, abstract and classification objective: classification margin statistics."
+    },
+    {
+      "id": "ldmr",
+      "title": "Large-margin Distribution Machine-based regression",
+      "url": "https://link.springer.com/article/10.1007/s00521-018-3921-3",
+      "support": "Publisher original article abstract: epsilon-insensitive and quadratic losses; 2018 online, 2020 volume 32 pages 3633-3648. Full article equations not available in accessible publisher preview; no unsupported exact historical formula supplied."
+    },
+    {
+      "id": "lsldmr",
+      "title": "Least squares large margin distribution machine for regression",
+      "url": "https://link.springer.com/article/10.1007/s10489-020-02166-5",
+      "support": "Publisher abstract: changes inequalities to equalities, solved through linear equations."
+    },
+    {
+      "id": "mode",
+      "title": "Mode decomposition based large margin distribution machines for sediment load prediction",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S0957417423013465",
+      "support": "Publisher search/page excerpt describes EMD/EEMD signal decomposition, not mode-seeking estimation."
+    },
+    {
+      "id": "svqr",
+      "title": "Nonparametric Quantile Estimation",
+      "url": "https://www.jmlr.org/papers/volume7/takeuchi06a/takeuchi06a.pdf",
+      "support": "Sections 2.1-2.3: expected pinball risk, regularized SVQR, unregularized intercept sample sign-count conditions. Our extra-variance counterexample and complete-square relation are independently derived."
+    },
+    {
+      "id": "mmd",
+      "title": "A Kernel Two-Sample Test",
+      "url": "https://www.jmlr.org/papers/volume13/gretton12a/gretton12a.pdf",
+      "support": "Sections 2 and 2.1: mean embeddings and characteristic-kernel condition for population MMD as a metric."
+    }
+  ],
+  "replacement_files": [
+    "review/method_audit_replacements.tex",
+    "review/method_audit_replacements.json"
+  ]
+}

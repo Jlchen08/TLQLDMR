@@ -1,0 +1,27 @@
+\begin{table}[pos=t]
+\centering
+\color{blue}
+\caption{Site-equal capacity-normalized RMSE and average task rank in the primary within-farm and secondary cross-farm scopes.}
+\label{tab:selection-v2-scope}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrr}
+\toprule
+Scope & Method & Macro NRMSE (\%) & Average rank \\
+\midrule
+Within & TL-QLDMR & 18.090 & 3.50 \\
+ & No variance & 17.347 & 3.00 \\
+ & No discrepancy & 19.333 & 4.17 \\
+ & Weighted SVQR & 18.646 & 3.83 \\
+ & Target SVQR & 20.051 & 4.50 \\
+ & HistGBR & 13.913 & 2.00 \\
+\midrule
+Cross & TL-QLDMR & 17.694 & 3.67 \\
+ & No variance & 17.183 & 3.00 \\
+ & No discrepancy & 16.824 & 2.50 \\
+ & Weighted SVQR & 17.563 & 4.17 \\
+ & Target SVQR & 20.051 & 4.83 \\
+ & HistGBR & 14.923 & 2.83 \\
+\bottomrule
+\end{tabular}
+\end{table}

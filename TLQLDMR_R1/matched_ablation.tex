@@ -1,0 +1,27 @@
+\begin{table}[pos=t]
+\centering
+\color{blue}
+\caption{Matched component ablation on all twelve tasks. Values are three-seed mean RMSE (MW); every removal uses the corresponding task's locked TL-QLDMR configuration and artifacts.}
+\label{tab:selection-v2-matched-ablation}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{llrrrr}
+\toprule
+Scope & Farm & TL-QLDMR & No variance & No discrepancy & Weighted SVQR \\
+\midrule
+Within & Farm 1 & 22.012 & 22.019 & 22.014 & 22.019 \\
+ & Farm 2 & 23.003 & 23.003 & 23.003 & 23.003 \\
+ & Farm 3 & 13.607 & 13.759 & 13.608 & 13.759 \\
+ & Farm 4 & 6.430 & 6.430 & 6.423 & 6.423 \\
+ & Farm 5 & 13.488 & 13.401 & 17.534 & 17.600 \\
+ & Farm 6 & 13.300 & 12.110 & 13.300 & 12.110 \\
+\midrule
+Cross & Farm 1 & 22.555 & 22.555 & 22.555 & 22.555 \\
+ & Farm 2 & 24.127 & 24.127 & 24.127 & 24.127 \\
+ & Farm 3 & 12.642 & 12.500 & 12.677 & 12.596 \\
+ & Farm 4 & 5.068 & 5.068 & 5.068 & 5.068 \\
+ & Farm 5 & 13.594 & 13.596 & 13.594 & 13.596 \\
+ & Farm 6 & 12.586 & 12.583 & 12.670 & 12.670 \\
+\bottomrule
+\end{tabular}
+\end{table}

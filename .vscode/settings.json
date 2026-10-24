@@ -4,5 +4,56 @@
     "editor.wordWrapColumn": 100,
     "editor.wrappingIndent": "same",
     "editor.softTabSize": 2
-  }
+  },
+  "latex-workshop.latex.outDir": "%DIR%/build",
+  "latex-workshop.latex.build.fromFolder": "",
+  "latex-workshop.latex.build.enableMagicComments": true,
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk (pdfLaTeX)",
+      "tools": [
+        "latexmk-pdf"
+      ]
+    },
+    {
+      "name": "latexmk (system PATH)",
+      "tools": [
+        "latexmk-system"
+      ]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk-pdf",
+      "command": "bash",
+      "args": [
+        "-lc",
+        "exec latexmk \"$@\"",
+        "latexmk",
+        "-cd",
+        "-pdf",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-halt-on-error",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ]
+    },
+    {
+      "name": "latexmk-system",
+      "command": "latexmk",
+      "args": [
+        "-cd",
+        "-pdf",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-halt-on-error",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ]
+    }
+  ]
 }

@@ -9,28 +9,28 @@ TL-QLDMR 训练器实现
 模块板块说明：
 - Nyström 近似（NystromApproximation / Fast_TL_QLDMR）：将核问题映射到低维特征空间并训练线性模型
 - TL_QLDMR 主类：统一入口，按 solver 选择训练路径
-  - cvxopt/torch_gd/qpth：对偶 QP 路径，适合中小规模数据
-  - batch_sgd：核切片 Mini-batch SGD（PyTorch），避免显式构造完整核矩阵
+  - cvxopt/qpth：对偶 QP 路径，适合中小规模数据
+  - torch_gd：仅保留为未认证的约束 QP 近似迭代，不作为精确求解证据
+  - batch_sgd：保留历史代码供追溯；该分支不支持修正后的目标函数
   - fast_nystrom：Nyström + Primal Adam，适合更大规模数据与更低内存场景
 """
 
 import time
+import warnings
 import numpy as np
 import cvxopt
 from Kernel_Function import rbf_kernel
-import gc
 
 # 训练器 TL_QLDMR 支持以下 solver:
-# - cvxopt / torch_gd / qpth: 原有对偶 QP 解法
-# - batch_sgd: 现有基于 PyTorch 的核切片 SGD
+# - cvxopt / qpth: 对偶 QP 解法；cvxopt 是默认的未加 ridge 精确求解器
+# - torch_gd: 未认证的投影梯度近似迭代
+# - batch_sgd: 保留历史代码；修正目标不允许使用此分支
 # - fast_nystrom: 集成自 t 的 Nyström+Primal Adam 快速训练（更省内存）
 
 try:
     import cupy as cp
-    from cupy.cuda.memory import OutOfMemoryError
 except ImportError:
     cp = None
-    OutOfMemoryError = MemoryError  # Fallback
 
 try:
     from sklearn.cluster import KMeans
@@ -49,6 +49,86 @@ except ImportError:
 
 # 隐藏 cvxopt 的输出
 cvxopt.solvers.options['show_progress'] = False
+
+
+def _validate_objective_parameters(lambda1, lambda2, C_S, C_T, tau, gamma,
+                                   variance_mode, asym_scale):
+    for name, value in (("lambda1", lambda1), ("lambda2", lambda2),
+                        ("C_S", C_S), ("C_T", C_T)):
+        if not np.isfinite(value) or value < 0:
+            raise ValueError(f"{name} must be finite and nonnegative.")
+    if C_S + C_T <= 0:
+        raise ValueError("At least one pinball-loss weight must be positive.")
+    if not np.isfinite(tau) or not 0 < tau < 1:
+        raise ValueError("tau must lie strictly between 0 and 1.")
+    if not np.isfinite(gamma) or gamma <= 0:
+        raise ValueError("kernel_gamma must be finite and positive.")
+    if variance_mode not in {"centered_residual", "symmetric", "asymmetric"}:
+        raise ValueError(f"Unsupported variance_mode: {variance_mode}")
+    if not np.isfinite(asym_scale) or asym_scale < 0:
+        raise ValueError("asym_scale must be finite and nonnegative.")
+    if variance_mode != "asymmetric" and asym_scale != 0:
+        raise ValueError("asym_scale is only used by the legacy asymmetric mode.")
+
+
+def _validate_training_data(X_S, y_S, X_T, y_T, dtype=np.float64):
+    X_S, X_T = np.asarray(X_S, dtype=dtype), np.asarray(X_T, dtype=dtype)
+    y_S = np.asarray(y_S, dtype=dtype).reshape(-1)
+    y_T = np.asarray(y_T, dtype=dtype).reshape(-1)
+    if X_S.ndim != 2 or X_T.ndim != 2 or X_S.shape[1] != X_T.shape[1]:
+        raise ValueError("Source and target features must be 2D with matching columns.")
+    if X_T.shape[0] == 0 or X_T.shape[1] == 0:
+        raise ValueError("A non-empty target feature matrix is required.")
+    if len(X_S) != len(y_S) or len(X_T) != len(y_T):
+        raise ValueError("Feature and label counts must match within each domain.")
+    if not all(np.isfinite(a).all() for a in (X_S, y_S, X_T, y_T)):
+        raise ValueError("Training features and labels must be finite.")
+    return X_S, y_S, X_T, y_T
+
+
+def _solve_psd(matrix, rhs, xp=np):
+    """Solve on the numerical range, including singular Gram matrices.
+
+    The same Moore--Penrose solution is used for the dual matrix and primal
+    recovery. No diagonal ridge is silently added to the stated objective.
+    """
+    values, vectors = xp.linalg.eigh((matrix + matrix.T) / 2)
+    scale = float(xp.max(xp.abs(values)).item())
+    tolerance = np.finfo(np.float64).eps * matrix.shape[0] * max(scale, 1.0) * 10
+    if float(xp.min(values).item()) < -tolerance:
+        raise ValueError("The kernel objective matrix is not positive semidefinite.")
+    keep = values > tolerance
+    basis = vectors[:, keep]
+    solution = basis @ ((basis.T @ rhs) / values[keep, None])
+    return solution, int(xp.sum(keep).item())
+
+
+def _kernel_objective_system(K, y_S, n_T, lambda1, lambda2, xp=np):
+    """Normalized centered-residual kernel quadratic and dual system."""
+    n_S = len(y_S)
+    source_columns = K[:, :n_S]
+    centered = source_columns - xp.mean(source_columns, axis=1, keepdims=True)
+    variance_weight = lambda1 / n_S
+    mean_weights = xp.concatenate((xp.full(n_S, 1.0 / n_S),
+                                   xp.full(n_T, -1.0 / n_T)))
+    projected_difference = K @ mean_weights
+    Omega = (K + variance_weight * (centered @ centered.T)
+             + lambda2 * xp.outer(projected_difference, projected_difference))
+    SY = xp.concatenate((y_S - xp.mean(y_S), xp.zeros(n_T)))
+    inverse_times_K, rank = _solve_psd(Omega, K, xp=xp)
+    H = K @ inverse_times_K
+    H = (H + H.T) / 2
+    return inverse_times_K, H, variance_weight * SY, rank
+
+
+def _weighted_quantile(values, weights, tau):
+    """Minimize the weighted pinball loss over an unregularized intercept."""
+    positive = weights > 0
+    values, weights = np.asarray(values)[positive], np.asarray(weights)[positive]
+    order = np.argsort(values, kind="stable")
+    cumulative = np.cumsum(weights[order])
+    index = np.searchsorted(cumulative, tau * cumulative[-1], side="left")
+    return float(values[order[min(index, len(order) - 1)]])
 
 # ===============================
 # 集成训练方法：Nyström + Primal Adam
@@ -70,6 +150,8 @@ class NystromApproximation:
         比随机采样效果更稳健
         """
         X = np.asarray(X)
+        # A failed refit must not retain the normalization of earlier landmarks.
+        self.normalization_ = None
         n_samples = X.shape[0]
         if n_samples == 0:
             raise ValueError("Nyström fit received empty X.")
@@ -86,11 +168,15 @@ class NystromApproximation:
         K_mm = rbf_kernel(self.components_, self.components_, gamma=self.gamma, xp=np)
 
         try:
-            U, S, V = np.linalg.svd(K_mm)
-            S_inv_sqrt = np.diag(1.0 / np.sqrt(S + 1e-6))
-            self.normalization_ = np.dot(U, np.dot(S_inv_sqrt, V))
-        except np.linalg.LinAlgError:
-            self.normalization_ = np.eye(self.components_.shape[0])
+            stabilized = K_mm + 1e-6 * np.eye(len(K_mm))
+            U, S, _ = np.linalg.svd(stabilized)
+            S_inv_sqrt = np.diag(1.0 / np.sqrt(S))
+            self.normalization_ = U @ S_inv_sqrt @ U.T
+        except np.linalg.LinAlgError as error:
+            raise np.linalg.LinAlgError(
+                "Nyström SVD failed; cannot construct the stabilized inverse "
+                "square root. No alternative feature map was substituted."
+            ) from error
 
         return self
 
@@ -107,7 +193,7 @@ class NystromApproximation:
 
 class Fast_TL_QLDMR:
     """
-    [Fast Solver] 基于 Nyström 近似 + Primal SGD 的快速 TL-QLDMR
+    [Fast Solver] 基于 Nyström 近似 + Primal Adam 的快速 TL-QLDMR
     适合大规模风电数据 (N > 10,000)
     """
     def __init__(
@@ -122,7 +208,7 @@ class Fast_TL_QLDMR:
         learning_rate=0.01,
         epochs=100,
         batch_size=256,
-        variance_mode="symmetric",
+        variance_mode="centered_residual",
         asym_scale=0.0,
     ):
 
@@ -140,23 +226,41 @@ class Fast_TL_QLDMR:
         self.variance_mode = str(variance_mode)
         self.asym_scale = float(asym_scale)
 
+        _validate_objective_parameters(lambda1, lambda2, C_S, C_T, tau,
+                                       kernel_gamma, self.variance_mode, self.asym_scale)
+        for name, value in (("n_components", n_components), ("epochs", epochs),
+                            ("batch_size", batch_size)):
+            if not isinstance(value, (int, np.integer)) or value <= 0:
+                raise ValueError(f"{name} must be a positive integer.")
+        if not np.isfinite(learning_rate) or learning_rate <= 0:
+            raise ValueError("learning_rate must be finite and positive.")
         self.w = None
         self.b = 0.0
         self.feature_map = None
 
-    def _compute_regularizer_matrix(self, Z_S, Z_T, y_var=None):
+    def _compute_regularizer_terms(self, Z_S, Z_T, y_var=None):
         """
-        预计算正则化矩阵 R (m x m 维)
-        Original Regularizer: 1/2 w^T w + lambda1 Var + lambda2 MMD
-        Mapped to Primal: 1/2 w^T (I + lambda1 * S_z + lambda2 * M_z) w
+        Return R and c for .5 w^T R w - c^T w (up to a constant).
+
+        centered_residual uses lambda1/(2 n_S) ||H_S(y_S-Z_S w)||^2.
+        symmetric/asymmetric retain the historical prediction-variance
+        penalties, with c=0; they are not residual-variance models.
         """
         m = Z_S.shape[1]
+        if len(Z_S) == 0 or len(Z_T) == 0:
+            raise ValueError("Regularizer construction requires non-empty domains.")
         R = np.eye(m)
+        c = np.zeros(m)
+
+        if self.variance_mode in {"centered_residual", "asymmetric"}:
+            if y_var is None or len(np.asarray(y_var).reshape(-1)) != len(Z_S):
+                raise ValueError(f"{self.variance_mode} requires one source label per row.")
+            y_var = np.asarray(y_var).reshape(-1)
 
         Z_S_mean = np.mean(Z_S, axis=0)
         Z_S_centered = Z_S - Z_S_mean
 
-        if self.variance_mode == "asymmetric" and y_var is not None and len(y_var) == len(Z_S_centered):
+        if self.variance_mode == "asymmetric":
             # Keep weights positive to maintain a stable regularizer while introducing
             # quantile-aware asymmetry around the target quantile.
             q_ref = float(np.quantile(np.asarray(y_var).reshape(-1), self.tau))
@@ -170,26 +274,44 @@ class Fast_TL_QLDMR:
             S_z = S_z / max(float(len(Z_S_centered)), 1.0)
 
         R += self.lambda1 * S_z
+        if self.variance_mode == "centered_residual":
+            c = (self.lambda1 / len(Z_S)) * (
+                Z_S_centered.T @ (y_var - np.mean(y_var)))
 
         diff = np.mean(Z_S, axis=0) - np.mean(Z_T, axis=0)
         M_z = np.outer(diff, diff)
         R += self.lambda2 * M_z
 
-        return R
+        return R, c
+
+    def _compute_regularizer_matrix(self, Z_S, Z_T, y_var=None):
+        """Compatibility accessor; optimization must also use the linear term."""
+        return self._compute_regularizer_terms(Z_S, Z_T, y_var)[0]
+
+    def _batch_gradients(self, z_batch, y_batch, c_batch, R, c, n_samples):
+        residuals = y_batch - (z_batch @ self.w + self.b)
+        grad_f = np.where(residuals >= 0, -self.tau, 1.0 - self.tau) * c_batch
+        # E[g_B] = (B/N) grad J for the SUM-loss objective. This scaling
+        # preserves the relative regularization strength for any batch size.
+        scale = len(y_batch) / n_samples
+        return (z_batch.T @ grad_f + scale * (R @ self.w - c),
+                float(np.sum(grad_f)))
 
     def fit(self, X_S, y_S, X_T, y_T):
         """
-        使用 Adam/SGD 优化 Primal 问题
+        使用固定学习率 Adam 优化显式特征空间目标。
         """
-        X_S = np.asarray(X_S, dtype=np.float32)
-        y_S = np.asarray(y_S, dtype=np.float32).reshape(-1)
-        X_T = np.asarray(X_T, dtype=np.float32)
-        y_T = np.asarray(y_T, dtype=np.float32).reshape(-1)
+        X_S, y_S, X_T, y_T = _validate_training_data(
+            X_S, y_S, X_T, y_T, dtype=np.float32)
+        if self.variance_mode != "centered_residual":
+            warnings.warn(
+                f"variance_mode={self.variance_mode!r} is a legacy prediction-variance "
+                "penalty, not the revised centered-residual objective.",
+                UserWarning, stacklevel=2)
+        if self.C_S * len(X_S) + self.C_T * len(X_T) <= 0:
+            raise ValueError("The supplied samples must have positive total loss weight.")
 
         print(f"1. Nyström Mapping (m={self.n_components})...")
-        if len(X_T) == 0:
-            raise ValueError("Fast_TL_QLDMR requires a non-empty target set.")
-
         use_source = len(X_S) > 0
         if not use_source:
             print("Fast_TL_QLDMR: target-only mode (no source domain).")
@@ -205,7 +327,7 @@ class Fast_TL_QLDMR:
             Z_T = self.feature_map.transform(X_T)
 
             print("2. Computing Regularization Matrix...")
-            R_matrix = self._compute_regularizer_matrix(Z_S, Z_T, y_var=y_S)
+            R_matrix, c_vector = self._compute_regularizer_terms(Z_S, Z_T, y_var=y_S)
 
             Z_train = np.vstack([Z_S, Z_T])
             y_train = np.concatenate([y_S, y_T])
@@ -219,7 +341,9 @@ class Fast_TL_QLDMR:
             Z_S = Z_T
 
             print("2. Computing Regularization Matrix (target-only)...")
-            R_matrix = self._compute_regularizer_matrix(Z_S, Z_T, y_var=y_T)
+            # Explicit target-only ablation: use target residual variance and
+            # identical domain means, so the domain penalty vanishes.
+            R_matrix, c_vector = self._compute_regularizer_terms(Z_S, Z_T, y_var=y_T)
 
             Z_train = Z_T
             y_train = y_T
@@ -230,6 +354,8 @@ class Fast_TL_QLDMR:
         n_samples, n_features = Z_train.shape
         self.w = np.zeros(n_features, dtype=np.float32)
         self.b = 0.0
+        self.regularizer_matrix_ = R_matrix
+        self.regularizer_linear_ = c_vector
 
         beta1, beta2, epsilon = 0.9, 0.999, 1e-8
         m_w, v_w = np.zeros_like(self.w), np.zeros_like(self.w)
@@ -249,23 +375,8 @@ class Fast_TL_QLDMR:
                 y_batch = y_train[batch_idx]
                 c_batch = C_vec[batch_idx]
 
-                preds = np.dot(z_batch, self.w) + self.b
-                residuals = y_batch - preds
-
-                grad_f = np.zeros_like(residuals)
-                mask_pos = residuals >= 0
-                mask_neg = ~mask_pos
-
-                grad_f[mask_pos] = -self.tau
-                grad_f[mask_neg] = 1.0 - self.tau
-
-                grad_f *= c_batch
-
-                grad_w = np.dot(z_batch.T, grad_f)
-                grad_b = float(np.sum(grad_f))
-
-                scale = len(batch_idx) / n_samples
-                grad_w += scale * np.dot(R_matrix, self.w)
+                grad_w, grad_b = self._batch_gradients(
+                    z_batch, y_batch, c_batch, R_matrix, c_vector, n_samples)
 
                 t += 1
 
@@ -297,7 +408,7 @@ class TL_QLDMR:
         tau=0.95,
         kernel_gamma=0.1,
         use_gpu=True,
-        solver="torch_gd",
+        solver="cvxopt",
         torch_device="auto",
         torch_lr=1e-2,
         torch_lr_decay=0.01,
@@ -309,32 +420,35 @@ class TL_QLDMR:
         nystrom_lr=0.01,
         nystrom_epochs=100,
         nystrom_batch_size=256,
-        variance_mode="symmetric",
+        variance_mode="centered_residual",
         asym_scale=0.0,
     ):
         """
         Args:
             lambda1: 分布方差项 (LDMR Variance) 权重
-            lambda2: MMD 迁移项权重
+            lambda2: 投影预测均值差异项权重
             C_S: 源域 Pinball Loss 权重
             C_T: 目标域 Pinball Loss 权重 (通常设大，防止被源域淹没)
             tau: 分位数 (0.05, 0.5, 0.95 等)
             kernel_gamma: RBF核参数
             use_gpu: 是否启用 GPU (CUPY - CUDA)
-            solver: QP 求解器 ("cvxopt", "torch_gd", "qpth") 或 "batch_sgd"/"fast_nystrom" (新增)
+            solver: QP 求解器 ("cvxopt", "qpth")、未认证近似迭代
+                "torch_gd"，或 "batch_sgd"/"fast_nystrom"；默认使用 cvxopt
             torch_device: "auto"/"cpu"/"cuda" 或 "cuda:0"
             torch_lr: PyTorch 梯度下降初始学习率
             torch_lr_decay: 学习率衰减系数
             torch_max_iter: 最大迭代次数
-            torch_tol: 梯度范数停止阈值
+            torch_tol: torch_gd 原始梯度范数停止阈值（不是约束 KKT 证书）
             torch_proj_tol: 约束投影的误差阈值
             torch_proj_max_iter: 约束投影的最大迭代次数
             nystrom_n_components: fast_nystrom 的路标点数 (m)
             nystrom_lr: fast_nystrom 的学习率
             nystrom_epochs: fast_nystrom 的训练轮数
             nystrom_batch_size: fast_nystrom 的 batch 大小
-            variance_mode: 分布方差模式 ("symmetric" 或 "asymmetric")
-            asym_scale: 非对称方差权重幅度（仅 variance_mode='asymmetric' 生效）
+            variance_mode: "centered_residual" implements the revised objective.
+                "symmetric"/"asymmetric" are legacy prediction-variance modes,
+                available only with fast_nystrom for historical reproducibility.
+            asym_scale: legacy asymmetric prediction-variance weight amplitude.
         """
         self.lambda1 = lambda1
         self.lambda2 = lambda2
@@ -358,6 +472,8 @@ class TL_QLDMR:
         self.nystrom_batch_size = nystrom_batch_size
         self.variance_mode = str(variance_mode)
         self.asym_scale = float(asym_scale)
+        _validate_objective_parameters(lambda1, lambda2, C_S, C_T, tau,
+                                       kernel_gamma, self.variance_mode, self.asym_scale)
         
         self.alpha = None      # 对偶变量 alpha
         self.alpha_star = None # 对偶变量 alpha*
@@ -370,8 +486,10 @@ class TL_QLDMR:
     def fit(self, X_S, y_S, X_T, y_T, batch_size=16):
         """
         训练主函数
-        支持全量 QP 求解 (solver='cvxopt'/'torch_gd'/'qpth')、
-        Mini-batch SGD (solver='batch_sgd') 与 Nyström 快速训练 (solver='fast_nystrom')。
+        支持默认的未加 ridge CVXOPT 对偶 QP、带显式数值 ridge 的 qpth、
+        未认证的 torch_gd 近似迭代，以及 Nyström 快速训练
+        (solver='fast_nystrom')。
+        历史 batch_sgd 不支持修正目标，显式拒绝以避免混淆。
 
         fast_nystrom 注意事项:
         - 依赖 scikit-learn (用于 KMeans 选路标点)
@@ -380,175 +498,54 @@ class TL_QLDMR:
           model = TL_QLDMR(solver="fast_nystrom", nystrom_n_components=200, nystrom_epochs=50)
           model.fit(X_S, y_S, X_T, y_T)
         """
-        # 如果指定了 batch_sgd，直接跳转到 batch 训练逻辑
+        X_S, y_S, X_T, y_T = _validate_training_data(X_S, y_S, X_T, y_T)
         if self.solver == "batch_sgd":
-            return self._fit_batch_sgd(X_S, y_S, X_T, y_T, batch_size=batch_size)
-
-        # 集成训练方法：fast_nystrom (来自 t 文件的 Nyström+Primal SGD 版本)
+            raise ValueError(
+                "The historical batch_sgd branch does not implement the revised "
+                "centered-residual objective. Use fast_nystrom or an exact QP solver.")
         if self.solver == "fast_nystrom":
             return self._fit_fast_nystrom(X_S, y_S, X_T, y_T)
+        if self.solver not in {"cvxopt", "torch_gd", "qpth"}:
+            raise ValueError(f"Unsupported solver: {self.solver}")
+        if self.variance_mode != "centered_residual":
+            raise ValueError(
+                "Exact QP solvers support only variance_mode='centered_residual'; "
+                "legacy prediction-variance modes require fast_nystrom.")
+        if len(X_S) == 0:
+            raise ValueError("Exact QP requires a source domain; use fast_nystrom for target-only ablation.")
 
-        n_S = len(X_S)
-        n_T = len(X_T)
+        n_S, n_T = len(X_S), len(X_T)
         N = n_S + n_T
-        
-        # 尝试使用 float32 以节省内存
-        dtype = np.float32
-        
-        if self.use_gpu and cp is None:
-            self.use_gpu = False
-
-        # 1. 数据合并与核矩阵计算
-        # 使用 try-except 捕获 GPU OOM，如果失败则回退到 CPU
-        try:
-            if self.use_gpu:
-                # 显式转换为 float32
-                X_train_gpu = cp.vstack([cp.asarray(X_S, dtype=dtype), cp.asarray(X_T, dtype=dtype)])
-                self.X_train = cp.asnumpy(X_train_gpu)
-                
-                print("1. Computing Kernel Matrix (GPU)...")
-                # 计算 K
-                K = rbf_kernel(X_train_gpu, X_train_gpu, self.gamma, xp=cp)
-                
-                print("2. Constructing Optimization Matrices (GPU Optimized)...")
-                # 优化内存：不显式构建 S 和 M
-                
-                # --- 计算 Variance 项: lambda1 * (KS @ K) ---
-                # KS = [K[:, :n_S] @ J_S, 0]
-                # J_S = I - 1/n_S
-                # K_col_S = K[:, :n_S]
-                # K_col_S_centered = K_col_S - mean(K_col_S, axis=1)
-                K_col_S = K[:, :n_S]
-                K_col_S_mean = cp.mean(K_col_S, axis=1, keepdims=True)
-                K_col_S_centered = K_col_S - K_col_S_mean
-                
-                # Term_Var = lambda1 * (K_col_S_centered @ K_col_S_centered.T)
-                # 直接加到 Omega，避免存储 Term_Var
-                Omega = cp.array(K, copy=True) # Start with K
-                
-                # Ensure float32 arithmetic
-                lambda1_fp = dtype(self.lambda1)
-                lambda2_fp = dtype(self.lambda2)
-                
-                Omega += lambda1_fp * (K_col_S_centered @ K_col_S_centered.T)
-                
-                # 释放临时变量
-                del K_col_S, K_col_S_mean, K_col_S_centered
-                cp.get_default_memory_pool().free_all_blocks()
-                
-                # --- 计算 MMD 项: lambda2 * (KM @ K) ---
-                # M = v @ v.T, v = [1/n_S... -1/n_T...]
-                # KM @ K = (K v) @ (K v).T
-                v_S = cp.full((n_S, 1), 1.0/n_S, dtype=dtype)
-                v_T = cp.full((n_T, 1), -1.0/n_T, dtype=dtype)
-                v = cp.vstack([v_S, v_T])
-                
-                Kv = K @ v
-                Omega += lambda2_fp * (Kv @ Kv.T)
-                
-                del v_S, v_T, v, Kv
-                cp.get_default_memory_pool().free_all_blocks()
-                
-                # --- 构建 H ---
-                Omega += 1e-6 * cp.eye(N, dtype=dtype)
-                
-                # H = K @ solve(Omega, K)
-                try:
-                    H = K @ cp.linalg.solve(Omega, K)
-                except cp.linalg.LinAlgError:
-                    print("Warning: Singular matrix, using pseudo-inverse")
-                    H = K @ cp.linalg.pinv(Omega) @ K
-                    
-                H_cpu = cp.asnumpy(H)
-                
-                # 计算 p_dual 所需项 (需小心内存)
-                # p_dual = lambda1 * H @ S @ Y - Y
-                # S @ Y = [J_S @ Y_S; 0] = [Y_S - mean(Y_S); 0]
-                Y_S_gpu = cp.asarray(y_S, dtype=dtype).reshape(-1, 1)
-                Y_S_centered = Y_S_gpu - cp.mean(Y_S_gpu)
-                
-                # padding with zeros for target domain part
-                SY = cp.vstack([Y_S_centered, cp.zeros((n_T, 1), dtype=dtype)])
-                
-                Y_full_gpu = cp.asarray(np.concatenate([y_S, y_T]), dtype=dtype).reshape(-1, 1)
-                
-                term1 = self.lambda1 * (H @ SY)
-                p_dual = term1 - Y_full_gpu
-                p_dual = cp.asnumpy(p_dual)
-                
-            else:
-                raise ImportError("Force CPU fallback") # Trigger CPU block
-
-        except (OutOfMemoryError, ImportError, Exception) as e:
-            if isinstance(e, OutOfMemoryError):
-                print(f"GPU Out of Memory ({e}). Falling back to CPU...")
-            elif str(e) == "Force CPU fallback":
-                pass # Normal flow for no-GPU
-            else:
-                print(f"GPU Error ({e}). Falling back to CPU...")
-            
-            self.use_gpu = False
-            cp_module = np # use numpy as xp
-            
-            # CPU 实现 (同样使用 float32 和优化矩阵乘法)
-            self.X_train = np.vstack([X_S, X_T]).astype(dtype)
-            y_train = np.concatenate([y_S, y_T]).astype(dtype)
-            
-            print("1. Computing Kernel Matrix (CPU)...")
-            K = rbf_kernel(self.X_train, self.X_train, self.gamma, xp=np).astype(dtype)
-            
-            print("2. Constructing Optimization Matrices (CPU)...")
-            # --- Variance Term ---
-            K_col_S = K[:, :n_S]
-            K_col_S_mean = np.mean(K_col_S, axis=1, keepdims=True)
-            K_col_S_centered = K_col_S - K_col_S_mean
-            
-            Omega = K.copy()
-            
-            lambda1_fp = dtype(self.lambda1)
-            lambda2_fp = dtype(self.lambda2)
-            
-            Omega += lambda1_fp * (K_col_S_centered @ K_col_S_centered.T)
-            
-            del K_col_S, K_col_S_mean, K_col_S_centered
-            gc.collect()
-            
-            # --- MMD Term ---
-            v_S = np.full((n_S, 1), 1.0/n_S, dtype=dtype)
-            v_T = np.full((n_T, 1), -1.0/n_T, dtype=dtype)
-            v = np.vstack([v_S, v_T])
-            
-            Kv = K @ v
-            Omega += lambda2_fp * (Kv @ Kv.T)
-            
-            del v_S, v_T, v, Kv
-            gc.collect()
-            
-            Omega += 1e-6 * np.eye(N, dtype=dtype)
-            
+        self.X_train = np.vstack([X_S, X_T])
+        y_train = np.concatenate([y_S, y_T])
+        # Float64 and a range-space pseudoinverse keep singular kernels convex
+        # without silently adding a coefficient-space ridge to the objective.
+        self.use_gpu = self.use_gpu and cp is not None
+        if self.use_gpu:
             try:
-                H = K @ np.linalg.solve(Omega, K)
-            except np.linalg.LinAlgError:
-                print("Warning: Singular matrix, using pseudo-inverse")
-                H = K @ np.linalg.pinv(Omega) @ K
-                
-            H_cpu = H
-            
-            # p_dual calculation
-            Y_S_cpu = y_S.astype(dtype).reshape(-1, 1)
-            Y_S_centered = Y_S_cpu - np.mean(Y_S_cpu)
-            SY = np.vstack([Y_S_centered, np.zeros((n_T, 1), dtype=dtype)])
-            
-            Y_full = y_train.reshape(-1, 1)
-            term1 = self.lambda1 * (H @ SY)
-            p_dual = term1 - Y_full
+                print("1. Computing Kernel Objective (GPU)...")
+                X_gpu = cp.asarray(self.X_train, dtype=cp.float64)
+                K = rbf_kernel(X_gpu, X_gpu, self.gamma, xp=cp)
+                inverse_times_K, H, linear_source, rank = _kernel_objective_system(
+                    K, cp.asarray(y_S), n_T, self.lambda1, self.lambda2, xp=cp)
+                H_cpu = cp.asnumpy(H)
+                p_dual = cp.asnumpy(H @ linear_source) - y_train
+            except Exception as error:
+                print(f"GPU objective construction failed ({error}); falling back to CPU.")
+                self.use_gpu = False
+        if not self.use_gpu:
+            print("1. Computing Kernel Objective (CPU)...")
+            K = rbf_kernel(self.X_train, self.X_train, self.gamma, xp=np)
+            inverse_times_K, H_cpu, linear_source, rank = _kernel_objective_system(
+                K, y_S, n_T, self.lambda1, self.lambda2)
+            p_dual = H_cpu @ linear_source - y_train
 
         # 5. 构建 QP 标准型
         # min 1/2 x^T P x + q^T x
         P_np = np.block([[H_cpu, -H_cpu], [-H_cpu, H_cpu]])
         P_np = 0.5 * (P_np + P_np.T)
         
-        q_np = np.vstack([p_dual, -p_dual]).reshape(-1)
+        q_np = np.concatenate([p_dual, -p_dual])
         
         # 6. 构造约束条件
         # 不等式约束 Gx <= h (Box Constraints)
@@ -599,12 +596,21 @@ class TL_QLDMR:
             except ValueError as e:
                 print(f"QP Solver Failed: {e}")
                 return False
+            if sol['status'] != 'optimal':
+                raise RuntimeError(f"CVXOPT did not reach an optimum: {sol['status']}")
             x_sol = np.array(sol['x']).flatten()
             self.qp_stats = self._compute_qp_stats(
                 x_sol, P_np, q_np, lower_bound, upper_bound, A_np, b_np, qp_time, "cvxopt"
             )
         elif self.solver == "torch_gd":
             print("3.2. Solving QP with torch_gd...")
+            warnings.warn(
+                "torch_gd returns an uncertified approximate constrained-QP iterate; "
+                "its raw-gradient stopping rule is not a projected-KKT certificate. "
+                "Use solver='cvxopt' for exact-kernel validation claims.",
+                RuntimeWarning,
+                stacklevel=2,
+            )
             x_sol, self.qp_stats = self._solve_qp_torch_gd(
                 P_np, q_np, lower_bound, upper_bound, A_np, b_np
             )
@@ -620,43 +626,25 @@ class TL_QLDMR:
         self.alpha = x_sol[:N]
         self.alpha_star = x_sol[N:]
         
-        # 计算系数 beta = alpha - alpha* (用于预测)
-        # 但在 TL-LDMR 中，根据推导，真实的系数 beta_primal (核函数的系数)
-        # 是 beta_primal = Omega_inv @ (K @ (alpha - alpha*) + ...) 
-        # 为了简化，我们可以直接用对偶变量恢复预测函数 f(x)
-        # f(x) = K(x, X) @ beta_primal + b
-        
-        # 恢复 Primal 系数 beta_primal
-        gamma_vec = (self.alpha - self.alpha_star).reshape(-1, 1) # gamma = alpha - alpha*
+        # Reuse exactly the same range-space inverse as the dual system.
+        # This also supports duplicate samples / singular Gram matrices.
+        gamma_vec = self.alpha - self.alpha_star
         if self.use_gpu:
-            gamma_vec_gpu = cp.asarray(gamma_vec)
-            rhs = K @ gamma_vec_gpu + self.lambda1 * (K @ SY)
-            beta_primal = cp.linalg.solve(Omega, rhs).flatten()
+            beta_primal = inverse_times_K @ (cp.asarray(gamma_vec) + linear_source)
             self.beta_primal = cp.asnumpy(beta_primal)
+            pred_no_b = cp.asnumpy(K @ beta_primal)
         else:
-            rhs = K @ gamma_vec + self.lambda1 * (K @ SY)
-            self.beta_primal = np.linalg.solve(Omega, rhs).flatten()
-        
-        # 9. 计算偏置 b
-        # 选择支持向量 (0 < alpha < C_tau)
-        # 理论上 b = y_k - K_k @ beta_primal (对于支持向量)
-        sv_indices = np.where((self.alpha > 1e-5) & (self.alpha < (C_vec * self.tau - 1e-5)))[0]
-        
-        if len(sv_indices) > 0:
-            if self.use_gpu:
-                y_train_gpu = cp.asarray(y_train)
-                K_sv = K[sv_indices]
-                pred_no_b = K_sv @ cp.asarray(self.beta_primal)
-                b_values = y_train_gpu[sv_indices] - pred_no_b
-                self.b = float(cp.mean(b_values).get())
-            else:
-                pred_no_b = K[sv_indices] @ self.beta_primal
-                b_values = y_train[sv_indices] - pred_no_b
-                self.b = float(np.mean(b_values))
-        else:
-            self.b = 0.0
-            print("Warning: No strict support vectors found, bias set to 0.")
-            
+            self.beta_primal = inverse_times_K @ (gamma_vec + linear_source)
+            pred_no_b = K @ self.beta_primal
+
+        # The centered variance and projected predictive-mean discrepancy do not depend on b. For a
+        # fixed coefficient vector, its exact minimizer is a weighted residual
+        # quantile, even when no dual variable is strictly inside its box.
+        self.b = _weighted_quantile(y_train - pred_no_b, C_vec, self.tau)
+        self.qp_stats.update({"variance_mode": self.variance_mode,
+                              "objective_version": "centered_residual_v1",
+                              "kernel_rank": rank})
+
         if self.qp_stats is not None:
             eq_violation = self.qp_stats.get("eq_violation", 0.0)
             box_violation = self.qp_stats.get("box_violation", 0.0)
@@ -761,18 +749,27 @@ class TL_QLDMR:
         x_np = x.detach().cpu().numpy()
         stats = self._compute_qp_stats(x_np, P, q, lower, upper, A, b, qp_time, "torch_gd")
         stats["iterations"] = iterations
-        stats["grad_norm"] = float(grad_norm) if grad_norm is not None else None
+        stats["raw_gradient_norm"] = float(grad_norm) if grad_norm is not None else None
+        stats["converged"] = False
+        stats["certified"] = False
+        stats["status"] = "uncertified_approximate_iterate"
+        stats["stopping_reason"] = (
+            "raw_gradient_tol" if grad_norm is not None and grad_norm < self.torch_tol
+            else "max_iter"
+        )
         return x_np, stats
 
     def _fit_batch_sgd(self, X_S, y_S, X_T, y_T, batch_size=16):
         """
         TL-QLDMR 的 Mini-batch SGD 实现（核切片训练）。
+        Historical implementation only; it is not the revised objective.
         使用 PyTorch autograd 在核系数空间直接优化，避免显式构造完整核矩阵（O(N^2)）。
         
         模型形式：f(x) = sum_i w_i * k(x_i, x) + b
         """
-        if torch is None:
-            raise ImportError("PyTorch is required for batch_sgd solver.")
+        raise ValueError(
+            "Historical batch_sgd is disabled because its regularizers do not "
+            "match the centered-residual objective; use fast_nystrom.")
             
         print(f"Starting Mini-batch SGD Training (Batch Size: {batch_size})...")
         device = self._get_torch_device()
@@ -969,6 +966,9 @@ class TL_QLDMR:
         self.X_train = np.asarray(solver.feature_map.components_, dtype=np.float32)
         self.qp_stats = {
             "solver": "fast_nystrom",
+            "variance_mode": self.variance_mode,
+            "objective_version": ("centered_residual_v1" if self.variance_mode == "centered_residual"
+                                  else "legacy_prediction_variance"),
             "qp_time": float(time.perf_counter() - start_time),
             "n_components": int(self.X_train.shape[0]),
             "epochs": int(self.nystrom_epochs),
@@ -988,6 +988,9 @@ class TL_QLDMR:
         dtype = torch.float64
 
         P_pd = P + 1e-8 * np.eye(P.shape[0])
+        warnings.warn(
+            "qpth solves a dual with a 1e-8 numerical ridge; use cvxopt for the "
+            "unperturbed positive-semidefinite dual.", UserWarning, stacklevel=2)
 
         P_t = torch.tensor(P_pd, dtype=dtype, device=device)
         q_t = torch.tensor(q, dtype=dtype, device=device)
@@ -1003,4 +1006,5 @@ class TL_QLDMR:
 
         x_np = x.detach().cpu().numpy()
         stats = self._compute_qp_stats(x_np, P, q, lower, upper, A, b, qp_time, "qpth")
+        stats["dual_ridge"] = 1e-8
         return x_np, stats

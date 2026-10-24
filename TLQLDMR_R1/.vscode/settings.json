@@ -1,5 +1,5 @@
 {
-  "latex-workshop.latex.outDir": "build",
+  "latex-workshop.latex.outDir": "%DIR%/build",
   "latex-workshop.latex.autoBuild.run": "onSave",
   "latex-workshop.latex.autoBuild.interval": 500,
   "latex-workshop.view.pdf.viewer": "tab",
@@ -10,7 +10,7 @@
   "latex-workshop.synctex.afterBuild.enabled": true,
   "latex-workshop.message.error.show": false,
   "latex-workshop.message.warning.show": false,
-  "latex-workshop.message.badbox.show": false,
+  "latex-workshop.message.badbox.show": "none",
   "files.autoSave": "off",
   "files.autoSaveDelay": 1000,
   "git.autoRepositoryDetection": false,
@@ -50,39 +50,52 @@
   "kiroAgent.configureMCP": "Disabled",
   "latex-workshop.latex.tools": [
     {
-      "name": "pdflatex",
-      "command": "pdflatex",
+      "name": "latexmk-pdf",
+      "command": "bash",
       "args": [
+        "-lc",
+        "exec latexmk \"$@\"",
+        "latexmk",
+        "-cd",
+        "-pdf",
         "-synctex=1",
         "-interaction=nonstopmode",
         "-file-line-error",
-        "-output-directory=build",
+        "-halt-on-error",
+        "-outdir=%OUTDIR%",
         "%DOC%"
       ]
     },
     {
-      "name": "bibtex",
-      "command": "bibtex",
+      "name": "latexmk-system",
+      "command": "latexmk",
       "args": [
-        "build/%DOCFILE%"
+        "-cd",
+        "-pdf",
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-halt-on-error",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
       ]
     }
   ],
   "latex-workshop.latex.recipes": [
     {
-      "name": "pdflatex ➜ bibtex ➜ pdflatex × 2",
+      "name": "latexmk (pdfLaTeX)",
       "tools": [
-        "pdflatex",
-        "bibtex",
-        "pdflatex",
-        "pdflatex"
+        "latexmk-pdf"
       ]
     },
     {
-      "name": "pdflatex",
+      "name": "latexmk (system PATH)",
       "tools": [
-        "pdflatex"
+        "latexmk-system"
       ]
     }
-  ]
+  ],
+  "latex-workshop.latex.build.fromFolder": "",
+  "latex-workshop.latex.build.enableMagicComments": true,
+  "latex-workshop.latex.recipe.default": "first"
 }

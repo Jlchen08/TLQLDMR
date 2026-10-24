@@ -1,0 +1,860 @@
+{
+  "version": "v2_result_prose_1",
+  "input_policy": "Completed hash-verified revision evidence, analysis summaries/CSVs, and audited optimization-summary CSV only; no raw result, per-fit, or prediction file read.",
+  "source_sha256": {
+    "revision_evidence.json": "d2e63d4f51a452f4a8d36679f804064b1d5e0ee4532d8deda61f829ba5cb850b",
+    "revision_evidence_manifest.json": "4e73f8627c75afb6f2a6ba5d5ca77b4be1d6a4f8126256878c9bd853cdcb51be",
+    "selection/selection_v2_analysis.json": "0c96915b44f6af85c40d83a8967e61d7564bc438e621867ba93c3d0da12c608b",
+    "selection/scope_summary.csv": "8613d1dade24d20787fc590e8b3c110e0d256ba884544fecf38892c60fae91c6",
+    "selection/full_pairwise_inference.csv": "1060ba395f43ffc0e6ccc686da85c617a8facf2fea3dbfb179c27da9edd0eb0d",
+    "selection/first_tier_all_pair_tests.csv": "66cf28427a6d2ab2f22a64851927d5a6790942b9aa8e5a9847f2f10b749e952f",
+    "selection/conservative_first_tier.csv": "700732104949446b28f62d2180ee2aea87acfb693605835eb2cc3df8dcde0c82",
+    "selection/analysis_manifest.json": "c4bb853f5da1e9666188457780ac7119901a28b4b199e1e58e191bd4f82d4b1b",
+    "matched/summary.json": "e017570a19e52eaf01a7ab165c692d4dc7cfe770f58619e0936b1a913903fdce",
+    "matched/aggregate_metrics.csv": "6d68d10a7a5d0d3c7de8918901ea4ea442156abf0fe5f14ee6f432c9a2e71be1",
+    "matched/paired_inference.csv": "bfc654f6734f3a1d9f8ef9577dd92e45320ba98ceb87c6eafc6c7f2247bde59f",
+    "matched/manifest.json": "dbba72e745707b59cf3c2df965d966938a17610ab34caa2c40cac1c1f508096e",
+    "optimization/selection_v2_optimization_summary.csv": "fb629295c4734044149671437dd093b4d81a78f9422f269e9b54bf796c7ee504",
+    "optimization/manifest.json": "223d8f4e87401c89cbed834a84c376c8b134cb97f190e53342b6d8637fe17dba"
+  },
+  "interpretation_rules": {
+    "empirical_ordering": "The empirical winner is the observed minimum of the prespecified macro endpoint; ordering alone is not a significance claim.",
+    "first_tier": "Membership means that inferiority to the empirical endpoint winner was not established under the predeclared block test. It does not establish equivalence, equal performance, or superiority.",
+    "matched": "These component effects are conditional on each task's locked TL-QLDMR configuration, preprocessing, landmarks, and feature map. The removal variants were not independently retuned, and failure to reject does not establish equal performance.",
+    "adverse_results": "Every Holm-significant favorable and adverse direction is retained."
+  },
+  "scope_results": [
+    {
+      "scope": "within",
+      "role": "primary_within_farm",
+      "empirical_winner": {
+        "method": "HistGBR",
+        "method_label": "HistGBR",
+        "macro_capacity_normalized_rmse_percent": 13.9126673957
+      },
+      "full": {
+        "macro_capacity_normalized_rmse_percent": 18.0904894755,
+        "average_task_rank": 3.5,
+        "task_wins_including_ties": 1,
+        "macro_nrmse_position": 3,
+        "in_conservative_nonrejection_set": false,
+        "holm_p_vs_empirical_winner": 0.03564
+      },
+      "first_tier_members": [
+        {
+          "method": "HistGBR",
+          "method_label": "HistGBR"
+        },
+        {
+          "method": "NoVariance",
+          "method_label": "No variance"
+        },
+        {
+          "method": "NoDiscrepancy",
+          "method_label": "No discrepancy"
+        }
+      ],
+      "point_sentence": "In the primary within-site scope, HistGBR was the empirical winner on the macro RMSE endpoint at 13.913\\%. TL-QLDMR recorded a site-equal capacity-normalized RMSE of 18.090\\%, an average task rank of 3.50, and 1 task win including ties, ranking 3rd of six by the observed macro endpoint.",
+      "first_tier_sentence": "The conservative first tier in the primary within-site scope contained HistGBR, No variance, and No discrepancy; TL-QLDMR was excluded ($p_{\\mathrm{Holm}}=0.036$), meaning that its inferiority to HistGBR was established for the macro RMSE endpoint. Membership means that inferiority to the empirical winner was not established; it does not establish equivalence or equal performance."
+    },
+    {
+      "scope": "cross",
+      "role": "secondary_cross_farm_stress",
+      "empirical_winner": {
+        "method": "HistGBR",
+        "method_label": "HistGBR",
+        "macro_capacity_normalized_rmse_percent": 14.92252489
+      },
+      "full": {
+        "macro_capacity_normalized_rmse_percent": 17.6943522641,
+        "average_task_rank": 3.66666666667,
+        "task_wins_including_ties": 1,
+        "macro_nrmse_position": 5,
+        "in_conservative_nonrejection_set": true,
+        "holm_p_vs_empirical_winner": 0.33642
+      },
+      "first_tier_members": [
+        {
+          "method": "HistGBR",
+          "method_label": "HistGBR"
+        },
+        {
+          "method": "NoDiscrepancy",
+          "method_label": "No discrepancy"
+        },
+        {
+          "method": "NoVariance",
+          "method_label": "No variance"
+        },
+        {
+          "method": "WeightedSVQR",
+          "method_label": "Weighted SVQR"
+        },
+        {
+          "method": "Full",
+          "method_label": "TL-QLDMR"
+        }
+      ],
+      "point_sentence": "In the secondary cross-site stress scope, HistGBR was the empirical winner on the macro RMSE endpoint at 14.923\\%. TL-QLDMR recorded a site-equal capacity-normalized RMSE of 17.694\\%, an average task rank of 3.67, and 1 task win including ties, ranking 5th of six by the observed macro endpoint.",
+      "first_tier_sentence": "The conservative first tier in the secondary cross-site stress scope contained HistGBR, No discrepancy, No variance, Weighted SVQR, and TL-QLDMR; TL-QLDMR was retained ($p_{\\mathrm{Holm}}=0.336$), meaning that its inferiority to HistGBR was not established. Membership means that inferiority to the empirical winner was not established; it does not establish equivalence or equal performance."
+    }
+  ],
+  "full_scope_relations": {
+    "all_relations": [
+      {
+        "scope": "within",
+        "comparator": "NoVariance",
+        "comparator_label": "No variance",
+        "full_macro_nrmse_percent": 18.0904894755,
+        "comparator_macro_nrmse_percent": 17.347414614,
+        "full_minus_comparator_macro_nrmse_percentage_points": 0.7430748614999985,
+        "observed_direction": "Full_higher_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 0.29897,
+        "scope_difference_significant_at_0_05": false,
+        "task_direction_counts": {
+          "Full_lower_loss": 2,
+          "Full_higher_loss": 4,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 1,
+          "not_significant": 5
+        },
+        "sentence": "In the primary within-site scope, TL-QLDMR's observed macro RMSE was 0.743 percentage points higher than No variance; the all-pairs difference was not significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.299$)."
+      },
+      {
+        "scope": "within",
+        "comparator": "NoDiscrepancy",
+        "comparator_label": "No discrepancy",
+        "full_macro_nrmse_percent": 18.0904894755,
+        "comparator_macro_nrmse_percent": 19.3328906626,
+        "full_minus_comparator_macro_nrmse_percentage_points": -1.2424011871000005,
+        "observed_direction": "Full_lower_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 0.8838,
+        "scope_difference_significant_at_0_05": false,
+        "task_direction_counts": {
+          "Full_lower_loss": 4,
+          "Full_higher_loss": 2,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 0,
+          "not_significant": 6
+        },
+        "sentence": "In the primary within-site scope, TL-QLDMR's observed macro RMSE was 1.242 percentage points lower than No discrepancy; the all-pairs difference was not significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.884$)."
+      },
+      {
+        "scope": "within",
+        "comparator": "WeightedSVQR",
+        "comparator_label": "Weighted SVQR",
+        "full_macro_nrmse_percent": 18.0904894755,
+        "comparator_macro_nrmse_percent": 18.6461951791,
+        "full_minus_comparator_macro_nrmse_percentage_points": -0.555705703600001,
+        "observed_direction": "Full_lower_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 1.0,
+        "scope_difference_significant_at_0_05": false,
+        "task_direction_counts": {
+          "Full_lower_loss": 4,
+          "Full_higher_loss": 2,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 0,
+          "not_significant": 6
+        },
+        "sentence": "In the primary within-site scope, TL-QLDMR's observed macro RMSE was 0.556 percentage points lower than Weighted SVQR; the all-pairs difference was not significant after Holm adjustment ($p_{\\mathrm{Holm}}=1.000$)."
+      },
+      {
+        "scope": "within",
+        "comparator": "TargetSVQR",
+        "comparator_label": "Target SVQR",
+        "full_macro_nrmse_percent": 18.0904894755,
+        "comparator_macro_nrmse_percent": 20.0509321574,
+        "full_minus_comparator_macro_nrmse_percentage_points": -1.9604426818999983,
+        "observed_direction": "Full_lower_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 0.1221,
+        "scope_difference_significant_at_0_05": false,
+        "task_direction_counts": {
+          "Full_lower_loss": 4,
+          "Full_higher_loss": 2,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 0,
+          "not_significant": 6
+        },
+        "sentence": "In the primary within-site scope, TL-QLDMR's observed macro RMSE was 1.960 percentage points lower than Target SVQR; the all-pairs difference was not significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.122$)."
+      },
+      {
+        "scope": "within",
+        "comparator": "HistGBR",
+        "comparator_label": "HistGBR",
+        "full_macro_nrmse_percent": 18.0904894755,
+        "comparator_macro_nrmse_percent": 13.9126673957,
+        "full_minus_comparator_macro_nrmse_percentage_points": 4.1778220798,
+        "observed_direction": "Full_higher_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 0.03564,
+        "scope_difference_significant_at_0_05": true,
+        "task_direction_counts": {
+          "Full_lower_loss": 1,
+          "Full_higher_loss": 5,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 2,
+          "not_significant": 4
+        },
+        "sentence": "In the primary within-site scope, TL-QLDMR's observed macro RMSE was 4.178 percentage points higher than HistGBR; the all-pairs difference was significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.036$)."
+      },
+      {
+        "scope": "cross",
+        "comparator": "NoVariance",
+        "comparator_label": "No variance",
+        "full_macro_nrmse_percent": 17.6943522641,
+        "comparator_macro_nrmse_percent": 17.1833591308,
+        "full_minus_comparator_macro_nrmse_percentage_points": 0.5109931333000013,
+        "observed_direction": "Full_higher_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 0.0156,
+        "scope_difference_significant_at_0_05": true,
+        "task_direction_counts": {
+          "Full_lower_loss": 2,
+          "Full_higher_loss": 4,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 1,
+          "not_significant": 5
+        },
+        "sentence": "In the secondary cross-site stress scope, TL-QLDMR's observed macro RMSE was 0.511 percentage points higher than No variance; the all-pairs difference was significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.016$)."
+      },
+      {
+        "scope": "cross",
+        "comparator": "NoDiscrepancy",
+        "comparator_label": "No discrepancy",
+        "full_macro_nrmse_percent": 17.6943522641,
+        "comparator_macro_nrmse_percent": 16.8239850723,
+        "full_minus_comparator_macro_nrmse_percentage_points": 0.8703671917999998,
+        "observed_direction": "Full_higher_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 0.1027,
+        "scope_difference_significant_at_0_05": false,
+        "task_direction_counts": {
+          "Full_lower_loss": 2,
+          "Full_higher_loss": 4,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 0,
+          "not_significant": 6
+        },
+        "sentence": "In the secondary cross-site stress scope, TL-QLDMR's observed macro RMSE was 0.870 percentage points higher than No discrepancy; the all-pairs difference was not significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.103$)."
+      },
+      {
+        "scope": "cross",
+        "comparator": "WeightedSVQR",
+        "comparator_label": "Weighted SVQR",
+        "full_macro_nrmse_percent": 17.6943522641,
+        "comparator_macro_nrmse_percent": 17.5625249723,
+        "full_minus_comparator_macro_nrmse_percentage_points": 0.13182729180000052,
+        "observed_direction": "Full_higher_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 0.80824,
+        "scope_difference_significant_at_0_05": false,
+        "task_direction_counts": {
+          "Full_lower_loss": 3,
+          "Full_higher_loss": 3,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 0,
+          "not_significant": 6
+        },
+        "sentence": "In the secondary cross-site stress scope, TL-QLDMR's observed macro RMSE was 0.132 percentage points higher than Weighted SVQR; the all-pairs difference was not significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.808$)."
+      },
+      {
+        "scope": "cross",
+        "comparator": "TargetSVQR",
+        "comparator_label": "Target SVQR",
+        "full_macro_nrmse_percent": 17.6943522641,
+        "comparator_macro_nrmse_percent": 20.0509321574,
+        "full_minus_comparator_macro_nrmse_percentage_points": -2.3565798932999975,
+        "observed_direction": "Full_lower_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 0.09966,
+        "scope_difference_significant_at_0_05": false,
+        "task_direction_counts": {
+          "Full_lower_loss": 5,
+          "Full_higher_loss": 1,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 0,
+          "not_significant": 6
+        },
+        "sentence": "In the secondary cross-site stress scope, TL-QLDMR's observed macro RMSE was 2.357 percentage points lower than Target SVQR; the all-pairs difference was not significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.100$)."
+      },
+      {
+        "scope": "cross",
+        "comparator": "HistGBR",
+        "comparator_label": "HistGBR",
+        "full_macro_nrmse_percent": 17.6943522641,
+        "comparator_macro_nrmse_percent": 14.92252489,
+        "full_minus_comparator_macro_nrmse_percentage_points": 2.771827374100001,
+        "observed_direction": "Full_higher_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 0.33642,
+        "scope_difference_significant_at_0_05": false,
+        "task_direction_counts": {
+          "Full_lower_loss": 2,
+          "Full_higher_loss": 4,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 1,
+          "not_significant": 5
+        },
+        "sentence": "In the secondary cross-site stress scope, TL-QLDMR's observed macro RMSE was 2.772 percentage points higher than HistGBR; the all-pairs difference was not significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.336$)."
+      }
+    ],
+    "significant_favorable_to_full": [],
+    "significant_adverse_to_full": [
+      {
+        "scope": "within",
+        "comparator": "HistGBR",
+        "comparator_label": "HistGBR",
+        "full_macro_nrmse_percent": 18.0904894755,
+        "comparator_macro_nrmse_percent": 13.9126673957,
+        "full_minus_comparator_macro_nrmse_percentage_points": 4.1778220798,
+        "observed_direction": "Full_higher_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 0.03564,
+        "scope_difference_significant_at_0_05": true,
+        "task_direction_counts": {
+          "Full_lower_loss": 1,
+          "Full_higher_loss": 5,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 2,
+          "not_significant": 4
+        },
+        "sentence": "In the primary within-site scope, TL-QLDMR's observed macro RMSE was 4.178 percentage points higher than HistGBR; the all-pairs difference was significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.036$)."
+      },
+      {
+        "scope": "cross",
+        "comparator": "NoVariance",
+        "comparator_label": "No variance",
+        "full_macro_nrmse_percent": 17.6943522641,
+        "comparator_macro_nrmse_percent": 17.1833591308,
+        "full_minus_comparator_macro_nrmse_percentage_points": 0.5109931333000013,
+        "observed_direction": "Full_higher_macro_NRMSE",
+        "scope_all_pair_holm_adjusted_p": 0.0156,
+        "scope_difference_significant_at_0_05": true,
+        "task_direction_counts": {
+          "Full_lower_loss": 2,
+          "Full_higher_loss": 4,
+          "equal_observed_loss": 0
+        },
+        "holm_task_counts": {
+          "significant": 1,
+          "not_significant": 5
+        },
+        "sentence": "In the secondary cross-site stress scope, TL-QLDMR's observed macro RMSE was 0.511 percentage points higher than No variance; the all-pairs difference was significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.016$)."
+      }
+    ],
+    "complete_significant_sentence": "The Holm-significant scope-level TL-QLDMR relations were: In the primary within-site scope, TL-QLDMR's observed macro RMSE was 4.178 percentage points higher than HistGBR; the all-pairs difference was significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.036$). In the secondary cross-site stress scope, TL-QLDMR's observed macro RMSE was 0.511 percentage points higher than No variance; the all-pairs difference was significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.016$). These tests concern the prespecified macro endpoint; empirical ordering by itself is not a significance claim."
+  },
+  "full_task_inference": {
+    "significant_count": 5,
+    "significant_favorable_to_full": [
+      {
+        "scope": "within",
+        "task": "within_site1",
+        "site": 1,
+        "comparator": "NoVariance",
+        "comparator_label": "No variance",
+        "role": "primary",
+        "holm_family": "within_30_full_comparisons",
+        "n_test": 973,
+        "full_evaluation_seeds_averaged_within_timestamp": 3,
+        "comparator_evaluation_seeds_averaged_within_timestamp": 3,
+        "calendar_blocks": 27,
+        "block_size_min": 1,
+        "block_size_max": 206,
+        "full_minus_comparator_mse_mw2": -0.291821640309,
+        "full_minus_comparator_normalized_mse": -2.97746801662e-05,
+        "bootstrap_95_ci_mw2": [
+          -0.539369432816,
+          -0.139449184416
+        ],
+        "unadjusted_p": 0.00056,
+        "holm_adjusted_p": 0.01568,
+        "significant_at_0_05": true,
+        "observed_direction": "Full_lower_loss"
+      }
+    ],
+    "significant_adverse_to_full": [
+      {
+        "scope": "within",
+        "task": "within_site1",
+        "site": 1,
+        "comparator": "HistGBR",
+        "comparator_label": "HistGBR",
+        "role": "primary",
+        "holm_family": "within_30_full_comparisons",
+        "n_test": 973,
+        "full_evaluation_seeds_averaged_within_timestamp": 3,
+        "comparator_evaluation_seeds_averaged_within_timestamp": 1,
+        "calendar_blocks": 27,
+        "block_size_min": 1,
+        "block_size_max": 206,
+        "full_minus_comparator_mse_mw2": 204.912353414,
+        "full_minus_comparator_normalized_mse": 0.0209072904208,
+        "bootstrap_95_ci_mw2": [
+          71.8938281006,
+          425.011710266
+        ],
+        "unadjusted_p": 0.00041,
+        "holm_adjusted_p": 0.01189,
+        "significant_at_0_05": true,
+        "observed_direction": "Full_higher_loss"
+      },
+      {
+        "scope": "within",
+        "task": "within_site3",
+        "site": 3,
+        "comparator": "HistGBR",
+        "comparator_label": "HistGBR",
+        "role": "primary",
+        "holm_family": "within_30_full_comparisons",
+        "n_test": 1577,
+        "full_evaluation_seeds_averaged_within_timestamp": 3,
+        "comparator_evaluation_seeds_averaged_within_timestamp": 1,
+        "calendar_blocks": 23,
+        "block_size_min": 1,
+        "block_size_max": 435,
+        "full_minus_comparator_mse_mw2": 71.6233485476,
+        "full_minus_comparator_normalized_mse": 0.00730775926411,
+        "bootstrap_95_ci_mw2": [
+          35.8698672103,
+          114.079743064
+        ],
+        "unadjusted_p": 0.00036,
+        "holm_adjusted_p": 0.0108,
+        "significant_at_0_05": true,
+        "observed_direction": "Full_higher_loss"
+      },
+      {
+        "scope": "cross",
+        "task": "cross_site1",
+        "site": 1,
+        "comparator": "HistGBR",
+        "comparator_label": "HistGBR",
+        "role": "secondary_stress",
+        "holm_family": "cross_30_full_comparisons",
+        "n_test": 973,
+        "full_evaluation_seeds_averaged_within_timestamp": 3,
+        "comparator_evaluation_seeds_averaged_within_timestamp": 1,
+        "calendar_blocks": 27,
+        "block_size_min": 1,
+        "block_size_max": 206,
+        "full_minus_comparator_mse_mw2": 214.555664135,
+        "full_minus_comparator_normalized_mse": 0.0218912013198,
+        "bootstrap_95_ci_mw2": [
+          91.6278529296,
+          413.791193753
+        ],
+        "unadjusted_p": 5e-05,
+        "holm_adjusted_p": 0.00145,
+        "significant_at_0_05": true,
+        "observed_direction": "Full_higher_loss"
+      },
+      {
+        "scope": "cross",
+        "task": "cross_site6",
+        "site": 6,
+        "comparator": "NoVariance",
+        "comparator_label": "No variance",
+        "role": "secondary_stress",
+        "holm_family": "cross_30_full_comparisons",
+        "n_test": 2233,
+        "full_evaluation_seeds_averaged_within_timestamp": 3,
+        "comparator_evaluation_seeds_averaged_within_timestamp": 3,
+        "calendar_blocks": 23,
+        "block_size_min": 13,
+        "block_size_max": 285,
+        "full_minus_comparator_mse_mw2": 16.9165230951,
+        "full_minus_comparator_normalized_mse": 0.00183556023167,
+        "bootstrap_95_ci_mw2": [
+          9.14790963056,
+          27.3983053778
+        ],
+        "unadjusted_p": 1e-05,
+        "holm_adjusted_p": 0.0003,
+        "significant_at_0_05": true,
+        "observed_direction": "Full_higher_loss"
+      }
+    ],
+    "significant_equal_observed": [],
+    "all_significant_sentences": [
+      "Farm~1 (within-site): TL-QLDMR had lower squared error than No variance (MSE difference, TL-QLDMR minus No variance, $-0.292$ MW$^2$; 95\\% block-bootstrap CI $[-0.539, -0.139]$, $p_{\\mathrm{Holm}}=0.016$).",
+      "Farm~1 (within-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $204.912$ MW$^2$; 95\\% block-bootstrap CI $[71.894, 425.012]$, $p_{\\mathrm{Holm}}=0.012$).",
+      "Farm~3 (within-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $71.623$ MW$^2$; 95\\% block-bootstrap CI $[35.870, 114.080]$, $p_{\\mathrm{Holm}}=0.011$).",
+      "Farm~1 (cross-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $214.556$ MW$^2$; 95\\% block-bootstrap CI $[91.628, 413.791]$, $p_{\\mathrm{Holm}}=0.001$).",
+      "Farm~6 (cross-site): TL-QLDMR had higher squared error than No variance (MSE difference, TL-QLDMR minus No variance, $16.917$ MW$^2$; 95\\% block-bootstrap CI $[9.148, 27.398]$, $p_{\\mathrm{Holm}}<0.001$)."
+    ],
+    "complete_sentence": "The Holm-significant TL-QLDMR comparisons were: Farm~1 (within-site): TL-QLDMR had lower squared error than No variance (MSE difference, TL-QLDMR minus No variance, $-0.292$ MW$^2$; 95\\% block-bootstrap CI $[-0.539, -0.139]$, $p_{\\mathrm{Holm}}=0.016$). Farm~1 (within-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $204.912$ MW$^2$; 95\\% block-bootstrap CI $[71.894, 425.012]$, $p_{\\mathrm{Holm}}=0.012$). Farm~3 (within-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $71.623$ MW$^2$; 95\\% block-bootstrap CI $[35.870, 114.080]$, $p_{\\mathrm{Holm}}=0.011$). Farm~1 (cross-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $214.556$ MW$^2$; 95\\% block-bootstrap CI $[91.628, 413.791]$, $p_{\\mathrm{Holm}}=0.001$). Farm~6 (cross-site): TL-QLDMR had higher squared error than No variance (MSE difference, TL-QLDMR minus No variance, $16.917$ MW$^2$; 95\\% block-bootstrap CI $[9.148, 27.398]$, $p_{\\mathrm{Holm}}<0.001$). All other predeclared TL-QLDMR comparisons were not significant after adjustment; this absence of rejection is not evidence of equal performance."
+  },
+  "matched_ablation": {
+    "scope_results": [
+      {
+        "scope": "within",
+        "variants_sorted_by_macro_nrmse": [
+          {
+            "scope": "within",
+            "variant": "NoVariance",
+            "variant_label": "No variance",
+            "sites": 6,
+            "macro_capacity_normalized_rmse_percent": 17.86998285237337,
+            "mean_rank": 2.1666666666666665,
+            "macro_nrmse_position": 1
+          },
+          {
+            "scope": "within",
+            "variant": "Full",
+            "variant_label": "TL-QLDMR",
+            "sites": 6,
+            "macro_capacity_normalized_rmse_percent": 18.09048947546316,
+            "mean_rank": 2.0,
+            "macro_nrmse_position": 2
+          },
+          {
+            "scope": "within",
+            "variant": "WeightedSVQR",
+            "variant_label": "Weighted SVQR",
+            "sites": 6,
+            "macro_capacity_normalized_rmse_percent": 19.81254558927677,
+            "mean_rank": 3.1666666666666665,
+            "macro_nrmse_position": 3
+          },
+          {
+            "scope": "within",
+            "variant": "NoDiscrepancy",
+            "variant_label": "No discrepancy",
+            "sites": 6,
+            "macro_capacity_normalized_rmse_percent": 19.96257597045624,
+            "mean_rank": 2.6666666666666665,
+            "macro_nrmse_position": 4
+          }
+        ],
+        "full": {
+          "macro_capacity_normalized_rmse_percent": 18.09048947546316,
+          "mean_rank": 2.0,
+          "macro_nrmse_position": 2
+        },
+        "aggregate_sentence": "Under the conditional matched-removal protocol in the within-site scope, the four aggregate results were No variance 17.870\\% (mean rank 2.17); TL-QLDMR 18.090\\% (mean rank 2.00); Weighted SVQR 19.813\\% (mean rank 3.17); No discrepancy 19.963\\% (mean rank 2.67). TL-QLDMR ranked 2nd of four by observed macro RMSE."
+      },
+      {
+        "scope": "cross",
+        "variants_sorted_by_macro_nrmse": [
+          {
+            "scope": "cross",
+            "variant": "NoVariance",
+            "variant_label": "No variance",
+            "sites": 6,
+            "macro_capacity_normalized_rmse_percent": 17.67088674509431,
+            "mean_rank": 2.5,
+            "macro_nrmse_position": 1
+          },
+          {
+            "scope": "cross",
+            "variant": "Full",
+            "variant_label": "TL-QLDMR",
+            "sites": 6,
+            "macro_capacity_normalized_rmse_percent": 17.69435226407226,
+            "mean_rank": 2.1666666666666665,
+            "macro_nrmse_position": 2
+          },
+          {
+            "scope": "cross",
+            "variant": "WeightedSVQR",
+            "variant_label": "Weighted SVQR",
+            "sites": 6,
+            "macro_capacity_normalized_rmse_percent": 17.702143261865018,
+            "mean_rank": 3.0,
+            "macro_nrmse_position": 3
+          },
+          {
+            "scope": "cross",
+            "variant": "NoDiscrepancy",
+            "variant_label": "No discrepancy",
+            "sites": 6,
+            "macro_capacity_normalized_rmse_percent": 17.71465070699757,
+            "mean_rank": 2.333333333333333,
+            "macro_nrmse_position": 4
+          }
+        ],
+        "full": {
+          "macro_capacity_normalized_rmse_percent": 17.69435226407226,
+          "mean_rank": 2.1666666666666665,
+          "macro_nrmse_position": 2
+        },
+        "aggregate_sentence": "Under the conditional matched-removal protocol in the cross-site stress scope, the four aggregate results were No variance 17.671\\% (mean rank 2.50); TL-QLDMR 17.694\\% (mean rank 2.17); Weighted SVQR 17.702\\% (mean rank 3.00); No discrepancy 17.715\\% (mean rank 2.33). TL-QLDMR ranked 2nd of four by observed macro RMSE."
+      }
+    ],
+    "significant_negative_full_minus_removal": [
+      {
+        "scope": "within",
+        "task": "within_site1",
+        "site": 1,
+        "comparison": "Full - NoVariance",
+        "n_test": 973,
+        "calendar_blocks": 27,
+        "full_minus_removal_mse_mw2": -0.2918216403089497,
+        "bootstrap_95_ci_mw2": [
+          -0.5238203939526238,
+          -0.1422450154919522
+        ],
+        "unadjusted_p": 0.00048,
+        "holm_adjusted_p": 0.00816,
+        "significant_at_0_05": true,
+        "observed_direction": "Full_lower_loss"
+      },
+      {
+        "scope": "within",
+        "task": "within_site6",
+        "site": 6,
+        "comparison": "Full - NoDiscrepancy",
+        "n_test": 2233,
+        "calendar_blocks": 23,
+        "full_minus_removal_mse_mw2": -4.432224287271047e-05,
+        "bootstrap_95_ci_mw2": [
+          -5.8319290497189375e-05,
+          -3.030290635988918e-05
+        ],
+        "unadjusted_p": 1e-05,
+        "holm_adjusted_p": 0.00018,
+        "significant_at_0_05": true,
+        "observed_direction": "Full_lower_loss"
+      }
+    ],
+    "significant_positive_full_minus_removal": [],
+    "significant_zero_full_minus_removal": [],
+    "significant_effect_sentences": [
+      "Farm~1 (within-site): TL-QLDMR had lower squared error than No variance (MSE difference, TL-QLDMR minus No variance, $-0.292$ MW$^2$; 95\\% block-bootstrap CI $[-0.524, -0.142]$, $p_{\\mathrm{Holm}}=0.008$).",
+      "Farm~6 (within-site): TL-QLDMR had lower squared error than No discrepancy (MSE difference, TL-QLDMR minus No discrepancy, $-4.432\\times 10^{-5}$ MW$^2$; 95\\% block-bootstrap CI $[-5.832\\times 10^{-5}, -3.030\\times 10^{-5}]$, $p_{\\mathrm{Holm}}<0.001$). The observed magnitude is practically negligible on the MW$^2$ scale."
+    ],
+    "inference_sentence": "The Holm-significant conditional removal effects were: Farm~1 (within-site): TL-QLDMR had lower squared error than No variance (MSE difference, TL-QLDMR minus No variance, $-0.292$ MW$^2$; 95\\% block-bootstrap CI $[-0.524, -0.142]$, $p_{\\mathrm{Holm}}=0.008$). Farm~6 (within-site): TL-QLDMR had lower squared error than No discrepancy (MSE difference, TL-QLDMR minus No discrepancy, $-4.432\\times 10^{-5}$ MW$^2$; 95\\% block-bootstrap CI $[-5.832\\times 10^{-5}, -3.030\\times 10^{-5}]$, $p_{\\mathrm{Holm}}<0.001$). The observed magnitude is practically negligible on the MW$^2$ scale. These contrasts hold the TL-QLDMR-selected configuration, fitting rows, preprocessing, landmarks, and feature map fixed; variants were not independently retuned, and a failure to reject does not establish equivalence.",
+    "conditional_caveat": "These component effects are conditional on each task's locked TL-QLDMR configuration, preprocessing, landmarks, and feature map. The removal variants were not independently retuned, and failure to reject does not establish equal performance."
+  },
+  "solver_accounting": {
+    "scope_method_rows": [
+      {
+        "scope": "within",
+        "method": "Full",
+        "method_label": "TL-QLDMR",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 280,
+        "failed_seed_fits": 123,
+        "solver_attempts": 1287,
+        "solver_iterations": 4025325,
+        "fit_seconds": 25458.232934160158,
+        "fit_hours": 7.071731370600044
+      },
+      {
+        "scope": "within",
+        "method": "NoVariance",
+        "method_label": "No variance",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 276,
+        "failed_seed_fits": 135,
+        "solver_attempts": 1270,
+        "solver_iterations": 3941850,
+        "fit_seconds": 23164.21777199488,
+        "fit_hours": 6.4345049366652445
+      },
+      {
+        "scope": "within",
+        "method": "NoDiscrepancy",
+        "method_label": "No discrepancy",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 273,
+        "failed_seed_fits": 146,
+        "solver_attempts": 1297,
+        "solver_iterations": 4217100,
+        "fit_seconds": 23124.97244248446,
+        "fit_hours": 6.423603456245684
+      },
+      {
+        "scope": "within",
+        "method": "WeightedSVQR",
+        "method_label": "Weighted SVQR",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 249,
+        "failed_seed_fits": 215,
+        "solver_attempts": 1296,
+        "solver_iterations": 4594600,
+        "fit_seconds": 18803.200379872695,
+        "fit_hours": 5.223111216631304
+      },
+      {
+        "scope": "within",
+        "method": "TargetSVQR",
+        "method_label": "Target SVQR",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 324,
+        "failed_seed_fits": 0,
+        "solver_attempts": 973,
+        "solver_iterations": 137300,
+        "fit_seconds": 68.87665986269712,
+        "fit_hours": 0.01913240551741587
+      },
+      {
+        "scope": "within",
+        "method": "HistGBR",
+        "method_label": "HistGBR",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 324,
+        "failed_seed_fits": 0,
+        "solver_attempts": 324,
+        "solver_iterations": 97200,
+        "fit_seconds": 9626.276638790034,
+        "fit_hours": 2.6739657329972317
+      },
+      {
+        "scope": "cross",
+        "method": "Full",
+        "method_label": "TL-QLDMR",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 275,
+        "failed_seed_fits": 132,
+        "solver_attempts": 1230,
+        "solver_iterations": 3563825,
+        "fit_seconds": 22102.522015952505,
+        "fit_hours": 6.139589448875696
+      },
+      {
+        "scope": "cross",
+        "method": "NoVariance",
+        "method_label": "No variance",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 277,
+        "failed_seed_fits": 132,
+        "solver_attempts": 1227,
+        "solver_iterations": 3497425,
+        "fit_seconds": 17809.48316802364,
+        "fit_hours": 4.947078657784344
+      },
+      {
+        "scope": "cross",
+        "method": "NoDiscrepancy",
+        "method_label": "No discrepancy",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 276,
+        "failed_seed_fits": 133,
+        "solver_attempts": 1220,
+        "solver_iterations": 3514200,
+        "fit_seconds": 16894.880268245004,
+        "fit_hours": 4.693022296734723
+      },
+      {
+        "scope": "cross",
+        "method": "WeightedSVQR",
+        "method_label": "Weighted SVQR",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 253,
+        "failed_seed_fits": 198,
+        "solver_attempts": 1270,
+        "solver_iterations": 4384550,
+        "fit_seconds": 16899.013719797134,
+        "fit_hours": 4.694170477721427
+      },
+      {
+        "scope": "cross",
+        "method": "TargetSVQR",
+        "method_label": "Target SVQR",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 324,
+        "failed_seed_fits": 0,
+        "solver_attempts": 973,
+        "solver_iterations": 137300,
+        "fit_seconds": 62.24660746473819,
+        "fit_hours": 0.017290724295760607
+      },
+      {
+        "scope": "cross",
+        "method": "HistGBR",
+        "method_label": "HistGBR",
+        "base_queries": 108,
+        "middle_queries": 108,
+        "joint_queries": 108,
+        "total_queries": 324,
+        "eligible_candidates": 324,
+        "failed_seed_fits": 0,
+        "solver_attempts": 324,
+        "solver_iterations": 97200,
+        "fit_seconds": 8491.622284673154,
+        "fit_hours": 2.358783967964765
+      }
+    ],
+    "totals": {
+      "configuration_queries": 3888,
+      "eligible_candidates": 3455,
+      "q1_selection_fit_records": 10368,
+      "kernel_seed_fits": 9720,
+      "kernel_seed_fits_meeting_certificate": 8506,
+      "kernel_seed_fits_missing_certificate_after_retry": 1214,
+      "solver_attempts": 12691,
+      "solver_iterations": 32207875,
+      "summed_fit_seconds": 182505.5448913211,
+      "summed_fit_hours": 50.69598469203364
+    },
+    "accounting_sentence": "The audited Q1 search issued 3,888 distinct within-task--method configuration queries (54 per pair) and 10,368 fit records; 3,455 queried candidates were eligible under the frozen selection rule. Among 9,720 kernel seed fits, 1,214 still missed the fixed-feature primal--dual-gap certificate after the predeclared retry and therefore made their candidate ineligible; 8,506 kernel seed fits met the certificate. Across kernel and HistGBR fits, the records contain 12,691 solver attempts and 32,207,875 reported iterations. Summed per-fit recorded time was 50.70 h. This sum is descriptive because tasks ran in parallel; it is neither elapsed wall-clock time nor inference latency. The certificate applies only to the chosen fixed-feature objective and does not certify Nyström approximation error or predictive generalization."
+  },
+  "result_fragments": {
+    "primary_scope": "In the primary within-site scope, HistGBR was the empirical winner on the macro RMSE endpoint at 13.913\\%. TL-QLDMR recorded a site-equal capacity-normalized RMSE of 18.090\\%, an average task rank of 3.50, and 1 task win including ties, ranking 3rd of six by the observed macro endpoint. The conservative first tier in the primary within-site scope contained HistGBR, No variance, and No discrepancy; TL-QLDMR was excluded ($p_{\\mathrm{Holm}}=0.036$), meaning that its inferiority to HistGBR was established for the macro RMSE endpoint. Membership means that inferiority to the empirical winner was not established; it does not establish equivalence or equal performance.",
+    "secondary_scope": "In the secondary cross-site stress scope, HistGBR was the empirical winner on the macro RMSE endpoint at 14.923\\%. TL-QLDMR recorded a site-equal capacity-normalized RMSE of 17.694\\%, an average task rank of 3.67, and 1 task win including ties, ranking 5th of six by the observed macro endpoint. The conservative first tier in the secondary cross-site stress scope contained HistGBR, No discrepancy, No variance, Weighted SVQR, and TL-QLDMR; TL-QLDMR was retained ($p_{\\mathrm{Holm}}=0.336$), meaning that its inferiority to HistGBR was not established. Membership means that inferiority to the empirical winner was not established; it does not establish equivalence or equal performance.",
+    "first_tier_both_scopes": "The conservative first tier in the primary within-site scope contained HistGBR, No variance, and No discrepancy; TL-QLDMR was excluded ($p_{\\mathrm{Holm}}=0.036$), meaning that its inferiority to HistGBR was established for the macro RMSE endpoint. Membership means that inferiority to the empirical winner was not established; it does not establish equivalence or equal performance. The conservative first tier in the secondary cross-site stress scope contained HistGBR, No discrepancy, No variance, Weighted SVQR, and TL-QLDMR; TL-QLDMR was retained ($p_{\\mathrm{Holm}}=0.336$), meaning that its inferiority to HistGBR was not established. Membership means that inferiority to the empirical winner was not established; it does not establish equivalence or equal performance.",
+    "scope_level_full_relations": "The Holm-significant scope-level TL-QLDMR relations were: In the primary within-site scope, TL-QLDMR's observed macro RMSE was 4.178 percentage points higher than HistGBR; the all-pairs difference was significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.036$). In the secondary cross-site stress scope, TL-QLDMR's observed macro RMSE was 0.511 percentage points higher than No variance; the all-pairs difference was significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.016$). These tests concern the prespecified macro endpoint; empirical ordering by itself is not a significance claim.",
+    "complete_full_task_inference": "The Holm-significant TL-QLDMR comparisons were: Farm~1 (within-site): TL-QLDMR had lower squared error than No variance (MSE difference, TL-QLDMR minus No variance, $-0.292$ MW$^2$; 95\\% block-bootstrap CI $[-0.539, -0.139]$, $p_{\\mathrm{Holm}}=0.016$). Farm~1 (within-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $204.912$ MW$^2$; 95\\% block-bootstrap CI $[71.894, 425.012]$, $p_{\\mathrm{Holm}}=0.012$). Farm~3 (within-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $71.623$ MW$^2$; 95\\% block-bootstrap CI $[35.870, 114.080]$, $p_{\\mathrm{Holm}}=0.011$). Farm~1 (cross-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $214.556$ MW$^2$; 95\\% block-bootstrap CI $[91.628, 413.791]$, $p_{\\mathrm{Holm}}=0.001$). Farm~6 (cross-site): TL-QLDMR had higher squared error than No variance (MSE difference, TL-QLDMR minus No variance, $16.917$ MW$^2$; 95\\% block-bootstrap CI $[9.148, 27.398]$, $p_{\\mathrm{Holm}}<0.001$). All other predeclared TL-QLDMR comparisons were not significant after adjustment; this absence of rejection is not evidence of equal performance.",
+    "matched_complete": "Under the conditional matched-removal protocol in the within-site scope, the four aggregate results were No variance 17.870\\% (mean rank 2.17); TL-QLDMR 18.090\\% (mean rank 2.00); Weighted SVQR 19.813\\% (mean rank 3.17); No discrepancy 19.963\\% (mean rank 2.67). TL-QLDMR ranked 2nd of four by observed macro RMSE. Under the conditional matched-removal protocol in the cross-site stress scope, the four aggregate results were No variance 17.671\\% (mean rank 2.50); TL-QLDMR 17.694\\% (mean rank 2.17); Weighted SVQR 17.702\\% (mean rank 3.00); No discrepancy 17.715\\% (mean rank 2.33). TL-QLDMR ranked 2nd of four by observed macro RMSE. The Holm-significant conditional removal effects were: Farm~1 (within-site): TL-QLDMR had lower squared error than No variance (MSE difference, TL-QLDMR minus No variance, $-0.292$ MW$^2$; 95\\% block-bootstrap CI $[-0.524, -0.142]$, $p_{\\mathrm{Holm}}=0.008$). Farm~6 (within-site): TL-QLDMR had lower squared error than No discrepancy (MSE difference, TL-QLDMR minus No discrepancy, $-4.432\\times 10^{-5}$ MW$^2$; 95\\% block-bootstrap CI $[-5.832\\times 10^{-5}, -3.030\\times 10^{-5}]$, $p_{\\mathrm{Holm}}<0.001$). The observed magnitude is practically negligible on the MW$^2$ scale. These contrasts hold the TL-QLDMR-selected configuration, fitting rows, preprocessing, landmarks, and feature map fixed; variants were not independently retuned, and a failure to reject does not establish equivalence.",
+    "matched_variance": "within-site TL-QLDMR 18.090\\% versus matched no-variance 17.870\\%; cross-site stress TL-QLDMR 17.694\\% versus matched no-variance 17.671\\%. The Holm-significant TL-QLDMR-minus-no-variance effects were: Farm~1 (within-site): TL-QLDMR had lower squared error than No variance (MSE difference, TL-QLDMR minus No variance, $-0.292$ MW$^2$; 95\\% block-bootstrap CI $[-0.524, -0.142]$, $p_{\\mathrm{Holm}}=0.008$). These are conditional removal results under the TL-QLDMR-selected configuration; non-rejection does not establish equivalence.",
+    "solver_complete": "The audited Q1 search issued 3,888 distinct within-task--method configuration queries (54 per pair) and 10,368 fit records; 3,455 queried candidates were eligible under the frozen selection rule. Among 9,720 kernel seed fits, 1,214 still missed the fixed-feature primal--dual-gap certificate after the predeclared retry and therefore made their candidate ineligible; 8,506 kernel seed fits met the certificate. Across kernel and HistGBR fits, the records contain 12,691 solver attempts and 32,207,875 reported iterations. Summed per-fit recorded time was 50.70 h. This sum is descriptive because tasks ran in parallel; it is neither elapsed wall-clock time nor inference latency. The certificate applies only to the chosen fixed-feature objective and does not certify Nyström approximation error or predictive generalization.",
+    "supported_claim": "a mixed, scope- and task-dependent assessment of TL-QLDMR and its conditional regularizer-removal effects"
+  },
+  "manuscript_blocks": {
+    "RESULTS_POINT": "In the primary within-site scope, HistGBR was the empirical winner on the macro RMSE endpoint at 13.913\\%. TL-QLDMR recorded a site-equal capacity-normalized RMSE of 18.090\\%, an average task rank of 3.50, and 1 task win including ties, ranking 3rd of six by the observed macro endpoint. In the secondary cross-site stress scope, HistGBR was the empirical winner on the macro RMSE endpoint at 14.923\\%. TL-QLDMR recorded a site-equal capacity-normalized RMSE of 17.694\\%, an average task rank of 3.67, and 1 task win including ties, ranking 5th of six by the observed macro endpoint.",
+    "RESULTS_TASK_INFERENCE": "The Holm-significant TL-QLDMR comparisons were: Farm~1 (within-site): TL-QLDMR had lower squared error than No variance (MSE difference, TL-QLDMR minus No variance, $-0.292$ MW$^2$; 95\\% block-bootstrap CI $[-0.539, -0.139]$, $p_{\\mathrm{Holm}}=0.016$). Farm~1 (within-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $204.912$ MW$^2$; 95\\% block-bootstrap CI $[71.894, 425.012]$, $p_{\\mathrm{Holm}}=0.012$). Farm~3 (within-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $71.623$ MW$^2$; 95\\% block-bootstrap CI $[35.870, 114.080]$, $p_{\\mathrm{Holm}}=0.011$). Farm~1 (cross-site): TL-QLDMR had higher squared error than HistGBR (MSE difference, TL-QLDMR minus HistGBR, $214.556$ MW$^2$; 95\\% block-bootstrap CI $[91.628, 413.791]$, $p_{\\mathrm{Holm}}=0.001$). Farm~6 (cross-site): TL-QLDMR had higher squared error than No variance (MSE difference, TL-QLDMR minus No variance, $16.917$ MW$^2$; 95\\% block-bootstrap CI $[9.148, 27.398]$, $p_{\\mathrm{Holm}}<0.001$). All other predeclared TL-QLDMR comparisons were not significant after adjustment; this absence of rejection is not evidence of equal performance.",
+    "RESULTS_FIRST_TIER": "The conservative first tier in the primary within-site scope contained HistGBR, No variance, and No discrepancy; TL-QLDMR was excluded ($p_{\\mathrm{Holm}}=0.036$), meaning that its inferiority to HistGBR was established for the macro RMSE endpoint. Membership means that inferiority to the empirical winner was not established; it does not establish equivalence or equal performance. The conservative first tier in the secondary cross-site stress scope contained HistGBR, No discrepancy, No variance, Weighted SVQR, and TL-QLDMR; TL-QLDMR was retained ($p_{\\mathrm{Holm}}=0.336$), meaning that its inferiority to HistGBR was not established. Membership means that inferiority to the empirical winner was not established; it does not establish equivalence or equal performance. The Holm-significant scope-level TL-QLDMR relations were: In the primary within-site scope, TL-QLDMR's observed macro RMSE was 4.178 percentage points higher than HistGBR; the all-pairs difference was significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.036$). In the secondary cross-site stress scope, TL-QLDMR's observed macro RMSE was 0.511 percentage points higher than No variance; the all-pairs difference was significant after Holm adjustment ($p_{\\mathrm{Holm}}=0.016$). These tests concern the prespecified macro endpoint; empirical ordering by itself is not a significance claim.",
+    "RESULTS_MATCHED_ABLATION": "Under the conditional matched-removal protocol in the within-site scope, the four aggregate results were No variance 17.870\\% (mean rank 2.17); TL-QLDMR 18.090\\% (mean rank 2.00); Weighted SVQR 19.813\\% (mean rank 3.17); No discrepancy 19.963\\% (mean rank 2.67). TL-QLDMR ranked 2nd of four by observed macro RMSE. Under the conditional matched-removal protocol in the cross-site stress scope, the four aggregate results were No variance 17.671\\% (mean rank 2.50); TL-QLDMR 17.694\\% (mean rank 2.17); Weighted SVQR 17.702\\% (mean rank 3.00); No discrepancy 17.715\\% (mean rank 2.33). TL-QLDMR ranked 2nd of four by observed macro RMSE. The Holm-significant conditional removal effects were: Farm~1 (within-site): TL-QLDMR had lower squared error than No variance (MSE difference, TL-QLDMR minus No variance, $-0.292$ MW$^2$; 95\\% block-bootstrap CI $[-0.524, -0.142]$, $p_{\\mathrm{Holm}}=0.008$). Farm~6 (within-site): TL-QLDMR had lower squared error than No discrepancy (MSE difference, TL-QLDMR minus No discrepancy, $-4.432\\times 10^{-5}$ MW$^2$; 95\\% block-bootstrap CI $[-5.832\\times 10^{-5}, -3.030\\times 10^{-5}]$, $p_{\\mathrm{Holm}}<0.001$). The observed magnitude is practically negligible on the MW$^2$ scale. These contrasts hold the TL-QLDMR-selected configuration, fitting rows, preprocessing, landmarks, and feature map fixed; variants were not independently retuned, and a failure to reject does not establish equivalence.",
+    "RESULTS_OPTIMIZATION": "The audited Q1 search issued 3,888 distinct within-task--method configuration queries (54 per pair) and 10,368 fit records; 3,455 queried candidates were eligible under the frozen selection rule. Among 9,720 kernel seed fits, 1,214 still missed the fixed-feature primal--dual-gap certificate after the predeclared retry and therefore made their candidate ineligible; 8,506 kernel seed fits met the certificate. Across kernel and HistGBR fits, the records contain 12,691 solver attempts and 32,207,875 reported iterations. Summed per-fit recorded time was 50.70 h. This sum is descriptive because tasks ran in parallel; it is neither elapsed wall-clock time nor inference latency. The certificate applies only to the chosen fixed-feature objective and does not certify Nyström approximation error or predictive generalization."
+  }
+}

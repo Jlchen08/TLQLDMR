@@ -1,0 +1,23 @@
+{
+  "updated_utc": "2026-10-22T03:26:49.072348+00:00",
+  "state": "farm6_fixed_configuration_complete_verified",
+  "raw_farm_training_executed": true,
+  "corrected_empirical_results_available": true,
+  "blocker": null,
+  "runner": "review/run_corrected_validation.py",
+  "provenance_audit": "review/experiment_provenance_audit.json",
+  "example_command": "python review/run_corrected_validation.py --farm-file \"data/wind_farm_data/data_processed/wind_farms/Wind farm site 6 (Nominal capacity-96MW).xlsx\" --tasks point interval --threads 4 --output review/corrected_validation_runs/farm6_fixed_seed0",
+  "no_overwrite": true,
+  "historical_results_modified": false,
+  "synthetic_smoke_only": false,
+  "data_available": true,
+  "data_dir": "data/wind_farm_data/data_processed/wind_farms",
+  "farm_file": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 6 (Nominal capacity-96MW).xlsx",
+  "validation_note": "All four point and four interval branches completed on uploaded Farm6 supplied processed data, with independent saved-model prediction, metric, calibration, split, and hash checks passed. This fixed historical random-window diagnostic is not an independent chronological validation. Raw-data quality/causal preprocessing, chronological testing, and sensitivity analyses remain outstanding.",
+  "run_directory": "review/corrected_validation_runs/farm6_fixed_seed0",
+  "data_sha256": "8b898a49a215aa1cfdb27a5924685944fe97a2d828f86b398df6f8ed060e7767",
+  "verification_checks": 466,
+  "data_audit": "review/uploaded_data_audit.json",
+  "screening_verification": "review/uploaded_screening_verification.json",
+  "verification_report": "review/corrected_validation_runs/farm6_fixed_seed0/verification.json"
+}

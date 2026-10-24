@@ -1,0 +1,12 @@
+{
+  "version": "paired_point_v3",
+  "test_status": "exploratory follow-up on previously inspected 2020 Q3-Q4",
+  "scope": "Full versus WeightedSVQR, TargetSVQR, and HistGBR on sites 1--6",
+  "unit": "non-overlapping seven-day calendar blocks anchored at the calendar date of the first retained test observation",
+  "estimand": "mean paired squared-error difference in MW^2 after averaging algorithmic seeds within each forecast; Full minus comparator",
+  "bootstrap": "10,000 equal-probability block resamples; each replicate is the sum of sampled block losses divided by the sum of sampled block counts",
+  "test": "99,999 two-sided block sign flips of block loss sums divided by the fixed total observation count",
+  "multiplicity": "Holm adjustment over all 18 site-comparator tests",
+  "random_seed": 20261022,
+  "interpretation": "negative effects favor Full; temporal blocks are an analysis assumption, not independent-event or new-dataset replication"
+}

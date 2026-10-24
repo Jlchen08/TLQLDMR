@@ -1,0 +1,75 @@
+{
+  "version": "matched_ablation_v2_analysis_1",
+  "experiment_version": "matched_ablation_v2",
+  "analysis_plan": {
+    "status": "declared before matched-ablation Q3-Q4 evaluation",
+    "primary_scope": "all six within-site normal-to-extreme tasks",
+    "secondary_scope": "all six leave-one-farm-out transfer-stress tasks",
+    "primary_aggregate_estimands": [
+      "six-within-site equal-weight macro normalized RMSE: at each site average the three separate-seed RMSE values, divide by site capacity, then average the six sites",
+      "six-within-site equal-weight mean rank: rank the four variants by each site's three-seed mean RMSE using average ranks for exact ties, then average ranks across six sites"
+    ],
+    "secondary_aggregate_estimands": [
+      "the corresponding six-cross-site equal-weight macro normalized RMSE",
+      "the corresponding six-cross-site equal-weight mean rank"
+    ],
+    "task_comparisons": [
+      "Full minus NoVariance",
+      "Full minus NoDiscrepancy",
+      "Full minus WeightedSVQR"
+    ],
+    "paired_loss": "at every task timestamp, average squared error across seeds 0,1,2 within each variant, then subtract removal loss from Full loss",
+    "blocks": "non-overlapping Monday-Sunday seven-calendar-day blocks with fixed 1970-01-05 Monday origin; retain all observations in each sampled block",
+    "bootstrap": {
+      "replicates": 10000,
+      "confidence_level": 0.95,
+      "rule": "sample whole blocks with equal probability and replacement; each replicate divides sampled loss-difference sums by sampled counts"
+    },
+    "sign_flip": {
+      "replicates": 99999,
+      "sidedness": "two-sided",
+      "rule": "independent whole-block sign flips with plus-one correction"
+    },
+    "multiplicity": "Holm correction in two separate families: 6 sites x 3 Full-versus-removal tests = 18 within tests and 18 cross tests",
+    "random_seed": 20261026,
+    "complete_reporting": "report 12 tasks x 4 variants x 3 seeds; no task, seed, or variant may be removed using held-out performance",
+    "interpretation": "component effects are conditional on each task's locked Full configuration and are not independently retuned procedure comparisons; failure to reject is not evidence of equivalence"
+  },
+  "capacities_mw": {
+    "1": 99.0,
+    "2": 200.0,
+    "3": 99.0,
+    "4": 66.0,
+    "5": 36.0,
+    "6": 96.0
+  },
+  "variant_order": [
+    "Full",
+    "NoVariance",
+    "NoDiscrepancy",
+    "WeightedSVQR"
+  ],
+  "comparator_order": [
+    "NoVariance",
+    "NoDiscrepancy",
+    "WeightedSVQR"
+  ],
+  "rmse_rule": "compute RMSE separately per seed; average the three seed RMSE values",
+  "rank_rule": "average ranks for exact ties; lower RMSE receives the lower rank",
+  "prediction_alignment": "within each task all variants and seeds must have identical window_index, raw_target_row, timestamp, and y_true arrays",
+  "output_files": [
+    "task_metrics.csv",
+    "aggregate_metrics.csv",
+    "paired_inference.csv",
+    "task_metrics.tex",
+    "aggregate_metrics.tex",
+    "paired_inference.tex",
+    "summary.json"
+  ],
+  "environment_versions": {
+    "python": "3.10.9",
+    "numpy": "2.2.6",
+    "pandas": "2.3.3",
+    "scipy": "1.15.3"
+  }
+}

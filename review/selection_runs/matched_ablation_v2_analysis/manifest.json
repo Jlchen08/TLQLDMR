@@ -1,0 +1,18 @@
+{
+  "version": "matched_ablation_v2_analysis_manifest_1",
+  "status": "complete",
+  "created_utc": "2026-10-23T17:06:48.393925+00:00",
+  "analysis_lock_sha256": "89db03f68b39e19641e090d40bfe56f97cce00f6d1a5fa2e7e12ba1b07288336",
+  "heldout_results_read": true,
+  "analysis_started_utc": "2026-10-24T02:59:51.190471+00:00",
+  "completed_utc": "2026-10-24T02:59:53.115099+00:00",
+  "output_hashes": {
+    "task_metrics.csv": "a441ec13a204b553cdd154c933a349cab734f839431c27aafa550ec1a816fd6f",
+    "aggregate_metrics.csv": "6d68d10a7a5d0d3c7de8918901ea4ea442156abf0fe5f14ee6f432c9a2e71be1",
+    "paired_inference.csv": "bfc654f6734f3a1d9f8ef9577dd92e45320ba98ceb87c6eafc6c7f2247bde59f",
+    "task_metrics.tex": "5a274fcf739e4c38ec76b8cb489fc0fab4e160e4226a4ce6e45a7a4f2e75fd0a",
+    "aggregate_metrics.tex": "ea1b31ad1eaed9e1333de4039efd884beb79ed624b2789cfb3d538217a38fd09",
+    "paired_inference.tex": "a504f42f0cbdc63e8c9daf891f2235ea4726e0433fd652a05511bcdc8439509c",
+    "summary.json": "e017570a19e52eaf01a7ab165c692d4dc7cfe770f58619e0936b1a913903fdce"
+  }
+}

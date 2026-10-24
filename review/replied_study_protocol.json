@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "purpose": "Prospective-in-code chronological checks for already answered reviewer comments; fixed before any model in this study is fitted.",
+  "data": "supplied original workbooks; common 13 meteorological features; capacity-normalized power",
+  "temporal": {
+    "train_start": "2019-01-01",
+    "train_end": "2020-01-01",
+    "validation_end": "2020-04-01",
+    "calibration_end": "2020-07-01",
+    "test_end": "2021-01-01",
+    "window_size": 24,
+    "frequency_minutes": 15
+  },
+  "temporal_rationale": "An entire calendar year is assigned to fitting before evaluating seasonal generalization. This replaces the loader's illustrative nine-month training default before any study forecasts or performance metrics are generated. Q1 2020 is reserved but not used for tuning, Q2 for interval calibration, Q3-Q4 for final evaluation.",
+  "model": {
+    "lambda1": 1.0,
+    "lambda2": 1.0,
+    "total_loss_weight": 1000.0,
+    "gamma": 0.003,
+    "landmarks": 256,
+    "epochs": 64,
+    "learning_rate": 0.01,
+    "batch_size": 256
+  },
+  "selection": "No hyperparameter selection in this study. Common numerical settings are fixed for controlled sensitivity comparisons, not claimed optimal or target-validation-selected. Test outcomes must not change settings or inclusion rules.",
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "point_tau": 0.5,
+  "interval_taus": [
+    0.025,
+    0.975
+  ],
+  "alpha": 0.05,
+  "threads": 1,
+  "within_site": 6,
+  "components": [
+    "Full",
+    "NoVariance",
+    "NoMMD",
+    "TargetOnly"
+  ],
+  "label_budgets": [
+    16,
+    32,
+    64,
+    128,
+    256,
+    512,
+    "all"
+  ],
+  "weight_schemes": [
+    "domain_balanced",
+    "sample_equal",
+    "historical_ratio",
+    "target_10x"
+  ],
+  "weight_note": "All schemes keep nS*CS+nT*CT at 1000; domain-size normalization and nS/nT compensation are algebraically the same at matched total scale and are evaluated once. Historical ratios are 3000 for point and 8000 for intervals, with total scale matched, not the historical absolute coefficients.",
+  "threshold_quantiles": [
+    95,
+    98,
+    99
+  ],
+  "cutout_sensitivity_ms": [
+    20,
+    25,
+    30
+  ],
+  "landmark_grid": [
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024
+  ],
+  "source_fractions": [
+    0.1,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "cross_farm_sites": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "cross_farm_source_cap_per_site": 6000,
+  "cross_farm_target_labels": 128,
+  "cross_farm_note": "For each target site, normals from the other five sites are source training data; 128 randomly selected training-period extreme labels from that site support supervised target adaptation. Source cap is deterministic and evenly spaced by time. No held-out-period labels fit the model or select its parameters. Report a target-only-fitting comparator with the same target labels and configuration.",
+  "subgroups": "Report all test-quarter and high-wind/cold/hot meteorological subsets of component runs; weather masks may overlap; subgroups are evaluated without refitting or selecting favorable groups.",
+  "limitations": "Temporal ordering does not guarantee exchangeability, causal provenance of all original measurements, statistical significance, or independence from historical knowledge of this public dataset. Quantile levels and conformal calibration do not by themselves guarantee conditional or temporal coverage. Extreme-event membership uses observed outcome-time weather retrospectively; event onset prediction is not evaluated.",
+  "target_only_note": "TargetOnly is an independently fitted baseline with target residual variance, target-fitted preprocessing and landmarks, no source observations or discrepancy penalty. Its epochs are raised to the smallest integer giving at least the paired full model Adam update count (at most one extra target-only epoch); this equalizes update opportunities, not convergence or feature maps. Decided before any study model fit."
+}

@@ -1,0 +1,29 @@
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Legacy exploratory Farm~6 configurations selected by Q1 nine-quantile mean pinball loss. For the kernel methods, $A=n_SC_S+n_TC_T$ and $p=n_TC_T/A$; inactive penalties are shown as zero, and target-only SVQR has $p=1$. HistGBR uses learning rate (LR), maximum leaves, minimum leaf size, $L_2$ weight, iterations, and target mass fraction $p$. Candidate indices are zero-based.}}
+\label{tab:probabilistic_configs}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrr}
+\toprule
+Kernel method & ID & $\gamma$ & $A$ & $p$ & $\lambda_1$ & $\lambda_2$ \\
+\midrule
+Full & c12 & 0.001132 & 232.8 & 0.652 & 391.6 & 0.1011 \\
+No variance & c11 & 0.0002446 & 81222.2 & 0.191 & 0 & 1.351 \\
+No discrepancy & c12 & 0.001132 & 232.8 & 0.652 & 391.6 & 0 \\
+Weighted SVQR & c11 & 0.0002446 & 81222.2 & 0.191 & 0 & 0 \\
+Target SVQR & c13 & 0.002267 & 755.0 & 1.000 & 0 & 0 \\
+\bottomrule
+\end{tabular}}
+
+\medskip
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrrrrrr}
+\toprule
+Tree method & ID & LR & Leaves & Min. leaf & $L_2$ & Iterations & $p$ \\
+\midrule
+HistGBR & c03 & 0.03 & 7 & 40 & 1.0 & 200 & 0.100 \\
+\bottomrule
+\end{tabular}}
+\end{table}

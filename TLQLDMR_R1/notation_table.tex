@@ -1,0 +1,30 @@
+% BEGIN METHOD BLOCK notation_table
+\begin{table*}[pos=htbp,width=\FullWidth]
+\centering
+\caption{\textcolor{blue}{Core notation used in the exact-kernel and fixed-feature formulations.}}
+\label{tab:notation}
+{\color{blue}\small
+\begin{tabular}{p{0.20\textwidth}p{0.73\textwidth}}
+\toprule
+Symbol & Meaning \\
+\midrule
+$D_S,D_T$; $n_S,n_T$ & Source and target labeled data; their sample counts. \\
+$\boldsymbol{x},y$; $N$ & Input window, wind-power response, and total fitting count $N=n_S+n_T$. \\
+$\phi(\boldsymbol{x}),k,\mathcal H$ & Implicit RKHS feature map, scalar kernel, and reproducing kernel Hilbert space. \\
+$\psi(\boldsymbol{x}),m,Z,\boldsymbol W$ & Fixed Nystr\"{o}m feature map, effective rank, landmark set, and landmark Gram matrix. \\
+$\boldsymbol Z$ & Combined fixed-feature design matrix with source rows followed by target rows. \\
+$f_\tau(\boldsymbol{x}),\boldsymbol w,b$ & Quantile predictor at level $\tau$, its feature-space coefficients, and intercept. \\
+$L_\tau(y,\hat y),\rho_\tau(r)$ & Pinball loss in prediction and residual notation, respectively, with $r=y-\hat y$. \\
+$\boldsymbol K,\boldsymbol\Phi,\boldsymbol\beta$ & Training Gram matrix, implicit feature matrix, and representer coefficients. \\
+$\boldsymbol H_S,\bar u_S$ & Source centering matrix and current mean source residual. \\
+$\lambda_1,\lambda_2$ & Nonnegative weights for centered source-residual variance and projected predictive-mean discrepancy. \\
+$C_S,C_T,C_k$ & Per-sample source, target, and combined-sample pinball-loss weights. \\
+$\boldsymbol a,\boldsymbol M$ & Domain mean-contrast vector and $\boldsymbol M=\boldsymbol a\boldsymbol a^T$. \\
+$\boldsymbol S,\boldsymbol\Omega$ & Full-data source-centering matrix and exact-kernel quadratic coefficient matrix. \\
+$\boldsymbol\xi,\boldsymbol\xi^*$; $\boldsymbol\alpha,\boldsymbol\alpha^*$ & Primal pinball slack variables and their dual multipliers. \\
+$\boldsymbol R,\boldsymbol c$ & Fixed-feature quadratic matrix and label-dependent linear term induced by source-residual centering. \\
+$B,T$ & Mini-batch size and number of Adam epochs in the common-setting solver. \\
+\bottomrule
+\end{tabular}}
+\end{table*}
+% END METHOD BLOCK notation_table

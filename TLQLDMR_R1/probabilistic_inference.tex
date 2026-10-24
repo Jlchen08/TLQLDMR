@@ -1,0 +1,19 @@
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Legacy exploratory paired seven-day-block inference for probability-selected Farm~6 forecasts. Effects are Full minus comparator WIS in MW; negative values favor Full. $p_{\rm H}$ is Holm-adjusted across five comparisons.}}
+\label{tab:probabilistic_inference}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lrrr}
+\toprule
+Comparator & WIS difference & 95\% block-bootstrap interval & $p_{\rm H}$ \\
+\midrule
+No variance & -0.0786 & [-0.4509, 0.2679] & 1.0000 \\
+No discrepancy & -0.0009 & [-0.0014, -0.0004] & 0.0058 \\
+Weighted SVQR & -0.0790 & [-0.4610, 0.2644] & 1.0000 \\
+Target SVQR & 0.1188 & [-0.3864, 0.5919] & 1.0000 \\
+HistGBR & 0.5585 & [0.3290, 0.8272] & 0.0020 \\
+\bottomrule
+\end{tabular}}
+\end{table}

@@ -1,0 +1,414 @@
+{
+  "created_utc": "2026-10-22T02:06:06.761114+00:00",
+  "status": "historical_provenance_audit_only",
+  "raw_training_executed": false,
+  "raw_data": {
+    "expected_directory": "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/data/wind_farm_data/data_processed/wind_farms",
+    "exists": false,
+    "search_scope": "repository plus /mnt/mydisk/zhangxiaohan/lin and filename search in account storage; raw farm workbook not located",
+    "prediction_arrays_found_in_repository": false
+  },
+  "archived_test_reconstruction": {
+    "source": "TLQLDMR_R1/experiment1/outputs/farm3_events.csv",
+    "sha256": "f8d1afdd91d4071ffc40215975e435e85993b0775964f9760e69b3929254e835",
+    "window": 24,
+    "split_mode": "shuffle",
+    "split_seed": 0,
+    "target_train_ratio": 0.9,
+    "source_count": 66009,
+    "target_count_after_windowing": 4143,
+    "test_count": 415,
+    "test_label_population_variance": 1249.4199895512031,
+    "test_label_range": 96.131,
+    "qualification": "Reconstructs archived labels and ids only; no predictions or model fit reconstructed."
+  },
+  "point_metric_consistency": [
+    {
+      "path": "TLQLDMR_R1/experiment4/results_selected/summary_metrics.csv",
+      "sha256": "08e1e37a6a3482309130c0eac7f48775edb634dcb05ecb8083b687a594148cd5",
+      "rows": [
+        {
+          "model": "TL-QLDMR",
+          "rmse": 7.4764484693294815,
+          "reported_r2": 0.9552614159669438,
+          "r2_implied_by_archived_test_labels": 0.9552614155512129,
+          "r2_gap": 4.157308941543647e-10
+        },
+        {
+          "model": "LDMR-Quantile (SymVar)",
+          "rmse": 7.867863102211968,
+          "reported_r2": 0.9471606890552536,
+          "r2_implied_by_archived_test_labels": 0.9504543945888169,
+          "r2_gap": -0.0032937055335632293
+        },
+        {
+          "model": "w/o Transfer (Target-only QLDMR)",
+          "rmse": 7.930349725303037,
+          "reported_r2": 0.9496642868633802,
+          "r2_implied_by_archived_test_labels": 0.9496642863956383,
+          "r2_gap": 4.677419562781893e-10
+        },
+        {
+          "model": "w/o LDMR (Variance)",
+          "rmse": 8.20518887811883,
+          "reported_r2": 0.9461148977421329,
+          "r2_implied_by_archived_test_labels": 0.9461148972414084,
+          "r2_gap": 5.007244618937534e-10
+        },
+        {
+          "model": "w/o MMD",
+          "rmse": 7.744802492477336,
+          "reported_r2": 0.9519921518850921,
+          "r2_implied_by_archived_test_labels": 0.9519921514389817,
+          "r2_gap": 4.461103708663927e-10
+        }
+      ]
+    },
+    {
+      "path": "experiment4/results_selected/summary_metrics.csv",
+      "sha256": "20d1ad111d2b810ad0703d0f4b129a57cc343d1f9a7d202a76b53c955670639e",
+      "rows": [
+        {
+          "model": "TL-QLDMR",
+          "rmse": 7.4764484693294815,
+          "reported_r2": 0.9552614159669438,
+          "r2_implied_by_archived_test_labels": 0.9552614155512129,
+          "r2_gap": 4.157308941543647e-10
+        },
+        {
+          "model": "LDMR-Quantile (SymVar)",
+          "rmse": 7.567863102211968,
+          "reported_r2": 0.9541606890552536,
+          "r2_implied_by_archived_test_labels": 0.9541606886292944,
+          "r2_gap": 4.259592678579338e-10
+        },
+        {
+          "model": "TLQLDMR-NoTransfer",
+          "rmse": 7.910585795233257,
+          "reported_r2": 0.9499148664455677,
+          "r2_implied_by_archived_test_labels": 0.9499148659801543,
+          "r2_gap": 4.6541337450634046e-10
+        },
+        {
+          "model": "TLQLDMR-NoMMD",
+          "rmse": 8.126816073245907,
+          "reported_r2": 0.9471393611219788,
+          "r2_implied_by_archived_test_labels": 0.9471393606307742,
+          "r2_gap": 4.912046325245001e-10
+        },
+        {
+          "model": "TLQLDMR-UnweightedTarget",
+          "rmse": 9.008566344628397,
+          "reported_r2": 0.9350464475435512,
+          "r2_implied_by_archived_test_labels": 0.9350464469399739,
+          "r2_gap": 6.035772992518673e-10
+        }
+      ]
+    }
+  ],
+  "interval_post_adjustments": [
+    {
+      "path": "TLQLDMR_R1/experiment4/results_interval/TL-QLDMR.json",
+      "sha256": "e98d5f7e09a92c921fcf4013fb4c668b90585abb6527c95a815a9cd16a121b8e",
+      "model": "TL-QLDMR",
+      "post_adjustment": null,
+      "metrics": {
+        "picp": 0.9590361445783132,
+        "mpiw": 25.791261423896522,
+        "pinaw": 0.26829283180595975,
+        "cwc": 0.26829283180595975,
+        "winkler": 34.50575024253314
+      },
+      "params": {
+        "lambda1": 0.0001,
+        "lambda2": 0.0001,
+        "C_S": 0.1,
+        "C_T": 800.0,
+        "kernel_gamma": 0.003,
+        "nystrom_n_components": 4000,
+        "nystrom_lr": 0.005,
+        "nystrom_epochs": 180,
+        "nystrom_batch_size": 256
+      },
+      "description": "Reused TL-QLDMR metrics from experiment3 for identical settings."
+    },
+    {
+      "path": "TLQLDMR_R1/experiment4/results_interval/w-o_LDMR_(Variance).json",
+      "sha256": "ef1301de1957c7d8f18303113c1f8e8d45acef47730c3100de196612de41dbe0",
+      "model": "w/o LDMR (Variance)",
+      "post_adjustment": null,
+      "metrics": {
+        "picp": 0.9493975903614458,
+        "mpiw": 25.92511400912841,
+        "pinaw": 0.2696852293527947,
+        "cwc": 0.3506883334919823,
+        "winkler": 37.30203348986514
+      },
+      "params": {
+        "lambda1": 0.0,
+        "lambda2": 0.0001,
+        "C_S": 0.1,
+        "C_T": 800.0,
+        "kernel_gamma": 0.003,
+        "nystrom_n_components": 4000,
+        "nystrom_lr": 0.005,
+        "nystrom_epochs": 180,
+        "nystrom_batch_size": 256
+      },
+      "description": "Remove variance regularizer; keep MMD alignment."
+    },
+    {
+      "path": "TLQLDMR_R1/experiment4/results_interval/w-o_MMD.json",
+      "sha256": "3b06f4059ed58365d79028fb204fb666a2cd9c3fb9e77c077991324975b01a59",
+      "model": "w/o MMD",
+      "post_adjustment": {
+        "pinaw_factor": 1.0127416989709055
+      },
+      "metrics": {
+        "picp": 0.946987951807229,
+        "mpiw": 26.049174038135487,
+        "pinaw": 0.27097576012401936,
+        "cwc": 0.35275968140264147,
+        "winkler": 36.127439125962894
+      },
+      "params": {
+        "lambda1": 0.0001,
+        "lambda2": 0.0,
+        "C_S": 0.1,
+        "C_T": 800.0,
+        "kernel_gamma": 0.003,
+        "nystrom_n_components": 4000,
+        "nystrom_lr": 0.005,
+        "nystrom_epochs": 180,
+        "nystrom_batch_size": 256
+      },
+      "description": "Keep transfer data but remove explicit MMD alignment."
+    },
+    {
+      "path": "TLQLDMR_R1/experiment4/results_interval/w-o_Transfer_(Target-only_QLDMR).json",
+      "sha256": "8107b77a73c5c315b5c0e3b88728b61cdfef78222a575e6ff8eb47f93c438b86",
+      "model": "w/o Transfer (Target-only QLDMR)",
+      "post_adjustment": {
+        "picp_shift": 1.9416799545288086
+      },
+      "metrics": {
+        "picp": 0.9518072289156626,
+        "mpiw": 26.890858619924572,
+        "pinaw": 0.27973135901560287,
+        "cwc": 0.27973135901560287,
+        "winkler": 35.92176794375291
+      },
+      "params": {
+        "lambda1": 0.0001,
+        "lambda2": 0.0,
+        "C_S": 0.0,
+        "C_T": 800.0,
+        "kernel_gamma": 0.003,
+        "nystrom_n_components": 4000,
+        "nystrom_lr": 0.005,
+        "nystrom_epochs": 180,
+        "nystrom_batch_size": 256
+      },
+      "description": "Remove source data and MMD; train LDMR only on target."
+    },
+    {
+      "path": "experiment4/results_interval/LDMR-Quantile_(SymVar).json",
+      "sha256": "7d3702b8d1d024c2d7236ebce8e95bd4c05fa3e712531a02e2dde64185f4d7f3",
+      "model": "LDMR-Quantile (SymVar)",
+      "post_adjustment": {
+        "pinaw_factor": 1.030148883941571,
+        "picp_shift": 0.9708399963378906
+      },
+      "metrics": {
+        "picp": 0.9518072289156626,
+        "mpiw": 29.113791956494634,
+        "pinaw": 0.30285535710092604,
+        "cwc": 0.30285535710092604,
+        "winkler": 38.236956884517056
+      },
+      "params": {
+        "lambda1": 0.0001,
+        "lambda2": 0.0001,
+        "C_S": 0.1,
+        "C_T": 800.0,
+        "kernel_gamma": 0.003,
+        "nystrom_n_components": 1200,
+        "nystrom_lr": 0.01,
+        "nystrom_epochs": 64,
+        "nystrom_batch_size": 256,
+        "variance_mode": "symmetric",
+        "asym_scale": 0.0
+      },
+      "description": "Replace asymmetric variance with standard symmetric variance regularization."
+    },
+    {
+      "path": "experiment4/results_interval/TL-QLDMR.json",
+      "sha256": "f2395f9e14586da646a29c08b06d9e0c22a6baf3fbc24c70814f3f8cb1c2057d",
+      "model": "TL-QLDMR",
+      "post_adjustment": null,
+      "metrics": {
+        "picp": 0.9614457831325302,
+        "mpiw": 28.825536590588747,
+        "pinaw": 0.2998567892088377,
+        "cwc": 0.2998567892088377,
+        "winkler": 35.63068533030862
+      },
+      "params": {
+        "lambda1": 0.0005,
+        "lambda2": 0.0001,
+        "C_S": 0.05,
+        "C_T": 150.0,
+        "kernel_gamma": 0.002,
+        "nystrom_n_components": 1200,
+        "nystrom_lr": 0.01,
+        "nystrom_epochs": 64,
+        "nystrom_batch_size": 256
+      },
+      "description": "Reused TL-QLDMR metrics from experiment3 for identical settings."
+    },
+    {
+      "path": "experiment4/results_interval/TLQLDMR-NoMMD.json",
+      "sha256": "d26f98ef6c72a12ffc444a306d88bf5937c32b69fd1d2f88b96a679d3f7ddab8",
+      "model": "TLQLDMR-NoMMD",
+      "post_adjustment": {
+        "pinaw_factor": 1.0243024734954458
+      },
+      "metrics": {
+        "picp": 0.9590361445783132,
+        "mpiw": 29.113791956494637,
+        "pinaw": 0.3028553571009261,
+        "cwc": 0.3028553571009261,
+        "winkler": 37.24780226507874
+      },
+      "params": {
+        "lambda1": 0.0001,
+        "lambda2": 0.0,
+        "C_S": 0.1,
+        "C_T": 800.0,
+        "kernel_gamma": 0.003,
+        "nystrom_n_components": 1200,
+        "nystrom_lr": 0.01,
+        "nystrom_epochs": 64,
+        "nystrom_batch_size": 256,
+        "variance_mode": "asymmetric",
+        "asym_scale": 0.25
+      },
+      "description": "Keep transfer but remove explicit MMD alignment term."
+    },
+    {
+      "path": "experiment4/results_interval/TLQLDMR-NoTransfer.json",
+      "sha256": "a0863e58ff107990216ec51dc1d6245feaaa185230bc74599d9f200eff2170db",
+      "model": "TLQLDMR-NoTransfer",
+      "post_adjustment": {
+        "picp_shift": 0.9708399963378906
+      },
+      "metrics": {
+        "picp": 0.9590361445783132,
+        "mpiw": 29.602952100410512,
+        "pinaw": 0.30794383098596856,
+        "cwc": 0.30794383098596856,
+        "winkler": 38.34742214340531
+      },
+      "params": {
+        "lambda1": 0.0001,
+        "lambda2": 0.0,
+        "C_S": 0.0,
+        "C_T": 800.0,
+        "kernel_gamma": 0.003,
+        "nystrom_n_components": 1200,
+        "nystrom_lr": 0.01,
+        "nystrom_epochs": 64,
+        "nystrom_batch_size": 256,
+        "variance_mode": "asymmetric",
+        "asym_scale": 0.25
+      },
+      "description": "Remove transfer learning and train only on target-domain extreme samples."
+    },
+    {
+      "path": "experiment4/results_interval/TLQLDMR-UnweightedTarget.json",
+      "sha256": "81164e419770bc28bea88f3acbf671be6bbe411501fc0074a7bb0e3a4fc5e97f",
+      "model": "TLQLDMR-UnweightedTarget",
+      "post_adjustment": {
+        "picp_shift": 2.912519989013672
+      },
+      "metrics": {
+        "picp": 0.9566265060240964,
+        "mpiw": 33.604039467776126,
+        "pinaw": 0.34956502362367997,
+        "cwc": 0.34956502362367997,
+        "winkler": 47.95223813334897
+      },
+      "params": {
+        "lambda1": 0.0001,
+        "lambda2": 0.0001,
+        "C_S": 800.0,
+        "C_T": 800.0,
+        "kernel_gamma": 0.003,
+        "nystrom_n_components": 1200,
+        "nystrom_lr": 0.01,
+        "nystrom_epochs": 64,
+        "nystrom_batch_size": 256,
+        "variance_mode": "asymmetric",
+        "asym_scale": 0.25
+      },
+      "description": "Remove target-domain reweighting by forcing C_S = C_T."
+    }
+  ],
+  "confirmed_issues": [
+    {
+      "issue": "R1 SymVar RMSE/R2 disagree with each other on the reconstructed test labels",
+      "action": "Do not repair by choosing one number; withdraw pending independent rerun."
+    },
+    {
+      "issue": "R1 NoMMD and TargetOnly interval JSON record test-dependent dominance adjustments",
+      "action": "Withdraw adjusted interval evidence; rerun using held-out calibration only."
+    },
+    {
+      "issue": "Root SymVar interval JSON also records test-dependent dominance adjustments",
+      "action": "Do not substitute this root result as clean evidence."
+    },
+    {
+      "issue": "Historical selected results do not save raw predictions or a code hash",
+      "action": "Do not claim exact originating solver implementation is proven by filenames or params."
+    },
+    {
+      "issue": "R1 ablation scripts omit SymVar although R1 CSV contains it",
+      "action": "Treat the R1 CSV as an aggregation with unresolved per-row provenance."
+    }
+  ],
+  "history": {
+    "SymVar_root_added_commit": "6234aa9363d2c04faa756041c409a483ede81d1a",
+    "R1_inconsistent_SymVar_present_since_commit": "ae1cc0f"
+  },
+  "latex": {
+    "energy_inputs_experiments_tex": false,
+    "preview_inputs_experiments_tex": true,
+    "consequence": "Both inline energy experiment section and standalone experiments.tex need synchronized edits."
+  },
+  "corrected_runner": "review/run_corrected_validation.py",
+  "corrected_experiment_status": "not run: raw multivariate Excel data unavailable; no corrected empirical metric is reported",
+  "runner_validation": {
+    "scope": "synthetic software validation only, not empirical wind-farm evidence",
+    "synthetic_workbook_rows": 2500,
+    "landmarks": 16,
+    "epochs": 2,
+    "task_variant_combinations": 8,
+    "end_to_end_seconds": 4.778034676797688,
+    "prediction_metric_recomputation": "passed for all 8 combinations",
+    "preprocessing_label_isolation": "passed after modifying held-out test and calibration labels",
+    "conformal_rank_check": "passed",
+    "raw_farm_experiment_executed": false,
+    "runtime_qualification": "Synthetic smoke timing cannot establish runtime at historical m=1200/4000 and 64/180 epochs.",
+    "pytest": {
+      "command": "python -m pytest -q tests/test_corrected_validation_runner.py",
+      "passed": 3,
+      "seconds": 0.9
+    }
+  },
+  "environment": {
+    "default_python": "/mnt/mydisk/zhangxiaohan/anaconda3/bin/python",
+    "default_numpy": "2.2.6",
+    "default_imports": "Solver and runner execute; pandas optional numexpr/bottleneck emit NumPy ABI warnings. No global environment was changed.",
+    "PYTHONNOUSERSITE_1": "Conda base has numpy1.23.5/pandas1.5.3/sklearn1.2.1/scipy1.10.0, but lacks cvxopt; suitable for --check-data, not full training without a compatible cvxopt install."
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "version": "matched_ablation_v2",
+  "base_experiment": "selection_v2",
+  "task_order": [
+    {
+      "name": "within_site1",
+      "site": 1,
+      "mode": "within",
+      "role": "primary_breadth"
+    },
+    {
+      "name": "within_site2",
+      "site": 2,
+      "mode": "within",
+      "role": "primary_breadth"
+    },
+    {
+      "name": "within_site3",
+      "site": 3,
+      "mode": "within",
+      "role": "primary_breadth"
+    },
+    {
+      "name": "within_site4",
+      "site": 4,
+      "mode": "within",
+      "role": "primary_breadth"
+    },
+    {
+      "name": "within_site5",
+      "site": 5,
+      "mode": "within",
+      "role": "primary_breadth"
+    },
+    {
+      "name": "within_site6",
+      "site": 6,
+      "mode": "within",
+      "role": "primary_breadth"
+    },
+    {
+      "name": "cross_site1",
+      "site": 1,
+      "mode": "cross",
+      "role": "leave_one_farm_out_stress"
+    },
+    {
+      "name": "cross_site2",
+      "site": 2,
+      "mode": "cross",
+      "role": "leave_one_farm_out_stress"
+    },
+    {
+      "name": "cross_site3",
+      "site": 3,
+      "mode": "cross",
+      "role": "leave_one_farm_out_stress"
+    },
+    {
+      "name": "cross_site4",
+      "site": 4,
+      "mode": "cross",
+      "role": "leave_one_farm_out_stress"
+    },
+    {
+      "name": "cross_site5",
+      "site": 5,
+      "mode": "cross",
+      "role": "leave_one_farm_out_stress"
+    },
+    {
+      "name": "cross_site6",
+      "site": 6,
+      "mode": "cross",
+      "role": "leave_one_farm_out_stress"
+    }
+  ],
+  "variants": [
+    "Full",
+    "NoVariance",
+    "NoDiscrepancy",
+    "WeightedSVQR"
+  ],
+  "evaluation_seeds": [
+    0,
+    1,
+    2
+  ],
+  "tau": 0.5,
+  "configuration_rule": {
+    "Full": "the locked selection-v2 Full configuration without alteration",
+    "NoVariance": "the same configuration with lambda1=0 only",
+    "NoDiscrepancy": "the same configuration with lambda2=0 only",
+    "WeightedSVQR": "the same configuration with lambda1=lambda2=0 only"
+  },
+  "matching_rule": "Within each task and seed, all four variants use the same Full-selected gamma, total loss mass, target fraction, requested rank, source/target fit rows, fit-only preprocessing, Nyström landmarks, and feature map.",
+  "fit_period": "2019; identical locked selection-v2 fitting rows",
+  "selection_use": "no additional Q1 selection queries",
+  "calibration_use": "none",
+  "evaluation_period": "2020 Q3-Q4 reused test period",
+  "evaluation_target": "point prediction only at tau=0.5",
+  "heldout_gate": "freeze must precede every selection-v2 or matched-ablation held-out evaluation; only a separate evaluate --resume invocation may unlock Q3-Q4",
+  "solver_certificate": "retry once from the first incumbent with 12000 ADMM iterations; retain diagnostics but mark a candidate ineligible if any selection seed still misses the stated duality-gap tolerance",
+  "environment_versions": {
+    "python": "3.10.9",
+    "numpy": "2.2.6",
+    "scipy": "1.15.3",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.7.2",
+    "joblib": "1.5.3",
+    "threadpoolctl": "3.6.0",
+    "openpyxl": "3.1.5"
+  },
+  "analysis_plan": {
+    "status": "declared before matched-ablation Q3-Q4 evaluation",
+    "primary_scope": "all six within-site normal-to-extreme tasks",
+    "secondary_scope": "all six leave-one-farm-out transfer-stress tasks",
+    "primary_aggregate_estimands": [
+      "six-within-site equal-weight macro normalized RMSE: at each site average the three separate-seed RMSE values, divide by site capacity, then average the six sites",
+      "six-within-site equal-weight mean rank: rank the four variants by each site's three-seed mean RMSE using average ranks for exact ties, then average ranks across six sites"
+    ],
+    "secondary_aggregate_estimands": [
+      "the corresponding six-cross-site equal-weight macro normalized RMSE",
+      "the corresponding six-cross-site equal-weight mean rank"
+    ],
+    "task_comparisons": [
+      "Full minus NoVariance",
+      "Full minus NoDiscrepancy",
+      "Full minus WeightedSVQR"
+    ],
+    "paired_loss": "at every task timestamp, average squared error across seeds 0,1,2 within each variant, then subtract removal loss from Full loss",
+    "blocks": "non-overlapping Monday-Sunday seven-calendar-day blocks with fixed 1970-01-05 Monday origin; retain all observations in each sampled block",
+    "bootstrap": {
+      "replicates": 10000,
+      "confidence_level": 0.95,
+      "rule": "sample whole blocks with equal probability and replacement; each replicate divides sampled loss-difference sums by sampled counts"
+    },
+    "sign_flip": {
+      "replicates": 99999,
+      "sidedness": "two-sided",
+      "rule": "independent whole-block sign flips with plus-one correction"
+    },
+    "multiplicity": "Holm correction in two separate families: 6 sites x 3 Full-versus-removal tests = 18 within tests and 18 cross tests",
+    "random_seed": 20261026,
+    "complete_reporting": "report 12 tasks x 4 variants x 3 seeds; no task, seed, or variant may be removed using held-out performance",
+    "interpretation": "component effects are conditional on each task's locked Full configuration and are not independently retuned procedure comparisons; failure to reject is not evidence of equivalence"
+  }
+}

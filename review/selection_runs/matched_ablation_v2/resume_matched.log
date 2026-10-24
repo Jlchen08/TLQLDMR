@@ -1,0 +1,213 @@
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.2.6 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/resume_solver_certificate_v2.py", line 36, in <module>
+    from review import run_matched_ablation_v2 as matched
+  File "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/run_matched_ablation_v2.py", line 30, in <module>
+    import pandas as pd
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/__init__.py", line 49, in <module>
+    from pandas.core.api import (
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/api.py", line 28, in <module>
+    from pandas.core.arrays import Categorical
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/__init__.py", line 1, in <module>
+    from pandas.core.arrays.arrow import ArrowExtensionArray
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/arrow/__init__.py", line 5, in <module>
+    from pandas.core.arrays.arrow.array import ArrowExtensionArray
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/arrow/array.py", line 53, in <module>
+    from pandas.core import (
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/ops/__init__.py", line 8, in <module>
+    from pandas.core.ops.array_ops import (
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/ops/array_ops.py", line 56, in <module>
+    from pandas.core.computation import expressions
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/computation/expressions.py", line 21, in <module>
+    from pandas.core.computation.check import NUMEXPR_INSTALLED
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/computation/check.py", line 5, in <module>
+    ne = import_optional_dependency("numexpr", errors="warn")
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/compat/_optional.py", line 135, in import_optional_dependency
+    module = importlib.import_module(name)
+  File "/mnt/mydisk/zhangxiaohan/anaconda3/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/mnt/mydisk/zhangxiaohan/anaconda3/lib/python3.10/site-packages/numexpr/__init__.py", line 24, in <module>
+    from numexpr.interpreter import MAX_THREADS, use_vml, __BLOCK_SIZE1__
+AttributeError: _ARRAY_API not found
+
+A module that was compiled using NumPy 1.x cannot be run in
+NumPy 2.2.6 as it may crash. To support both 1.x and 2.x
+versions of NumPy, modules must be compiled with NumPy 2.0.
+Some module may need to rebuild instead e.g. with 'pybind11>=2.12'.
+
+If you are a user of the module, the easiest solution will be to
+downgrade to 'numpy<2' or try to upgrade the affected module.
+We expect that some modules will need time to support NumPy 2.
+
+Traceback (most recent call last):  File "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/resume_solver_certificate_v2.py", line 36, in <module>
+    from review import run_matched_ablation_v2 as matched
+  File "/mnt/mydisk/zhangxiaohan/lin/tlqldmr/review/run_matched_ablation_v2.py", line 30, in <module>
+    import pandas as pd
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/__init__.py", line 49, in <module>
+    from pandas.core.api import (
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/api.py", line 28, in <module>
+    from pandas.core.arrays import Categorical
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/__init__.py", line 1, in <module>
+    from pandas.core.arrays.arrow import ArrowExtensionArray
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/arrow/__init__.py", line 5, in <module>
+    from pandas.core.arrays.arrow.array import ArrowExtensionArray
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/arrow/array.py", line 67, in <module>
+    from pandas.core.arrays.masked import BaseMaskedArray
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/arrays/masked.py", line 61, in <module>
+    from pandas.core import (
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/core/nanops.py", line 52, in <module>
+    bn = import_optional_dependency("bottleneck", errors="warn")
+  File "/mnt/mydisk/zhangxiaohan/.local/lib/python3.10/site-packages/pandas/compat/_optional.py", line 135, in import_optional_dependency
+    module = importlib.import_module(name)
+  File "/mnt/mydisk/zhangxiaohan/anaconda3/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "/mnt/mydisk/zhangxiaohan/anaconda3/lib/python3.10/site-packages/bottleneck/__init__.py", line 7, in <module>
+    from .move import (move_argmax, move_argmin, move_max, move_mean, move_median,
+AttributeError: _ARRAY_API not found
+{"phase": "matched_evaluation", "key": "within_site1|NoVariance|seed2", "rmse": 21.780154114102025}
+{"phase": "matched_evaluation", "key": "within_site1|NoDiscrepancy|seed0", "rmse": 22.117678388847878}
+{"phase": "matched_evaluation", "key": "within_site1|NoDiscrepancy|seed1", "rmse": 22.136299365932437}
+{"phase": "matched_evaluation", "key": "within_site1|NoDiscrepancy|seed2", "rmse": 21.788867068132014}
+{"phase": "matched_evaluation", "key": "within_site1|WeightedSVQR|seed0", "rmse": 22.12925024904416}
+{"phase": "matched_evaluation", "key": "within_site1|WeightedSVQR|seed1", "rmse": 22.13630434564908}
+{"phase": "matched_evaluation", "key": "within_site1|WeightedSVQR|seed2", "rmse": 21.791404057680694}
+{"phase": "matched_evaluation", "key": "within_site2|Full|seed0", "rmse": 22.97289984449563}
+{"phase": "matched_evaluation", "key": "within_site2|Full|seed1", "rmse": 23.3196633845189}
+{"phase": "matched_evaluation", "key": "within_site2|Full|seed2", "rmse": 22.715037541556715}
+{"phase": "matched_evaluation", "key": "within_site2|NoVariance|seed0", "rmse": 22.972899865505966}
+{"phase": "matched_evaluation", "key": "within_site2|NoVariance|seed1", "rmse": 23.31966338444142}
+{"phase": "matched_evaluation", "key": "within_site2|NoVariance|seed2", "rmse": 22.715037555033117}
+{"phase": "matched_evaluation", "key": "within_site2|NoDiscrepancy|seed0", "rmse": 22.972899850503385}
+{"phase": "matched_evaluation", "key": "within_site2|NoDiscrepancy|seed1", "rmse": 23.319663376023502}
+{"phase": "matched_evaluation", "key": "within_site2|NoDiscrepancy|seed2", "rmse": 22.715037616453674}
+{"phase": "matched_evaluation", "key": "within_site2|WeightedSVQR|seed0", "rmse": 22.97289987151366}
+{"phase": "matched_evaluation", "key": "within_site2|WeightedSVQR|seed1", "rmse": 23.319663375946025}
+{"phase": "matched_evaluation", "key": "within_site2|WeightedSVQR|seed2", "rmse": 22.71503762993007}
+{"phase": "matched_evaluation", "key": "within_site3|Full|seed0", "rmse": 13.150885906132682}
+{"phase": "matched_evaluation", "key": "within_site3|Full|seed1", "rmse": 13.48417021692337}
+{"phase": "matched_evaluation", "key": "within_site3|Full|seed2", "rmse": 14.18707190251833}
+{"phase": "matched_evaluation", "key": "within_site3|NoVariance|seed0", "rmse": 13.237045151835613}
+{"phase": "matched_evaluation", "key": "within_site3|NoVariance|seed1", "rmse": 13.668305609837743}
+{"phase": "matched_evaluation", "key": "within_site3|NoVariance|seed2", "rmse": 14.370932651123168}
+{"phase": "matched_evaluation", "key": "within_site3|NoDiscrepancy|seed0", "rmse": 13.15105960135627}
+{"phase": "matched_evaluation", "key": "within_site3|NoDiscrepancy|seed1", "rmse": 13.484776385508898}
+{"phase": "matched_evaluation", "key": "within_site3|NoDiscrepancy|seed2", "rmse": 14.18796570855196}
+{"phase": "matched_evaluation", "key": "within_site3|WeightedSVQR|seed0", "rmse": 13.236927148657879}
+{"phase": "matched_evaluation", "key": "within_site3|WeightedSVQR|seed1", "rmse": 13.669613395795364}
+{"phase": "matched_evaluation", "key": "within_site3|WeightedSVQR|seed2", "rmse": 14.370817273925214}
+{"phase": "matched_evaluation", "key": "within_site4|Full|seed0", "rmse": 6.4350025540227325}
+{"phase": "matched_evaluation", "key": "within_site4|Full|seed1", "rmse": 6.462347290555185}
+{"phase": "matched_evaluation", "key": "within_site4|Full|seed2", "rmse": 6.391410783028054}
+{"phase": "matched_evaluation", "key": "within_site4|NoVariance|seed0", "rmse": 6.435002458084473}
+{"phase": "matched_evaluation", "key": "within_site4|NoVariance|seed1", "rmse": 6.462347189210375}
+{"phase": "matched_evaluation", "key": "within_site4|NoVariance|seed2", "rmse": 6.391410818194205}
+{"phase": "matched_evaluation", "key": "within_site4|NoDiscrepancy|seed0", "rmse": 6.433479794423803}
+{"phase": "matched_evaluation", "key": "within_site4|NoDiscrepancy|seed1", "rmse": 6.447515869453941}
+{"phase": "matched_evaluation", "key": "within_site4|NoDiscrepancy|seed2", "rmse": 6.386710201689571}
+{"phase": "matched_evaluation", "key": "within_site4|WeightedSVQR|seed0", "rmse": 6.433479579835197}
+{"phase": "matched_evaluation", "key": "within_site4|WeightedSVQR|seed1", "rmse": 6.447515766987019}
+{"phase": "matched_evaluation", "key": "within_site4|WeightedSVQR|seed2", "rmse": 6.386710234349124}
+{"phase": "matched_evaluation", "key": "within_site5|Full|seed0", "rmse": 13.500233039274832}
+{"phase": "matched_evaluation", "key": "within_site5|Full|seed1", "rmse": 13.58212622213059}
+{"phase": "matched_evaluation", "key": "within_site5|Full|seed2", "rmse": 13.381096367322485}
+{"phase": "matched_evaluation", "key": "within_site5|NoVariance|seed0", "rmse": 13.424646347546451}
+{"phase": "matched_evaluation", "key": "within_site5|NoVariance|seed1", "rmse": 13.457414067420808}
+{"phase": "matched_evaluation", "key": "within_site5|NoVariance|seed2", "rmse": 13.31944305049726}
+{"phase": "matched_evaluation", "key": "within_site5|NoDiscrepancy|seed0", "rmse": 17.467682585241146}
+{"phase": "matched_evaluation", "key": "within_site5|NoDiscrepancy|seed1", "rmse": 17.650323106458696}
+{"phase": "matched_evaluation", "key": "within_site5|NoDiscrepancy|seed2", "rmse": 17.485187864497565}
+{"phase": "matched_evaluation", "key": "within_site5|WeightedSVQR|seed0", "rmse": 17.58115389322188}
+{"phase": "matched_evaluation", "key": "within_site5|WeightedSVQR|seed1", "rmse": 17.669912554086796}
+{"phase": "matched_evaluation", "key": "within_site5|WeightedSVQR|seed2", "rmse": 17.549185827758137}
+{"phase": "matched_evaluation", "key": "within_site6|Full|seed0", "rmse": 13.30265557481997}
+{"phase": "matched_evaluation", "key": "within_site6|Full|seed1", "rmse": 13.301377191496208}
+{"phase": "matched_evaluation", "key": "within_site6|Full|seed2", "rmse": 13.296426506505792}
+{"phase": "matched_evaluation", "key": "within_site6|NoVariance|seed0", "rmse": 12.108648166086502}
+{"phase": "matched_evaluation", "key": "within_site6|NoVariance|seed1", "rmse": 12.11251820612314}
+{"phase": "matched_evaluation", "key": "within_site6|NoVariance|seed2", "rmse": 12.10778292994914}
+{"phase": "matched_evaluation", "key": "within_site6|NoDiscrepancy|seed0", "rmse": 13.302657217296186}
+{"phase": "matched_evaluation", "key": "within_site6|NoDiscrepancy|seed1", "rmse": 13.301378800604793}
+{"phase": "matched_evaluation", "key": "within_site6|NoDiscrepancy|seed2", "rmse": 13.296428253644734}
+{"phase": "matched_evaluation", "key": "within_site6|WeightedSVQR|seed0", "rmse": 12.108649351880489}
+{"phase": "matched_evaluation", "key": "within_site6|WeightedSVQR|seed1", "rmse": 12.11251913259548}
+{"phase": "matched_evaluation", "key": "within_site6|WeightedSVQR|seed2", "rmse": 12.107783144771167}
+{"phase": "matched_evaluation", "key": "cross_site1|Full|seed0", "rmse": 22.50467094856362}
+{"phase": "matched_evaluation", "key": "cross_site1|Full|seed1", "rmse": 22.68775350281869}
+{"phase": "matched_evaluation", "key": "cross_site1|Full|seed2", "rmse": 22.472480851760167}
+{"phase": "matched_evaluation", "key": "cross_site1|NoVariance|seed0", "rmse": 22.504670949492194}
+{"phase": "matched_evaluation", "key": "cross_site1|NoVariance|seed1", "rmse": 22.687753505682878}
+{"phase": "matched_evaluation", "key": "cross_site1|NoVariance|seed2", "rmse": 22.472480852995908}
+{"phase": "matched_evaluation", "key": "cross_site1|NoDiscrepancy|seed0", "rmse": 22.50467094845765}
+{"phase": "matched_evaluation", "key": "cross_site1|NoDiscrepancy|seed1", "rmse": 22.68775351128879}
+{"phase": "matched_evaluation", "key": "cross_site1|NoDiscrepancy|seed2", "rmse": 22.47248085851922}
+{"phase": "matched_evaluation", "key": "cross_site1|WeightedSVQR|seed0", "rmse": 22.504670949386337}
+{"phase": "matched_evaluation", "key": "cross_site1|WeightedSVQR|seed1", "rmse": 22.68775351415302}
+{"phase": "matched_evaluation", "key": "cross_site1|WeightedSVQR|seed2", "rmse": 22.472480859754913}
+{"phase": "matched_evaluation", "key": "cross_site2|Full|seed0", "rmse": 24.13095634225224}
+{"phase": "matched_evaluation", "key": "cross_site2|Full|seed1", "rmse": 24.1265054382663}
+{"phase": "matched_evaluation", "key": "cross_site2|Full|seed2", "rmse": 24.12470654851288}
+{"phase": "matched_evaluation", "key": "cross_site2|NoVariance|seed0", "rmse": 24.13095637424228}
+{"phase": "matched_evaluation", "key": "cross_site2|NoVariance|seed1", "rmse": 24.126505428382647}
+{"phase": "matched_evaluation", "key": "cross_site2|NoVariance|seed2", "rmse": 24.12470662607608}
+{"phase": "matched_evaluation", "key": "cross_site2|NoDiscrepancy|seed0", "rmse": 24.130954736787697}
+{"phase": "matched_evaluation", "key": "cross_site2|NoDiscrepancy|seed1", "rmse": 24.126504344197624}
+{"phase": "matched_evaluation", "key": "cross_site2|NoDiscrepancy|seed2", "rmse": 24.124705769681096}
+{"phase": "matched_evaluation", "key": "cross_site2|WeightedSVQR|seed0", "rmse": 24.13095476877763}
+{"phase": "matched_evaluation", "key": "cross_site2|WeightedSVQR|seed1", "rmse": 24.126504334313772}
+{"phase": "matched_evaluation", "key": "cross_site2|WeightedSVQR|seed2", "rmse": 24.124705847248244}
+{"phase": "matched_evaluation", "key": "cross_site3|Full|seed0", "rmse": 12.700392797641499}
+{"phase": "matched_evaluation", "key": "cross_site3|Full|seed1", "rmse": 12.621939751207531}
+{"phase": "matched_evaluation", "key": "cross_site3|Full|seed2", "rmse": 12.60453885095375}
+{"phase": "matched_evaluation", "key": "cross_site3|NoVariance|seed0", "rmse": 12.51350876472638}
+{"phase": "matched_evaluation", "key": "cross_site3|NoVariance|seed1", "rmse": 12.519569346156736}
+{"phase": "matched_evaluation", "key": "cross_site3|NoVariance|seed2", "rmse": 12.467094094975957}
+{"phase": "matched_evaluation", "key": "cross_site3|NoDiscrepancy|seed0", "rmse": 12.708057094524722}
+{"phase": "matched_evaluation", "key": "cross_site3|NoDiscrepancy|seed1", "rmse": 12.6652985868572}
+{"phase": "matched_evaluation", "key": "cross_site3|NoDiscrepancy|seed2", "rmse": 12.656329312008797}
+{"phase": "matched_evaluation", "key": "cross_site3|WeightedSVQR|seed0", "rmse": 12.616668167859185}
+{"phase": "matched_evaluation", "key": "cross_site3|WeightedSVQR|seed1", "rmse": 12.610296882590594}
+{"phase": "matched_evaluation", "key": "cross_site3|WeightedSVQR|seed2", "rmse": 12.561439682601742}
+{"phase": "matched_evaluation", "key": "cross_site4|Full|seed0", "rmse": 5.3528305887405265}
+{"phase": "matched_evaluation", "key": "cross_site4|Full|seed1", "rmse": 5.232252258369834}
+{"phase": "matched_evaluation", "key": "cross_site4|Full|seed2", "rmse": 4.617810620975951}
+{"phase": "matched_evaluation", "key": "cross_site4|NoVariance|seed0", "rmse": 5.352830589311122}
+{"phase": "matched_evaluation", "key": "cross_site4|NoVariance|seed1", "rmse": 5.232252258710163}
+{"phase": "matched_evaluation", "key": "cross_site4|NoVariance|seed2", "rmse": 4.617810620944869}
+{"phase": "matched_evaluation", "key": "cross_site4|NoDiscrepancy|seed0", "rmse": 5.352625997949026}
+{"phase": "matched_evaluation", "key": "cross_site4|NoDiscrepancy|seed1", "rmse": 5.232159616909455}
+{"phase": "matched_evaluation", "key": "cross_site4|NoDiscrepancy|seed2", "rmse": 4.617812101681425}
+{"phase": "matched_evaluation", "key": "cross_site4|WeightedSVQR|seed0", "rmse": 5.35262599844296}
+{"phase": "matched_evaluation", "key": "cross_site4|WeightedSVQR|seed1", "rmse": 5.232159617278887}
+{"phase": "matched_evaluation", "key": "cross_site4|WeightedSVQR|seed2", "rmse": 4.617812101660911}
+{"phase": "matched_evaluation", "key": "cross_site5|Full|seed0", "rmse": 13.577882114140252}
+{"phase": "matched_evaluation", "key": "cross_site5|Full|seed1", "rmse": 13.568881587573314}
+{"phase": "matched_evaluation", "key": "cross_site5|Full|seed2", "rmse": 13.63533901048342}
+{"phase": "matched_evaluation", "key": "cross_site5|NoVariance|seed0", "rmse": 13.580478608894868}
+{"phase": "matched_evaluation", "key": "cross_site5|NoVariance|seed1", "rmse": 13.572555549257405}
+{"phase": "matched_evaluation", "key": "cross_site5|NoVariance|seed2", "rmse": 13.63487312475758}
+{"phase": "matched_evaluation", "key": "cross_site5|NoDiscrepancy|seed0", "rmse": 13.577882143621375}
+{"phase": "matched_evaluation", "key": "cross_site5|NoDiscrepancy|seed1", "rmse": 13.56888174582836}
+{"phase": "matched_evaluation", "key": "cross_site5|NoDiscrepancy|seed2", "rmse": 13.635339075782792}
+{"phase": "matched_evaluation", "key": "cross_site5|WeightedSVQR|seed0", "rmse": 13.580478635092671}
+{"phase": "matched_evaluation", "key": "cross_site5|WeightedSVQR|seed1", "rmse": 13.572555582342167}
+{"phase": "matched_evaluation", "key": "cross_site5|WeightedSVQR|seed2", "rmse": 13.634873218671022}
+{"phase": "matched_evaluation", "key": "cross_site6|Full|seed0", "rmse": 12.500394534705405}
+{"phase": "matched_evaluation", "key": "cross_site6|Full|seed1", "rmse": 12.733039206874297}
+{"phase": "matched_evaluation", "key": "cross_site6|Full|seed2", "rmse": 12.523933200753168}
+{"phase": "matched_evaluation", "key": "cross_site6|NoVariance|seed0", "rmse": 12.495597803465033}
+{"phase": "matched_evaluation", "key": "cross_site6|NoVariance|seed1", "rmse": 12.731556785903827}
+{"phase": "matched_evaluation", "key": "cross_site6|NoVariance|seed2", "rmse": 12.523018191132737}
+{"phase": "matched_evaluation", "key": "cross_site6|NoDiscrepancy|seed0", "rmse": 12.641681711623892}
+{"phase": "matched_evaluation", "key": "cross_site6|NoDiscrepancy|seed1", "rmse": 12.738675668784738}
+{"phase": "matched_evaluation", "key": "cross_site6|NoDiscrepancy|seed2", "rmse": 12.628499789783977}
+{"phase": "matched_evaluation", "key": "cross_site6|WeightedSVQR|seed0", "rmse": 12.647042599279915}
+{"phase": "matched_evaluation", "key": "cross_site6|WeightedSVQR|seed1", "rmse": 12.737614355938494}
+{"phase": "matched_evaluation", "key": "cross_site6|WeightedSVQR|seed2", "rmse": 12.626561657441425}

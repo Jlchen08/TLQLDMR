@@ -1,0 +1,703 @@
+{
+  "scope": "all eligible chronological target timestamps from 2019-01-01 through 2020-12-31",
+  "episode_definition": "maximal target-domain sequence with exactly 15 minutes between adjacent target timestamps",
+  "representative_rule": "longest episode at each site; earliest start breaks a duration tie; prediction errors are not used",
+  "source_script": "review/summarize_extreme_events.py",
+  "source_script_sha256": "40e3c858f2cea10f0d7db56af0b1cf02c747c4ff85ef9de8b2ccaa5c067faae7",
+  "sites": [
+    {
+      "site": 1,
+      "eligible_windows": 70012,
+      "thresholds": {
+        "wind_ms": 15.790360000000007,
+        "temperature_low_c": -15.341,
+        "temperature_high_c": 31.413120000000003,
+        "cutout_ms": 25.0
+      },
+      "rule_counts": {
+        "wind": 1464,
+        "cold": 1175,
+        "hot": 900,
+        "cutout": 20
+      },
+      "overlaps": {
+        "wind_and_cold": 0,
+        "wind_and_hot": 22,
+        "cold_and_hot": 0,
+        "wind_and_temperature": 22,
+        "multiple_base_rules": 22
+      },
+      "union_count": 3517,
+      "union_percent": 5.023424555790436,
+      "seasonal_counts": {
+        "DJF": 1266,
+        "MAM": 522,
+        "JJA": 1288,
+        "SON": 441
+      },
+      "seasonal_percent_of_union": {
+        "DJF": 35.99658800113733,
+        "MAM": 14.84219505260165,
+        "JJA": 36.62212112595962,
+        "SON": 12.539095820301393
+      },
+      "episodes": {
+        "count": 615,
+        "median_duration_hours": 0.5,
+        "p95_duration_hours": 6.574999999999989,
+        "max_duration_hours": 17.75,
+        "representative_selection": "longest episode; earliest start breaks a duration tie; prediction errors are not used",
+        "representative_longest": {
+          "start": "2020-12-29T19:00:00",
+          "end": "2020-12-30T12:30:00",
+          "samples": 71,
+          "duration_hours": 17.75,
+          "rule_counts": {
+            "wind": 0,
+            "cold": 71,
+            "hot": 0,
+            "cutout": 0
+          }
+        }
+      },
+      "rule_episodes": {
+        "wind": {
+          "count": 388,
+          "median_duration_hours": 0.5,
+          "p95_duration_hours": 3.9124999999999943,
+          "max_duration_hours": 10.0,
+          "representative_longest": {
+            "start": "2019-05-14T10:30:00",
+            "end": "2019-05-14T20:15:00",
+            "samples": 40,
+            "duration_hours": 10.0,
+            "rule_counts": {
+              "wind": 40
+            }
+          }
+        },
+        "cold": {
+          "count": 127,
+          "median_duration_hours": 0.5,
+          "p95_duration_hours": 10.924999999999997,
+          "max_duration_hours": 17.75,
+          "representative_longest": {
+            "start": "2020-12-29T19:00:00",
+            "end": "2020-12-30T12:30:00",
+            "samples": 71,
+            "duration_hours": 17.75,
+            "rule_counts": {
+              "cold": 71
+            }
+          }
+        },
+        "hot": {
+          "count": 111,
+          "median_duration_hours": 0.5,
+          "p95_duration_hours": 8.0,
+          "max_duration_hours": 10.5,
+          "representative_longest": {
+            "start": "2019-08-04T11:45:00",
+            "end": "2019-08-04T22:00:00",
+            "samples": 42,
+            "duration_hours": 10.5,
+            "rule_counts": {
+              "hot": 42
+            }
+          }
+        },
+        "cutout": {
+          "count": 8,
+          "median_duration_hours": 0.375,
+          "p95_duration_hours": 1.4874999999999996,
+          "max_duration_hours": 1.75,
+          "representative_longest": {
+            "start": "2020-06-21T04:30:00",
+            "end": "2020-06-21T06:00:00",
+            "samples": 7,
+            "duration_hours": 1.75,
+            "rule_counts": {
+              "cutout": 7
+            }
+          }
+        }
+      }
+    },
+    {
+      "site": 2,
+      "eligible_windows": 69950,
+      "thresholds": {
+        "wind_ms": 18.098,
+        "temperature_low_c": -14.44758,
+        "temperature_high_c": 31.625800000000016,
+        "cutout_ms": 25.0
+      },
+      "rule_counts": {
+        "wind": 1413,
+        "cold": 1494,
+        "hot": 793,
+        "cutout": 30
+      },
+      "overlaps": {
+        "wind_and_cold": 0,
+        "wind_and_hot": 1,
+        "cold_and_hot": 0,
+        "wind_and_temperature": 1,
+        "multiple_base_rules": 1
+      },
+      "union_count": 3699,
+      "union_percent": 5.288062902072909,
+      "seasonal_counts": {
+        "DJF": 2447,
+        "MAM": 181,
+        "JJA": 840,
+        "SON": 231
+      },
+      "seasonal_percent_of_union": {
+        "DJF": 66.1530143281968,
+        "MAM": 4.8932143822654774,
+        "JJA": 22.7088402270884,
+        "SON": 6.244931062449311
+      },
+      "episodes": {
+        "count": 442,
+        "median_duration_hours": 0.5,
+        "p95_duration_hours": 9.25,
+        "max_duration_hours": 28.0,
+        "representative_selection": "longest episode; earliest start breaks a duration tie; prediction errors are not used",
+        "representative_longest": {
+          "start": "2019-01-30T19:45:00",
+          "end": "2019-01-31T23:30:00",
+          "samples": 112,
+          "duration_hours": 28.0,
+          "rule_counts": {
+            "wind": 112,
+            "cold": 0,
+            "hot": 0,
+            "cutout": 24
+          }
+        }
+      },
+      "rule_episodes": {
+        "wind": {
+          "count": 255,
+          "median_duration_hours": 0.5,
+          "p95_duration_hours": 6.799999999999983,
+          "max_duration_hours": 28.0,
+          "representative_longest": {
+            "start": "2019-01-30T19:45:00",
+            "end": "2019-01-31T23:30:00",
+            "samples": 112,
+            "duration_hours": 28.0,
+            "rule_counts": {
+              "wind": 112
+            }
+          }
+        },
+        "cold": {
+          "count": 141,
+          "median_duration_hours": 1.0,
+          "p95_duration_hours": 11.75,
+          "max_duration_hours": 19.0,
+          "representative_longest": {
+            "start": "2019-02-08T17:30:00",
+            "end": "2019-02-09T12:15:00",
+            "samples": 76,
+            "duration_hours": 19.0,
+            "rule_counts": {
+              "cold": 76
+            }
+          }
+        },
+        "hot": {
+          "count": 47,
+          "median_duration_hours": 2.75,
+          "p95_duration_hours": 10.124999999999995,
+          "max_duration_hours": 11.5,
+          "representative_longest": {
+            "start": "2019-07-03T11:00:00",
+            "end": "2019-07-03T22:15:00",
+            "samples": 46,
+            "duration_hours": 11.5,
+            "rule_counts": {
+              "hot": 46
+            }
+          }
+        },
+        "cutout": {
+          "count": 14,
+          "median_duration_hours": 0.25,
+          "p95_duration_hours": 1.5999999999999996,
+          "max_duration_hours": 2.25,
+          "representative_longest": {
+            "start": "2019-01-31T12:30:00",
+            "end": "2019-01-31T14:30:00",
+            "samples": 9,
+            "duration_hours": 2.25,
+            "rule_counts": {
+              "cutout": 9
+            }
+          }
+        }
+      }
+    },
+    {
+      "site": 3,
+      "eligible_windows": 69840,
+      "thresholds": {
+        "wind_ms": 10.856,
+        "temperature_low_c": -0.41566,
+        "temperature_high_c": 31.10659999999996,
+        "cutout_ms": 25.0
+      },
+      "rule_counts": {
+        "wind": 2512,
+        "cold": 3539,
+        "hot": 1011,
+        "cutout": 1
+      },
+      "overlaps": {
+        "wind_and_cold": 172,
+        "wind_and_hot": 0,
+        "cold_and_hot": 0,
+        "wind_and_temperature": 172,
+        "multiple_base_rules": 172
+      },
+      "union_count": 6890,
+      "union_percent": 9.86540664375716,
+      "seasonal_counts": {
+        "DJF": 4130,
+        "MAM": 1128,
+        "JJA": 1112,
+        "SON": 520
+      },
+      "seasonal_percent_of_union": {
+        "DJF": 59.94194484760523,
+        "MAM": 16.37155297532656,
+        "JJA": 16.13933236574746,
+        "SON": 7.547169811320755
+      },
+      "episodes": {
+        "count": 713,
+        "median_duration_hours": 0.5,
+        "p95_duration_hours": 10.0,
+        "max_duration_hours": 76.25,
+        "representative_selection": "longest episode; earliest start breaks a duration tie; prediction errors are not used",
+        "representative_longest": {
+          "start": "2020-12-28T19:45:00",
+          "end": "2020-12-31T23:45:00",
+          "samples": 305,
+          "duration_hours": 76.25,
+          "rule_counts": {
+            "wind": 55,
+            "cold": 305,
+            "hot": 0,
+            "cutout": 0
+          }
+        }
+      },
+      "rule_episodes": {
+        "wind": {
+          "count": 545,
+          "median_duration_hours": 0.5,
+          "p95_duration_hours": 5.199999999999989,
+          "max_duration_hours": 17.0,
+          "representative_longest": {
+            "start": "2020-11-11T16:45:00",
+            "end": "2020-11-12T09:30:00",
+            "samples": 68,
+            "duration_hours": 17.0,
+            "rule_counts": {
+              "wind": 68
+            }
+          }
+        },
+        "cold": {
+          "count": 93,
+          "median_duration_hours": 2.5,
+          "p95_duration_hours": 44.999999999999986,
+          "max_duration_hours": 76.25,
+          "representative_longest": {
+            "start": "2020-12-28T19:45:00",
+            "end": "2020-12-31T23:45:00",
+            "samples": 305,
+            "duration_hours": 76.25,
+            "rule_counts": {
+              "cold": 305
+            }
+          }
+        },
+        "hot": {
+          "count": 109,
+          "median_duration_hours": 0.5,
+          "p95_duration_hours": 9.149999999999999,
+          "max_duration_hours": 11.0,
+          "representative_longest": {
+            "start": "2019-07-26T11:00:00",
+            "end": "2019-07-26T21:45:00",
+            "samples": 44,
+            "duration_hours": 11.0,
+            "rule_counts": {
+              "hot": 44
+            }
+          }
+        },
+        "cutout": {
+          "count": 1,
+          "median_duration_hours": 0.25,
+          "p95_duration_hours": 0.25,
+          "max_duration_hours": 0.25,
+          "representative_longest": {
+            "start": "2019-03-10T02:15:00",
+            "end": "2019-03-10T02:15:00",
+            "samples": 1,
+            "duration_hours": 0.25,
+            "rule_counts": {
+              "cutout": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "site": 4,
+      "eligible_windows": 69571,
+      "thresholds": {
+        "wind_ms": 16.88373308000001,
+        "temperature_low_c": -0.6001599599999999,
+        "temperature_high_c": 28.446667,
+        "cutout_ms": 25.0
+      },
+      "rule_counts": {
+        "wind": 884,
+        "cold": 743,
+        "hot": 1509,
+        "cutout": 47
+      },
+      "overlaps": {
+        "wind_and_cold": 22,
+        "wind_and_hot": 0,
+        "cold_and_hot": 0,
+        "wind_and_temperature": 22,
+        "multiple_base_rules": 22
+      },
+      "union_count": 3114,
+      "union_percent": 4.4760029322562565,
+      "seasonal_counts": {
+        "DJF": 934,
+        "MAM": 475,
+        "JJA": 1387,
+        "SON": 318
+      },
+      "seasonal_percent_of_union": {
+        "DJF": 29.993577392421322,
+        "MAM": 15.253692999357739,
+        "JJA": 44.5407835581246,
+        "SON": 10.211946050096339
+      },
+      "episodes": {
+        "count": 238,
+        "median_duration_hours": 1.25,
+        "p95_duration_hours": 10.149999999999977,
+        "max_duration_hours": 29.75,
+        "representative_selection": "longest episode; earliest start breaks a duration tie; prediction errors are not used",
+        "representative_longest": {
+          "start": "2020-02-14T09:15:00",
+          "end": "2020-02-15T14:45:00",
+          "samples": 119,
+          "duration_hours": 29.75,
+          "rule_counts": {
+            "wind": 119,
+            "cold": 13,
+            "hot": 0,
+            "cutout": 36
+          }
+        }
+      },
+      "rule_episodes": {
+        "wind": {
+          "count": 98,
+          "median_duration_hours": 0.75,
+          "p95_duration_hours": 11.18749999999999,
+          "max_duration_hours": 29.75,
+          "representative_longest": {
+            "start": "2020-02-14T09:15:00",
+            "end": "2020-02-15T14:45:00",
+            "samples": 119,
+            "duration_hours": 29.75,
+            "rule_counts": {
+              "wind": 119
+            }
+          }
+        },
+        "cold": {
+          "count": 32,
+          "median_duration_hours": 3.25,
+          "p95_duration_hours": 21.2,
+          "max_duration_hours": 28.75,
+          "representative_longest": {
+            "start": "2019-01-09T06:15:00",
+            "end": "2019-01-10T10:45:00",
+            "samples": 115,
+            "duration_hours": 28.75,
+            "rule_counts": {
+              "cold": 115
+            }
+          }
+        },
+        "hot": {
+          "count": 114,
+          "median_duration_hours": 3.0,
+          "p95_duration_hours": 8.587499999999999,
+          "max_duration_hours": 13.25,
+          "representative_longest": {
+            "start": "2020-06-30T12:30:00",
+            "end": "2020-07-01T01:30:00",
+            "samples": 53,
+            "duration_hours": 13.25,
+            "rule_counts": {
+              "hot": 53
+            }
+          }
+        },
+        "cutout": {
+          "count": 8,
+          "median_duration_hours": 0.875,
+          "p95_duration_hours": 4.8249999999999975,
+          "max_duration_hours": 6.75,
+          "representative_longest": {
+            "start": "2020-02-15T02:00:00",
+            "end": "2020-02-15T08:30:00",
+            "samples": 27,
+            "duration_hours": 6.75,
+            "rule_counts": {
+              "cutout": 27
+            }
+          }
+        }
+      }
+    },
+    {
+      "site": 5,
+      "eligible_windows": 68978,
+      "thresholds": {
+        "wind_ms": 13.005466939999998,
+        "temperature_low_c": 0.0,
+        "temperature_high_c": 29.82,
+        "cutout_ms": 25.0
+      },
+      "rule_counts": {
+        "wind": 1407,
+        "cold": 270,
+        "hot": 947,
+        "cutout": 3
+      },
+      "overlaps": {
+        "wind_and_cold": 13,
+        "wind_and_hot": 0,
+        "cold_and_hot": 0,
+        "wind_and_temperature": 13,
+        "multiple_base_rules": 13
+      },
+      "union_count": 2611,
+      "union_percent": 3.7852648670590625,
+      "seasonal_counts": {
+        "DJF": 392,
+        "MAM": 517,
+        "JJA": 1265,
+        "SON": 437
+      },
+      "seasonal_percent_of_union": {
+        "DJF": 15.013404825737265,
+        "MAM": 19.800842589046344,
+        "JJA": 48.44887016468786,
+        "SON": 16.736882420528534
+      },
+      "episodes": {
+        "count": 318,
+        "median_duration_hours": 0.75,
+        "p95_duration_hours": 7.75,
+        "max_duration_hours": 26.75,
+        "representative_selection": "longest episode; earliest start breaks a duration tie; prediction errors are not used",
+        "representative_longest": {
+          "start": "2019-09-12T23:30:00",
+          "end": "2019-09-14T02:00:00",
+          "samples": 107,
+          "duration_hours": 26.75,
+          "rule_counts": {
+            "wind": 107,
+            "cold": 0,
+            "hot": 0,
+            "cutout": 3
+          }
+        }
+      },
+      "rule_episodes": {
+        "wind": {
+          "count": 220,
+          "median_duration_hours": 0.5,
+          "p95_duration_hours": 6.0,
+          "max_duration_hours": 26.75,
+          "representative_longest": {
+            "start": "2019-09-12T23:30:00",
+            "end": "2019-09-14T02:00:00",
+            "samples": 107,
+            "duration_hours": 26.75,
+            "rule_counts": {
+              "wind": 107
+            }
+          }
+        },
+        "cold": {
+          "count": 15,
+          "median_duration_hours": 3.5,
+          "p95_duration_hours": 10.19999999999999,
+          "max_duration_hours": 16.5,
+          "representative_longest": {
+            "start": "2020-12-30T20:45:00",
+            "end": "2020-12-31T13:00:00",
+            "samples": 66,
+            "duration_hours": 16.5,
+            "rule_counts": {
+              "cold": 66
+            }
+          }
+        },
+        "hot": {
+          "count": 87,
+          "median_duration_hours": 1.0,
+          "p95_duration_hours": 8.775000000000002,
+          "max_duration_hours": 15.0,
+          "representative_longest": {
+            "start": "2019-08-16T10:00:00",
+            "end": "2019-08-17T00:45:00",
+            "samples": 60,
+            "duration_hours": 15.0,
+            "rule_counts": {
+              "hot": 60
+            }
+          }
+        },
+        "cutout": {
+          "count": 1,
+          "median_duration_hours": 0.75,
+          "p95_duration_hours": 0.75,
+          "max_duration_hours": 0.75,
+          "representative_longest": {
+            "start": "2019-09-13T09:00:00",
+            "end": "2019-09-13T09:30:00",
+            "samples": 3,
+            "duration_hours": 0.75,
+            "rule_counts": {
+              "cutout": 3
+            }
+          }
+        }
+      }
+    },
+    {
+      "site": 6,
+      "eligible_windows": 69782,
+      "thresholds": {
+        "wind_ms": 15.43,
+        "temperature_low_c": 10.24,
+        "temperature_high_c": 31.36,
+        "cutout_ms": 25.0
+      },
+      "rule_counts": {
+        "wind": 1673,
+        "cold": 1150,
+        "hot": 1946,
+        "cutout": 0
+      },
+      "overlaps": {
+        "wind_and_cold": 57,
+        "wind_and_hot": 1,
+        "cold_and_hot": 0,
+        "wind_and_temperature": 58,
+        "multiple_base_rules": 58
+      },
+      "union_count": 4711,
+      "union_percent": 6.7510246195293915,
+      "seasonal_counts": {
+        "DJF": 1566,
+        "MAM": 141,
+        "JJA": 1850,
+        "SON": 1154
+      },
+      "seasonal_percent_of_union": {
+        "DJF": 33.241350031840376,
+        "MAM": 2.9929951178093823,
+        "JJA": 39.26979409891743,
+        "SON": 24.495860751432815
+      },
+      "episodes": {
+        "count": 920,
+        "median_duration_hours": 0.5,
+        "p95_duration_hours": 6.0,
+        "max_duration_hours": 36.75,
+        "representative_selection": "longest episode; earliest start breaks a duration tie; prediction errors are not used",
+        "representative_longest": {
+          "start": "2019-02-16T18:30:00",
+          "end": "2019-02-18T07:00:00",
+          "samples": 147,
+          "duration_hours": 36.75,
+          "rule_counts": {
+            "wind": 0,
+            "cold": 147,
+            "hot": 0,
+            "cutout": 0
+          }
+        }
+      },
+      "rule_episodes": {
+        "wind": {
+          "count": 657,
+          "median_duration_hours": 0.25,
+          "p95_duration_hours": 2.0,
+          "max_duration_hours": 15.5,
+          "representative_longest": {
+            "start": "2019-08-24T02:15:00",
+            "end": "2019-08-24T17:30:00",
+            "samples": 62,
+            "duration_hours": 15.5,
+            "rule_counts": {
+              "wind": 62
+            }
+          }
+        },
+        "cold": {
+          "count": 92,
+          "median_duration_hours": 0.75,
+          "p95_duration_hours": 15.425000000000018,
+          "max_duration_hours": 36.75,
+          "representative_longest": {
+            "start": "2019-02-16T18:30:00",
+            "end": "2019-02-18T07:00:00",
+            "samples": 147,
+            "duration_hours": 36.75,
+            "rule_counts": {
+              "cold": 147
+            }
+          }
+        },
+        "hot": {
+          "count": 201,
+          "median_duration_hours": 0.75,
+          "p95_duration_hours": 8.5,
+          "max_duration_hours": 18.5,
+          "representative_longest": {
+            "start": "2019-08-09T00:45:00",
+            "end": "2019-08-09T19:00:00",
+            "samples": 74,
+            "duration_hours": 18.5,
+            "rule_counts": {
+              "hot": 74
+            }
+          }
+        },
+        "cutout": null
+      }
+    }
+  ]
+}

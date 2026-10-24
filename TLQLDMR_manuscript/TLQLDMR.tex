@@ -75,6 +75,8 @@
 \usepackage{url}
 \usepackage{verbatim}
 \usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,shapes.geometric,decorations.pathreplacing}
 \usepackage{epstopdf}
 \epstopdfsetup{outdir=./build/}
 \graphicspath{{./}{./build/}}
@@ -391,7 +393,7 @@ The overall architecture of the proposed TL-QLDMR model is illustrated in Fig. \
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{build/framework.pdf}
+\resizebox{\textwidth}{!}{\input{framework.tikz}}
 \caption{Overall architecture of the proposed TL-QLDMR model. The left column shows the five-stage pipeline: cross-domain data preparation, supervised transfer learning, quantile-aware objective construction, scalable optimization, and forecast outputs. Each stage is elaborated in the corresponding right panel. In the supervised transfer stage, the shared kernel representation branches into feature-space alignment via MMD in RKHS and label-space adaptation via target-weighted pinball loss (indicated by dashed arrows). The quantile-aware objective decomposes into four additive terms: structural risk $R_{\mathrm{SR}}$, distribution variance $R_{\mathrm{DV}}$, domain adaptation $R_{\mathrm{DA}}$, and weighted pinball loss $R_{\mathrm{Q}}$. The optimization stage provides both an exact dual QP solver and a scalable Nystr\"om-SGD solver with complexity reduction from $O(N^3)$ to $O(T \cdot N \cdot m)$. The final outputs include deterministic point forecasts and probabilistic prediction intervals.}
 \label{fig:framework}
 \end{figure}

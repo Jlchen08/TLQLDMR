@@ -1,0 +1,28 @@
+{
+  "version": "selection_v2_render_1",
+  "role": "presentation-only rendering of completed, independently verified analyses",
+  "selection_design_required": "12 tasks x 6 methods = 72 task-method rows",
+  "matched_design_required": "12 tasks x 4 variants = 48 task-variant rows",
+  "task_policy": "retain every predeclared task, method, variant, and seed; no outcome-based filtering",
+  "method_order": [
+    "Full",
+    "NoVariance",
+    "NoDiscrepancy",
+    "WeightedSVQR",
+    "TargetSVQR",
+    "HistGBR"
+  ],
+  "variant_order": [
+    "Full",
+    "NoVariance",
+    "NoDiscrepancy",
+    "WeightedSVQR"
+  ],
+  "scope_order": [
+    "within",
+    "cross"
+  ],
+  "primary_figure": "six within-farm capacity-normalized RMSE values; descriptive min-max seed ranges are shown when repeated algorithmic seeds exist",
+  "rank_figure": "site-equal average task ranks in within and cross scopes",
+  "latex_style": "all tables use LaTeX small size and fixed tabular spacing; no scaling box"
+}

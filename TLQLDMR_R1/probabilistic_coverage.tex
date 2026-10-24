@@ -1,0 +1,31 @@
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Legacy exploratory Farm~6 interval calibration. Each cell gives PICP/MPIW, where MPIW is in MW. S uses fixed Q2 calibration and R is the past-only 256-score rolling update.}}
+\label{tab:probabilistic_coverage}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llrrrr}
+\toprule
+Method & Calibration & 50\% & 80\% & 90\% & 95\% \\
+\midrule
+Full & S & 0.532/11.21 & 0.894/30.86 & 0.960/41.52 & 0.977/54.75 \\
+Full & R & 0.514/11.20 & 0.855/26.19 & 0.956/39.65 & 0.984/61.92 \\
+\addlinespace
+No variance & S & 0.505/11.69 & 0.807/24.20 & 0.916/34.84 & 0.959/43.75 \\
+No variance & R & 0.528/12.83 & 0.847/26.72 & 0.939/36.68 & 0.970/51.07 \\
+\addlinespace
+No discrepancy & S & 0.532/11.20 & 0.894/30.87 & 0.960/41.52 & 0.977/54.75 \\
+No discrepancy & R & 0.514/11.20 & 0.855/26.19 & 0.956/39.65 & 0.984/61.92 \\
+\addlinespace
+Weighted SVQR & S & 0.505/11.69 & 0.807/24.20 & 0.916/34.85 & 0.959/43.75 \\
+Weighted SVQR & R & 0.529/12.83 & 0.847/26.72 & 0.939/36.68 & 0.970/51.08 \\
+\addlinespace
+Target SVQR & S & 0.444/8.63 & 0.853/22.37 & 0.933/32.70 & 0.981/46.56 \\
+Target SVQR & R & 0.481/10.79 & 0.816/22.00 & 0.922/32.42 & 0.959/49.71 \\
+\addlinespace
+HistGBR & S & 0.498/9.73 & 0.854/20.98 & 0.930/32.55 & 0.974/60.11 \\
+HistGBR & R & 0.528/10.32 & 0.858/21.09 & 0.935/32.72 & 0.973/60.66 \\
+\bottomrule
+\end{tabular}}
+\end{table}

@@ -1,0 +1,439 @@
+\subsection{Chronological protocol}\label{sec:chronological}
+
+% BEGIN STUDY BLOCK chronological_protocol
+{\color{blue}The experiments use the supplied original workbooks with chronological separation of fitting, validation, calibration, and testing. Model fitting uses 1 January--31 December 2019. The first quarter of 2020 is the validation period: the independently tuned formal procedure comparison uses Q1 only for its frozen model-selection protocol, whereas the fixed-setting sensitivity analyses that follow do not use Q1 to select their common reference configuration. April--June 2020 (Q2) supplies interval-calibration labels for the procedure comparison, and July--December 2020 (Q3--Q4) supplies test labels. The procedure-comparison workflow accesses Q3--Q4 only after its selection and analysis specifications are locked. The matched point analysis uses no Q2 label, and its configurations and analysis specification are locked before its Q3--Q4 evaluation. All boundaries are left-inclusive and right-exclusive at midnight. The forecast horizon is 15 minutes: each input contains the preceding 24 observations, with consecutive input-to-input and last-input-to-target intervals of exactly 15 minutes. Adjacent windows on opposite sides of a period boundary may share already observed input rows, as in rolling forecasting, but every forecast target belongs to exactly one period. No Q1, Q2, or Q3--Q4 label enters the 2019 fit; no Q2 or Q3--Q4 label enters Q1 model selection; and no Q3--Q4 label enters fixed Q2 calibration. Past-only rolling calibration is evaluated separately: it can use Q3--Q4 outcomes revealed strictly before the current forecast and adds the current outcome only after issuing that forecast. Random sampling is confined to the 2019 fitting pool and to algorithmic landmark seeds; it does not create the calendar partitions.}
+
+{\color{blue}The study uses two common meteorological input tracks across all six sites. The formal validation-selected comparison uses four wind speeds, temperature, atmospheric pressure, relative humidity, and sine/cosine encodings of four wind directions at each of the 24 strictly preceding observations, giving 15 variables per step and 360 flattened inputs. The fixed-setting sensitivity analyses retain the earlier track of four wind speeds, temperature, and the same eight directional encodings, giving 13 variables per step and 312 flattened inputs. Neither track uses past power or future meteorological values. Times written as 24:00 are normalized to the next day; all rows sharing an ambiguous duplicate timestamp are removed before chronological sorting. Missing codes ($-99$), nonfinite values, all-zero meteorological records, negative wind speeds, and directions outside $[0,360]$ are treated as missing covariates. Targets with missing power, hub wind, or temperature and windows with non-15-minute gaps are excluded by fixed rules. Other power values, including negative or above-capacity observations, are retained. Missing input values are replaced by lag-specific fitting means; an entirely missing coordinate uses zero. Feature standardization and capacity-normalized label standardization use only the observations actually fitted in that branch, excluding unused target labels in scarcity experiments. No future-value filling, clipping, or error-based exclusions are applied. The original files are preserved, although their upstream measurement and processing history is not fully documented.}
+
+{\color{blue}Domain thresholds use valid meteorological observations from 2019 only. Farm~6 thresholds are 15.43\,m/s for wind and 10.24/31.36\,$^\circ$C for temperature; its training set contains 32,832 source and 2,076 target windows. Table~\ref{tab:chronological_counts} reports all six sites. Test membership is determined retrospectively from observed target-time weather; this protocol does not forecast event onset. The time split, missing-value rules, and common-setting comparison grids were specified before those fits. This is a temporal holdout within a previously studied public dataset.}
+% END STUDY BLOCK chronological_protocol
+
+% BEGIN STUDY BLOCK chronological_counts
+\begin{table}[pos=htbp]
+\centering
+\caption{\textcolor{blue}{Eligible chronological windows by source/target domain. Each entry is source/target (target percentage of eligible windows). Training: 2019; reserved validation: 2020 Q1; calibration: Q2; test: Q3--Q4.}}
+\label{tab:chronological_counts}
+{\color{blue}\small
+\begin{tabular}{crrrr}
+\toprule
+Site & Training S/T (\%) & Validation S/T (\%) & Calibration S/T (\%) & Test S/T (\%) \\
+\midrule
+1 & 32,851/2,070 (5.93) & 8,566/169 (1.93) & 8,430/305 (3.49) & 16,648/973 (5.52) \\
+2 & 32,869/2,079 (5.95) & 8,033/617 (7.13) & 8,634/102 (1.17) & 16,715/901 (5.11) \\
+3 & 32,803/2,041 (5.86) & 6,326/2,410 (27.59) & 7,861/862 (9.88) & 15,960/1,577 (8.99) \\
+4 & 32,764/2,057 (5.91) & 8,381/212 (2.47) & 8,287/319 (3.71) & 17,025/526 (3.00) \\
+5 & 32,941/1,395 (4.06) & 8,365/134 (1.58) & 8,230/362 (4.21) & 16,831/720 (4.10) \\
+6 & 32,832/2,076 (5.95) & 8,559/177 (2.03) & 8,430/225 (2.60) & 15,250/2,233 (12.77) \\
+\bottomrule
+\end{tabular}}
+\end{table}
+% END STUDY BLOCK chronological_counts
+
+% BEGIN STUDY BLOCK chronological_settings
+{\color{blue}The fixed-setting sensitivity analyses use $\lambda_1=\lambda_2=1$, RBF bandwidth parameter $\gamma=0.003$, 256 requested landmarks, batch size 256, Adam learning rate 0.01, and 64 epochs, on an Intel Xeon Platinum 8452Y host with one computational thread (Python 3.10.9, NumPy 2.2.6, and scikit-learn 1.7.2). These values define a common reference configuration for probing model behavior; the formal comparison applies its separately frozen Q1 selection protocol. Unless varied explicitly, loss coefficients are $C_S=1000/(2n_S)$ and $C_T=1000/(2n_T)$, so both domains receive equal total coefficient mass and $n_SC_S+n_TC_T=1000$. Target-only fitting uses $C_T=1000/n_T$, centered target residual variance, no projected discrepancy, and its own fitting statistics and landmarks. Its epochs are raised to the smallest integer giving at least as many Adam updates as the paired full model; equal update opportunities do not certify equal optimization accuracy. The full, no-variance, no-discrepancy, and target-only variants use seeds 0, 1, and 2. These are algorithmic repeats on a shared test period, not independent datasets or confidence intervals.}
+
+{\color{blue}Point prediction uses $\tau=0.5$. Interval fits use $\tau_L=0.025$ and $\tau_U=0.975$. Define ordered endpoints $\ell(x)=\min\{f_{\tau_L}(x),f_{\tau_U}(x)\}$ and $u(x)=\max\{f_{\tau_L}(x),f_{\tau_U}(x)\}$. Calibration scores are $s_i=\max\{\ell(x_i)-y_i,y_i-u(x_i),0\}$. With $\alpha=0.05$, set $k=\lceil(n_{\rm cal}+1)(1-\alpha)\rceil$, $q=s_{(k)}$, and report $[\ell(x)-q,u(x)+q]$. A finite interval requires $k\le n_{\rm cal}$. On Farm~6, $n_{\rm cal}=225$ and $k=215$. This formula defines the fixed Q2 expansion, to which no Q3--Q4 label contributes. The separately reported past-only rolling expansion may use only Q3--Q4 outcomes revealed before each forecast; it never uses the current or a future outcome. These are empirical temporal evaluations without an exchangeability or conditional-coverage guarantee \citep{romano2019cqr}.}
+
+{\color{blue}Each branch saves source/target fitting identifiers, preprocessing statistics, landmarks, model coefficients, calibration scores, and individual test predictions. Code and workbook hashes accompany the fixed protocol. Reported fitting time includes landmark selection, feature construction, regularizer construction, and Adam, but excludes workbook loading, preprocessing, prediction, and post-fit objective diagnostics. Timings are wall-clock measurements from a shared compute host. Seed ranges throughout these analyses describe algorithmic variation rather than confidence intervals; fitting times do not represent inference or deployment latency.}
+% END STUDY BLOCK chronological_settings
+
+% Validation-selected comparison is maintained separately.
+\input{selection_study}
+
+\paragraph{\textcolor{blue}{Scope of the remaining analyses.}}
+{\color{blue}The experiments that follow retain the earlier 13-variable input track and fixed reference configuration. They probe component removal, cross-farm transfer, target-label scarcity, domain weighting, meteorological-tail definitions, temporal and meteorological subsets, and computational scaling. These experiments are interpreted as descriptive sensitivity analyses and are not combined with the formal primary or secondary endpoints.}
+
+% BEGIN STUDY BLOCK chronological_components
+\subsection{\textcolor{blue}{Fixed-setting component sensitivity}}
+{\color{blue}Tables~\ref{tab:chronological_components_point} and \ref{tab:chronological_components_interval} report all four variants and all three seeds on the same 2,233 target test windows. Full-model mean RMSE is 12.383799 MW, compared with 12.352255 MW without variance, 12.389858 MW without projected discrepancy, and 12.878027 MW for target-only fitting. The variance term does not improve mean RMSE at this configuration. Full-model mean coverage is 0.978952 and mean width is 49.831044 MW; target-only fitting gives coverage 0.972682, width 41.148553 MW, and a lower mean Winkler score (64.713291 versus 67.038129 MW). Thus point and interval criteria do not establish a uniform model ranking.}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Component evaluation at common settings: seed mean [minimum, maximum].}}
+\label{tab:chronological_components_point}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+Variant & Runs & $n_{test}$ & RMSE (MW) & MAE (MW) & $R^2$ & Fit (s) \\
+\midrule
+Full & 3 & 2233 & 12.384 [12.277, 12.538] & 7.592 [7.420, 7.831] & 0.888 [0.885, 0.890] & 7.72 [6.93, 8.98] \\
+NoVariance & 3 & 2233 & 12.352 [12.214, 12.527] & 7.551 [7.409, 7.782] & 0.888 [0.885, 0.891] & 7.07 [6.85, 7.31] \\
+No discrepancy & 3 & 2233 & 12.390 [12.323, 12.470] & 7.594 [7.496, 7.739] & 0.888 [0.886, 0.889] & 7.40 [7.05, 8.08] \\
+TargetOnly & 3 & 2233 & 12.878 [12.566, 13.077] & 7.799 [7.499, 7.957] & 0.879 [0.875, 0.884] & 5.51 [5.44, 5.56] \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Component evaluation at common settings: seed mean [minimum, maximum].}}
+\label{tab:chronological_components_interval}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+Variant & Runs & $n_{test}$ & PICP & MPIW (MW) & Winkler (MW) & Fit (s) \\
+\midrule
+Full & 3 & 2233 & 0.979 [0.975, 0.985] & 49.831 [48.596, 51.909] & 67.038 [66.187, 68.405] & 14.69 [14.20, 15.26] \\
+NoVariance & 3 & 2233 & 0.976 [0.974, 0.980] & 47.907 [47.126, 49.310] & 65.973 [65.636, 66.495] & 14.99 [13.97, 15.86] \\
+No discrepancy & 3 & 2233 & 0.976 [0.973, 0.981] & 48.751 [47.275, 50.409] & 66.645 [65.600, 67.754] & 14.02 [13.78, 14.32] \\
+TargetOnly & 3 & 2233 & 0.973 [0.968, 0.982] & 41.149 [38.901, 45.348] & 64.713 [64.016, 65.710] & 10.83 [10.64, 10.99] \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\FloatBarrier
+% END STUDY BLOCK chronological_components
+
+% BEGIN STUDY BLOCK chronological_crossfarm
+\subsection{\textcolor{blue}{Fixed-setting cross-farm sensitivity}}
+{\color{blue}Each site is evaluated as the target in turn. Sources are 2019 normal-domain observations from the other five sites, capped at 6,000 per source site by deterministic time-even subsampling (30,000 in total). A seed-0 subset of 128 target-site training-period meteorological-tail labels supports supervised adaptation. Power is normalized by the corresponding site's capacity before common fitting-only standardization, and predictions are converted back to the target site's MW scale. The paired target-only fit uses exactly the same target fitting labels, its own preprocessing and landmarks, and at least the full model's number of Adam updates. The effective feature dimensions are 256 for the full model and 128 for target-only fitting, which has only 128 fitting inputs. Both receive 7,552 Adam updates. These compare complete fitting procedures, including different preprocessing, feature maps, and residual-variance domains; they do not isolate a causal effect of adding source labels. All target calibration labels are additional to the 128 fitting labels and are counted in the interval table. This is supervised cross-farm adaptation, not transfer to a site with no labeled target data. Full/target-only RMSE pairs for sites 1--6 are 19.880752/23.218175, 27.819462/24.956039, 11.485825/14.297631, 5.302804/6.559925, 10.702967/17.443978, and 13.775753/13.097317 MW. The source-inclusive Full procedure has lower test RMSE on four sites and higher test RMSE on sites 2 and 6 at this fixed setting. Full-model interval coverage ranges from 0.563889 on site 5 to 1.000000 on site 4, despite the nominal calibration target of 0.95. The gains and losses demonstrate heterogeneous transfer behavior, while the coverage variation reveals substantial temporal calibration error on some sites.}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Cross-farm supervised adaptation with exactly 128 target fitting labels; source normals come from the other five farms. Target-only fitting uses the same selected labels. Interval calibration labels are additional and reported separately. Fixed parameters are not claimed optimal.}}
+\label{tab:chronological_crossfarm_point}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllllll}
+\toprule
+Site & Variant & $n_S$ & $n_T$ & $n_{cal}$ & $n_{test}$ & RMSE (MW) & MAE (MW) & $R^2$ \\
+\midrule
+1 & Full & 30000 & 128 & 0 & 973 & 19.881 & 13.142 & 0.669 \\
+1 & TargetOnly & 0 & 128 & 0 & 973 & 23.218 & 15.858 & 0.548 \\
+2 & Full & 30000 & 128 & 0 & 901 & 27.819 & 18.156 & 0.738 \\
+2 & TargetOnly & 0 & 128 & 0 & 901 & 24.956 & 17.056 & 0.789 \\
+3 & Full & 30000 & 128 & 0 & 1577 & 11.486 & 8.233 & 0.842 \\
+3 & TargetOnly & 0 & 128 & 0 & 1577 & 14.298 & 11.082 & 0.756 \\
+4 & Full & 30000 & 128 & 0 & 526 & 5.303 & 3.829 & 0.538 \\
+4 & TargetOnly & 0 & 128 & 0 & 526 & 6.560 & 4.775 & 0.293 \\
+5 & Full & 30000 & 128 & 0 & 720 & 10.703 & 8.279 & 0.501 \\
+5 & TargetOnly & 0 & 128 & 0 & 720 & 17.444 & 16.096 & -0.326 \\
+6 & Full & 30000 & 128 & 0 & 2233 & 13.776 & 8.675 & 0.861 \\
+6 & TargetOnly & 0 & 128 & 0 & 2233 & 13.097 & 8.035 & 0.875 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Cross-farm supervised adaptation with exactly 128 target fitting labels; source normals come from the other five farms. Target-only fitting uses the same selected labels. Interval calibration labels are additional and reported separately. Fixed parameters are not claimed optimal.}}
+\label{tab:chronological_crossfarm_interval}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllllll}
+\toprule
+Site & Variant & $n_S$ & $n_T$ & $n_{cal}$ & $n_{test}$ & PICP & MPIW (MW) & Winkler (MW) \\
+\midrule
+1 & Full & 30000 & 128 & 305 & 973 & 0.932 & 85.372 & 99.861 \\
+1 & TargetOnly & 0 & 128 & 305 & 973 & 0.906 & 83.096 & 121.990 \\
+2 & Full & 30000 & 128 & 102 & 901 & 0.999 & 140.008 & 140.025 \\
+2 & TargetOnly & 0 & 128 & 102 & 901 & 0.976 & 130.109 & 156.217 \\
+3 & Full & 30000 & 128 & 862 & 1577 & 0.942 & 57.557 & 64.117 \\
+3 & TargetOnly & 0 & 128 & 862 & 1577 & 0.992 & 80.844 & 83.264 \\
+4 & Full & 30000 & 128 & 319 & 526 & 1.000 & 28.198 & 28.198 \\
+4 & TargetOnly & 0 & 128 & 319 & 526 & 0.966 & 23.358 & 26.895 \\
+5 & Full & 30000 & 128 & 362 & 720 & 0.564 & 29.704 & 59.361 \\
+5 & TargetOnly & 0 & 128 & 362 & 720 & 0.157 & 19.048 & 272.558 \\
+6 & Full & 30000 & 128 & 225 & 2233 & 0.988 & 75.095 & 77.014 \\
+6 & TargetOnly & 0 & 128 & 225 & 2233 & 0.947 & 37.805 & 66.404 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\FloatBarrier
+% END STUDY BLOCK chronological_crossfarm
+
+% BEGIN STUDY BLOCK chronological_scarcity
+\subsection{\textcolor{blue}{Target-label scarcity sensitivity}}
+{\color{blue}The source set is fixed at 32,832 windows while target fitting budgets are 16, 32, 64, 128, 256, 512, and all 2,076 labels. Each seed defines one random target ordering, so subsets are nested within that seed. Loss coefficient masses remain 500 per domain, and preprocessing excludes unused target labels. Mean RMSE in increasing budget order is 13.714772, 13.557232, 13.335648, 12.438363, 12.661963, 12.700270, and 12.383799 MW. The 16-label range is 12.466359--15.781608 MW, compared with 12.276768--12.538363 MW using all labels. The smallest budgets show higher mean error and variability, but the curve is not strictly monotonic. This analysis concerns point prediction; interval calibration would require additional target labels.}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Target-label scarcity with fixed source data and matched domain loss masses; seed mean [minimum, maximum]. Only point fitting is evaluated here.}}
+\label{tab:chronological_scarcity}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llllllll}
+\toprule
+Target-label budget & Runs & $n_S$ & $n_T$ & Effective $m$ & RMSE (MW) & MAE (MW) & Fit (s) \\
+\midrule
+16 & 3 & 32832 & 16 & 256 & 13.715 [12.466, 15.782] & 9.140 [7.849, 11.181] & 7.90 [7.52, 8.28] \\
+32 & 3 & 32832 & 32 & 256 & 13.557 [12.621, 14.254] & 8.817 [7.203, 9.629] & 7.11 [6.82, 7.67] \\
+64 & 3 & 32832 & 64 & 256 & 13.336 [12.456, 14.025] & 8.570 [7.817, 9.106] & 7.16 [6.59, 8.06] \\
+128 & 3 & 32832 & 128 & 256 & 12.438 [12.033, 13.243] & 7.791 [7.287, 8.707] & 6.66 [6.58, 6.82] \\
+256 & 3 & 32832 & 256 & 256 & 12.662 [12.376, 13.116] & 7.781 [7.554, 8.128] & 7.41 [6.57, 7.91] \\
+512 & 3 & 32832 & 512 & 256 & 12.700 [12.291, 12.998] & 7.857 [7.512, 8.044] & 6.82 [6.65, 6.96] \\
+all & 3 & 32832 & 2076 & 256 & 12.384 [12.277, 12.538] & 7.592 [7.420, 7.831] & 7.72 [6.93, 8.98] \\
+\bottomrule
+\end{tabular}}
+\end{table}
+\begin{figure}[pos=htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/scarcity.pdf}
+\caption{\textcolor{blue}{Target-label sensitivity on the chronological test set. Points show three-seed means and bars show the seed range.}}
+\label{fig:chronological_scarcity}
+\end{figure}
+\FloatBarrier
+% END STUDY BLOCK chronological_scarcity
+
+% BEGIN STUDY BLOCK chronological_weighting
+\subsection{\textcolor{blue}{Loss-weight allocation sensitivity}}
+{\color{blue}The weighting comparison fixes $n_SC_S+n_TC_T=1000$ and seed 0, varying the allocation between domains while retaining the same fitting and test samples. Equal per-sample coefficients, equal domain masses, target/source mass ratio 10, and the historical per-sample ratios 3,000 (point) or 8,000 (interval) are compared. Domain normalization, $C_S=500/n_S$ and $C_T=500/n_T$, is identical to inverse-count imbalance compensation at this total scale, so it is not duplicated as a distinct baseline. The tables give the actual coefficients and target mass fractions. Point RMSE is 12.102063, 12.336268, 12.660232, and 12.662003 MW, respectively. The corresponding calibrated mean widths are 56.701425, 48.988181, 42.757565, and 39.768748 MW, with coverage 0.986117, 0.976265, 0.974474, and 0.965069. Target emphasis therefore changes the accuracy--coverage--width balance and does not establish an optimal weighting rule. The historical-ratio condition preserves the earlier per-sample ratios at the common total scale.}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Weighting sensitivity at matched total loss weight; seed 0. Domain normalization and imbalance compensation are the same configuration at this scale.}}
+\label{tab:chronological_weighting_point}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+Scheme & $C_S$ & $C_T$ & Target mass fraction & RMSE (MW) & MAE (MW) & $R^2$ \\
+\midrule
+domain\_balanced & 0.01523 & 0.24085 & 0.5000 & 12.336 & 7.524 & 0.889 \\
+sample\_equal & 0.02865 & 0.02865 & 0.0595 & 12.102 & 7.464 & 0.893 \\
+historical\_ratio & 0.00016 & 0.47917 & 0.9948 & 12.662 & 7.654 & 0.883 \\
+target\_10x & 0.00277 & 0.43791 & 0.9091 & 12.660 & 7.741 & 0.883 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Weighting sensitivity at matched total loss weight; seed 0. Domain normalization and imbalance compensation are the same configuration at this scale.}}
+\label{tab:chronological_weighting_interval}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+Scheme & $C_S$ & $C_T$ & Target mass fraction & PICP & MPIW (MW) & Winkler (MW) \\
+\midrule
+domain\_balanced & 0.01523 & 0.24085 & 0.5000 & 0.976 & 48.988 & 66.187 \\
+sample\_equal & 0.02865 & 0.02865 & 0.0595 & 0.986 & 56.701 & 67.326 \\
+historical\_ratio & 0.00006 & 0.48075 & 0.9980 & 0.965 & 39.769 & 67.411 \\
+target\_10x & 0.00277 & 0.43791 & 0.9091 & 0.974 & 42.758 & 67.226 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\FloatBarrier
+% END STUDY BLOCK chronological_weighting
+
+% BEGIN STUDY BLOCK chronological_thresholds
+\subsection{Meteorological-tail definition sensitivity}
+{\color{blue}Sensitivity uses wind upper percentiles 95, 98, and 99, paired with temperature percentiles 5/95, 2/98, and 1/99. The resulting wind thresholds are 14.17, 15.43, and 16.2588 m/s; temperature ranges are 11.16--29.97, 10.24--31.36, and 9.74--32.12 $^\circ$C. Target fitting counts are 5,004, 2,076, and 1,049; calibration counts are 683, 225, and 118; test counts are 4,600, 2,233, and 1,159. Because changing the rule changes the test population, both own-population metrics and metrics on the shared 1,159-window 99th-percentile core are reported. Core RMSE is 12.263317, 12.179039, and 12.882176 MW. Core coverage is 0.985332, 0.971527, and 0.965487, with mean widths 49.192962, 46.958026, and 43.770407 MW. All three definitions are evaluated without selecting a threshold from test performance. For each percentile definition, changing the nominal high-wind cutoff among 20, 25, and 30 m/s gives exactly the same domain mask: all percentile wind cutoffs are below 20 m/s. The union rule therefore makes these nominal high-wind cutoffs redundant; no physical turbine-shutdown comparison is available.}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Threshold sensitivity on each definition's test population and the shared 99th-percentile core; seed 0. Meteorological percentiles are estimated from training observations.}}
+\label{tab:chronological_thresholds_point}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llllllllll}
+\toprule
+Percentile & Nominal cutoff (m/s) & $n_{own}$ & $n_{core}$ & Own RMSE (MW) & Own MAE (MW) & Own $R^2$ & Core RMSE (MW) & Core MAE (MW) & Core $R^2$ \\
+\midrule
+95 & 25 & 4600 & 1159 & 13.632 & 8.475 & 0.858 & 12.263 & 7.573 & 0.889 \\
+98 & 25 & 2233 & 1159 & 12.336 & 7.524 & 0.889 & 12.179 & 7.235 & 0.890 \\
+99 & 25 & 1159 & 1159 & 12.882 & 7.957 & 0.877 & 12.882 & 7.957 & 0.877 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Threshold sensitivity on each definition's test population and the shared 99th-percentile core; seed 0. Meteorological percentiles are estimated from training observations.}}
+\label{tab:chronological_thresholds_interval}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llllllllll}
+\toprule
+Percentile & Nominal cutoff (m/s) & $n_{own}$ & $n_{core}$ & Own PICP & Own MPIW (MW) & Own Winkler (MW) & Core PICP & Core MPIW (MW) & Core Winkler (MW) \\
+\midrule
+95 & 25 & 4600 & 1159 & 0.973 & 52.921 & 72.651 & 0.985 & 49.193 & 65.414 \\
+98 & 25 & 2233 & 1159 & 0.976 & 48.988 & 66.187 & 0.972 & 46.958 & 64.179 \\
+99 & 25 & 1159 & 1159 & 0.965 & 43.770 & 66.428 & 0.965 & 43.770 & 66.428 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\FloatBarrier
+% END STUDY BLOCK chronological_thresholds
+
+% BEGIN STUDY BLOCK chronological_subgroups
+\subsection{\textcolor{blue}{Quarter and meteorological-subset sensitivity}}
+{\color{blue}The same component predictions are evaluated by test quarter and meteorological category without refitting. Q3 and Q4 contain 1,035 and 1,198 target windows; full-model mean RMSE is 5.545065 and 16.099590 MW, respectively. The high-wind, cold, and hot groups contain 955, 288, and 1,035 windows, with full-model mean RMSE 14.658582, 20.778654, and 5.545065 MW. Their mean interval coverages are 0.981501, 0.908565, and 0.995491. In this test period the hot group and Q3 target group coincide. Weather groups overlap and counts must not be added; the nominal $>25$\,m/s group is empty and has no performance estimate. Cold-subset undercoverage and the large quarterly error difference limit a general robustness claim. These observations cover two calendar quarters and overlapping sample-level categories, rather than a complete seasonal or independent-storm evaluation.}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Component results by test quarter: seed mean [minimum, maximum].}}
+\label{tab:chronological_quarter_point}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+Group & Variant & Runs & $n$ & RMSE (MW) & MAE (MW) & $R^2$ \\
+\midrule
+2020Q3 & Full & 3 & 1035 & 5.545 [5.238, 6.042] & 4.002 [3.828, 4.341] & 0.578 [0.501, 0.625] \\
+2020Q3 & NoVariance & 3 & 1035 & 5.471 [5.222, 5.796] & 3.961 [3.832, 4.181] & 0.590 [0.541, 0.628] \\
+2020Q3 & No discrepancy & 3 & 1035 & 5.561 [5.185, 5.995] & 4.000 [3.756, 4.296] & 0.576 [0.509, 0.633] \\
+2020Q3 & TargetOnly & 3 & 1035 & 5.543 [5.495, 5.627] & 3.940 [3.882, 4.010] & 0.580 [0.568, 0.588] \\
+2020Q4 & Full & 3 & 1198 & 16.100 [16.005, 16.171] & 10.693 [10.523, 10.846] & -0.334 [-0.346, -0.318] \\
+2020Q4 & NoVariance & 3 & 1198 & 16.078 [15.953, 16.231] & 10.654 [10.500, 10.893] & -0.330 [-0.356, -0.310] \\
+2020Q4 & No discrepancy & 3 & 1198 & 16.104 [16.087, 16.119] & 10.698 [10.654, 10.728] & -0.334 [-0.337, -0.332] \\
+2020Q4 & TargetOnly & 3 & 1198 & 16.810 [16.374, 17.108] & 11.132 [10.584, 11.478] & -0.455 [-0.506, -0.380] \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Component results by test quarter: seed mean [minimum, maximum].}}
+\label{tab:chronological_quarter_interval}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+Group & Variant & Runs & $n$ & PICP & MPIW (MW) & Winkler (MW) \\
+\midrule
+2020Q3 & Full & 3 & 1035 & 0.995 [0.988, 1.000] & 40.368 [39.695, 40.982] & 40.465 [39.971, 40.996] \\
+2020Q3 & NoVariance & 3 & 1035 & 0.996 [0.993, 0.999] & 39.345 [38.750, 39.727] & 39.384 [38.834, 39.760] \\
+2020Q3 & No discrepancy & 3 & 1035 & 0.993 [0.992, 0.993] & 39.902 [39.125, 40.902] & 40.032 [39.324, 40.995] \\
+2020Q3 & TargetOnly & 3 & 1035 & 0.992 [0.989, 0.997] & 28.288 [27.133, 30.121] & 28.767 [27.865, 30.199] \\
+2020Q4 & Full & 3 & 1198 & 0.965 [0.956, 0.972] & 58.006 [55.174, 61.829] & 89.996 [88.576, 92.576] \\
+2020Q4 & NoVariance & 3 & 1198 & 0.959 [0.952, 0.968] & 55.304 [53.664, 58.434] & 88.945 [87.992, 90.393] \\
+2020Q4 & No discrepancy & 3 & 1198 & 0.962 [0.956, 0.971] & 56.396 [53.838, 60.158] & 89.637 [87.909, 92.316] \\
+2020Q4 & TargetOnly & 3 & 1198 & 0.956 [0.948, 0.968] & 52.260 [48.656, 58.504] & 95.768 [95.248, 96.390] \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Component results by meteorological subset: seed mean [minimum, maximum]. Subsets may overlap; dashes indicate an empty subset.}}
+\label{tab:chronological_weather_point}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+Group & Variant & Runs & $n$ & RMSE (MW) & MAE (MW) & $R^2$ \\
+\midrule
+high\_wind & Full & 3 & 955 & 14.659 [14.527, 14.774] & 10.418 [10.228, 10.599] & -0.473 [-0.496, -0.446] \\
+high\_wind & NoVariance & 3 & 955 & 14.633 [14.486, 14.841] & 10.375 [10.202, 10.650] & -0.468 [-0.509, -0.438] \\
+high\_wind & No discrepancy & 3 & 955 & 14.673 [14.650, 14.690] & 10.430 [10.373, 10.460] & -0.475 [-0.479, -0.471] \\
+high\_wind & TargetOnly & 3 & 955 & 15.157 [14.687, 15.487] & 10.731 [10.182, 11.097] & -0.575 [-0.644, -0.478] \\
+cold & Full & 3 & 288 & 20.779 [20.741, 20.830] & 12.288 [12.194, 12.340] & -0.203 [-0.209, -0.199] \\
+cold & NoVariance & 3 & 288 & 20.760 [20.676, 20.816] & 12.255 [12.151, 12.369] & -0.201 [-0.207, -0.191] \\
+cold & No discrepancy & 3 & 288 & 20.752 [20.666, 20.823] & 12.262 [12.211, 12.287] & -0.200 [-0.208, -0.190] \\
+cold & TargetOnly & 3 & 288 & 22.289 [21.864, 22.555] & 13.579 [12.987, 13.884] & -0.384 [-0.417, -0.332] \\
+hot & Full & 3 & 1035 & 5.545 [5.238, 6.042] & 4.002 [3.828, 4.341] & 0.578 [0.501, 0.625] \\
+hot & NoVariance & 3 & 1035 & 5.471 [5.222, 5.796] & 3.961 [3.832, 4.181] & 0.590 [0.541, 0.628] \\
+hot & No discrepancy & 3 & 1035 & 5.561 [5.185, 5.995] & 4.000 [3.756, 4.296] & 0.576 [0.509, 0.633] \\
+hot & TargetOnly & 3 & 1035 & 5.543 [5.495, 5.627] & 3.940 [3.882, 4.010] & 0.580 [0.568, 0.588] \\
+$>25$\,m/s & Full & 3 & 0 & --- & --- & --- \\
+$>25$\,m/s & NoVariance & 3 & 0 & --- & --- & --- \\
+$>25$\,m/s & No discrepancy & 3 & 0 & --- & --- & --- \\
+$>25$\,m/s & TargetOnly & 3 & 0 & --- & --- & --- \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Component results by meteorological subset: seed mean [minimum, maximum]. Subsets may overlap; dashes indicate an empty subset.}}
+\label{tab:chronological_weather_interval}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lllllll}
+\toprule
+Group & Variant & Runs & $n$ & PICP & MPIW (MW) & Winkler (MW) \\
+\midrule
+high\_wind & Full & 3 & 955 & 0.982 [0.981, 0.982] & 60.895 [58.014, 64.826] & 77.531 [74.829, 81.167] \\
+high\_wind & NoVariance & 3 & 955 & 0.980 [0.979, 0.981] & 58.234 [56.585, 61.462] & 75.633 [73.655, 78.516] \\
+high\_wind & No discrepancy & 3 & 955 & 0.981 [0.980, 0.981] & 59.227 [56.530, 63.151] & 76.619 [74.496, 80.408] \\
+high\_wind & TargetOnly & 3 & 955 & 0.973 [0.970, 0.978] & 55.565 [51.884, 61.886] & 79.093 [77.864, 81.400] \\
+cold & Full & 3 & 288 & 0.909 [0.872, 0.941] & 46.294 [43.681, 49.785] & 130.682 [128.842, 133.446] \\
+cold & NoVariance & 3 & 288 & 0.890 [0.865, 0.924] & 43.470 [41.893, 46.314] & 132.450 [129.202, 136.636] \\
+cold & No discrepancy & 3 & 288 & 0.896 [0.872, 0.934] & 44.835 [42.693, 48.068] & 132.322 [131.248, 133.590] \\
+cold & TargetOnly & 3 & 288 & 0.878 [0.851, 0.924] & 38.679 [35.326, 44.684] & 154.833 [146.947, 160.070] \\
+hot & Full & 3 & 1035 & 0.995 [0.988, 1.000] & 40.368 [39.695, 40.982] & 40.465 [39.971, 40.996] \\
+hot & NoVariance & 3 & 1035 & 0.996 [0.993, 0.999] & 39.345 [38.750, 39.727] & 39.384 [38.834, 39.760] \\
+hot & No discrepancy & 3 & 1035 & 0.993 [0.992, 0.993] & 39.902 [39.125, 40.902] & 40.032 [39.324, 40.995] \\
+hot & TargetOnly & 3 & 1035 & 0.992 [0.989, 0.997] & 28.288 [27.133, 30.121] & 28.767 [27.865, 30.199] \\
+$>25$\,m/s & Full & 3 & 0 & --- & --- & --- \\
+$>25$\,m/s & NoVariance & 3 & 0 & --- & --- & --- \\
+$>25$\,m/s & No discrepancy & 3 & 0 & --- & --- & --- \\
+$>25$\,m/s & TargetOnly & 3 & 0 & --- & --- & --- \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\FloatBarrier
+% END STUDY BLOCK chronological_subgroups
+
+% BEGIN STUDY BLOCK chronological_scalability
+\subsection{\textcolor{blue}{Landmark and source-size sensitivity}}
+{\color{blue}The landmark curve uses $m=32,64,128,256,512,1024$ with unchanged fitting/test samples and all three seeds. Mean RMSE is 12.859364, 12.495129, 12.552243, 12.383799, 12.343112, and 12.284720 MW; corresponding mean fitting times are 1.22, 1.95, 3.55, 7.72, 15.61, and 33.45 s. The source-size experiment retains 2,076 target fitting labels and uses 3,283, 8,208, 16,416, or 32,832 time-even source samples at seed 0. Coefficients are renormalized to the same domain masses at each scale. The figure shows all specified sample sizes and landmark counts, with seed ranges for repeated fits. Increasing the landmark count increases measured cost and changes predictive accuracy, but the accuracy curve is not strictly monotonic. These are fixed-epoch empirical trade-offs. Because feature dimension, dataset size, and finite-step optimization can all affect the result, these curves describe empirical predictive trade-offs rather than exact-kernel approximation error. They do not measure prediction latency, peak or resident memory, online model-update cost, or GPU performance. The past-only rolling calibration experiment updates only a score buffer after outcomes arrive; it does not refit the predictor. We therefore make no real-time or deployment-throughput claim.}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Accuracy--runtime trade-off with fixed training and test data; seed mean [minimum, maximum]. Time covers solver fitting only.}}
+\label{tab:chronological_landmarks}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llllllll}
+\toprule
+Requested landmarks & Runs & $n_S$ & $n_T$ & Effective $m$ & RMSE (MW) & MAE (MW) & Fit (s) \\
+\midrule
+32 & 3 & 32832 & 2076 & 32 & 12.859 [12.819, 12.882] & 8.231 [8.128, 8.287] & 1.22 [1.17, 1.31] \\
+64 & 3 & 32832 & 2076 & 64 & 12.495 [12.240, 12.736] & 7.736 [7.490, 8.044] & 1.95 [1.84, 2.16] \\
+128 & 3 & 32832 & 2076 & 128 & 12.552 [12.444, 12.683] & 7.782 [7.618, 8.020] & 3.55 [3.32, 3.82] \\
+256 & 3 & 32832 & 2076 & 256 & 12.384 [12.277, 12.538] & 7.592 [7.420, 7.831] & 7.72 [6.93, 8.98] \\
+512 & 3 & 32832 & 2076 & 512 & 12.343 [12.140, 12.546] & 7.529 [7.303, 7.837] & 15.61 [15.46, 15.80] \\
+1024 & 3 & 32832 & 2076 & 1024 & 12.285 [12.068, 12.571] & 7.459 [7.255, 7.661] & 33.45 [31.66, 35.10] \\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+\begin{table}[pos=htbp]
+\centering
+\color{blue}
+\small
+\caption{\textcolor{blue}{Source-size sensitivity with a fixed target training pool and test set; seed 0. Source selection is evenly spaced in training time.}}
+\label{tab:chronological_source_scale}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{llllllll}
+\toprule
+Source fraction & Runs & $n_S$ & $n_T$ & Effective $m$ & RMSE (MW) & MAE (MW) & Fit (s) \\
+\midrule
+0.1 & 1 & 3283 & 2076 & 256 & 12.985 [12.985, 12.985] & 8.063 [8.063, 8.063] & 4.60 [4.60, 4.60] \\
+0.25 & 1 & 8208 & 2076 & 256 & 12.911 [12.911, 12.911] & 8.090 [8.090, 8.090] & 4.86 [4.86, 4.86] \\
+0.5 & 1 & 16416 & 2076 & 256 & 13.013 [13.013, 13.013] & 8.037 [8.037, 8.037] & 5.50 [5.50, 5.50] \\
+1.0 & 1 & 32832 & 2076 & 256 & 12.336 [12.336, 12.336] & 7.524 [7.524, 7.524] & 8.98 [8.98, 8.98] \\
+\bottomrule
+\end{tabular}}
+\end{table}
+\begin{figure}[pos=htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/chronological_accuracy_runtime.pdf}
+\caption{\textcolor{blue}{Predictive accuracy and fitting cost: (a) landmark accuracy--time trade-off, (b) source-size sensitivity of RMSE, and (c) source-size sensitivity of fitting time. Landmark points show three-seed means and ranges, with labels indicating $m$; source-size results use seed 0.}}
+\label{fig:chronological_accuracy_runtime}
+\end{figure}
+\FloatBarrier
+% END STUDY BLOCK chronological_scalability

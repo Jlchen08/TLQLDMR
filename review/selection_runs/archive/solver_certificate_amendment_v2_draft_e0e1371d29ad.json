@@ -1,0 +1,148 @@
+{
+  "version": "solver_certificate_amendment_v2_1",
+  "created_utc": "2026-10-23T17:57:40.851450+00:00",
+  "reason": "A locked kernel fit exhausted the predeclared 3000- and 12000-iteration ADMM attempts and narrowly missed the unchanged optimizer certificate. The amendment is based only on solver diagnostics, not predictive performance.",
+  "scope": "Every locked main-study or matched-ablation kernel fit that remains uncertified after the original attempts; already certified fits are unchanged.",
+  "rule": {
+    "original_attempts": [
+      {
+        "max_iter": 3000,
+        "gap_rtol": 0.001,
+        "gap_atol": 1e-07,
+        "check_every": 25
+      },
+      {
+        "max_iter": 12000,
+        "gap_rtol": 0.001,
+        "gap_atol": 1e-07,
+        "check_every": 25
+      }
+    ],
+    "conditional_warm_restart": [
+      {
+        "max_iter": 96000,
+        "gap_rtol": 0.001,
+        "gap_atol": 1e-07,
+        "check_every": 25
+      }
+    ],
+    "restart": "The additional run starts from the preceding best primal weights and intercept with a fresh ADMM split/dual state, matching the original retry mechanism; it is a warm restart rather than an exact state continuation.",
+    "stop": "Stop at the first unchanged certificate; fail closed after the final cap.",
+    "unchanged": [
+      "gap tolerances",
+      "objective",
+      "data and split IDs",
+      "feature maps",
+      "selected configurations",
+      "seeds",
+      "predictions",
+      "analysis rules"
+    ]
+  },
+  "trigger": {
+    "fit_record": "review/selection_runs/selection_v2/within_site1/WeightedSVQR/evaluation/seed1/tau_0.025000000000000001/fit.json",
+    "fit_record_sha256": "5fe0180838a3930295528cf53bfe2f4286ead69b32da57d4537e4cdd9a2e7afd",
+    "model_sha256": "b260e3432764becb1fe4a9201de1154f872046a5715f9da8cb277a24dfea8ee1",
+    "identity": {
+      "task": "within_site1",
+      "method": "WeightedSVQR",
+      "seed": 1,
+      "tau": 0.025
+    },
+    "optimizer_diagnostics": {
+      "primal": 4492.062044312945,
+      "dual_bound": 4487.472321508524,
+      "gap": 4.589722804420489,
+      "relative_gap": 0.001021740741589085,
+      "gap_atol": 1e-07,
+      "gap_rtol": 0.001,
+      "iterations": 12000,
+      "attempt_count": 2,
+      "stop_reason": "max_iter"
+    }
+  },
+  "preexisting_completion_artifacts": {
+    "review/selection_runs/matched_ablation_v2/evaluation/within_site1/Full/seed0/result.json": "d5fe6990a306a06ed4e0def3b39d6c6f6f4dd4dbfb500fc8bd0acd157bf630f0",
+    "review/selection_runs/matched_ablation_v2/evaluation/within_site1/Full/seed0/test_predictions.csv": "a4d77b4e4691d220d2ce652f90dfef49d7b7f8f97397410764158ceaefd1c80d",
+    "review/selection_runs/matched_ablation_v2/evaluation/within_site1/Full/seed1/result.json": "c4225e4942396e2c5adc595e380f9f47c6557f85d327ea2792ed2d6f787fa813",
+    "review/selection_runs/matched_ablation_v2/evaluation/within_site1/Full/seed1/test_predictions.csv": "101db9aed45e36f5f6ec6d0352365bf5dd7621f1430779b37d54235fec558c30",
+    "review/selection_runs/matched_ablation_v2/evaluation/within_site1/Full/seed2/result.json": "310df568edf6135ac04fd2eaf2cbca73378b28ff7d47e8d56d4620aee0f6a3dc",
+    "review/selection_runs/matched_ablation_v2/evaluation/within_site1/Full/seed2/test_predictions.csv": "ca792a85aa70cc55d2458615058d8964aba03ffa9156f38b581b174aae5ae5e5",
+    "review/selection_runs/matched_ablation_v2/evaluation/within_site1/NoVariance/seed0/result.json": "c43c4b451661e5d2eea802bef5403b0587ebeda5aeea904de14cffd337bcd6f6",
+    "review/selection_runs/matched_ablation_v2/evaluation/within_site1/NoVariance/seed0/test_predictions.csv": "6f48986cb3a163241d53338df70741a8cde779be55d13f158f58c04c1abaf403",
+    "review/selection_runs/matched_ablation_v2/evaluation/within_site1/NoVariance/seed1/result.json": "772d34ad4c319b417b6f26837dcb204e99da1d3621d171768c4791bfab082cfe",
+    "review/selection_runs/matched_ablation_v2/evaluation/within_site1/NoVariance/seed1/test_predictions.csv": "a8e55283dc56eb3f09a7ff4ec32c5ff200efe7f7c90981137d334b31df02cf9a",
+    "review/selection_runs/selection_v2/within_site1/Full/evaluation/seed0/calibration_predictions.csv": "e608a49c662fac42364048c4692262dc48be7fb5d8658d7aa7cbb16170f9422b",
+    "review/selection_runs/selection_v2/within_site1/Full/evaluation/seed0/result.json": "90a7fb273d0248ac3db56d1b49968c6f71c6fe2a984d9528aebf4e6f406a11f6",
+    "review/selection_runs/selection_v2/within_site1/Full/evaluation/seed0/test_predictions.csv": "986d12556c3a397846f2dd78de4afee92eed9642f852a0c69e12cb0a2ea5ae94",
+    "review/selection_runs/selection_v2/within_site1/Full/evaluation/seed1/calibration_predictions.csv": "6716ea2b8e6e1d526fbe3965966c6926635de6f6bab238f01543cfe78de4b9d7",
+    "review/selection_runs/selection_v2/within_site1/Full/evaluation/seed1/result.json": "f2da24f9eb5541c3b6bb48ba10179d603671b1dbb96ec39f780e0d89d433b125",
+    "review/selection_runs/selection_v2/within_site1/Full/evaluation/seed1/test_predictions.csv": "fbf388250e7a78831c61b360dae500aeb3f1159f295291a5f1d2509241786fa2",
+    "review/selection_runs/selection_v2/within_site1/Full/evaluation/seed2/calibration_predictions.csv": "8b99ee6b1ed1527d6ca03bd6e8caccc0b85a072642dd280c027228ac469bbf0a",
+    "review/selection_runs/selection_v2/within_site1/Full/evaluation/seed2/result.json": "ee94496f439a015d7ae0adeee710a9e3eabb4c26a6d1f40adbe3697bb9346279",
+    "review/selection_runs/selection_v2/within_site1/Full/evaluation/seed2/test_predictions.csv": "4772f757473654ca0cfb56cba3ca8e080ee13b66eb8be7a7ca1d377c6efb58cc",
+    "review/selection_runs/selection_v2/within_site1/NoDiscrepancy/evaluation/seed0/calibration_predictions.csv": "5c02a8daf1dbebaf170334da8338510aeab469f3b97e6238771e67b8fdb31497",
+    "review/selection_runs/selection_v2/within_site1/NoDiscrepancy/evaluation/seed0/result.json": "a5b99dd9714227210c4c32b1dd261a86b39f1cfc80d0f5e822d9d2c36e4c1a5c",
+    "review/selection_runs/selection_v2/within_site1/NoDiscrepancy/evaluation/seed0/test_predictions.csv": "818ba6e96d1a9e7efaf67661cb29aa23625552deb6bb291874c82a5b4e5893c2",
+    "review/selection_runs/selection_v2/within_site1/NoDiscrepancy/evaluation/seed1/calibration_predictions.csv": "be3b3e43248e7a73648ee6218b089d8862a8e58704c09a45b959e909d7e6dfd3",
+    "review/selection_runs/selection_v2/within_site1/NoDiscrepancy/evaluation/seed1/result.json": "8165ffb25d3b204a4d5b2468a538cea2ac77e9f660d5bc09af7f01cd18c5bce0",
+    "review/selection_runs/selection_v2/within_site1/NoDiscrepancy/evaluation/seed1/test_predictions.csv": "309b59510f0a4929ffc7cb5e53b396db37d79a50878f75a12105b1987003dae7",
+    "review/selection_runs/selection_v2/within_site1/NoDiscrepancy/evaluation/seed2/calibration_predictions.csv": "c375e25918afda2067c1901108bc2afb975089bad819737abd3e0315efca8b8b",
+    "review/selection_runs/selection_v2/within_site1/NoDiscrepancy/evaluation/seed2/result.json": "5d39a1d4bd38faea4be6c2b5ffe0fd8f16d084c2df601f7e35f3cd0b842f5fef",
+    "review/selection_runs/selection_v2/within_site1/NoDiscrepancy/evaluation/seed2/test_predictions.csv": "f73cd7d12205f092e64a3912c42ce5e745562d03be4f524e8e4af57b6659c5c0",
+    "review/selection_runs/selection_v2/within_site1/NoVariance/evaluation/seed0/calibration_predictions.csv": "f0cd43e9b03e51d38b040b04b3e2b9b82fa47c498d20f9e4df54fc807190913c",
+    "review/selection_runs/selection_v2/within_site1/NoVariance/evaluation/seed0/result.json": "a804e5349d422a62c85fcdcaf384257f13da27add66d4a87a7e2a4d7cd0b66c2",
+    "review/selection_runs/selection_v2/within_site1/NoVariance/evaluation/seed0/test_predictions.csv": "db64bbd1135555427afa7afbacdf086548c5d538a78bae34a2e4a7e2392a7951",
+    "review/selection_runs/selection_v2/within_site1/NoVariance/evaluation/seed1/calibration_predictions.csv": "cfcd02b4c9c4c75142f058f2c625465703a8c067089a6439807381b821cd700e",
+    "review/selection_runs/selection_v2/within_site1/NoVariance/evaluation/seed1/result.json": "b20ff30c3f218330eeb57cfc6b446635339dcd6f6fe7a10888fb87eee2772fd3",
+    "review/selection_runs/selection_v2/within_site1/NoVariance/evaluation/seed1/test_predictions.csv": "90872bedfc9b11c94dfc4d6ff4e65e61a650cb4adc294e32f0d4f93d11565daa",
+    "review/selection_runs/selection_v2/within_site1/NoVariance/evaluation/seed2/calibration_predictions.csv": "651e868add0fe4f3f6b2431c4a08d85ac74ac893bbb3bd75e3d6d5322234ada3",
+    "review/selection_runs/selection_v2/within_site1/NoVariance/evaluation/seed2/result.json": "65c2cfbea040a9a33367c0e6cfabc36c1d9b510cbc1c03e9d8105d4bf9c7156e",
+    "review/selection_runs/selection_v2/within_site1/NoVariance/evaluation/seed2/test_predictions.csv": "4e05041fb71be2407b44d36b34cb7edf95088e7b4f3afe7a5a7704b9146d9171",
+    "review/selection_runs/selection_v2/within_site1/WeightedSVQR/evaluation/seed0/calibration_predictions.csv": "90029fafda70803541c7a0eeea78d19f63d97c87ef17c42505bffa2037edefbd",
+    "review/selection_runs/selection_v2/within_site1/WeightedSVQR/evaluation/seed0/result.json": "99e641f5d3bfca28fd8c987a995e2a3b6aa93599b577b98ad46aa767499397b7",
+    "review/selection_runs/selection_v2/within_site1/WeightedSVQR/evaluation/seed0/test_predictions.csv": "19361cd05332bcd891dd6e0f10472ff7e4236e9f160a092e0ea784f847da26f3"
+  },
+  "partial_evaluation_disclosure": {
+    "main_result_records_already_present": 10,
+    "matched_result_records_already_present": 5,
+    "statement": "These artifacts are hash-committed without parsing their metrics.  The test period was already declared reused; no result is removed or used to alter a configuration, comparison, estimand, or inferential rule."
+  },
+  "selection": {
+    "output": "review/selection_runs/selection_v2",
+    "selection_lock_sha256": "c227c03e019e54950095fd7e7c44849f64adb8aff730ea438a85df935ede2184",
+    "protocol_sha256": "f947379d97664a0a4f5a9bad9dda018d4d221b594c3f0975088ff8ccbb0b450d",
+    "source_hashes": {
+      "review/run_selection_study_v2.py": "88ac997f9aecdc56e89d64def49ec033963032c7078df6fc7eff53fe54ca140a",
+      "review/selection_data_v2.py": "9262afa61169670e0baf6512455e255a6e3222d4d9efd97844ae674921e41e21",
+      "review/selection_data.py": "5f8e1bdba8f0c883d1580cfb47f3cbd891a21b4ccca70201a53f31f19e88dc49",
+      "review/selection_sampling.py": "3c889b4fb4a6fc98666ba57e86e8cc02bdf3936389f6b0f23e4b7a647a9b91f2",
+      "review/temporal_data.py": "683e93cb1ba6dd48aaf6233bc38514d896427db5d8604b7f0da96278aaecf5a6",
+      "review/convex_refinement.py": "6e196411e3c2837b46ed0beb92b554e54de9b3c004326925fe24834dc5c523b6"
+    },
+    "data_hashes": {
+      "data/wind_farm_data/data_original/wind_farms/Wind farm site 1 (Nominal capacity-99MW).xlsx": "c7b6c86e80fa1f36c7547bcbb17205dc063c554981f07620fa3a2e7ec463fddc",
+      "data/wind_farm_data/data_original/wind_farms/Wind farm site 2 (Nominal capacity-200MW).xlsx": "cece173808429ee5aeed6dff367ebf9edbc8689822cabb4b5a343e6283e74b6f",
+      "data/wind_farm_data/data_original/wind_farms/Wind farm site 3 (Nominal capacity-99MW).xlsx": "e0ebf4f54bbc73aceaba96b1052e9b915ba5c0d5c80590ba83278a710753dcf6",
+      "data/wind_farm_data/data_original/wind_farms/Wind farm site 4 (Nominal capacity-66MW).xlsx": "35e02d85c1fba1d375c0006760b68c9d2c369885446d8132411cda83fd7aa1f4",
+      "data/wind_farm_data/data_original/wind_farms/Wind farm site 5 (Nominal capacity-36MW).xlsx": "029c48cabee3ea5004390120522dbb65438b7840b1d390fa2e72bb793792bd90",
+      "data/wind_farm_data/data_original/wind_farms/Wind farm site 6 (Nominal capacity-96MW).xlsx": "c302125284bb50ad39c970ae31669b4153846be4cfe960af36b1a0fb2ed90f9c"
+    },
+    "manifest_last_stable_status": "selection_locked"
+  },
+  "matched": {
+    "output": "review/selection_runs/matched_ablation_v2",
+    "matched_lock_sha256": "c9dd7b7c46f64cd2638c78d23c26c20dd983cead4369a5582fedc88f84ebed4f",
+    "source_hashes": {
+      "review/run_matched_ablation_v2.py": "3c66f768b7b1675fb3023ffcbd0b8e3a55eaa33fa77ae2ddc517f8e0cd67f05b",
+      "review/run_selection_study_v2.py": "88ac997f9aecdc56e89d64def49ec033963032c7078df6fc7eff53fe54ca140a",
+      "review/selection_data_v2.py": "9262afa61169670e0baf6512455e255a6e3222d4d9efd97844ae674921e41e21",
+      "review/selection_data.py": "5f8e1bdba8f0c883d1580cfb47f3cbd891a21b4ccca70201a53f31f19e88dc49",
+      "review/selection_sampling.py": "3c889b4fb4a6fc98666ba57e86e8cc02bdf3936389f6b0f23e4b7a647a9b91f2",
+      "review/temporal_data.py": "683e93cb1ba6dd48aaf6233bc38514d896427db5d8604b7f0da96278aaecf5a6",
+      "review/convex_refinement.py": "6e196411e3c2837b46ed0beb92b554e54de9b3c004326925fe24834dc5c523b6"
+    }
+  },
+  "amendment_runner": "review/resume_solver_certificate_v2.py",
+  "amendment_runner_sha256": "70727e981403c02c33d984e5cd79c8e10221af1d34231046f675298cb3d23237"
+}

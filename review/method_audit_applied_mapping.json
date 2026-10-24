@@ -1,0 +1,13 @@
+{
+  "intro_ldmr_source_correction": "intro_ldmr_source_correction",
+  "related_ldmr_source_correction": "related_variance",
+  "related_mmd_scope": "related_mmd_scope",
+  "structural_risk_scope": "structural_risk_scope",
+  "variance_quantile_scope": "variance_roles",
+  "weighted_svqr_theoretical_relation": "nystrom_consistency",
+  "complexity_iteration_and_selection_scope": "complexity_intro",
+  "complexity_table_scope": "complexity_table",
+  "matrix_projected_term_name": "matrix_projected_term_name",
+  "auxiliary_projected_term_name": "auxiliary_projected_term_name",
+  "kernel_projected_term_name": "kernel_projected_term_name"
+}

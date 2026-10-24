@@ -1,0 +1,13 @@
+scope,method,empirical_endpoint_winner,macro_capacity_normalized_rmse,difference_from_winner,holm_p_vs_winner,in_conservative_nonrejection_set,interpretation
+within,Full,HistGBR,0.180904894755,0.0417782207979,0.03564,False,worse than the empirical winner under the predeclared adjusted test
+within,NoVariance,HistGBR,0.17347414614,0.034347472183,0.28472,True,"membership is non-rejection of inferiority, not equivalence"
+within,NoDiscrepancy,HistGBR,0.193328906626,0.0542022326688,0.2083,True,"membership is non-rejection of inferiority, not equivalence"
+within,WeightedSVQR,HistGBR,0.186461951791,0.0473352778346,0.00182,False,worse than the empirical winner under the predeclared adjusted test
+within,TargetSVQR,HistGBR,0.200509321574,0.0613826476168,0.00015,False,worse than the empirical winner under the predeclared adjusted test
+within,HistGBR,HistGBR,0.139126673957,0,1,True,"membership is non-rejection of inferiority, not equivalence"
+cross,Full,HistGBR,0.176943522641,0.0277182737411,0.33642,True,"membership is non-rejection of inferiority, not equivalence"
+cross,NoVariance,HistGBR,0.171833591308,0.0226083424087,0.50195,True,"membership is non-rejection of inferiority, not equivalence"
+cross,NoDiscrepancy,HistGBR,0.168239850723,0.0190146018236,0.50195,True,"membership is non-rejection of inferiority, not equivalence"
+cross,WeightedSVQR,HistGBR,0.175625249723,0.0264000008235,0.2996,True,"membership is non-rejection of inferiority, not equivalence"
+cross,TargetSVQR,HistGBR,0.200509321574,0.0512840726739,0.00015,False,worse than the empirical winner under the predeclared adjusted test
+cross,HistGBR,HistGBR,0.1492252489,0,1,True,"membership is non-rejection of inferiority, not equivalence"

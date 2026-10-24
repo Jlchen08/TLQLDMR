@@ -1,0 +1,584 @@
+{
+  "checked_utc": "2026-10-22T03:20:05.807798+00:00",
+  "method": "Recompute with unchanged experiment1 loader, identify_extreme_events (nanpercentile), and _compute_shift_metrics using archived per-farm extreme_cfg; read-only inputs; no fitting.",
+  "code_file": "experiment1/experiment1_data_screening_visualization.py",
+  "code_sha256": "0c84467df03b6593dc034827024f260e5b20ed6281826da4a5db72ec84c86464",
+  "farms": [
+    {
+      "farm_idx": 3,
+      "site": 6,
+      "farm_name": "Wind farm site 6 (Nominal capacity-96MW)",
+      "data_file": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 6 (Nominal capacity-96MW).xlsx",
+      "data_sha256": "8b898a49a215aa1cfdb27a5924685944fe97a2d828f86b398df6f8ed060e7767",
+      "archived_meta_sha256": "b741a31d2110bd5670774dd2476270726bcbd743fea3cdc08b660512ec12fd98",
+      "archived_events_sha256": "f8d1afdd91d4071ffc40215975e435e85993b0775964f9760e69b3929254e835",
+      "extreme_cfg": {
+        "stat_q": 98.0,
+        "stat_on_wind": true,
+        "stat_on_power": false,
+        "use_stat": true,
+        "use_ramp": false,
+        "use_cutout": true,
+        "use_temp": true,
+        "ramp_ratio": 0.05,
+        "ramp_q": null,
+        "cutout_ms": 25.0,
+        "temp_low": -10.0,
+        "temp_high": 35.0,
+        "temp_q_low": 2.0,
+        "temp_q_high": 98.0,
+        "temp_requires_wind": false
+      },
+      "computed": {
+        "n_samples": 70176,
+        "n_extreme": 4144,
+        "n_ramp": 6894,
+        "n_cutout": 0,
+        "n_stat": 1397,
+        "n_temp": 2797,
+        "q_wind_hub_ms": 15.64,
+        "q_power_mw": 86.5885,
+        "shift_w1_wind": 4.059833301251856,
+        "shift_w1_power": 21.057041636183417,
+        "shift_ks_wind": 0.3894601120037272,
+        "shift_ks_power": 0.34380101656573675
+      },
+      "metadata_match": {
+        "n_samples": true,
+        "n_extreme": true,
+        "n_ramp": true,
+        "n_cutout": true,
+        "n_stat": true,
+        "n_temp": true,
+        "q_wind_hub_ms": true,
+        "q_power_mw": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "event_columns": {
+        "index": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "time": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "wind_hub_ms": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "power_mw": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_extreme": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_ramp": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_cutout": {
+          "matches": true,
+          "mismatched_rows": 0
+        }
+      },
+      "manuscript_table_match": {
+        "n_extreme": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "wind_hub_max_ms": 23.82,
+      "nonfinite_hub_wind": 0,
+      "nonfinite_temperature": 0,
+      "zero_power_extreme_count": 93,
+      "nonpositive_power_extreme_count": 428,
+      "cutout_attribution_supported": false,
+      "manuscript_problematic_text": "substantial mass near zero power (cut-out events) and high power (pre-cut-out high wind conditions)"
+    },
+    {
+      "farm_idx": 0,
+      "site": 2,
+      "farm_name": "Wind farm site 2 (Nominal capacity-200MW)",
+      "data_file": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 2 (Nominal capacity-200MW).xlsx",
+      "data_sha256": "9586406e712a310b1e9f180318b93068334321eb39a0eff3b604d72b383dc3a7",
+      "archived_meta_sha256": "c76c56a2b98521e888770d1adac528a647e6e64bc9451e2b465c921540546c3d",
+      "archived_events_sha256": "28a56e8aa9f851eaa4b4eb3e9303499b41e7b5fd80ef2236a07ec12e8cc147e6",
+      "extreme_cfg": {
+        "stat_q": 98.0,
+        "stat_on_wind": true,
+        "stat_on_power": false,
+        "use_stat": true,
+        "use_ramp": false,
+        "use_cutout": true,
+        "use_temp": true,
+        "ramp_ratio": 0.05,
+        "ramp_q": null,
+        "cutout_ms": 25.0,
+        "temp_low": -10.0,
+        "temp_high": 35.0,
+        "temp_q_low": 2.0,
+        "temp_q_high": 98.0,
+        "temp_requires_wind": false
+      },
+      "computed": {
+        "n_samples": 70176,
+        "n_extreme": 4211,
+        "n_ramp": 10290,
+        "n_cutout": 30,
+        "n_stat": 1404,
+        "n_temp": 2808,
+        "q_wind_hub_ms": 18.16,
+        "q_power_mw": 169.72635,
+        "shift_w1_wind": 3.4670667081661417,
+        "shift_w1_power": 16.165684522727414,
+        "shift_ks_wind": 0.3334124910947518,
+        "shift_ks_power": 0.1418129181758646
+      },
+      "metadata_match": {
+        "n_samples": true,
+        "n_extreme": true,
+        "n_ramp": true,
+        "n_cutout": true,
+        "n_stat": true,
+        "n_temp": true,
+        "q_wind_hub_ms": true,
+        "q_power_mw": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "event_columns": {
+        "index": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "time": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "wind_hub_ms": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "power_mw": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_extreme": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_ramp": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_cutout": {
+          "matches": true,
+          "mismatched_rows": 0
+        }
+      },
+      "manuscript_table_match": {
+        "n_extreme": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "wind_hub_max_ms": 28.808,
+      "nonfinite_hub_wind": 0,
+      "nonfinite_temperature": 0
+    },
+    {
+      "farm_idx": 1,
+      "site": 1,
+      "farm_name": "Wind farm site 1 (Nominal capacity-99MW)",
+      "data_file": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 1 (Nominal capacity-99MW).xlsx",
+      "data_sha256": "c9bdafaab05ae728b88f252c6858033800c31b058d48ab4123dfedfbe4c7a21f",
+      "archived_meta_sha256": "df4bc8802aa32830e8374cb56e335b88c2d736948b74b7af923b3e6ec8cb8dd7",
+      "archived_events_sha256": "ca07892623c54dab43471cac131adf515af03e9db39d48b5587ca4fe87663deb",
+      "extreme_cfg": {
+        "stat_q": 98.0,
+        "stat_on_wind": true,
+        "stat_on_power": false,
+        "use_stat": true,
+        "use_ramp": false,
+        "use_cutout": true,
+        "use_temp": true,
+        "ramp_ratio": 0.05,
+        "ramp_q": null,
+        "cutout_ms": 25.0,
+        "temp_low": -10.0,
+        "temp_high": 35.0,
+        "temp_q_low": 2.0,
+        "temp_q_high": 98.0,
+        "temp_requires_wind": false
+      },
+      "computed": {
+        "n_samples": 70176,
+        "n_extreme": 4184,
+        "n_ramp": 11560,
+        "n_cutout": 20,
+        "n_stat": 1403,
+        "n_temp": 2808,
+        "q_wind_hub_ms": 15.867,
+        "q_power_mw": 79.35075499999999,
+        "shift_w1_wind": 3.1395123540961105,
+        "shift_w1_power": 5.963792795992246,
+        "shift_ks_wind": 0.33532504780114725,
+        "shift_ks_power": 0.11592221503411848
+      },
+      "metadata_match": {
+        "n_samples": true,
+        "n_extreme": true,
+        "n_ramp": true,
+        "n_cutout": true,
+        "n_stat": true,
+        "n_temp": true,
+        "q_wind_hub_ms": true,
+        "q_power_mw": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "event_columns": {
+        "index": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "time": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "wind_hub_ms": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "power_mw": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_extreme": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_ramp": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_cutout": {
+          "matches": true,
+          "mismatched_rows": 0
+        }
+      },
+      "manuscript_table_match": {
+        "n_extreme": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "wind_hub_max_ms": 30.247,
+      "nonfinite_hub_wind": 0,
+      "nonfinite_temperature": 0
+    },
+    {
+      "farm_idx": 2,
+      "site": 3,
+      "farm_name": "Wind farm site 3 (Nominal capacity-99MW)",
+      "data_file": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 3 (Nominal capacity-99MW).xlsx",
+      "data_sha256": "8064d57015c76c89c9ffccdf0944aeaf10df3733af5b8713f6f65200fd13a197",
+      "archived_meta_sha256": "d9ad7497ed49603356c6703dacf7ac07e626d8568f3db10949a263ba4899c26e",
+      "archived_events_sha256": "a4cbf99c8dcc98e332e1889f349c863379043f7e1ab586654cdd7b9636527f4f",
+      "extreme_cfg": {
+        "stat_q": 98.0,
+        "stat_on_wind": true,
+        "stat_on_power": false,
+        "use_stat": true,
+        "use_ramp": false,
+        "use_cutout": true,
+        "use_temp": true,
+        "ramp_ratio": 0.05,
+        "ramp_q": null,
+        "cutout_ms": 25.0,
+        "temp_low": -10.0,
+        "temp_high": 35.0,
+        "temp_q_low": 2.0,
+        "temp_q_high": 98.0,
+        "temp_requires_wind": false
+      },
+      "computed": {
+        "n_samples": 70176,
+        "n_extreme": 4144,
+        "n_ramp": 8116,
+        "n_cutout": 1,
+        "n_stat": 1400,
+        "n_temp": 2807,
+        "q_wind_hub_ms": 12.08,
+        "q_power_mw": 80.38795,
+        "shift_w1_wind": 3.3888532786317835,
+        "shift_w1_power": 18.914564743802753,
+        "shift_ks_wind": 0.3378601740305157,
+        "shift_ks_power": 0.2651596090534787
+      },
+      "metadata_match": {
+        "n_samples": true,
+        "n_extreme": true,
+        "n_ramp": true,
+        "n_cutout": true,
+        "n_stat": true,
+        "n_temp": true,
+        "q_wind_hub_ms": true,
+        "q_power_mw": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "event_columns": {
+        "index": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "time": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "wind_hub_ms": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "power_mw": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_extreme": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_ramp": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_cutout": {
+          "matches": true,
+          "mismatched_rows": 0
+        }
+      },
+      "manuscript_table_match": {
+        "n_extreme": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "wind_hub_max_ms": 36.9203,
+      "nonfinite_hub_wind": 0,
+      "nonfinite_temperature": 0
+    },
+    {
+      "farm_idx": 4,
+      "site": 4,
+      "farm_name": "Wind farm site 4 (Nominal capacity-66MW)",
+      "data_file": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 4 (Nominal capacity-66MW).xlsx",
+      "data_sha256": "751a2dc5cef489519c03d0c080e8e7e71ed4d2a2e721cae81cca8055473fde7e",
+      "archived_meta_sha256": "729eae8e406c8e51def272b0a382675844ffe3fcfe78a0a36e7dc42f2227a6c8",
+      "archived_events_sha256": "7a680fc6d123d2d089d2332c5064d3ce8b72c897022973f5dcbf7c8ef5e65c5a",
+      "extreme_cfg": {
+        "stat_q": 98.0,
+        "stat_on_wind": true,
+        "stat_on_power": false,
+        "use_stat": true,
+        "use_ramp": false,
+        "use_cutout": true,
+        "use_temp": true,
+        "ramp_ratio": 0.05,
+        "ramp_q": null,
+        "cutout_ms": 25.0,
+        "temp_low": -10.0,
+        "temp_high": 35.0,
+        "temp_q_low": 2.0,
+        "temp_q_high": 98.0,
+        "temp_requires_wind": false
+      },
+      "computed": {
+        "n_samples": 70176,
+        "n_extreme": 4046,
+        "n_ramp": 6451,
+        "n_cutout": 47,
+        "n_stat": 1403,
+        "n_temp": 2684,
+        "q_wind_hub_ms": 15.62,
+        "q_power_mw": 60.59566649999999,
+        "shift_w1_wind": 4.234772511817187,
+        "shift_w1_power": 7.759023724938656,
+        "shift_ks_wind": 0.3467622343054869,
+        "shift_ks_power": 0.20055581887979756
+      },
+      "metadata_match": {
+        "n_samples": true,
+        "n_extreme": true,
+        "n_ramp": true,
+        "n_cutout": true,
+        "n_stat": true,
+        "n_temp": true,
+        "q_wind_hub_ms": true,
+        "q_power_mw": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "event_columns": {
+        "index": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "time": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "wind_hub_ms": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "power_mw": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_extreme": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_ramp": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_cutout": {
+          "matches": true,
+          "mismatched_rows": 0
+        }
+      },
+      "manuscript_table_match": {
+        "n_extreme": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "wind_hub_max_ms": 31.086,
+      "nonfinite_hub_wind": 0,
+      "nonfinite_temperature": 0
+    },
+    {
+      "farm_idx": 5,
+      "site": 5,
+      "farm_name": "Wind farm site 5 (Nominal capacity-36MW)",
+      "data_file": "data/wind_farm_data/data_processed/wind_farms/Wind farm site 5 (Nominal capacity-36MW).xlsx",
+      "data_sha256": "34edf45ea08dd913e4afca208da21b7cb7594be494a449ed60ccbfbe04c690ee",
+      "archived_meta_sha256": "fc8e06502265467c9b7a8977467e0727bc2e20fde6bef16fce7d52f5b079931e",
+      "archived_events_sha256": "286df70fca12ecc47d85e5dc4e7146985381a599fb78027654dbc30b9539fe41",
+      "extreme_cfg": {
+        "stat_q": 98.0,
+        "stat_on_wind": true,
+        "stat_on_power": false,
+        "use_stat": true,
+        "use_ramp": false,
+        "use_cutout": true,
+        "use_temp": true,
+        "ramp_ratio": 0.05,
+        "ramp_q": null,
+        "cutout_ms": 25.0,
+        "temp_low": -10.0,
+        "temp_high": 35.0,
+        "temp_q_low": 2.0,
+        "temp_q_high": 98.0,
+        "temp_requires_wind": false
+      },
+      "computed": {
+        "n_samples": 69999,
+        "n_extreme": 3039,
+        "n_ramp": 7336,
+        "n_cutout": 3,
+        "n_stat": 1399,
+        "n_temp": 1653,
+        "q_wind_hub_ms": 13.02,
+        "q_power_mw": 34.38501332,
+        "shift_w1_wind": 4.195472315094063,
+        "shift_w1_power": 9.850823290780545,
+        "shift_ks_wind": 0.4603487989470221,
+        "shift_ks_power": 0.36312967267812346
+      },
+      "metadata_match": {
+        "n_samples": true,
+        "n_extreme": true,
+        "n_ramp": true,
+        "n_cutout": true,
+        "n_stat": true,
+        "n_temp": true,
+        "q_wind_hub_ms": true,
+        "q_power_mw": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "event_columns": {
+        "index": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "time": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "wind_hub_ms": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "power_mw": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_extreme": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_ramp": {
+          "matches": true,
+          "mismatched_rows": 0
+        },
+        "is_cutout": {
+          "matches": true,
+          "mismatched_rows": 0
+        }
+      },
+      "manuscript_table_match": {
+        "n_extreme": true,
+        "shift_w1_wind": true,
+        "shift_w1_power": true,
+        "shift_ks_wind": true,
+        "shift_ks_power": true
+      },
+      "wind_hub_max_ms": 26.166667,
+      "nonfinite_hub_wind": 0,
+      "nonfinite_temperature": 580
+    }
+  ],
+  "interpretation_notes": [
+    "Matching archived screening establishes numerical reproduction on supplied processed files; it does not establish causal or pristine upstream data preprocessing.",
+    "Farm 6 zero-power mass cannot be attributed to wind above the declared 25 m/s cut-out threshold when no recorded sample exceeds that threshold."
+  ],
+  "all_six_recomputed": true,
+  "all_archived_metadata_match": true,
+  "all_archived_events_match": true,
+  "all_manuscript_table_values_match": true
+}

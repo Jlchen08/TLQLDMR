@@ -1,0 +1,13 @@
+scope,role,method,tasks,site_equal_macro_capacity_normalized_rmse,site_equal_macro_capacity_normalized_rmse_percent,average_task_rank,task_wins_including_ties
+within,primary,Full,6,0.180904894755,18.0904894755,3.5,1
+within,primary,NoVariance,6,0.17347414614,17.347414614,3,1
+within,primary,NoDiscrepancy,6,0.193328906626,19.3328906626,4.16666666667,0
+within,primary,WeightedSVQR,6,0.186461951791,18.6461951791,3.83333333333,0
+within,primary,TargetSVQR,6,0.200509321574,20.0509321574,4.5,0
+within,primary,HistGBR,6,0.139126673957,13.9126673957,2,4
+cross,secondary_stress,Full,6,0.176943522641,17.6943522641,3.66666666667,1
+cross,secondary_stress,NoVariance,6,0.171833591308,17.1833591308,3,1
+cross,secondary_stress,NoDiscrepancy,6,0.168239850723,16.8239850723,2.5,1
+cross,secondary_stress,WeightedSVQR,6,0.175625249723,17.5625249723,4.16666666667,0
+cross,secondary_stress,TargetSVQR,6,0.200509321574,20.0509321574,4.83333333333,0
+cross,secondary_stress,HistGBR,6,0.1492252489,14.92252489,2.83333333333,3

@@ -59,7 +59,7 @@ def test_actual_response_structure_is_supported_without_writing() -> None:
 
     document = updater.parse_document(before)
 
-    assert len(document.blocks) == 401
+    assert len(document.blocks) == before.count(b"% BEGIN VERIFIED CHANGE ")
     assert len({block.marker for block in document.blocks}) == 145
     assert response.read_bytes() == before
 

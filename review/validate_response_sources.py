@@ -38,6 +38,7 @@ BEGIN_RE = re.compile(r"^\s*%\s*BEGIN VERIFIED CHANGE\s+(\S+)\s*$")
 END_RE = re.compile(r"^\s*%\s*END VERIFIED CHANGE\s+(\S+)\s*$")
 ORIGINAL_LABEL = "Original text:"
 REVISED_LABEL = "Revised text:"
+DELETION_LABEL = "Deletion (no replacement text):"
 
 
 @dataclass(frozen=True)
@@ -208,7 +209,10 @@ def _line_error(kind: str, line: int, message: str, **extra: object) -> dict[str
 def _extract_body(lines: Sequence[str]) -> tuple[str, str, int | None, int | None, list[str]]:
     errors: list[str] = []
     original_indices = [i for i, line in enumerate(lines) if ORIGINAL_LABEL in line]
-    revised_indices = [i for i, line in enumerate(lines) if REVISED_LABEL in line]
+    revised_indices = [
+        i for i, line in enumerate(lines)
+        if REVISED_LABEL in line or DELETION_LABEL in line
+    ]
     if len(original_indices) != 1:
         errors.append(f"expected one Original label, found {len(original_indices)}")
     if len(revised_indices) != 1:
@@ -314,7 +318,7 @@ def parse_verified_changes(text: str) -> ParseResult:
 
 
 def strip_response_layout(text: str) -> str:
-    """Remove only the response letter's quote/small shell.
+    """Remove the response-only quote, size, and numeric-color wrappers.
 
     Manuscript constructs inside the excerpt are preserved for strict matching.
     """
@@ -323,6 +327,11 @@ def strip_response_layout(text: str) -> str:
     value = re.sub(r"^\\begin\{quote\}\s*", "", value)
     value = re.sub(r"^\\small\b\s*", "", value)
     value = re.sub(r"\s*\\end\{quote\}\s*$", "", value)
+    # The response colors literal cross-reference numbers without changing the
+    # copied number. Only this numeric presentation wrapper is source-neutral.
+    value = re.sub(
+        r"\\ResponseReferenceNumber\{([0-9]+(?:\.[0-9]+)*)\}", r"\1", value
+    )
     return value.strip()
 
 

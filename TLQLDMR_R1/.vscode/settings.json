@@ -1,10 +1,14 @@
 {
+  "workbench.editorAssociations": {
+    "*.pdf": "latex-workshop-pdf-hook"
+  },
   "latex-workshop.latex.outDir": "%DIR%/build",
   "latex-workshop.latex.autoBuild.run": "onSave",
   "latex-workshop.latex.autoBuild.interval": 500,
   "latex-workshop.view.pdf.viewer": "tab",
   "latex-workshop.view.pdf.refocus": false,
   "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
+  "latex-workshop.view.pdf.scrollMode": 0,
   "latex-workshop.view.pdf.tab.useNewGroup": true,
   "latex-workshop.view.pdf.tab.editorGroup": "right",
   "latex-workshop.synctex.afterBuild.enabled": true,
@@ -36,16 +40,15 @@
     "editor.wrappingIndent": "same"
   },
   "latex-workshop.latex.clean.fileTypes": [
-    "aux",
-    "bbl",
-    "blg",
-    "fdb_latexmk",
-    "fls",
-    "log",
-    "out",
-    "synctex.gz",
-    "toc",
-    "abs"
+    "*.aux",
+    "*.bbl",
+    "*.blg",
+    "*.fdb_latexmk",
+    "*.fls",
+    "*.log",
+    "*.out",
+    "*.toc",
+    "*.abs"
   ],
   "kiroAgent.configureMCP": "Disabled",
   "latex-workshop.latex.tools": [

@@ -1,0 +1,146 @@
+change_id,change_type,response_lines,original_source_locations,revised_source_locations,match
+intro_framework,replacement,217; 13192,TLQLDMR_manuscript/TLQLDMR_energy.tex:298-298,TLQLDMR_R1/TLQLDMR_energy.tex:310-310,strict
+contributions,replacement,233; 947; 4970; 10737; 13208,TLQLDMR_manuscript/TLQLDMR_energy.tex:300-306,TLQLDMR_R1/TLQLDMR_energy.tex:314-319,visible
+related_variance,replacement,263; 1996; 6881; 13253,TLQLDMR_manuscript/TLQLDMR_energy.tex:316-325,TLQLDMR_R1/TLQLDMR_energy.tex:339-353,visible
+variance_roles,replacement,301; 1680; 6966; 13291,TLQLDMR_manuscript/TLQLDMR_energy.tex:378-382,TLQLDMR_R1/TLQLDMR_energy.tex:412-412,visible
+domain_roles,replacement,322; 6987; 12952,TLQLDMR_manuscript/TLQLDMR_energy.tex:383-383,TLQLDMR_R1/TLQLDMR_energy.tex:413-413,visible
+weighting,replacement,339; 13576,TLQLDMR_manuscript/TLQLDMR_energy.tex:384-384,TLQLDMR_R1/TLQLDMR_energy.tex:414-414,visible
+experiment_scope,replacement,356; 4072; 5000; 5790; 7454,TLQLDMR_manuscript/TLQLDMR_energy.tex:609-609,TLQLDMR_R1/TLQLDMR_energy.tex:661-661,strict
+intro_ldmr_source_correction,replacement,371; 1980; 13421,TLQLDMR_manuscript/TLQLDMR_energy.tex:294-294,TLQLDMR_R1/TLQLDMR_energy.tex:305-305,strict
+related_mmd_scope,replacement,387; 7624; 13051,TLQLDMR_manuscript/TLQLDMR_energy.tex:331-335,TLQLDMR_R1/TLQLDMR_energy.tex:360-365,visible
+structural_risk_scope,replacement,411; 8321,TLQLDMR_manuscript/TLQLDMR_energy.tex:377-377,TLQLDMR_R1/TLQLDMR_energy.tex:411-411,visible
+nystrom_consistency,replacement,428; 2034; 7280; 12854; 13437,TLQLDMR_manuscript/TLQLDMR_energy.tex:532-532,TLQLDMR_R1/TLQLDMR_energy.tex:563-574,visible
+kernel_scope,replacement,454; 4775; 8338; 10319,TLQLDMR_manuscript/TLQLDMR_energy.tex:290-290,TLQLDMR_R1/TLQLDMR_energy.tex:301-301,strict
+transfer_generalization_scope,replacement,470; 8438,TLQLDMR_manuscript/TLQLDMR_energy.tex:328-328,TLQLDMR_R1/TLQLDMR_energy.tex:357-357,strict
+intro_alignment_scope,replacement,486; 13120,TLQLDMR_manuscript/TLQLDMR_energy.tex:296-296,TLQLDMR_R1/TLQLDMR_energy.tex:307-307,strict
+intro_scope_gap,replacement,502; 10888; 12670,TLQLDMR_manuscript/TLQLDMR_energy.tex:292-292,TLQLDMR_R1/TLQLDMR_energy.tex:303-303,strict
+threshold_definition,replacement,533; 6566,TLQLDMR_manuscript/TLQLDMR_energy.tex:657-657,TLQLDMR_R1/TLQLDMR_energy.tex:707-707,strict
+limitations,replacement,549; 977; 4119; 4905; 5015; 10273; 10372; 10767; 12292,TLQLDMR_manuscript/TLQLDMR_energy.tex:1054-1054,TLQLDMR_R1/TLQLDMR_energy.tex:741-741,strict
+event_scope,replacement,565; 4135; 6550; 12137; 12308,TLQLDMR_manuscript/TLQLDMR_energy.tex:649-649,TLQLDMR_R1/TLQLDMR_energy.tex:699-699,strict
+event_subgroups,replacement,581; 4151; 6582; 12153; 12324,TLQLDMR_manuscript/TLQLDMR_energy.tex:659-659,TLQLDMR_R1/TLQLDMR_energy.tex:709-709,strict
+screened_counts_scope,deletion,597,TLQLDMR_manuscript/TLQLDMR_energy.tex:674-674,Deleted; no replacement text,deletion
+chronological_protocol,addition,613; 1010; 1544; 2060; 2620; 3639; 3824; 4167; 5048; 5821; 6512; 7676; 8571; 10421; 11299; 12340; 13463; 13626; 13813,New addition,TLQLDMR_R1/chronological_study.tex:4-8,visible
+chronological_settings,addition,633; 1064; 1564; 2080; 2640; 3844; 4187; 5068; 5875; 7696; 8354; 8591; 13483; 13646,New addition,TLQLDMR_R1/chronological_study.tex:33-37,strict
+chronological_thresholds,addition,653; 6657,New addition,TLQLDMR_R1/chronological_study.tex:232-266,visible
+chronological_subgroups,addition,706; 4207; 6710,New addition,TLQLDMR_R1/chronological_study.tex:275-381,visible
+extreme_composition,addition,835; 4466; 6598; 11367; 11720; 12169,New addition,TLQLDMR_R1/event_composition.tex:3-43,visible
+training_tail_rules,replacement,894; 6445,TLQLDMR_manuscript/TLQLDMR_energy.tex:651-655,TLQLDMR_R1/TLQLDMR_energy.tex:702-704,strict
+abstract,replacement,931; 1648; 4056; 4810; 4954; 10303; 10659; 10721; 13160,TLQLDMR_manuscript/TLQLDMR_energy.tex:268-268,TLQLDMR_R1/TLQLDMR_energy.tex:278-278,strict
+screening_ranking_scope,deletion,993; 5031,TLQLDMR_manuscript/TLQLDMR_energy.tex:697-699,Deleted; no replacement text,deletion
+chronological_counts,addition,1030; 5841; 11333,New addition,TLQLDMR_R1/chronological_study.tex:14-26,visible
+chronological_crossfarm,addition,1084; 4336; 5088; 12417,New addition,TLQLDMR_R1/chronological_study.tex:92-144,visible
+experimental_setup,replacement,1157; 3610; 5161; 5895; 6483; 7803; 13723; 13784,TLQLDMR_manuscript/TLQLDMR_energy.tex:668-668,TLQLDMR_R1/selection_study.tex:6-19,visible
+sequential_calibration,addition,1186; 5190; 5924,New addition,TLQLDMR_R1/selection_study.tex:120-121,visible
+selection_results,addition,1203; 2689; 4826; 5207; 8640; 11001; 11517; 12490,New addition,TLQLDMR_R1/selection_study.tex:23-42; TLQLDMR_R1/selection_tables.tex:4-45,visible
+selection_point_inference,addition,1282; 3426; 5347; 9377,New addition,TLQLDMR_R1/selection_study.tex:46-55,visible
+selection_point_inference_table,addition,1307; 3451; 5372; 9402,New addition,TLQLDMR_R1/selection_inference.tex:3-77,visible
+screening_interpretation,deletion,1401,TLQLDMR_manuscript/TLQLDMR_energy.tex:695-695,Deleted; no replacement text,deletion
+original_experiment_1_table_1_removed,deletion,1416,TLQLDMR_manuscript/TLQLDMR_energy.tex:676-693,Deleted; no replacement text,deletion
+original_experiment_1_figure_removed,deletion,1448,TLQLDMR_manuscript/TLQLDMR_energy.tex:716-716,Deleted; no replacement text,deletion
+original_experiment_1_setup_removed,deletion,1463,TLQLDMR_manuscript/TLQLDMR_energy.tex:674-674,Deleted; no replacement text,deletion
+historical_shift_metrics_removed,deletion,1478,TLQLDMR_manuscript/TLQLDMR_energy.tex:666-666,Deleted; no replacement text,deletion
+fewshot_evidence,deletion,1508; 13610,TLQLDMR_manuscript/TLQLDMR_energy.tex:864-864,Deleted; no replacement text,deletion
+data_partition,deletion,1524; 5770,TLQLDMR_manuscript/TLQLDMR_energy.tex:725-729,Deleted; no replacement text,deletion
+chronological_scarcity,addition,1584,New addition,TLQLDMR_R1/chronological_study.tex:153-180,visible
+intro_challenges,replacement,1664; 13176,TLQLDMR_manuscript/TLQLDMR_energy.tex:296-296,TLQLDMR_R1/TLQLDMR_energy.tex:307-307,strict
+objective,replacement,1701; 6934; 7973; 12700; 12920,TLQLDMR_manuscript/TLQLDMR_energy.tex:365-374,TLQLDMR_R1/TLQLDMR_energy.tex:399-406,visible
+variance_matrix,replacement,1733; 7044; 12756,TLQLDMR_manuscript/TLQLDMR_energy.tex:417-421,TLQLDMR_R1/TLQLDMR_energy.tex:447-450,visible
+convexity,replacement,1757; 7142; 8005,TLQLDMR_manuscript/TLQLDMR_energy.tex:451-451,TLQLDMR_R1/TLQLDMR_energy.tex:481-481,strict
+beta_recovery,replacement,1773; 7158; 8021,TLQLDMR_manuscript/TLQLDMR_energy.tex:479-483,TLQLDMR_R1/TLQLDMR_energy.tex:509-514,visible
+dual_matrices,replacement,1796; 7181,TLQLDMR_manuscript/TLQLDMR_energy.tex:496-499,TLQLDMR_R1/TLQLDMR_energy.tex:528-528,visible
+nystrom_R,replacement,1816; 7240; 8068; 12814,TLQLDMR_manuscript/TLQLDMR_energy.tex:522-525,TLQLDMR_R1/TLQLDMR_energy.tex:555-555,visible
+nystrom_c,replacement,1836; 7260; 8088; 12834,TLQLDMR_manuscript/TLQLDMR_energy.tex:527-530,TLQLDMR_R1/TLQLDMR_energy.tex:560-560,visible
+convergence,replacement,1856; 3777; 7439; 8274,TLQLDMR_manuscript/TLQLDMR_energy.tex:603-603,TLQLDMR_R1/TLQLDMR_energy.tex:652-652,strict
+ablation,replacement,1871; 7469; 11795; 13312,TLQLDMR_manuscript/TLQLDMR_energy.tex:967-1012,TLQLDMR_R1/selection_study.tex:60-67; TLQLDMR_R1/matched_ablation.tex:4-24,visible
+conclusion_method,replacement,1964; 8289; 10356; 10675; 12228; 12276; 13405,TLQLDMR_manuscript/TLQLDMR_energy.tex:1052-1052,TLQLDMR_R1/TLQLDMR_energy.tex:734-734,strict
+chronological_components,addition,2100; 7716; 12360; 13503,New addition,TLQLDMR_R1/chronological_study.tex:47-83,visible
+solver_accuracy,addition,2157; 3928; 7773; 8454,New addition,TLQLDMR_R1/solver_accuracy.tex:2-17,visible
+primary_implementation_checks,addition,2187; 7941,New addition,TLQLDMR_R1/TLQLDMR_energy.tex:729-729,strict
+metric_definitions,replacement,2219; 7648; 9563; 11975,TLQLDMR_manuscript/TLQLDMR_energy.tex:664-664,TLQLDMR_R1/TLQLDMR_energy.tex:715-727,strict
+probabilistic_multiquantile,addition,2247; 3255; 9206; 9591; 11596,New addition,TLQLDMR_R1/selection_study.tex:78-112; TLQLDMR_R1/probabilistic_scores.tex:5-17; TLQLDMR_R1/probabilistic_coverage.tex:5-28; TLQLDMR_R1/probabilistic_inference.tex:5-16,visible
+probabilistic_scores_table,addition,2371; 9715; 11925,New addition,TLQLDMR_R1/probabilistic_scores.tex:5-17,visible
+probabilistic_coverage_table,addition,2407; 9751,New addition,TLQLDMR_R1/probabilistic_coverage.tex:5-28,visible
+probabilistic_inference_table,addition,2454; 3545; 9496; 9798,New addition,TLQLDMR_R1/probabilistic_inference.tex:5-16,visible
+probabilistic_configs_table,addition,2489; 3379; 9330; 9833; 10598,New addition,TLQLDMR_R1/probabilistic_configs.tex:5-26,visible
+conclusion_evidence,replacement,2536; 3580; 8305; 9531; 9880; 10691,TLQLDMR_manuscript/TLQLDMR_energy.tex:1054-1054,TLQLDMR_R1/TLQLDMR_energy.tex:738-738,strict
+original_experiment_2_baselines_removed,deletion,2568; 5617; 8519; 10920,TLQLDMR_manuscript/TLQLDMR_energy.tex:731-731,Deleted; no replacement text,deletion
+original_experiment_2_table_1_removed,deletion,2584; 5544; 8535; 10936,TLQLDMR_manuscript/TLQLDMR_energy.tex:733-754,Deleted; no replacement text,deletion
+selection_protocol,addition,2660; 5958; 8611; 10441; 10972,New addition,TLQLDMR_R1/selection_study.tex:6-19,visible
+selection_tables,addition,2768; 5286; 8719; 11080,New addition,TLQLDMR_R1/selection_tables.tex:4-45,visible
+selection_appendix,addition,2829; 5987; 8780,New addition,TLQLDMR_R1/selection_appendix.tex:1-15; TLQLDMR_R1/selection_appendix_metrics.tex:4-17; TLQLDMR_R1/selection_inference.tex:3-77; TLQLDMR_R1/selection_configs.tex:4-113; TLQLDMR_R1/selection_optimization_summary.tex:4-23; TLQLDMR_R1/probabilistic_configs.tex:5-26,visible
+selection_configs,addition,3127; 6285; 9078; 10470; 11141,New addition,TLQLDMR_R1/selection_configs.tex:4-113,visible
+fast_intro,replacement,3675; 7832,TLQLDMR_manuscript/TLQLDMR_energy.tex:505-505,TLQLDMR_R1/TLQLDMR_energy.tex:536-536,strict
+feature_map,replacement,3691; 7216; 8044,TLQLDMR_manuscript/TLQLDMR_energy.tex:507-512,TLQLDMR_R1/TLQLDMR_energy.tex:539-544,visible
+complexity_intro,replacement,3715; 7848; 8212; 10128,TLQLDMR_manuscript/TLQLDMR_energy.tex:550-550,TLQLDMR_R1/TLQLDMR_energy.tex:596-596,visible
+complexity_table,replacement,3730; 7863; 8227; 10143,TLQLDMR_manuscript/TLQLDMR_energy.tex:586-601,TLQLDMR_R1/TLQLDMR_energy.tex:635-647,visible
+legacy_scaling_intro,deletion,3792,TLQLDMR_manuscript/TLQLDMR_energy.tex:1019-1019,Deleted; no replacement text,deletion
+legacy_scaling_discussion,deletion,3808,TLQLDMR_manuscript/TLQLDMR_energy.tex:1048-1048,Deleted; no replacement text,deletion
+chronological_scalability,addition,3864; 8374; 10190,New addition,TLQLDMR_R1/chronological_study.tex:390-435,visible
+archive_caption_15,deletion,3958,TLQLDMR_manuscript/TLQLDMR_energy.tex:1026-1026,Deleted; no replacement text,deletion
+original_experiment_5_table_1_removed,deletion,3973,TLQLDMR_manuscript/TLQLDMR_energy.tex:1024-1044,Deleted; no replacement text,deletion
+original_experiment_5_scales_removed,deletion,4008,TLQLDMR_manuscript/TLQLDMR_energy.tex:1021-1022,Deleted; no replacement text,deletion
+original_experiment_5_qp_claim_removed,deletion,4024,TLQLDMR_manuscript/TLQLDMR_energy.tex:1046-1046,Deleted; no replacement text,deletion
+legacy_point_noise,deletion,4087; 9964,TLQLDMR_manuscript/TLQLDMR_energy.tex:864-864,Deleted; no replacement text,deletion
+legacy_interval_noise,deletion,4103; 10081,TLQLDMR_manuscript/TLQLDMR_energy.tex:963-963,Deleted; no replacement text,deletion
+selection_calibration_results,addition,4409,New addition,TLQLDMR_R1/selection_study.tex:125-131,visible
+selection_appendix_metrics,addition,4432,New addition,TLQLDMR_R1/selection_appendix_metrics.tex:4-17,visible
+archive_caption_12,deletion,4525; 9980,TLQLDMR_manuscript/TLQLDMR_energy.tex:843-843,Deleted; no replacement text,deletion
+archive_caption_14,deletion,4540; 10097,TLQLDMR_manuscript/TLQLDMR_energy.tex:908-908,Deleted; no replacement text,deletion
+original_experiment_2_table_2_removed,deletion,4555; 9928,TLQLDMR_manuscript/TLQLDMR_energy.tex:841-862,Deleted; no replacement text,deletion
+original_experiment_3_table_2_removed,deletion,4591; 10011,TLQLDMR_manuscript/TLQLDMR_energy.tex:906-961,Deleted; no replacement text,deletion
+original_experiment_2_noise_setup_removed,deletion,4661; 9912,TLQLDMR_manuscript/TLQLDMR_energy.tex:838-839,Deleted; no replacement text,deletion
+original_experiment_3_noise_setup_removed,deletion,4677; 9995,TLQLDMR_manuscript/TLQLDMR_energy.tex:901-902,Deleted; no replacement text,deletion
+intro_recent_forecasting,addition,4707; 10820; 12602,New addition,TLQLDMR_R1/TLQLDMR_energy.tex:303-303,strict
+related_work_scope,replacement,4723; 10836; 12618,TLQLDMR_manuscript/TLQLDMR_energy.tex:314-314,TLQLDMR_R1/TLQLDMR_energy.tex:330-330,strict
+related_wind_forecasting,addition,4739; 10335; 10852; 12634,New addition,TLQLDMR_R1/TLQLDMR_energy.tex:332-337,visible
+roadmap,replacement,4760; 10873; 12655; 13238,TLQLDMR_manuscript/TLQLDMR_energy.tex:309-309,TLQLDMR_R1/TLQLDMR_energy.tex:324-324,visible
+data_code_availability,addition,4921; 10404,New addition,TLQLDMR_R1/reproducibility_statement.tex:2-3,strict
+legacy_point_intro,deletion,5466,TLQLDMR_manuscript/TLQLDMR_energy.tex:723-723,Deleted; no replacement text,deletion
+legacy_point_discussion,deletion,5482,TLQLDMR_manuscript/TLQLDMR_energy.tex:836-836,Deleted; no replacement text,deletion
+legacy_interval_intro,deletion,5497,TLQLDMR_manuscript/TLQLDMR_energy.tex:869-869,Deleted; no replacement text,deletion
+legacy_interval_discussion,deletion,5513; 12003,TLQLDMR_manuscript/TLQLDMR_energy.tex:899-899,Deleted; no replacement text,deletion
+interval_nominal_coverage,deletion,5529,TLQLDMR_manuscript/TLQLDMR_energy.tex:873-873,Deleted; no replacement text,deletion
+original_experiment_3_table_1_removed,deletion,5580,TLQLDMR_manuscript/TLQLDMR_energy.tex:875-897,Deleted; no replacement text,deletion
+original_experiment_3_baselines_removed,deletion,5633,TLQLDMR_manuscript/TLQLDMR_energy.tex:871-871,Deleted; no replacement text,deletion
+archive_caption_6,deletion,5649,TLQLDMR_manuscript/TLQLDMR_energy.tex:735-735,Deleted; no replacement text,deletion
+archive_caption_7,deletion,5664; 11442,TLQLDMR_manuscript/TLQLDMR_energy.tex:768-768,Deleted; no replacement text,deletion
+archive_caption_8,deletion,5679; 11457,TLQLDMR_manuscript/TLQLDMR_energy.tex:784-784,Deleted; no replacement text,deletion
+archive_caption_9,deletion,5694; 11472,TLQLDMR_manuscript/TLQLDMR_energy.tex:800-800,Deleted; no replacement text,deletion
+archive_caption_10,deletion,5709; 11487,TLQLDMR_manuscript/TLQLDMR_energy.tex:816-816,Deleted; no replacement text,deletion
+archive_caption_11,deletion,5724; 11502,TLQLDMR_manuscript/TLQLDMR_energy.tex:832-832,Deleted; no replacement text,deletion
+archive_caption_13,deletion,5739,TLQLDMR_manuscript/TLQLDMR_energy.tex:877-877,Deleted; no replacement text,deletion
+domain_shift_assumption,replacement,5805,TLQLDMR_manuscript/TLQLDMR_energy.tex:296-296,TLQLDMR_R1/TLQLDMR_energy.tex:307-307,strict
+dataset_direction_schema,replacement,5941,TLQLDMR_manuscript/TLQLDMR_energy.tex:618-618,TLQLDMR_R1/TLQLDMR_energy.tex:669-669,visible
+data_sampling,replacement,6413; 11283; 13768,TLQLDMR_manuscript/TLQLDMR_energy.tex:614-614,TLQLDMR_R1/TLQLDMR_energy.tex:665-665,strict
+data_quality,replacement,6429,TLQLDMR_manuscript/TLQLDMR_energy.tex:625-625,TLQLDMR_R1/TLQLDMR_energy.tex:676-676,visible
+label_supervision_scope,replacement,6839,TLQLDMR_manuscript/TLQLDMR_energy.tex:386-386,TLQLDMR_R1/TLQLDMR_energy.tex:416-416,visible
+architecture,replacement,6919,TLQLDMR_manuscript/TLQLDMR_energy.tex:353-353,TLQLDMR_R1/TLQLDMR_energy.tex:387-387,visible
+optimization_layers,replacement,7004,TLQLDMR_manuscript/TLQLDMR_energy.tex:404-404,TLQLDMR_R1/TLQLDMR_energy.tex:434-434,strict
+normalization,replacement,7020; 12732; 12969,TLQLDMR_manuscript/TLQLDMR_energy.tex:408-413,TLQLDMR_R1/TLQLDMR_energy.tex:437-442,visible
+mmd_matrix,replacement,7068; 12993,TLQLDMR_manuscript/TLQLDMR_energy.tex:422-426,TLQLDMR_R1/TLQLDMR_energy.tex:452-455,visible
+representer,replacement,7092,TLQLDMR_manuscript/TLQLDMR_energy.tex:430-430,TLQLDMR_R1/TLQLDMR_energy.tex:460-460,strict
+variance_expansion,replacement,7108; 12780; 13017,TLQLDMR_manuscript/TLQLDMR_energy.tex:440-441,TLQLDMR_R1/TLQLDMR_energy.tex:470-471,visible
+kernel_constant,replacement,7127; 12799,TLQLDMR_manuscript/TLQLDMR_energy.tex:453-453,TLQLDMR_R1/TLQLDMR_energy.tex:483-483,visible
+bias_recovery,replacement,7201,TLQLDMR_manuscript/TLQLDMR_energy.tex:501-501,TLQLDMR_R1/TLQLDMR_energy.tex:531-531,visible
+pinball_subgradient,replacement,7306,TLQLDMR_manuscript/TLQLDMR_energy.tex:534-542,TLQLDMR_R1/TLQLDMR_energy.tex:580-583,visible
+batch_gradients,replacement,7335; 8108; 12880,TLQLDMR_manuscript/TLQLDMR_energy.tex:544-548,TLQLDMR_R1/TLQLDMR_energy.tex:587-595,visible
+algorithm,replacement,7361; 8134,TLQLDMR_manuscript/TLQLDMR_energy.tex:552-583,TLQLDMR_R1/TLQLDMR_energy.tex:600-629,visible
+framework_0,replacement,7562; 13036,TLQLDMR_manuscript/framework.tikz:102-102,TLQLDMR_R1/framework.tikz:102-102,visible
+framework_1,replacement,7577,TLQLDMR_manuscript/TLQLDMR_energy.tex:370-370; TLQLDMR_manuscript/framework.tikz:121-121,TLQLDMR_R1/framework.tikz:121-121,strict
+framework_2,replacement,7593,TLQLDMR_manuscript/framework.tikz:141-141,TLQLDMR_R1/framework.tikz:141-141,visible
+framework_3,replacement,7609,TLQLDMR_manuscript/framework.tikz:143-143,TLQLDMR_R1/framework.tikz:143-143,visible
+distribution_shift,replacement,7910,TLQLDMR_manuscript/TLQLDMR_energy.tex:344-344,TLQLDMR_R1/TLQLDMR_energy.tex:376-376,strict
+framework_4,replacement,7926,TLQLDMR_manuscript/framework.tikz:90-90,TLQLDMR_R1/framework.tikz:90-90,visible
+selection_optimization_results,addition,8484; 10254,New addition,TLQLDMR_R1/selection_study.tex:71-74,visible
+highlights_file,addition,10783; 13847,New addition,TLQLDMR_R1/Highlights.tex:16-19,visible
+selection_residual_diagnostics,addition,11888,New addition,TLQLDMR_R1/residual_diagnostics.tex:3-20,visible
+notation_table,addition,12033,New addition,TLQLDMR_R1/notation_table.tex:4-26,visible
+task_title,replacement,12089,TLQLDMR_manuscript/TLQLDMR_energy.tex:207-207,TLQLDMR_R1/TLQLDMR_energy.tex:214-214,strict
+keyword_terminology,replacement,12105,TLQLDMR_manuscript/TLQLDMR_energy.tex:278-278,TLQLDMR_R1/TLQLDMR_energy.tex:289-289,strict
+event_terminology_note,addition,12121,New addition,TLQLDMR_R1/TLQLDMR_energy.tex:374-374,strict
+framework_target_domain,replacement,12244,TLQLDMR_manuscript/framework.tikz:88-88,TLQLDMR_R1/framework.tikz:88-88,strict
+matrix_projected_term_name,replacement,13075,TLQLDMR_manuscript/TLQLDMR_energy.tex:407-407,TLQLDMR_R1/TLQLDMR_energy.tex:436-436,visible
+auxiliary_projected_term_name,replacement,13090,TLQLDMR_manuscript/TLQLDMR_energy.tex:415-415,TLQLDMR_R1/TLQLDMR_energy.tex:445-445,visible
+kernel_projected_term_name,replacement,13105,TLQLDMR_manuscript/TLQLDMR_energy.tex:437-437,TLQLDMR_R1/TLQLDMR_energy.tex:467-467,visible
+weighting_bullet,replacement,13593,TLQLDMR_manuscript/TLQLDMR_energy.tex:387-387,TLQLDMR_R1/TLQLDMR_energy.tex:417-417,visible
+chronological_weighting,addition,13666,New addition,TLQLDMR_R1/chronological_study.tex:187-223,visible

@@ -211,7 +211,7 @@
 
 %------------------------ Title ------------------------
 
-\title [mode = title]{Transfer Learning Quantile Large-margin Distribution Machine for Wind Power Forecasting under Meteorological Extremes}
+\title [mode = title]{Transfer Learning Quantile Large-margin Distribution Machine for Wind Power Forecasting under {\color{blue}Meteorological Extremes}}
 \shorttitle{}
 
 %------------------------ Authors ------------------------
@@ -275,7 +275,7 @@ junzo.watada.ips@gmail.com (J. Watada)
 %------------------------ Abstract ------------------------
 \begin{abstract}
 % BEGIN V2 GENERATED abstract
-{\color{blue}Wind-power forecasting during meteorological extremes combines limited target labels with source--target distribution differences. We formulate the Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR) using symmetric centered source-residual variance, a projected predictive-mean discrepancy, and weighted pinball loss. A frozen chronological comparison uses 128 target fitting labels and separates six primary within-site tasks from six secondary leave-one-farm-out stress tasks. In the primary within-site scope, histogram gradient boosting was the empirical winner for site-equal capacity-normalized root mean squared error at 13.913\%; TL-QLDMR achieved 18.090\%, ranked 3rd of six, and was outside the conservative first tier. In the secondary cross-site scope, histogram gradient boosting was the empirical winner for site-equal capacity-normalized root mean squared error at 14.923\%; TL-QLDMR achieved 17.694\%, ranked 5th of six, and remained in the conservative first tier. First-tier membership is non-rejection of inferiority rather than equivalence or superiority. Of 60 Holm-adjusted task comparisons, 1 favored TL-QLDMR and 4 favored a comparator. With its settings held fixed, TL-QLDMR ranked 2nd of four in the primary matched scope and 2nd of four in the secondary matched scope; 2 Holm-adjusted removal effects favored TL-QLDMR and 0 favored a removal variant. TL-QLDMR had the lowest mean task rank in both matched scopes. The matched effects are conditional because the variants were not independently retuned. The public Q3--Q4 period had been examined previously, so these results are test-locked evidence on a reused period rather than independent external confirmation and do not establish universal model superiority.}
+{\color{blue}Wind-power forecasting during meteorological extremes combines limited target labels with source--target distribution differences. We formulate the Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR) using an asymmetric quantile-learning scheme that combines centered source-residual variance and weighted pinball loss with a projected predictive-mean discrepancy. A frozen chronological comparison uses 128 target fitting labels and separates six primary within-site tasks from six secondary leave-one-farm-out stress tasks. In the primary within-site scope, histogram gradient boosting was the empirical winner for site-equal capacity-normalized root mean squared error at 13.913\%; TL-QLDMR achieved 18.090\%, ranked 3rd of six, and was outside the conservative first tier. In the secondary cross-site scope, histogram gradient boosting was the empirical winner for site-equal capacity-normalized root mean squared error at 14.923\%; TL-QLDMR achieved 17.694\%, ranked 5th of six, and remained in the conservative first tier. First-tier membership is non-rejection of inferiority rather than equivalence or superiority. Of 60 Holm-adjusted task comparisons, 1 favored TL-QLDMR and 4 favored a comparator. With its settings held fixed, TL-QLDMR ranked 2nd of four in the primary matched scope and 2nd of four in the secondary matched scope; 2 Holm-adjusted removal effects favored TL-QLDMR and 0 favored a removal variant. TL-QLDMR had the lowest mean task rank in both matched scopes. The matched effects are conditional because the variants were not independently retuned. The public Q3--Q4 period had been examined previously, so these results are test-locked evidence on a reused period rather than independent external confirmation and do not establish universal model superiority.}
 % END V2 GENERATED abstract
 \end{abstract}
 
@@ -286,7 +286,7 @@ Wind power forecasting\\
 Large-margin distribution machine\\
 Quantile regression\\
 Transfer learning\\
-Meteorological extremes
+{\color{blue}Meteorological extremes}
 \end{keywords}
 
 \maketitle
@@ -302,17 +302,17 @@ Among the diverse landscape of forecasting methodologies, kernel-based approache
 
 Despite these strengths, existing kernel-based wind power forecasting studies predominantly focus on normal-operating conditions with deterministic point prediction objectives. To address the need for uncertainty quantification, Support Vector Quantile Regression (SVQR) extends SVR by replacing the symmetric $\epsilon$-loss with the asymmetric pinball loss, enabling estimation of conditional quantiles for prediction intervals \citep{ye2025nfs, tsvqr2023}. Recent studies have further pushed the field toward joint deterministic-probabilistic optimization, diffusion-based uncertainty modeling, and more expressive spatio-temporal forecasting architectures \citep{wang2025ensemble, liu2025diffusion, zhang2026gwsstnet}. {\color{blue}Hybrid alternatives include wavelet--SVM point forecasting, CNN--LSTM quantile models for wind power, multiscale explainable neural models for wind speed, and CNN--LSTM uncertainty models for net-load ramping \citep{abedinia2022multilevel,abedinia2024quantile,serttas2026multiscale,yu2025ramping}. These studies address complementary forecasting tasks and do not by themselves establish performance under scarce labeled extreme-condition wind-power transfer.} {\color{blue}The specific setting considered here---a fixed-kernel probabilistic regressor trained jointly on normal-condition source windows and scarce labeled meteorological-tail target windows---has received less attention within this literature and motivates the formulation evaluated below.}
 
-{\color{blue}SVR combines norm regularization with an $\epsilon$-insensitive loss, whereas support vector quantile regression uses a quantile-dependent pinball loss \citep{smola2004tutorial,takeuchi2006nonparametric}. The original large-margin distribution machine concerns classification margins \citep{zhang2014large}; its regression extension, LDMR, combines $\epsilon$-insensitive and quadratic losses \citep{rastogi2020ldmr}. Later work includes a least-squares formulation and applications with empirical mode decomposition \citep{gupta2021least,hazarika2023mode}. These developments motivate examining residual dispersion together with quantile loss in supervised transfer. Our centered residual-variance term is specified separately below; it is not identified with every earlier LDMR objective or with a mechanism that forces residuals to be symmetric.}
+{\color{blue}SVR combines norm regularization with an $\epsilon$-insensitive loss, whereas support vector quantile regression uses a quantile-dependent pinball loss \citep{smola2004tutorial,takeuchi2006nonparametric}. The original large-margin distribution machine concerns classification margins \citep{zhang2014large}; its regression extension, LDMR, combines an $\epsilon$-insensitive loss with a zero-referenced quadratic residual term \citep{rastogi2020ldmr}. Later work includes a least-squares formulation and applications with empirical mode decomposition \citep{gupta2021least,hazarika2023mode}. Our quantile extension replaces the zero-referenced quadratic term with centered source-residual variance and uses weighted pinball loss. This separates residual dispersion from residual location: the variance permits a nonzero residual mean, while the loss assigns quantile-dependent costs to underprediction and overprediction.}
 
-Against this backdrop, extending kernel-based methods from the normal-operating domain to the {\color{blue}meteorological-tail target domain} introduces three critical challenges. {\color{blue}First, the source and target distributions differ by their meteorological selection rules, while consecutive forecasting windows may also be dependent. These are separate obstacles to interpreting a pooled random-window score as performance on future extreme conditions.} Recent wind-power studies have explored transfer learning and domain adaptation \citep{yin2021serioparallel, wang2024scarcity, dong2023mdan}. {\color{blue}The setting studied here is narrower: a fixed kernel predictor, labeled target training windows, and a sample-level meteorological-tail domain. Second, residual-spread regularization and quantile estimation have different roles: the former penalizes dispersion, whereas the latter assigns different costs to underprediction and overprediction. A centered variance penalty does not impose residual symmetry or a zero residual mean. The methodological question is how to combine these terms consistently under source--target imbalance. Third, the present setting requires an explicit rule for using the limited target labels together with source observations. Here we examine a specified predictive-discrepancy penalty together with domain-weighted label supervision.}
+Against this backdrop, extending kernel-based methods from the normal-operating domain to the {\color{blue}meteorological-tail target domain} introduces three critical challenges. {\color{blue}First, the source and target distributions differ by their meteorological selection rules, while consecutive forecasting windows may also be dependent. These are separate obstacles to interpreting a pooled random-window score as performance on future extreme conditions.} Recent wind-power studies have explored transfer learning and domain adaptation \citep{yin2021serioparallel, wang2024scarcity, dong2023mdan}. {\color{blue}The setting studied here is narrower: a fixed kernel predictor, labeled target training windows, and a sample-level meteorological-tail domain. Second, LDMR's zero-referenced quadratic residual term penalizes both centered dispersion and the squared residual mean. For quantile learning, we instead control centered signed-residual dispersion, allowing the residual center to vary with the quantile-dependent loss. We call this coupling asymmetric variance regularization for quantile learning; the asymmetry concerns underprediction and overprediction costs, while the centered quadratic penalty itself remains sign-symmetric. The methodological question is how to combine these roles consistently under source--target imbalance. Third, the present setting requires an explicit rule for using the limited target labels together with source observations. Here we examine a specified predictive-discrepancy penalty together with domain-weighted label supervision.}
 
 
-To address these challenges, Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR) is proposed as a {\color{blue}specified} extension of the classical LDMR paradigm for cross-domain probabilistic wind power prediction. {\color{blue}The formulation combines centered source-residual spread control with quantile-dependent pinball loss, constrains the source--target difference along the prediction direction, and weights available target labels separately from source labels. Its contribution is this specified supervised-transfer formulation and its kernel and explicit-feature derivations. The variance term itself is symmetric; the construction is not claimed to be a uniquely optimal quantile-specific variance penalty. Fixed Nystr\"{o}m features permit mini-batch Adam and an ADMM solver with numerical primal--dual accuracy checks.} The main contributions of this paper are summarized as follows:
+To address these challenges, Transfer Learning Quantile Large-margin Distribution Machine for Regression (TL-QLDMR) is proposed as a {\color{blue}specified} extension of the classical LDMR paradigm for cross-domain probabilistic wind power prediction. {\color{blue}The formulation introduces asymmetric variance regularization for quantile learning: centered signed source-residual variance controls dispersion without the squared-mean penalty present in LDMR's quadratic loss, and weighted pinball loss supplies quantile-dependent costs. Here, ``asymmetric'' describes this combined quantile-learning design; the variance functional itself is sign-symmetric. A projected source--target predictive-mean discrepancy and separate source and target label weights specify the supervised transfer mechanism. Consistent exact-kernel and explicit-feature derivations retain the label-dependent term induced by residual centering, and fixed Nystr\"{o}m features permit mini-batch Adam and ADMM with numerical primal--dual accuracy checks.} The main contributions of this paper are summarized as follows:
 
 
 \begin{itemize}
     \item A unified TL-QLDMR framework is developed for wind power forecasting under {\color{blue}sample-level meteorological extremes}, so that probabilistic forecasting, large-margin distribution learning, and supervised transfer adaptation are integrated into a single kernel-based objective.
-    \item {\color{blue}A symmetric source-residual variance penalty is combined with weighted pinball loss, separating dispersion control from quantile-specific loss asymmetry.}
+    \item {\color{blue}Asymmetric variance regularization for quantile learning couples centered signed source-residual dispersion with weighted pinball loss. Relative to LDMR's zero-referenced quadratic loss, centering removes the additional squared-mean penalty; quantile-dependent asymmetry comes from the loss, while the variance functional remains sign-symmetric.}
     \item {\color{blue}A supervised transfer mechanism combines a projected mean-discrepancy penalty with domain-specific label weights; this constrains predictive means without claiming full feature-distribution alignment.}
     \item {\color{blue}Consistent exact-kernel and fixed Nystr\"{o}m formulations are derived, including the label-dependent linear term induced by residual centering.}
     % BEGIN V2 GENERATED contribution_result
@@ -321,7 +321,7 @@ To address these challenges, Transfer Learning Quantile Large-margin Distributio
 \end{itemize}
 
 
-The remainder of this paper is organized as follows. {\color{blue}Section~\ref{rel} reviews recent wind forecasting under variability and uncertainty, LDMR, and transfer learning with distribution-discrepancy penalties. Section~\ref{novel} presents the centered residual-variance formulation, supervised transfer terms, and exact and approximate optimization routes.} Section~\ref{Experiments} describes the dataset, experimental setup, and comprehensive evaluation results across deterministic prediction, probabilistic interval forecasting, ablation studies, {\color{blue}descriptive fitting-cost sensitivity, and optimization accounting}. Finally, Section~\ref{conclusion} concludes the paper and discusses future research directions.
+The remainder of this paper is organized as follows. {\color{blue}Section~\ref{rel} reviews recent wind forecasting under variability and uncertainty, LDMR, and transfer learning with distribution-discrepancy penalties. Section~\ref{novel} presents asymmetric variance regularization for quantile learning, defines its centered source-residual penalty and supervised transfer terms, and derives exact and approximate optimization routes.} Section~\ref{Experiments} describes the dataset, experimental setup, and comprehensive evaluation results across deterministic prediction, probabilistic interval forecasting, ablation studies, {\color{blue}descriptive fitting-cost sensitivity, and optimization accounting}. Finally, Section~\ref{conclusion} concludes the paper and discusses future research directions.
 
 
 %------------------------ Related work ------------------------
@@ -339,7 +339,18 @@ The remainder of this paper is organized as follows. {\color{blue}Section~\ref{r
 \subsection{LDMR}
 {\color{blue}The large-margin distribution machine introduced by \citet{zhang2014large} optimizes classification-margin statistics. Its minimum-margin motivation should not be transferred directly to regression: SVR regularizes function flatness while penalizing errors outside an $\epsilon$ tube, and SVQR combines norm regularization with pinball loss \citep{smola2004tutorial,takeuchi2006nonparametric}. \citet{rastogi2020ldmr} developed an LDM-inspired regression model whose objective combines $\epsilon$-insensitive and quadratic losses. The least-squares extension changes inequality constraints to equalities \citep{gupta2021least}, while \citet{hazarika2023mode} combines regression models with empirical mode decomposition and ensemble empirical mode decomposition for sediment-load prediction. The latter concerns signal decomposition, not mode-seeking estimation.}
 
-{\color{blue}In the present formulation, residual dispersion is measured by the variance about the current source residual mean. This is a symmetric, translation-invariant penalty; it neither fixes that mean at zero nor prescribes residual symmetry or Gaussianity. Weighted pinball loss supplies the quantile-dependent costs. We therefore define and analyze the proposed objective explicitly rather than use a generic residual-mean-plus-variance expression as a representation of prior LDMR methods.}
+{\color{blue}Specifically, with signed residuals $u_i=y_i-f(\boldsymbol{x}_i)$, Eq.~(8) of \citet{rastogi2020ldmr} gives the empirical loss}
+\[
+\color{blue}
+R_{\mathrm{emp}}^f=\frac{k}{2}\sum_{i=1}^{n}u_i^2+C\sum_{i=1}^{n}|u_i|_\epsilon,
+\qquad |u|_\epsilon=\max\{0,|u|-\epsilon\},
+\]
+{\color{blue}where $k$ is that paper's scalar quadratic-loss coefficient. Its regularized objective also includes a parameter-norm term. The quadratic residual term is referenced to zero. Writing $\bar u=n^{-1}\sum_i u_i$ and $V(\boldsymbol{u})=n^{-1}\sum_i(u_i-\bar u)^2$ gives the exact decomposition}
+\[
+\color{blue}
+\frac{1}{n}\sum_i u_i^2=V(\boldsymbol{u})+\bar u^2.
+\]
+{\color{blue}Thus LDMR's quadratic term penalizes both dispersion about the current residual mean and the squared mean itself; it does not assume or enforce a symmetric residual distribution. Our source-domain penalty uses $V(\boldsymbol{u}_S)$, removing this additional squared-mean cost, and replaces the $\epsilon$-insensitive loss with domain-weighted pinball loss. In this paper, ``asymmetric variance regularization'' denotes this coupling of centered signed-residual dispersion control with asymmetric quantile loss, which permits quantile-specific sign imbalance and nonzero residual means. The variance functional itself satisfies $V(-\boldsymbol{u})=V(\boldsymbol{u})$ and contains no explicit $\tau$. The distinction from LDMR is therefore centered variance versus a zero-referenced second moment, rather than signed residuals versus absolute-residual variance.}
 
 
 \subsection{Transfer Learning and MMD}
@@ -398,11 +409,11 @@ Our optimization goal is to find the optimal $\boldsymbol{w}, b$ and slack varia
 the physical meaning of each term is as follows:
 \begin{enumerate}
     \item {\color{blue}\textbf{Structural Regularization}: The squared norm penalizes predictor complexity. In regression this is a flatness or smoothness regularizer, not by itself a statement about a minimum classification margin or a guarantee against overfitting.}
-    \item {\color{blue}\textbf{Residual-Variance Regularization}: The source-only term is a symmetric penalty on centered residuals and contains no quantile parameter. For any residual vector $\boldsymbol{u}$ and scalar $a$, $\|\boldsymbol{H}_S(\boldsymbol{u}+a\boldsymbol{1})\|^2=\|\boldsymbol{H}_S\boldsymbol{u}\|^2$. It controls dispersion without fixing the residual mean or imposing a distributional shape. Quantile dependence enters through pinball loss. Translation invariance alone does not ensure that the penalized population minimizer equals the target conditional quantile; no such consistency or calibration guarantee is asserted.}
+    \item {\color{blue}\textbf{Asymmetric Variance Regularization for Quantile Learning}: Let $\boldsymbol{u}_S=\boldsymbol{y}_S-\boldsymbol{f}_S$ contain signed source residuals. The penalty is $\lambda_1 V_S/2$, where $V_S=n_S^{-1}\|\boldsymbol{H}_S\boldsymbol{u}_S\|^2=n_S^{-1}\sum_i u_{S,i}^2-\bar u_S^2$. It measures dispersion about the current signed residual mean, rather than about zero or the mean absolute residual. For any scalar $a$, $V_S(\boldsymbol{u}_S+a\boldsymbol{1})=V_S(\boldsymbol{u}_S)$ and $V_S(-\boldsymbol{u}_S)=V_S(\boldsymbol{u}_S)$. Hence the quadratic penalty permits a nonzero residual center and remains sign-symmetric; the word ``asymmetric'' describes its coupling with pinball loss, whose costs for positive and negative residuals are $\tau u$ and $(1-\tau)|u|$, respectively. For a continuous conditional distribution, a true quantile satisfies $\Pr\{Y-q_\tau(X)<0\mid X\}=\tau$; this sign-coverage condition requires neither a zero residual mean nor a skewed residual distribution. Centering removes LDMR's additional squared-mean cost, but regularization and cross-domain weighting can still change the population minimizer. No conditional-quantile consistency or target-calibration guarantee follows from translation invariance alone.}
     \item {\color{blue}\textbf{Projected Domain Adaptation}: The penalty is the squared difference between mean source and target predictions, $(\boldsymbol{w}^T(\bar{\phi}_S-\bar{\phi}_T))^2$. It depends on the predictive direction even when the kernel is fixed. It constrains this scalar discrepancy, not complete feature distributions, and does not by itself guarantee transfer accuracy.}
     \item {\color{blue}\textbf{Weighted Pinball Loss}: Separate nonnegative weights assign different emphasis to source and target labels. Because losses are summed, the ratio of domain-level coefficients is $n_TC_T/(n_SC_S)$ when $C_S>0$, rather than $C_T/C_S$ alone. A large per-sample target weight can therefore exceed compensation for sample-count imbalance. No optimal weighting ratio or calibration guarantee is implied; its effect requires sensitivity analysis under the corrected objective.}
     \begin{itemize}
-        \item \textbf{Label-supervised correction}: target labels constrain the model in meteorological-tail regions underrepresented in the source data (e.g., high-wind or temperature-tail samples).
+        \item \textbf{Label-supervised correction}: {\color{blue}target labels constrain the model in meteorological-tail regions underrepresented in the source data (e.g., high-wind or temperature-tail samples).}
         \item {\color{blue}\textbf{Domain emphasis}: $C_S$ and $C_T$ determine per-sample costs, while the domain sample counts also determine their aggregate influence.}
     \end{itemize}
 \end{enumerate}
@@ -436,7 +447,7 @@ where $C_k$ takes value $C_S$ if sample $k \in D_S$ and $C_T$ if sample $k \in D
     \item {\color{blue}\textbf{Variance Matrix} $\mathbf{S}$: Let $\boldsymbol{H}_S=\boldsymbol{I}_{n_S}-\boldsymbol{1}_{n_S}\boldsymbol{1}_{n_S}^T/n_S$. Since $\boldsymbol{H}_S^T=\boldsymbol{H}_S$, $\boldsymbol{H}_S^2=\boldsymbol{H}_S$, and $\boldsymbol{H}_S\boldsymbol{1}=\boldsymbol{0}$, centering gives $\boldsymbol{H}_S(\boldsymbol{y}_S-\boldsymbol{\Phi}_S^T\boldsymbol{w}-b\boldsymbol{1})=\boldsymbol{H}_S(\boldsymbol{y}_S-\boldsymbol{\Phi}_S^T\boldsymbol{w})$ exactly. The mean residual is therefore included through centering, not frozen. The normalized variance is $n_S^{-1}\|\boldsymbol{H}_S(\boldsymbol{y}_S-\boldsymbol{f}_S)\|^2$, computed only over the source domain. Its full-data matrix is}
     \begin{equation}
     \label{eq:matrix_S}
-    {\color{blue}\mathbf{S} = \begin{bmatrix} \boldsymbol{H}_S/n_S & \mathbf{0} \\ \mathbf{0} & \mathbf{0} \end{bmatrix}.}
+    \mathbf{S} = \begin{bmatrix} \boldsymbol{H}_S{\color{blue}/n_S} & \mathbf{0} \\ \mathbf{0} & \mathbf{0} \end{bmatrix}.
     \end{equation}
     \item {\color{blue}\textbf{Projected-Discrepancy Matrix} $\mathbf{M}$: Define $\boldsymbol{a}=[\boldsymbol{1}_{n_S}^T/n_S,-\boldsymbol{1}_{n_T}^T/n_T]^T$. Then $\bar\phi_S-\bar\phi_T=\boldsymbol{\Phi}\boldsymbol{a}$ and $\mathbf{M}=\boldsymbol{a}\boldsymbol{a}^T\succeq0$, with entries}
     \begin{equation}
@@ -498,7 +509,7 @@ by setting the partial derivatives of Eq. (\ref{eq:lagrangian}) with respect to 
 let $\boldsymbol{\gamma}=\boldsymbol{\alpha}-\boldsymbol{\alpha}^*$. {\color{blue}The right-hand side of the stationarity equation belongs to $\operatorname{range}(\boldsymbol{K})=\operatorname{range}(\boldsymbol{\Omega})$. A minimum-norm solution is}
 \begin{equation}
 \label{eq:beta_optimal}
-{\color{blue}\boldsymbol{\beta}=\boldsymbol{\Omega}^{\dagger}(\boldsymbol{K}\boldsymbol{\gamma}+\lambda_1\boldsymbol{K}\mathbf{S}\boldsymbol{Y}).}
+\boldsymbol{\beta}={\color{blue}\boldsymbol{\Omega}^{\dagger}}(\boldsymbol{K}\boldsymbol{\gamma}+\lambda_1\boldsymbol{K}\mathbf{S}\boldsymbol{Y}).
 \end{equation}
 {\color{blue}Here $\dagger$ denotes the Moore--Penrose inverse and equals the ordinary inverse when $\boldsymbol{K}\succ0$. For singular $\boldsymbol{K}$, other coefficient solutions differ by an element of $\ker\boldsymbol{K}$ and represent the same RKHS predictor.}
 Substituting Eq. (\ref{eq:beta_optimal}) back into Eq. (\ref{eq:lagrangian}), and simplifying using Eq. (\ref{eq:kkt_b}) and Eq. (\ref{eq:kkt_xi}), we arrive at the dual problem, which is a standard QP problem
@@ -514,7 +525,7 @@ Substituting Eq. (\ref{eq:beta_optimal}) back into Eq. (\ref{eq:lagrangian}), an
 where the dual matrix $\mathbf{Q}_{dual}$ and vector $\mathbf{p}_{dual}$ are defined as
 \begin{equation}
 \label{eq:dual_matrices}
-{\color{blue}\mathbf{Q}_{dual}=\boldsymbol{K}\boldsymbol{\Omega}^{\dagger}\boldsymbol{K},\qquad \mathbf{p}_{dual}=\lambda_1\boldsymbol{K}\boldsymbol{\Omega}^{\dagger}\boldsymbol{K}\mathbf{S}\boldsymbol{Y}-\boldsymbol{Y}.}
+\mathbf{Q}_{dual}=\boldsymbol{K}{\color{blue}\boldsymbol{\Omega}^{\dagger}}\boldsymbol{K},\qquad \mathbf{p}_{dual}=\lambda_1\boldsymbol{K}{\color{blue}\boldsymbol{\Omega}^{\dagger}}\boldsymbol{K}\mathbf{S}\boldsymbol{Y}-\boldsymbol{Y}.
 \end{equation}
 
 Once the optimal $\boldsymbol{\alpha}, \boldsymbol{\alpha}^*$ are found using a QP solver for Eq. (\ref{eq:dual_problem}), we can recover $\boldsymbol{\beta}$ using Eq. (\ref{eq:beta_optimal}) and construct the final decision function $f(\boldsymbol{x})$. {\color{blue}For fixed $\boldsymbol{\beta}$, a weighted empirical $\tau$-quantile of $y_k-\boldsymbol{K}_k\boldsymbol{\beta}$ with weights $C_k$ minimizes the remaining loss over $b$.}
@@ -541,12 +552,12 @@ With the explicit features, the prediction becomes $f(\boldsymbol{x}) = \boldsym
 where the regularization matrix $\boldsymbol{R} \in \mathbb{R}^{m \times m}$ is
 \begin{equation}
 \label{eq:reg_matrix}
-{\color{blue}\boldsymbol{R}=\boldsymbol{I}+\frac{\lambda_1}{n_S}\boldsymbol{\Psi}_S^T\boldsymbol{H}_S\boldsymbol{\Psi}_S+\lambda_2\Delta_{\psi}\Delta_{\psi}^T.}
+\boldsymbol{R}=\boldsymbol{I}+{\color{blue}\frac{\lambda_1}{n_S}}\boldsymbol{\Psi}_S^T\boldsymbol{H}_S\boldsymbol{\Psi}_S+\lambda_2\Delta_{\psi}\Delta_{\psi}^T.
 \end{equation}
 and the linear term induced by the source-domain variance is
 \begin{equation}
 \label{eq:nystrom_linear}
-{\color{blue}\boldsymbol{c}=\frac{\lambda_1}{n_S}\boldsymbol{\Psi}_S^T\boldsymbol{H}_S\boldsymbol{y}_S.}
+\boldsymbol{c}={\color{blue}\frac{\lambda_1}{n_S}}\boldsymbol{\Psi}_S^T\boldsymbol{H}_S\boldsymbol{y}_S.
 \end{equation}
 
 {\color{blue}The same $1/n_S$ normalization appears in both $\boldsymbol{R}$ and $\boldsymbol{c}$ because they arise from a single expansion of the centered source-residual penalty. Omitting $\boldsymbol{c}$ would instead penalize the spread of predictions and would define a different model. Relative to the exact formulation, only the kernel representation is approximated; the residual-variance normalization and loss-sum convention are preserved.}
@@ -588,10 +599,10 @@ d_b&=\sum_{k\in\mathcal B}\widetilde g_k.
 \begin{algorithm}[t]
 \SetKwInOut{Input}{Input}
 \SetKwInOut{Output}{Output}
-\caption{TL-QLDMR via fixed Nystr\"{o}m features and Adam (common-setting study)}
+\caption{{\color{blue}TL-QLDMR via fixed Nystr\"{o}m features and Adam (common-setting study)}}
 \label{alg:fast_TL-QLDMR}
-\Input{Source data $D_S$, Target data $D_T$, {\color{blue}Requested number of landmarks $m$}, Quantile $\tau$, Hyperparameters $\lambda_1, \lambda_2, C_S, C_T$, Learning rate $\eta$, Batch size $B$, Number of epochs $T$.}
-\Output{Trained weights $\boldsymbol{w} \in \mathbb{R}^m$ and bias $b \in \mathbb{R}$.}
+\Input{Source data $D_S$, Target data $D_T$, {\color{blue}Requested number of landmarks $m$}, Quantile $\tau$, Hyperparameters $\lambda_1, \lambda_2, C_S, C_T$, Learning rate $\eta$, Batch size $B$, {\color{blue}Number of epochs $T$}.}
+\Output{{\color{blue}Trained} weights $\boldsymbol{w} \in \mathbb{R}^m$ and bias $b \in \mathbb{R}$.}
 
 \tcp{Step 1: Nystr\"{o}m Feature Mapping}
 {\color{blue}Sample a pool of at most 2,000 source training inputs. If the pool size exceeds $m$, select $m$ K-means centers; otherwise retain the entire pool and set $m$ to its size. Fix the resulting $Z$}\;
@@ -720,7 +731,7 @@ Farm ID & Site Name & Nominal Capacity (MW) & Total Samples \\
 \input{chronological_study}
 
 \section{Conclusion}\label{conclusion}
-{\color{blue}This paper presents TL-QLDMR for wind power forecasting when labeled target-domain samples are limited and the source and target samples are defined by different meteorological selection rules. The formulation combines normalized source-residual variance, a projected inter-domain mean-discrepancy penalty, and weighted pinball loss. The variance is symmetric; quantile dependence comes from the loss. Exact-kernel and fixed Nystr\"{o}m objectives are convex under the stated kernel and parameter conditions, without a claim of joint strong convexity or a convergence rate for Adam.}
+{\color{blue}This paper presents TL-QLDMR for wind power forecasting when labeled target-domain samples are limited and the source and target samples are defined by different meteorological selection rules. The formulation combines normalized source-residual variance, a projected inter-domain mean-discrepancy penalty, and weighted pinball loss. Asymmetric variance regularization here couples centered signed-residual dispersion with quantile-dependent loss; the quadratic variance functional remains sign-symmetric. Exact-kernel and fixed Nystr\"{o}m objectives are convex under the stated kernel and parameter conditions, without a claim of joint strong convexity or a convergence rate for Adam.}
 
 
 % BEGIN V2 GENERATED conclusion_evidence

@@ -5,7 +5,28 @@
     "editor.wrappingIndent": "same",
     "editor.softTabSize": 2
   },
+  "workbench.editorAssociations": {
+    "*.pdf": "latex-workshop-pdf-hook"
+  },
   "latex-workshop.latex.outDir": "%DIR%/build",
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.autoBuild.interval": 500,
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.view.pdf.internal.synctex.keybinding": "double-click",
+  "latex-workshop.view.pdf.tab.editorGroup": "right",
+  "latex-workshop.view.pdf.scrollMode": 0,
+  "latex-workshop.synctex.afterBuild.enabled": true,
+  "latex-workshop.latex.clean.fileTypes": [
+    "*.aux",
+    "*.bbl",
+    "*.blg",
+    "*.fdb_latexmk",
+    "*.fls",
+    "*.log",
+    "*.out",
+    "*.toc",
+    "*.abs"
+  ],
   "latex-workshop.latex.build.fromFolder": "",
   "latex-workshop.latex.build.enableMagicComments": true,
   "latex-workshop.latex.recipe.default": "first",

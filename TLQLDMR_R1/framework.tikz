@@ -87,7 +87,7 @@
 \node[cbox=greenA, text width=2.55cm, minimum height=0.95cm] (p12) at ($(p1.center)+(0,0)$)
 {Target domain $D_T$\\{\color{blue}Meteorological-tail}\\samples};
 \node[cbox=greenA, text width=2.55cm, minimum height=0.95cm] (p13) at ($(p1.center)+(3.55,0)$)
-{{\color{blue}Windowed covariates\\$W=24$, meteorology,\\cyclic wind direction}};
+{Windowed covariates\\$W=24$, meteorology,\\{\color{blue}cyclic wind direction}};
 
 \draw[decorate,decoration={brace,amplitude=4pt,mirror}, draw=greenA!90, line width=1.1pt] 
   ($(p11.south west)+(0.1,-0.15)$) -- ($(p12.south east)+(-0.1,-0.15)$) 

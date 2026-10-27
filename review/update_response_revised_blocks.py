@@ -48,6 +48,10 @@ _END_PREFIX_RE = re.compile(
 )
 _ORIGINAL_TITLE = rb"\textbf{Original text:}\par"
 _REVISED_TITLE = rb"\textbf{Revised text:}\par"
+_REPLACEMENT_TITLES = (
+    _REVISED_TITLE,
+    rb"\textbf{Deletion (no replacement text):}\par",
+)
 _QUOTE_TOKEN_RE = re.compile(rb"\\(begin|end)\{quote\}")
 _FORBIDDEN_PAYLOAD_MARKERS = (
     b"BEGIN VERIFIED CHANGE",
@@ -115,16 +119,17 @@ def _lines(data: bytes) -> list[_Line]:
 
 
 def _single_title_line(
-    lines: Sequence[_Line], token: bytes, title: str, marker: str, begin_line: int
+    lines: Sequence[_Line], token: bytes | tuple[bytes, ...], title: str, marker: str, begin_line: int
 ) -> _Line:
-    matches = [line for line in lines if token in line.body]
+    tokens = (token,) if isinstance(token, bytes) else token
+    matches = [line for line in lines if any(item in line.body for item in tokens)]
     if len(matches) != 1:
         raise UpdateError(
             f"marker {marker!r} beginning on line {begin_line} has "
             f"{len(matches)} {title} titles; exactly one is required"
         )
     line = matches[0]
-    if not line.body.rstrip().endswith(token):
+    if not line.body.rstrip().endswith(tokens):
         raise UpdateError(
             f"marker {marker!r} line {line.number} has text after its {title} title"
         )
@@ -185,7 +190,7 @@ def parse_document(data: bytes) -> Document:
             )
             revised = _single_title_line(
                 interior,
-                _REVISED_TITLE,
+                _REPLACEMENT_TITLES,
                 "Revised text",
                 marker,
                 lines[open_index].number,

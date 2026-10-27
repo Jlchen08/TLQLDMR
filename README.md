@@ -69,6 +69,20 @@ pdflatex -synctex=1 -interaction=nonstopmode -halt-on-error -output-directory=bu
 
 若输出出现 `Can't find LaTeX root file`，同时活动文档是 `output:...`、语言是 `latex_workshop_log`，说明焦点还在输出面板。此时点击 `.tex` 正文，再点编译按钮；无需修改论文的根文件路径。
 
+### 从 PDF 跳回 TeX 源码
+
+仓库根目录和三个文档目录均已设置：使用 LaTeX Workshop 内置 PDF 预览，**双击 PDF 正文即可跳到对应 TeX 文件及行号**。保存源码会自动编译；编译参数包含 `-synctex=1`，定位所需的 `.synctex.gz` 与 PDF 一起保存在 `build/` 中，扩展的辅助文件清理列表会保留该定位文件。
+
+1. 打开 `.tex`，执行 **LaTeX Workshop: Build LaTeX project**（通常为 `Ctrl+Alt+B`）。
+2. 执行 **LaTeX Workshop: View LaTeX PDF file**（通常为 `Ctrl+Alt+V`），打开当前生成的 PDF。
+3. 在 PDF 的文字、公式或图表附近双击，编辑器会打开对应源码并定位到相关行。对于 `\input` 引入的章节，定位目标是实际的章节文件。
+
+从源码定位到 PDF 可使用 `Ctrl+Alt+J`。这些操作使用 [LaTeX Workshop 的 SyncTeX 功能](https://github.com/James-Yu/LaTeX-Workshop/wiki/View#synctex)。
+
+SyncTeX 按排版位置定位：长表格的页眉、页脚等内容可能跳到对应表格环境的起止行；导入图片会定位到相关的 `\includegraphics` 命令。
+
+请使用当前 `build/` 下的 PDF，并保留同名 `.synctex.gz`；单独复制 PDF 或打开历史编译副本无法保证源码定位。若 PDF 已在其他预览器中打开，右键标签页选择 **Reopen Editor With… → LaTeX Workshop Internal PDF Viewer**。如果修改设置后旧预览标签未更新，关闭后重新执行上述预览命令。
+
 两份 `experiments.tex` 是章节片段，不是完整的独立文档：
 
 - `TLQLDMR_manuscript/experiments.tex` 的 root 是同目录的 `TLQLDMR.tex`。

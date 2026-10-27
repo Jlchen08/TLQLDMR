@@ -1,0 +1,3090 @@
+{
+  "status": "passed",
+  "summary": {
+    "occurrences": 402,
+    "unique_changes": 145,
+    "original_source_occurrences": 263,
+    "addition_declarations": 139,
+    "revised_content_occurrences": 340,
+    "deletion_occurrences": 62,
+    "vague_location_phrases_remaining": 0,
+    "location_headings_refined": 158
+  },
+  "source_sha256": {
+    "TLQLDMR_R1/TLQLDMR_energy.tex": "2729aebc21b8d87b6a34d9aee6f0e3b5742420c63c9e8d4848e08cbbf7ed6987",
+    "TLQLDMR_R1/notation_table.tex": "2745d8d8993bf2e1461cedf2d8d3aabe8e9a6a9f4aa3f3718f2f2f6909086886",
+    "TLQLDMR_R1/framework.tikz": "471e76b6a219661206bbd570ebec58544cbe04b48a6fb613ff7000c994c646a7",
+    "TLQLDMR_R1/solver_accuracy.tex": "50084fbe9bf9d06f02797ec5ccfbb2893f5ef5a6edb36eefdf4a24315fc5f937",
+    "TLQLDMR_R1/event_composition.tex": "4202397af4c9aaf2a65c11e1e353f319dddcf364a691d4c6e552eb121e68d3d5",
+    "TLQLDMR_R1/chronological_study.tex": "5a68e6834d714def69448f26127e69f7b123bccd95a118027ae4f23e8fc3c90a",
+    "TLQLDMR_R1/selection_study.tex": "84bca00c2f95ebfdc97be1ba66a7d13845f131403176c94ed38b13e511078a58",
+    "TLQLDMR_R1/selection_tables.tex": "38d0dbaf7dd1d59f6d3ef7810aa2451051d2a3ecc020958c4fe4d756f9a4712c",
+    "TLQLDMR_R1/matched_ablation.tex": "88470fd133c8a708367b1f19cc89400aed64197b314b35ee2b464e6d009f7380",
+    "TLQLDMR_R1/probabilistic_scores.tex": "7f945cd61a2d9e714f2bab2c7be4b74d5697cbb13bdb39f82dae157428cc7a99",
+    "TLQLDMR_R1/probabilistic_coverage.tex": "6be21f0fc49bad14d11a36e24f12881f6f1843cb03c78db92972e7cd1b72f2f0",
+    "TLQLDMR_R1/probabilistic_inference.tex": "ed5b0654c13cc60f4ffd6e004a774d3facc40f23c847f6de24777bff9119e489",
+    "TLQLDMR_R1/residual_diagnostics.tex": "d19e1ea9ad8f24c870c93dd34e7229e48f3ff5b8cb83dc3944cdc4b129e34dfa",
+    "TLQLDMR_R1/selection_appendix.tex": "511aa64f40eca8c3d55f0cce774f6451ae6ce379f6540920dcb389bfae635856",
+    "TLQLDMR_R1/selection_appendix_metrics.tex": "e699876a31ebaaf9487a6ad55a90e7719aaf912050d9703adc7829098624034b",
+    "TLQLDMR_R1/selection_inference.tex": "b52a84b77de4b74fb861b1b7a6e31aad94469be8729e5c55e20e552be78ace32",
+    "TLQLDMR_R1/selection_configs.tex": "8f833a43b8d95513228e9c2f27255d05978e3a0f5042859bb4ff16aae74236a4",
+    "TLQLDMR_R1/selection_optimization_summary.tex": "de00d6cb11e718708b8059b282835259a58f7a3813f131fcba66ba52b2fd357d",
+    "TLQLDMR_R1/probabilistic_configs.tex": "af2bd8ad1dae1281dcbabdbc239e865ede5744360def1eb34f11d05b009b563f",
+    "TLQLDMR_R1/reproducibility_statement.tex": "f867d58e112887c152cc6b67a9087457a95b342ccaef51fe8840a12a15f5fce3",
+    "TLQLDMR_R1/Highlights.tex": "9dea645c25e14308d8d8f2dbe83980d3208afacf266bd1ee5178d0ab9caa80b6"
+  },
+  "records": [
+    {
+      "marker": "intro_framework",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 298,
+          "end_line": 298
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 310,
+          "end_line": 310
+        }
+      ],
+      "response_begin_lines": [
+        217,
+        13192
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "contributions",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 300,
+          "end_line": 306
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 314,
+          "end_line": 319
+        }
+      ],
+      "response_begin_lines": [
+        233,
+        947,
+        4970,
+        10737,
+        13208
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "related_variance",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 316,
+          "end_line": 325
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 339,
+          "end_line": 353
+        }
+      ],
+      "response_begin_lines": [
+        263,
+        1996,
+        6881,
+        13253
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "variance_roles",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 378,
+          "end_line": 382
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 412,
+          "end_line": 412
+        }
+      ],
+      "response_begin_lines": [
+        301,
+        1680,
+        6966,
+        13291
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "domain_roles",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 383,
+          "end_line": 383
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 413,
+          "end_line": 413
+        }
+      ],
+      "response_begin_lines": [
+        322,
+        6987,
+        12952
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "weighting",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 384,
+          "end_line": 384
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 414,
+          "end_line": 414
+        }
+      ],
+      "response_begin_lines": [
+        339,
+        13576
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "experiment_scope",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 609,
+          "end_line": 609
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 661,
+          "end_line": 661
+        }
+      ],
+      "response_begin_lines": [
+        356,
+        4072,
+        5000,
+        5790,
+        7454
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "intro_ldmr_source_correction",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 294,
+          "end_line": 294
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 305,
+          "end_line": 305
+        }
+      ],
+      "response_begin_lines": [
+        371,
+        1980,
+        13421
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "related_mmd_scope",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 331,
+          "end_line": 335
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 360,
+          "end_line": 365
+        }
+      ],
+      "response_begin_lines": [
+        387,
+        7624,
+        13051
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "structural_risk_scope",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 377,
+          "end_line": 377
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 411,
+          "end_line": 411
+        }
+      ],
+      "response_begin_lines": [
+        411,
+        8321
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "nystrom_consistency",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 532,
+          "end_line": 532
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 563,
+          "end_line": 574
+        }
+      ],
+      "response_begin_lines": [
+        428,
+        2034,
+        7280,
+        12854,
+        13437
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "kernel_scope",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 290,
+          "end_line": 290
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 301,
+          "end_line": 301
+        }
+      ],
+      "response_begin_lines": [
+        454,
+        4775,
+        8338,
+        10319
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "transfer_generalization_scope",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 328,
+          "end_line": 328
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 357,
+          "end_line": 357
+        }
+      ],
+      "response_begin_lines": [
+        470,
+        8438
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "intro_alignment_scope",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 296,
+          "end_line": 296
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 307,
+          "end_line": 307
+        }
+      ],
+      "response_begin_lines": [
+        486,
+        13120
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "intro_scope_gap",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 292,
+          "end_line": 292
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 303,
+          "end_line": 303
+        }
+      ],
+      "response_begin_lines": [
+        502,
+        10888,
+        12670
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "threshold_definition",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 657,
+          "end_line": 657
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 707,
+          "end_line": 707
+        }
+      ],
+      "response_begin_lines": [
+        533,
+        6566
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "limitations",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 1054,
+          "end_line": 1054
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 741,
+          "end_line": 741
+        }
+      ],
+      "response_begin_lines": [
+        549,
+        977,
+        4119,
+        4905,
+        5015,
+        10273,
+        10372,
+        10767,
+        12292
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "event_scope",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 649,
+          "end_line": 649
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 699,
+          "end_line": 699
+        }
+      ],
+      "response_begin_lines": [
+        565,
+        4135,
+        6550,
+        12137,
+        12308
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "event_subgroups",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 659,
+          "end_line": 659
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 709,
+          "end_line": 709
+        }
+      ],
+      "response_begin_lines": [
+        581,
+        4151,
+        6582,
+        12153,
+        12324
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "screened_counts_scope",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 674,
+          "end_line": 674
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        597
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "chronological_protocol",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/chronological_study.tex",
+          "start_line": 4,
+          "end_line": 8
+        }
+      ],
+      "response_begin_lines": [
+        613,
+        1010,
+        1544,
+        2060,
+        2620,
+        3639,
+        3824,
+        4167,
+        5048,
+        5821,
+        6512,
+        7676,
+        8571,
+        10421,
+        11299,
+        12340,
+        13463,
+        13626,
+        13813
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "chronological_settings",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/chronological_study.tex",
+          "start_line": 33,
+          "end_line": 37
+        }
+      ],
+      "response_begin_lines": [
+        633,
+        1064,
+        1564,
+        2080,
+        2640,
+        3844,
+        4187,
+        5068,
+        5875,
+        7696,
+        8354,
+        8591,
+        13483,
+        13646
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "chronological_thresholds",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/chronological_study.tex",
+          "start_line": 232,
+          "end_line": 266
+        }
+      ],
+      "response_begin_lines": [
+        653,
+        6657
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "chronological_subgroups",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/chronological_study.tex",
+          "start_line": 275,
+          "end_line": 381
+        }
+      ],
+      "response_begin_lines": [
+        706,
+        4207,
+        6710
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "extreme_composition",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/event_composition.tex",
+          "start_line": 3,
+          "end_line": 43
+        }
+      ],
+      "response_begin_lines": [
+        835,
+        4466,
+        6598,
+        11367,
+        11720,
+        12169
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "training_tail_rules",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 651,
+          "end_line": 655
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 702,
+          "end_line": 704
+        }
+      ],
+      "response_begin_lines": [
+        894,
+        6445
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "abstract",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 268,
+          "end_line": 268
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 278,
+          "end_line": 278
+        }
+      ],
+      "response_begin_lines": [
+        931,
+        1648,
+        4056,
+        4810,
+        4954,
+        10303,
+        10659,
+        10721,
+        13160
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "screening_ranking_scope",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 697,
+          "end_line": 699
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        993,
+        5031
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "chronological_counts",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/chronological_study.tex",
+          "start_line": 14,
+          "end_line": 26
+        }
+      ],
+      "response_begin_lines": [
+        1030,
+        5841,
+        11333
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "chronological_crossfarm",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/chronological_study.tex",
+          "start_line": 92,
+          "end_line": 144
+        }
+      ],
+      "response_begin_lines": [
+        1084,
+        4336,
+        5088,
+        12417
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "experimental_setup",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 668,
+          "end_line": 668
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_study.tex",
+          "start_line": 6,
+          "end_line": 19
+        }
+      ],
+      "response_begin_lines": [
+        1157,
+        3610,
+        5161,
+        5895,
+        6483,
+        7803,
+        13723,
+        13784
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "sequential_calibration",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_study.tex",
+          "start_line": 120,
+          "end_line": 121
+        }
+      ],
+      "response_begin_lines": [
+        1186,
+        5190,
+        5924
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "selection_results",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_study.tex",
+          "start_line": 23,
+          "end_line": 42
+        },
+        {
+          "path": "TLQLDMR_R1/selection_tables.tex",
+          "start_line": 4,
+          "end_line": 45
+        }
+      ],
+      "response_begin_lines": [
+        1203,
+        2689,
+        4826,
+        5207,
+        8640,
+        11001,
+        11517,
+        12490
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "selection_point_inference",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_study.tex",
+          "start_line": 46,
+          "end_line": 55
+        }
+      ],
+      "response_begin_lines": [
+        1282,
+        3426,
+        5347,
+        9377
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "selection_point_inference_table",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_inference.tex",
+          "start_line": 3,
+          "end_line": 77
+        }
+      ],
+      "response_begin_lines": [
+        1307,
+        3451,
+        5372,
+        9402
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "screening_interpretation",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 695,
+          "end_line": 695
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        1401
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_1_table_1_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 676,
+          "end_line": 693
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        1416
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_1_figure_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 716,
+          "end_line": 716
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        1448
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_1_setup_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 674,
+          "end_line": 674
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        1463
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "historical_shift_metrics_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 666,
+          "end_line": 666
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        1478
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "fewshot_evidence",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 864,
+          "end_line": 864
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        1508,
+        13610
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "data_partition",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 725,
+          "end_line": 729
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        1524,
+        5770
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "chronological_scarcity",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/chronological_study.tex",
+          "start_line": 153,
+          "end_line": 180
+        }
+      ],
+      "response_begin_lines": [
+        1584
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "intro_challenges",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 296,
+          "end_line": 296
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 307,
+          "end_line": 307
+        }
+      ],
+      "response_begin_lines": [
+        1664,
+        13176
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "objective",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 365,
+          "end_line": 374
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 399,
+          "end_line": 406
+        }
+      ],
+      "response_begin_lines": [
+        1701,
+        6934,
+        7973,
+        12700,
+        12920
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "variance_matrix",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 417,
+          "end_line": 421
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 447,
+          "end_line": 450
+        }
+      ],
+      "response_begin_lines": [
+        1733,
+        7044,
+        12756
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "convexity",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 451,
+          "end_line": 451
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 481,
+          "end_line": 481
+        }
+      ],
+      "response_begin_lines": [
+        1757,
+        7142,
+        8005
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "beta_recovery",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 479,
+          "end_line": 483
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 509,
+          "end_line": 514
+        }
+      ],
+      "response_begin_lines": [
+        1773,
+        7158,
+        8021
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "dual_matrices",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 496,
+          "end_line": 499
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 528,
+          "end_line": 528
+        }
+      ],
+      "response_begin_lines": [
+        1796,
+        7181
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "nystrom_R",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 522,
+          "end_line": 525
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 555,
+          "end_line": 555
+        }
+      ],
+      "response_begin_lines": [
+        1816,
+        7240,
+        8068,
+        12814
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "nystrom_c",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 527,
+          "end_line": 530
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 560,
+          "end_line": 560
+        }
+      ],
+      "response_begin_lines": [
+        1836,
+        7260,
+        8088,
+        12834
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "convergence",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 603,
+          "end_line": 603
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 652,
+          "end_line": 652
+        }
+      ],
+      "response_begin_lines": [
+        1856,
+        3777,
+        7439,
+        8274
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "ablation",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 967,
+          "end_line": 1012
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_study.tex",
+          "start_line": 60,
+          "end_line": 67
+        },
+        {
+          "path": "TLQLDMR_R1/matched_ablation.tex",
+          "start_line": 4,
+          "end_line": 24
+        }
+      ],
+      "response_begin_lines": [
+        1871,
+        7469,
+        11795,
+        13312
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "conclusion_method",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 1052,
+          "end_line": 1052
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 734,
+          "end_line": 734
+        }
+      ],
+      "response_begin_lines": [
+        1964,
+        8289,
+        10356,
+        10675,
+        12228,
+        12276,
+        13405
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "chronological_components",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/chronological_study.tex",
+          "start_line": 47,
+          "end_line": 83
+        }
+      ],
+      "response_begin_lines": [
+        2100,
+        7716,
+        12360,
+        13503
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "solver_accuracy",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/solver_accuracy.tex",
+          "start_line": 2,
+          "end_line": 17
+        }
+      ],
+      "response_begin_lines": [
+        2157,
+        3928,
+        7773,
+        8454
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "primary_implementation_checks",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 729,
+          "end_line": 729
+        }
+      ],
+      "response_begin_lines": [
+        2187,
+        7941
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "metric_definitions",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 664,
+          "end_line": 664
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 715,
+          "end_line": 727
+        }
+      ],
+      "response_begin_lines": [
+        2219,
+        7648,
+        9563,
+        11975
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "probabilistic_multiquantile",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_study.tex",
+          "start_line": 78,
+          "end_line": 112
+        },
+        {
+          "path": "TLQLDMR_R1/probabilistic_scores.tex",
+          "start_line": 5,
+          "end_line": 17
+        },
+        {
+          "path": "TLQLDMR_R1/probabilistic_coverage.tex",
+          "start_line": 5,
+          "end_line": 28
+        },
+        {
+          "path": "TLQLDMR_R1/probabilistic_inference.tex",
+          "start_line": 5,
+          "end_line": 16
+        }
+      ],
+      "response_begin_lines": [
+        2247,
+        3255,
+        9206,
+        9591,
+        11596
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "probabilistic_scores_table",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/probabilistic_scores.tex",
+          "start_line": 5,
+          "end_line": 17
+        }
+      ],
+      "response_begin_lines": [
+        2371,
+        9715,
+        11925
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "probabilistic_coverage_table",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/probabilistic_coverage.tex",
+          "start_line": 5,
+          "end_line": 28
+        }
+      ],
+      "response_begin_lines": [
+        2407,
+        9751
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "probabilistic_inference_table",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/probabilistic_inference.tex",
+          "start_line": 5,
+          "end_line": 16
+        }
+      ],
+      "response_begin_lines": [
+        2454,
+        3545,
+        9496,
+        9798
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "probabilistic_configs_table",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/probabilistic_configs.tex",
+          "start_line": 5,
+          "end_line": 26
+        }
+      ],
+      "response_begin_lines": [
+        2489,
+        3379,
+        9330,
+        9833,
+        10598
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "conclusion_evidence",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 1054,
+          "end_line": 1054
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 738,
+          "end_line": 738
+        }
+      ],
+      "response_begin_lines": [
+        2536,
+        3580,
+        8305,
+        9531,
+        9880,
+        10691
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "original_experiment_2_baselines_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 731,
+          "end_line": 731
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        2568,
+        5617,
+        8519,
+        10920
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_2_table_1_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 733,
+          "end_line": 754
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        2584,
+        5544,
+        8535,
+        10936
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "selection_protocol",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_study.tex",
+          "start_line": 6,
+          "end_line": 19
+        }
+      ],
+      "response_begin_lines": [
+        2660,
+        5958,
+        8611,
+        10441,
+        10972
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "selection_tables",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_tables.tex",
+          "start_line": 4,
+          "end_line": 45
+        }
+      ],
+      "response_begin_lines": [
+        2768,
+        5286,
+        8719,
+        11080
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "selection_appendix",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_appendix.tex",
+          "start_line": 1,
+          "end_line": 15
+        },
+        {
+          "path": "TLQLDMR_R1/selection_appendix_metrics.tex",
+          "start_line": 4,
+          "end_line": 17
+        },
+        {
+          "path": "TLQLDMR_R1/selection_inference.tex",
+          "start_line": 3,
+          "end_line": 77
+        },
+        {
+          "path": "TLQLDMR_R1/selection_configs.tex",
+          "start_line": 4,
+          "end_line": 113
+        },
+        {
+          "path": "TLQLDMR_R1/selection_optimization_summary.tex",
+          "start_line": 4,
+          "end_line": 23
+        },
+        {
+          "path": "TLQLDMR_R1/probabilistic_configs.tex",
+          "start_line": 5,
+          "end_line": 26
+        }
+      ],
+      "response_begin_lines": [
+        2829,
+        5987,
+        8780
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "selection_configs",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_configs.tex",
+          "start_line": 4,
+          "end_line": 113
+        }
+      ],
+      "response_begin_lines": [
+        3127,
+        6285,
+        9078,
+        10470,
+        11141
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "fast_intro",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 505,
+          "end_line": 505
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 536,
+          "end_line": 536
+        }
+      ],
+      "response_begin_lines": [
+        3675,
+        7832
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "feature_map",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 507,
+          "end_line": 512
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 539,
+          "end_line": 544
+        }
+      ],
+      "response_begin_lines": [
+        3691,
+        7216,
+        8044
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "complexity_intro",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 550,
+          "end_line": 550
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 596,
+          "end_line": 596
+        }
+      ],
+      "response_begin_lines": [
+        3715,
+        7848,
+        8212,
+        10128
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "complexity_table",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 586,
+          "end_line": 601
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 635,
+          "end_line": 647
+        }
+      ],
+      "response_begin_lines": [
+        3730,
+        7863,
+        8227,
+        10143
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "legacy_scaling_intro",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 1019,
+          "end_line": 1019
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        3792
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "legacy_scaling_discussion",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 1048,
+          "end_line": 1048
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        3808
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "chronological_scalability",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/chronological_study.tex",
+          "start_line": 390,
+          "end_line": 435
+        }
+      ],
+      "response_begin_lines": [
+        3864,
+        8374,
+        10190
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "archive_caption_15",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 1026,
+          "end_line": 1026
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        3958
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_5_table_1_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 1024,
+          "end_line": 1044
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        3973
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_5_scales_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 1021,
+          "end_line": 1022
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        4008
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_5_qp_claim_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 1046,
+          "end_line": 1046
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        4024
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "legacy_point_noise",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 864,
+          "end_line": 864
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        4087,
+        9964
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "legacy_interval_noise",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 963,
+          "end_line": 963
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        4103,
+        10081
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "selection_calibration_results",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_study.tex",
+          "start_line": 125,
+          "end_line": 131
+        }
+      ],
+      "response_begin_lines": [
+        4409
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "selection_appendix_metrics",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_appendix_metrics.tex",
+          "start_line": 4,
+          "end_line": 17
+        }
+      ],
+      "response_begin_lines": [
+        4432
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "archive_caption_12",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 843,
+          "end_line": 843
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        4525,
+        9980
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "archive_caption_14",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 908,
+          "end_line": 908
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        4540,
+        10097
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_2_table_2_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 841,
+          "end_line": 862
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        4555,
+        9928
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_3_table_2_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 906,
+          "end_line": 961
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        4591,
+        10011
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_2_noise_setup_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 838,
+          "end_line": 839
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        4661,
+        9912
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_3_noise_setup_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 901,
+          "end_line": 902
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        4677,
+        9995
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "intro_recent_forecasting",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 303,
+          "end_line": 303
+        }
+      ],
+      "response_begin_lines": [
+        4707,
+        10820,
+        12602
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "related_work_scope",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 314,
+          "end_line": 314
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 330,
+          "end_line": 330
+        }
+      ],
+      "response_begin_lines": [
+        4723,
+        10836,
+        12618
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "related_wind_forecasting",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 332,
+          "end_line": 337
+        }
+      ],
+      "response_begin_lines": [
+        4739,
+        10335,
+        10852,
+        12634
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "roadmap",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 309,
+          "end_line": 309
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 324,
+          "end_line": 324
+        }
+      ],
+      "response_begin_lines": [
+        4760,
+        10873,
+        12655,
+        13238
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "data_code_availability",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/reproducibility_statement.tex",
+          "start_line": 2,
+          "end_line": 3
+        }
+      ],
+      "response_begin_lines": [
+        4921,
+        10404
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "legacy_point_intro",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 723,
+          "end_line": 723
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5466
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "legacy_point_discussion",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 836,
+          "end_line": 836
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5482
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "legacy_interval_intro",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 869,
+          "end_line": 869
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5497
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "legacy_interval_discussion",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 899,
+          "end_line": 899
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5513,
+        12003
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "interval_nominal_coverage",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 873,
+          "end_line": 873
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5529
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_3_table_1_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 875,
+          "end_line": 897
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5580
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "original_experiment_3_baselines_removed",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 871,
+          "end_line": 871
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5633
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "archive_caption_6",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 735,
+          "end_line": 735
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5649
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "archive_caption_7",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 768,
+          "end_line": 768
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5664,
+        11442
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "archive_caption_8",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 784,
+          "end_line": 784
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5679,
+        11457
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "archive_caption_9",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 800,
+          "end_line": 800
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5694,
+        11472
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "archive_caption_10",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 816,
+          "end_line": 816
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5709,
+        11487
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "archive_caption_11",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 832,
+          "end_line": 832
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5724,
+        11502
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "archive_caption_13",
+      "change_type": "deletion",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 877,
+          "end_line": 877
+        }
+      ],
+      "revised": [],
+      "response_begin_lines": [
+        5739
+      ],
+      "content_match": "deletion"
+    },
+    {
+      "marker": "domain_shift_assumption",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 296,
+          "end_line": 296
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 307,
+          "end_line": 307
+        }
+      ],
+      "response_begin_lines": [
+        5805
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "dataset_direction_schema",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 618,
+          "end_line": 618
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 669,
+          "end_line": 669
+        }
+      ],
+      "response_begin_lines": [
+        5941
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "data_sampling",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 614,
+          "end_line": 614
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 665,
+          "end_line": 665
+        }
+      ],
+      "response_begin_lines": [
+        6413,
+        11283,
+        13768
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "data_quality",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 625,
+          "end_line": 625
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 676,
+          "end_line": 676
+        }
+      ],
+      "response_begin_lines": [
+        6429
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "label_supervision_scope",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 386,
+          "end_line": 386
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 416,
+          "end_line": 416
+        }
+      ],
+      "response_begin_lines": [
+        6839
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "architecture",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 353,
+          "end_line": 353
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 387,
+          "end_line": 387
+        }
+      ],
+      "response_begin_lines": [
+        6919
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "optimization_layers",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 404,
+          "end_line": 404
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 434,
+          "end_line": 434
+        }
+      ],
+      "response_begin_lines": [
+        7004
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "normalization",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 408,
+          "end_line": 413
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 437,
+          "end_line": 442
+        }
+      ],
+      "response_begin_lines": [
+        7020,
+        12732,
+        12969
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "mmd_matrix",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 422,
+          "end_line": 426
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 452,
+          "end_line": 455
+        }
+      ],
+      "response_begin_lines": [
+        7068,
+        12993
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "representer",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 430,
+          "end_line": 430
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 460,
+          "end_line": 460
+        }
+      ],
+      "response_begin_lines": [
+        7092
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "variance_expansion",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 440,
+          "end_line": 441
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 470,
+          "end_line": 471
+        }
+      ],
+      "response_begin_lines": [
+        7108,
+        12780,
+        13017
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "kernel_constant",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 453,
+          "end_line": 453
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 483,
+          "end_line": 483
+        }
+      ],
+      "response_begin_lines": [
+        7127,
+        12799
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "bias_recovery",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 501,
+          "end_line": 501
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 531,
+          "end_line": 531
+        }
+      ],
+      "response_begin_lines": [
+        7201
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "pinball_subgradient",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 534,
+          "end_line": 542
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 580,
+          "end_line": 583
+        }
+      ],
+      "response_begin_lines": [
+        7306
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "batch_gradients",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 544,
+          "end_line": 548
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 587,
+          "end_line": 595
+        }
+      ],
+      "response_begin_lines": [
+        7335,
+        8108,
+        12880
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "algorithm",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 552,
+          "end_line": 583
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 600,
+          "end_line": 629
+        }
+      ],
+      "response_begin_lines": [
+        7361,
+        8134
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "framework_0",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/framework.tikz",
+          "start_line": 102,
+          "end_line": 102
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/framework.tikz",
+          "start_line": 102,
+          "end_line": 102
+        }
+      ],
+      "response_begin_lines": [
+        7562,
+        13036
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "framework_1",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 370,
+          "end_line": 370
+        },
+        {
+          "path": "TLQLDMR_manuscript/framework.tikz",
+          "start_line": 121,
+          "end_line": 121
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/framework.tikz",
+          "start_line": 121,
+          "end_line": 121
+        }
+      ],
+      "response_begin_lines": [
+        7577
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "framework_2",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/framework.tikz",
+          "start_line": 141,
+          "end_line": 141
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/framework.tikz",
+          "start_line": 141,
+          "end_line": 141
+        }
+      ],
+      "response_begin_lines": [
+        7593
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "framework_3",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/framework.tikz",
+          "start_line": 143,
+          "end_line": 143
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/framework.tikz",
+          "start_line": 143,
+          "end_line": 143
+        }
+      ],
+      "response_begin_lines": [
+        7609
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "distribution_shift",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 344,
+          "end_line": 344
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 376,
+          "end_line": 376
+        }
+      ],
+      "response_begin_lines": [
+        7910
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "framework_4",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/framework.tikz",
+          "start_line": 90,
+          "end_line": 90
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/framework.tikz",
+          "start_line": 90,
+          "end_line": 90
+        }
+      ],
+      "response_begin_lines": [
+        7926
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "selection_optimization_results",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/selection_study.tex",
+          "start_line": 71,
+          "end_line": 74
+        }
+      ],
+      "response_begin_lines": [
+        8484,
+        10254
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "highlights_file",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/Highlights.tex",
+          "start_line": 16,
+          "end_line": 19
+        }
+      ],
+      "response_begin_lines": [
+        10783,
+        13847
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "selection_residual_diagnostics",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/residual_diagnostics.tex",
+          "start_line": 3,
+          "end_line": 20
+        }
+      ],
+      "response_begin_lines": [
+        11888
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "notation_table",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/notation_table.tex",
+          "start_line": 4,
+          "end_line": 26
+        }
+      ],
+      "response_begin_lines": [
+        12033
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "task_title",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 207,
+          "end_line": 207
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 214,
+          "end_line": 214
+        }
+      ],
+      "response_begin_lines": [
+        12089
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "keyword_terminology",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 278,
+          "end_line": 278
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 289,
+          "end_line": 289
+        }
+      ],
+      "response_begin_lines": [
+        12105
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "event_terminology_note",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 374,
+          "end_line": 374
+        }
+      ],
+      "response_begin_lines": [
+        12121
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "framework_target_domain",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/framework.tikz",
+          "start_line": 88,
+          "end_line": 88
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/framework.tikz",
+          "start_line": 88,
+          "end_line": 88
+        }
+      ],
+      "response_begin_lines": [
+        12244
+      ],
+      "content_match": "strict"
+    },
+    {
+      "marker": "matrix_projected_term_name",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 407,
+          "end_line": 407
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 436,
+          "end_line": 436
+        }
+      ],
+      "response_begin_lines": [
+        13075
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "auxiliary_projected_term_name",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 415,
+          "end_line": 415
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 445,
+          "end_line": 445
+        }
+      ],
+      "response_begin_lines": [
+        13090
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "kernel_projected_term_name",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 437,
+          "end_line": 437
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 467,
+          "end_line": 467
+        }
+      ],
+      "response_begin_lines": [
+        13105
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "weighting_bullet",
+      "change_type": "replacement",
+      "original": [
+        {
+          "path": "TLQLDMR_manuscript/TLQLDMR_energy.tex",
+          "start_line": 387,
+          "end_line": 387
+        }
+      ],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/TLQLDMR_energy.tex",
+          "start_line": 417,
+          "end_line": 417
+        }
+      ],
+      "response_begin_lines": [
+        13593
+      ],
+      "content_match": "visible"
+    },
+    {
+      "marker": "chronological_weighting",
+      "change_type": "addition",
+      "original": [],
+      "revised": [
+        {
+          "path": "TLQLDMR_R1/chronological_study.tex",
+          "start_line": 187,
+          "end_line": 223
+        }
+      ],
+      "response_begin_lines": [
+        13666
+      ],
+      "content_match": "visible"
+    }
+  ]
+}

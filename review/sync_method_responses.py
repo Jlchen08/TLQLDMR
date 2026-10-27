@@ -16,6 +16,23 @@ BASE=ROOT/'TLQLDMR_response_1st/main.tex'
 def normalize(s):
     return re.sub(r'\s+',' ',s).strip()
 
+def color_reference_numbers(text):
+    """Color printed reference numbers without touching measurements or ranges."""
+    number = r'[0-9]+(?:\.[0-9]+)*'
+    references = re.compile(
+        r'\b(?:Eqs?\.?|Equations?|Figs?\.?|Figures?|Tables?|Sections?|Appendices|Appendix)'
+        r'(?:\s|~)+\(?' + number + r'\)?'
+        r'(?:\s*(?:--|–|—|,|and|or|to)\s*\(?' + number + r'\)?)*'
+    )
+    return references.sub(
+        lambda match: re.sub(
+            number,
+            lambda value: r'\ResponseReferenceNumber{' + value.group() + '}',
+            match.group(),
+        ),
+        text,
+    )
+
 def load_refs(path):
     return dict(re.findall(r'\\newlabel\{([^}]+)\}\{\{([^}]+)\}',path.read_text()))
 
@@ -105,10 +122,17 @@ def _heading_chain(path,needle):
         elif level=='subsection':latest.pop('subsubsection',None)
     return [(level,latest[level]) for level in ('section','subsection','subsubsection') if level in latest]
 
+def _clean_response_location(location):
+    return re.sub(r', near the [^:]*$', '', location.rstrip(' :'))
+
 def response_location(record):
-    """Return a page-independent, reviewer-facing approximate location."""
+    """Return the manuscript section containing the quoted change."""
     explicit=record.get('response_location')
-    if explicit:return explicit.rstrip(' :')
+    if explicit:
+        location=_clean_response_location(explicit)
+        if record.get('change_type')=='deletion':
+            location='Original manuscript, '+location
+        return location
     kind=record.get('change_type','replacement')
     if kind=='deletion':
         relative=record.get('original_file','TLQLDMR_manuscript/TLQLDMR_energy.tex')
@@ -125,8 +149,7 @@ def response_location(record):
         abstract_start=source.rfind(r'\begin{abstract}',0,position+1)
         abstract_end=source.rfind(r'\end{abstract}',0,position+1)
         if abstract_start>abstract_end:
-            detail='near the corresponding passage in the original manuscript' if kind=='deletion' else 'near the revised passage'
-            return 'Abstract, '+detail
+            return ('Original manuscript, ' if kind=='deletion' else '')+'Abstract'
     # Included files inherit their parent section, which is not repeated in
     # the input file itself.
     parent_sections={
@@ -150,15 +173,7 @@ def response_location(record):
     parts=[labels[level]+' ``'+title+"''" for level,title in chain]
     if not parts:
         parts=['Revised manuscript, relevant passage']
-    excerpt=needle.lstrip()
-    if excerpt.startswith(r'\begin{table') or excerpt.startswith(r'\caption'):
-        detail='near the corresponding table'
-    elif excerpt.startswith(r'\begin{figure') or filename=='framework.tikz':
-        detail='in the corresponding figure'
-    elif kind=='deletion':detail='near the corresponding passage in the original manuscript'
-    elif kind=='addition':detail='near the added passage'
-    else:detail='near the revised passage'
-    return ', '.join(parts+[detail])
+    return ('Original manuscript, ' if kind=='deletion' else '')+', '.join(parts)
 
 def _note(text):
     return '\\begin{quote}\n\\small\n'+text.strip()+'\n\\end{quote}\n'
@@ -166,11 +181,12 @@ def _note(text):
 def render_change(key,record,refs):
     location=response_location(record)
     body='% BEGIN VERIFIED CHANGE '+key+'\n'
-    body+=r'\noindent\textbf{$\blacktriangleright\blacktriangleright$ '+location+r':}\par'+'\n\n'
-    body+=r'\noindent$\longrightarrow$\enspace\textbf{Original text:}\par'+'\n'
+    body+=r'\ResponseLocation\noindent\textbf{$\blacktriangleright\blacktriangleright$ '+location+r':}\par'+'\n\n'
+    body+=r'\ResponseExcerptHeading\noindent$\longrightarrow$\enspace\textbf{Original text:}\par'+'\n'
     if record.get('change_type')=='addition':body+=_note(record['addition_note'])
     else:body+=quote(record['original'],'original',refs['original'])
-    body+='\n'+r'\noindent$\longrightarrow$\enspace\textbf{Revised text:}\par'+'\n'
+    heading='Deletion (no replacement text):' if record.get('change_type')=='deletion' else 'Revised text:'
+    body+='\n'+r'\ResponseExcerptHeading\noindent$\longrightarrow$\enspace\textbf{'+heading+r'}\par'+'\n'
     if record.get('change_type')=='deletion':
         body+=_note(record['deletion_note'])
     else:
@@ -328,7 +344,8 @@ def default_action(keys,records):
 def validate_response_format(text,used):
     errors=[]
     if r'Page~\pageref' in text:errors.append('navigation still contains page references')
-    if r'\usepackage[hidelinks]{hyperref}' not in text:errors.append('hyperlinks are not configured with hidelinks')
+    if r'colorlinks=true,linkcolor=blue,citecolor=blue' not in text:
+        errors.append('cross-reference links and citations are not configured in blue')
     for key in used:
         begin='% BEGIN VERIFIED CHANGE '+key
         end='% END VERIFIED CHANGE '+key
@@ -337,7 +354,8 @@ def validate_response_format(text,used):
         block=text.split(begin,1)[1].split(end,1)[0]
         if r'\blacktriangleright\blacktriangleright' not in block:
             errors.append('missing approximate location: '+key)
-        if r'\textbf{Original text:}' not in block or r'\textbf{Revised text:}' not in block:
+        replacement_labels=(r'\textbf{Revised text:}',r'\textbf{Deletion (no replacement text):}')
+        if r'\textbf{Original text:}' not in block or not any(label in block for label in replacement_labels):
             errors.append('missing Original/Revised labels: '+key)
         visible_old=r'\noindent\textbf{'+key.replace('_',' ')+'. Original text:}'
         if visible_old in block:errors.append('internal record name remains visible: '+key)
@@ -377,8 +395,7 @@ def main():
         text=text.replace(r'\usepackage{float}',r'\usepackage{float}'+'\n'+r'\usepackage[linesnumbered,ruled]{algorithm2e}')
     if r'\usepackage{adjustbox}' not in text:
         text=text.replace(r'\usepackage{graphicx}',r'\usepackage{graphicx}'+'\n'+r'\usepackage{adjustbox}')
-    # Hyperlinks remain active but use the surrounding black text color.
-    text=re.sub(r'\\usepackage(?:\[[^]]*\])?\{hyperref\}',lambda _:r'\usepackage[hidelinks]{hyperref}',text)
+    text=re.sub(r'\\usepackage(?:\[[^]]*\])?\{hyperref\}',lambda _:r'\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue]{hyperref}',text)
     text=text.replace('We have carefully considered all comments and revised the manuscript accordingly. Below we provide a point-by-point response to the comments. In the revised manuscript, all changes are highlighted to facilitate checking.',
         'The methodological revisions and their evidence limits are described below. The revised formulation has been checked on small numerical problems and evaluated with chronological common-setting experiments and a validation-selected six-site comparison. The response reports favorable and unfavorable results, the information used by each protocol, and retained optimization gaps. Changes to the manuscript are marked in blue.')
     # Keep the navigation list but omit page numbers, which become stale as
@@ -425,6 +442,7 @@ def main():
         'The responses document the corrected formulation, the completed chronological studies, their unfavorable as well as favorable results, and the remaining evidence limits.')
     unused=set(records)-used
     if unused:raise ValueError('Changes missing an independent response: '+','.join(sorted(unused)))
+    text=color_reference_numbers(text)
     validate_response_format(text,used)
     if args.check:
         if text!=BASE.read_text():raise ValueError('Response excerpts or reference numbers need regeneration.')
